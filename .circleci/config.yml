@@ -1,0 +1,224 @@
+version: 2
+
+aliases:
+  # Workflow filters
+  - &filter-only-master
+    branches:
+      only: master
+
+defaults: &defaults
+  docker:
+    - image: srclosson/grafana-plugin-ci:latest
+
+jobs:
+  build_plugin:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: |
+            yarn install --frozen-lockfile
+      - run:
+          name: Build and test frontend
+          command:  |
+            npx grafana-toolkit plugin:ci-build
+            npx grafana-toolkit plugin:ci-build --finish
+      - save_cache:
+          paths:
+            - ~/.cache
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ci
+  build_backend:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Build Backend
+          command: |
+            mage -v buildAll
+      - run:
+          name: Test Backend
+          command: |
+            mage -v lint
+            mage -v coverage
+      - run:
+          name: Install dependencies
+          command: |
+            yarn install --frozen-lockfile
+      - run:
+          name: Move results to ci folder
+          command:  |
+            npx grafana-toolkit plugin:ci-build --finish
+      - save_cache:
+          paths:
+            - ~/.cache
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ci
+  build_docs:
+    <<: *defaults
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - run:
+        name: Install dependencies
+        command: |
+          yarn install --frozen-lockfile
+    - run:
+        name: Build Docs
+        command: |
+          mkdir ci # Avoid error if not exists
+          npx grafana-toolkit plugin:ci-docs
+    - save_cache:
+        paths:
+        - ~/.cache
+        key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - persist_to_workspace:
+        root: .
+        paths:
+          - ci
+
+  package:
+    <<: *defaults
+    steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - restore_cache:
+        keys:
+        - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - run:
+        name: Package Distribution
+        command: |
+          yarn install --frozen-lockfile
+          npx grafana-toolkit plugin:ci-package
+    - persist_to_workspace:
+        root: .
+        paths:
+        - ci/jobs/package
+        - ci/packages
+        - ci/dist
+        - ci/grafana-test-env
+
+  test_integration:
+    <<: *defaults
+    steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - restore_cache:
+        keys:
+        - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - run:
+        name: Setup Grafana (local install)
+        command: |
+          sudo dpkg -i /usr/local/grafana/deb/grafana_6.6.2_amd64.deb
+          sudo updatedb
+          sudo locate grafana
+          sudo cp ci/grafana-test-env/custom.ini /usr/share/grafana/conf/custom.ini
+          sudo cp ci/grafana-test-env/custom.ini /etc/grafana/grafana.ini
+          sudo service grafana-server start
+          sudo grafana-cli --version
+    - run:
+        name: Install dependencies
+        command: yarn install --frozen-lockfile
+    - save_cache:
+          paths:
+            - ~/.cache
+          key: yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - run:
+        name: Run e2e tests
+        command: npx grafana-e2e run
+    - run:
+        name: Prepare task output dir
+        command: |
+          # TODO: probably move all of this to `@grafana/toolkit plugin:ci-test`
+          mkdir ci/jobs/test_integration
+          # only copy if they exist
+          cp cypress/screenshots/*.* ci/jobs/test_integration 2>/dev/null || :
+          cp cypress/videos/*.* ci/jobs/test_integration 2>/dev/null || :
+    - persist_to_workspace:
+        root: .
+        paths:
+        - ci/jobs/test_integration
+    - store_test_results:
+        path: ci/jobs/test_integration
+    - store_artifacts:
+        path: ci/jobs/test_integration
+
+  report:
+    <<: *defaults
+    steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - restore_cache:
+        keys:
+        - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+    - run:
+        name: Toolkit report
+        command: |
+          yarn install --frozen-lockfile
+          npx grafana-toolkit plugin:ci-report
+    - store_artifacts:
+        path: ci
+
+  publish_github_release:
+    <<: *defaults
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:60:ab:c7:2d:8c:82:50:2a:2a:97:1a:c0:66:83:14"
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            yarn install --frozen-lockfile
+            npx grafana-toolkit plugin:github-publish
+
+workflows:
+  version: 2
+  plugin_workflow:
+    jobs:
+      - build_plugin
+      - build_docs
+      - build_backend
+      - package:
+          requires:
+            - build_plugin
+            - build_backend
+            - build_docs
+      - test_integration:
+          requires:
+            - package
+      - report:
+          requires:
+            - test_integration
+      - approve_release:
+          type: approval
+          requires:
+            - report
+          filters: *filter-only-master
+      - publish_github_release:
+          requires:
+            - approve_release
+          filters: *filter-only-master
