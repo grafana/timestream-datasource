@@ -1,9 +1,13 @@
-import React, { PureComponent } from 'react';
-import { MetadataInspectorProps, DataFrame } from '@grafana/data';
-import { DataSource } from '../DataSource';
-import { SheetsQuery, SheetResponseMeta, SheetsSourceOptions } from '../types';
+import React, { PureComponent } from "react";
+import { MetadataInspectorProps, DataFrame } from "@grafana/data";
+import { DataSource } from "../DataSource";
+import { SheetsQuery, SheetResponseMeta, SheetsSourceOptions } from "../types";
 
-export type Props = MetadataInspectorProps<DataSource, SheetsQuery, SheetsSourceOptions>;
+export type Props = MetadataInspectorProps<
+  DataSource,
+  SheetsQuery,
+  SheetsSourceOptions
+>;
 
 export class MetaInspector extends PureComponent<Props> {
   state = { index: 0 };

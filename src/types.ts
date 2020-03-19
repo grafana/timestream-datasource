@@ -1,4 +1,4 @@
-import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { DataQuery, DataSourceJsonData } from "@grafana/data";
 
 //-------------------------------------------------------------------------------
 // General google cloud auth types
@@ -13,13 +13,13 @@ export interface JWT {
 }
 
 export enum GoogleAuthType {
-  JWT = 'jwt',
-  KEY = 'key',
+  JWT = "jwt",
+  KEY = "key"
 }
 
 export const googleAuthTypes = [
-  { label: 'API Key', value: GoogleAuthType.KEY },
-  { label: 'Google JWT File', value: GoogleAuthType.JWT },
+  { label: "API Key", value: GoogleAuthType.KEY },
+  { label: "Google JWT File", value: GoogleAuthType.JWT }
 ];
 
 export interface CacheInfo {
