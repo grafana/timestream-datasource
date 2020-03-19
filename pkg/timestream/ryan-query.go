@@ -8,17 +8,15 @@ import (
 	"fmt"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func main() {
+// TryQueryRunner runs a query 
+func TryQueryRunner() error {
 	// setup the query client
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
 	})
+	if(err != nil) {
+		return err
+	}
 
 	querySvc := timestreamquery.New(sess)
 
@@ -138,4 +136,5 @@ func main() {
 			fmt.Println("data is truncated")
 		}
 	}
+	return nil
 }
