@@ -1,0 +1,473 @@
+{
+  "version": "2.0",
+  "service": null,
+  "operations": {
+    "CreateDatabase": null,
+    "CreateTable": null,
+    "DeleteDatabase": null,
+    "DeleteTable": null,
+    "DescribeDatabase": null,
+    "DescribeEndpoints": null,
+    "DescribeTable": null,
+    "ListDatabases": null,
+    "ListTables": null,
+    "ListTagsForResource": null,
+    "TagResource": null,
+    "UntagResource": null,
+    "UpdateTable": null,
+    "WriteRecords": null
+  },
+  "shapes": {
+    "AccessDeniedException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "AmazonResourceName": {
+      "base": null,
+      "refs": {
+        "ListTagsForResourceRequest$ResourceARN": null,
+        "TagResourceRequest$ResourceARN": null,
+        "TooManyTagsException$ResourceName": null,
+        "UntagResourceRequest$ResourceARN": null
+      }
+    },
+    "ConflictException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "CreateDatabaseRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "CreateDatabaseResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "CreateTableRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "CreateTableResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "Database": {
+      "base": null,
+      "refs": {
+        "CreateDatabaseResponse$Database": null,
+        "DatabaseList$member": null,
+        "DescribeDatabaseResponse$Database": null
+      }
+    },
+    "DatabaseARN": {
+      "base": null,
+      "refs": {
+        "Database$Arn": null
+      }
+    },
+    "DatabaseList": {
+      "base": null,
+      "refs": {
+        "ListDatabasesResponse$Databases": null
+      }
+    },
+    "Date": {
+      "base": null,
+      "refs": {
+        "Database$CreationTime": null,
+        "Table$CreationTime": null,
+        "Table$LastUpdatedTime": null
+      }
+    },
+    "DeleteDatabaseRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DeleteDatabaseResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DeleteTableRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DeleteTableResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeDatabaseRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeDatabaseResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeEndpointsRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeEndpointsResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeTableRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeTableResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "Dimension": {
+      "base": null,
+      "refs": {
+        "Dimensions$member": null
+      }
+    },
+    "DimensionValueType": {
+      "base": null,
+      "refs": {
+        "Dimension$DimensionValueType": null
+      }
+    },
+    "Dimensions": {
+      "base": null,
+      "refs": {
+        "Record$Dimensions": null
+      }
+    },
+    "Endpoint": {
+      "base": null,
+      "refs": {
+        "Endpoints$member": null
+      }
+    },
+    "Endpoints": {
+      "base": null,
+      "refs": {
+        "DescribeEndpointsResponse$Endpoints": null
+      }
+    },
+    "ErrorMessage": {
+      "base": null,
+      "refs": {
+        "AccessDeniedException$Message": null,
+        "ConflictException$Message": null,
+        "InternalServerException$Message": null,
+        "InvalidRequestException$Message": null,
+        "ResourceInUseException$Message": null,
+        "ResourceNotFoundException$Message": null,
+        "ServiceQuotaExceededException$Message": null,
+        "ThrottlingException$Message": null,
+        "TooManyTagsException$Message": null,
+        "ValidationException$Message": null
+      }
+    },
+    "InternalServerException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "InvalidRequestException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "KmsKeyId": {
+      "base": null,
+      "refs": {
+        "CreateDatabaseRequest$KmsKeyId": null,
+        "Database$KmsKeyId": null
+      }
+    },
+    "ListDatabasesRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListDatabasesResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListTablesRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListTablesResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "Long": {
+      "base": null,
+      "refs": {
+        "Database$TableCount": null,
+        "Endpoint$CachePeriodInMinutes": null
+      }
+    },
+    "MagneticStoreRetentionPeriodInDays": {
+      "base": null,
+      "refs": {
+        "RetentionProperties$MagneticStoreRetentionPeriodInDays": null
+      }
+    },
+    "MeasureValueType": {
+      "base": null,
+      "refs": {
+        "Record$MeasureValueType": null
+      }
+    },
+    "MemoryStoreRetentionPeriodInHours": {
+      "base": null,
+      "refs": {
+        "RetentionProperties$MemoryStoreRetentionPeriodInHours": null
+      }
+    },
+    "Name": {
+      "base": null,
+      "refs": {
+        "WriteRecordsRequest$DatabaseName": null,
+        "WriteRecordsRequest$TableName": null
+      }
+    },
+    "PaginationLimit": {
+      "base": null,
+      "refs": {
+        "ListDatabasesRequest$MaxResults": null,
+        "ListTablesRequest$MaxResults": null
+      }
+    },
+    "Record": {
+      "base": null,
+      "refs": {
+        "Records$member": null,
+        "WriteRecordsRequest$CommonAttributes": null
+      }
+    },
+    "Records": {
+      "base": null,
+      "refs": {
+        "WriteRecordsRequest$Records": null
+      }
+    },
+    "ResourceInUseException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ResourceName": {
+      "base": null,
+      "refs": {
+        "CreateDatabaseRequest$DatabaseName": null,
+        "CreateTableRequest$DatabaseName": null,
+        "CreateTableRequest$TableName": null,
+        "Database$DatabaseName": null,
+        "DeleteDatabaseRequest$DatabaseName": null,
+        "DeleteDatabaseResponse$DatabaseName": null,
+        "DeleteTableRequest$DatabaseName": null,
+        "DeleteTableRequest$TableName": null,
+        "DescribeDatabaseRequest$DatabaseName": null,
+        "DescribeTableRequest$DatabaseName": null,
+        "DescribeTableRequest$TableName": null,
+        "ListTablesRequest$DatabaseName": null,
+        "Table$TableName": null,
+        "Table$DatabaseName": null,
+        "UpdateTableRequest$DatabaseName": null,
+        "UpdateTableRequest$TableName": null
+      }
+    },
+    "ResourceNotFoundException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "RetentionProperties": {
+      "base": null,
+      "refs": {
+        "CreateTableRequest$RetentionProperties": null,
+        "Table$RetentionProperties": null,
+        "UpdateTableRequest$RetentionProperties": null
+      }
+    },
+    "ServiceErrorMessage": {
+      "base": null,
+      "refs": {
+        "ServiceUnavailableException$Message": null
+      }
+    },
+    "ServiceQuotaExceededException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ServiceUnavailableException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "String": {
+      "base": null,
+      "refs": {
+        "Endpoint$Address": null,
+        "ListDatabasesRequest$NextToken": null,
+        "ListDatabasesResponse$NextToken": null,
+        "ListTablesRequest$NextToken": null,
+        "ListTablesResponse$NextToken": null
+      }
+    },
+    "StringValue": {
+      "base": null,
+      "refs": {
+        "Dimension$Name": null,
+        "Dimension$Value": null,
+        "Record$MeasureName": null,
+        "Record$MeasureValue": null,
+        "Record$Timestamp": null
+      }
+    },
+    "Table": {
+      "base": null,
+      "refs": {
+        "CreateTableResponse$Table": null,
+        "DescribeTableResponse$Table": null,
+        "TableList$member": null,
+        "UpdateTableResponse$Table": null
+      }
+    },
+    "TableARN": {
+      "base": null,
+      "refs": {
+        "Table$Arn": null
+      }
+    },
+    "TableList": {
+      "base": null,
+      "refs": {
+        "ListTablesResponse$Tables": null
+      }
+    },
+    "TableStatus": {
+      "base": null,
+      "refs": {
+        "Table$TableStatus": null
+      }
+    },
+    "Tag": {
+      "base": null,
+      "refs": {
+        "TagList$member": null
+      }
+    },
+    "TagKey": {
+      "base": null,
+      "refs": {
+        "Tag$Key": null,
+        "TagKeyList$member": null
+      }
+    },
+    "TagKeyList": {
+      "base": null,
+      "refs": {
+        "UntagResourceRequest$TagKeys": null
+      }
+    },
+    "TagList": {
+      "base": null,
+      "refs": {
+        "ListTagsForResourceResponse$Tags": null,
+        "TagResourceRequest$Tags": null
+      }
+    },
+    "TagResourceRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "TagResourceResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "TagValue": {
+      "base": null,
+      "refs": {
+        "Tag$Value": null
+      }
+    },
+    "ThrottlingException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "TimestampUnit": {
+      "base": null,
+      "refs": {
+        "Record$TimestampUnit": null
+      }
+    },
+    "TooManyTagsException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UntagResourceRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UntagResourceResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UpdateTableRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UpdateTableResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ValidationException": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "WriteRecordsRequest": {
+      "base": null,
+      "refs": {
+      }
+    }
+  }
+}

@@ -2,7 +2,11 @@ module github.com/grafana/timestream-datasource
 
 go 1.14
 
+replace github.com/aws/aws-sdk-go => ./tmp/github.com/aws/aws-sdk-go
+
 require (
+github.com/aws/aws-sdk-go v0.0.0-00010101000000-000000000000
+
 	cloud.google.com/go v0.52.0 // indirect
 	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195
 	github.com/aws/aws-sdk-go v1.29.27

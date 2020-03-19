@@ -1,0 +1,203 @@
+{
+  "version": "2.0",
+  "service": "<p> Amazon Timestream is a fast, scalable, fully managed time series database service that makes it easy to store and analyze trillions of time series data points per day. With Timestream, you can easily store and analyze IoT sensor data to derive insights from your IoT applications. You can analyze industrial telemetry to streamline equipment management and maintenance. You can also store and analyze log data and metrics to improve the performance and availability of your applications. Timestream is built from the ground up to effectively ingest, process, and store time series data. It organizes data to optimize query processing. It automatically scales based on the volume of data ingested and on the query volume to ensure you receive optimal performance while inserting and querying data. As your data grows over time, Timestream’s adaptive query processing engine spans across storage tiers to provide fast analysis while reducing costs. </p>",
+  "operations": {
+    "DescribeEndpoints": null,
+    "Query": "<p> Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. To receive truncated results, you must set AllowResultTruncation to true. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide. </p>"
+  },
+  "shapes": {
+    "AccessDeniedException": {
+      "base": "<p> You are not authorized to perform this action. </p>",
+      "refs": {
+      }
+    },
+    "AvailabilityErrorMessage": {
+      "base": null,
+      "refs": {
+        "ThrottlingException$message": null
+      }
+    },
+    "Boolean": {
+      "base": null,
+      "refs": {
+        "QueryResponse$IsDataTruncated": "<p> An indicator for whether the result set is truncated. </p>"
+      }
+    },
+    "ColumnInfo": {
+      "base": "<p> Contains the meta data for query results such as the column names, data types, and other attributes. </p>",
+      "refs": {
+        "ColumnInfoList$member": null,
+        "Type$ArrayColumnInfo": "<p>Indicates if the column is an array.</p>",
+        "Type$TimeSeriesMeasureValueColumnInfo": "<p>Indicates if the column is a timeseries data type.</p>"
+      }
+    },
+    "ColumnInfoList": {
+      "base": null,
+      "refs": {
+        "QueryResponse$ColumnInfo": "<p> The column data types of the returned result set. </p>",
+        "Type$RowColumnInfo": "<p>Indicates if the column is a row.</p>"
+      }
+    },
+    "Datum": {
+      "base": "<p> Datum represents a single data point in a query result. </p>",
+      "refs": {
+        "DatumList$member": null,
+        "TimeSeriesDataPoint$Value": "<p>The measure value for the data point.</p>"
+      }
+    },
+    "DatumList": {
+      "base": null,
+      "refs": {
+        "Datum$ArrayValue": "<p> Indicates if the data point is an array. </p>",
+        "Row$Data": "<p>List of data points in a single row of the result set.</p>"
+      }
+    },
+    "DescribeEndpointsRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribeEndpointsResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "Endpoint": {
+      "base": null,
+      "refs": {
+        "Endpoints$member": null
+      }
+    },
+    "Endpoints": {
+      "base": null,
+      "refs": {
+        "DescribeEndpointsResponse$Endpoints": null
+      }
+    },
+    "ErrorMessage": {
+      "base": null,
+      "refs": {
+        "InternalServerException$Message": null,
+        "ResultSizeExceededException$message": null,
+        "TimeoutException$message": null,
+        "ValidationException$Message": null
+      }
+    },
+    "InternalServerException": {
+      "base": "<p> Timestream was unable to fully process this request because of an internal server error. </p>",
+      "refs": {
+      }
+    },
+    "Long": {
+      "base": null,
+      "refs": {
+        "Endpoint$CachePeriodInMinutes": null
+      }
+    },
+    "NullableBoolean": {
+      "base": null,
+      "refs": {
+        "Datum$NullValue": "<p> Indicates if the data point is null. </p>",
+        "QueryRequest$AllowResultTruncation": "<p> Indicates if Query should return truncated results if the result set exceeds 1MB. The default value for this parameter is false. You need to set this to true to accept truncated data. </p>"
+      }
+    },
+    "QueryRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "QueryResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "QueryString": {
+      "base": null,
+      "refs": {
+        "QueryRequest$QueryString": "<p> The query to be executed by Timestream. </p>"
+      }
+    },
+    "ResultSizeExceededException": {
+      "base": "<p> The result size of this operation exceeded the specified limits. </p>",
+      "refs": {
+      }
+    },
+    "Row": {
+      "base": "<p>Represents a single row in the query results.</p>",
+      "refs": {
+        "Datum$RowValue": "<p> Indicates if the data point is a row. </p>",
+        "RowList$member": null
+      }
+    },
+    "RowList": {
+      "base": null,
+      "refs": {
+        "QueryResponse$Rows": "<p> The result set rows returned by the query. </p>"
+      }
+    },
+    "ScalarType": {
+      "base": null,
+      "refs": {
+        "Type$ScalarType": "<p>Indicates if the column is of type string, integer, boolean, double, timestamp, date, time. </p>"
+      }
+    },
+    "ScalarValue": {
+      "base": null,
+      "refs": {
+        "Datum$ScalarValue": "<p> Indicates if the data point is a scalar value such as integer, string, double, or boolean. </p>"
+      }
+    },
+    "ServiceErrorMessage": {
+      "base": null,
+      "refs": {
+        "AccessDeniedException$Message": null
+      }
+    },
+    "String": {
+      "base": null,
+      "refs": {
+        "ColumnInfo$Name": "<p> The name of the result set column. The name of the result set is available for columns of all data types except for arrays. </p>",
+        "Endpoint$Address": null
+      }
+    },
+    "ThrottlingException": {
+      "base": "<p> Too many requests were made by a user exceeding service quotas. The request was throttled. </p>",
+      "refs": {
+      }
+    },
+    "TimeSeriesDataPoint": {
+      "base": "<p>The timeseries datatype represents the values of a measure over time. A time series is an array of rows of timestamps and measure values, with rows sorted in ascending order of time. A TimeSeriesDataPoint is a single data point in the timeseries. It represents a tuple of (time, measure value) in a timeseries. </p>",
+      "refs": {
+        "TimeSeriesDataPointList$member": null
+      }
+    },
+    "TimeSeriesDataPointList": {
+      "base": null,
+      "refs": {
+        "Datum$TimeSeriesValue": "<p> Indicates if the data point is of timeseries data type. </p>"
+      }
+    },
+    "TimeoutException": {
+      "base": "<p> The query execution time has exceeded the max time allotted for this query. For more information, see Quotas in the Timestream Developer Guide. </p>",
+      "refs": {
+      }
+    },
+    "Timestamp": {
+      "base": null,
+      "refs": {
+        "TimeSeriesDataPoint$Time": "<p>The timestamp when the measure value was collected.</p>"
+      }
+    },
+    "Type": {
+      "base": "<p>Contains the data type of a column in a query result set. The data type can be scalar or complex. The supported scalar data types are integers, boolean, string, double, timestamp, date, time, and intervals. The supported complex data types are arrays, rows, and timeseries.</p>",
+      "refs": {
+        "ColumnInfo$Type": "<p> The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, booleans, and others. Complex data types are types such as arrays, rows, and others. </p>"
+      }
+    },
+    "ValidationException": {
+      "base": "<p> Invalid or malformed request. </p>",
+      "refs": {
+      }
+    }
+  }
+}
