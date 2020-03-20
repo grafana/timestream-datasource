@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/resource/httpadapter"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/timestream-datasource/pkg/googlesheets"
 	"github.com/grafana/timestream-datasource/pkg/models"
@@ -19,13 +18,13 @@ import (
 
 const metricNamespace = "sheets_datasource"
 
-// GoogleSheetsDataSource handler for google sheets
-type GoogleSheetsDataSource struct {
-	googlesheet *googlesheets.GoogleSheets
+// TimestreamDataSource handler for google sheets
+type TimestreamDataSource struct {
+	googlesheet *googlesheets.Timestream
 }
 
 // NewDataSource creates the google sheets datasource and sets up all the routes
-func NewDataSource(mux *http.ServeMux) *GoogleSheetsDataSource {
+func NewDataSource(mux *http.ServeMux) *TimestreamDataSource {
 	queriesTotal := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name:      "data_query_total",
@@ -37,8 +36,8 @@ func NewDataSource(mux *http.ServeMux) *GoogleSheetsDataSource {
 	prometheus.MustRegister(queriesTotal)
 
 	cache := cache.New(300*time.Second, 5*time.Second)
-	ds := &GoogleSheetsDataSource{
-		googlesheet: &googlesheets.GoogleSheets{
+	ds := &TimestreamDataSource{
+		googlesheet: &googlesheets.Timestream{
 			Cache: cache,
 		},
 	}
@@ -47,13 +46,13 @@ func NewDataSource(mux *http.ServeMux) *GoogleSheetsDataSource {
 	return ds
 }
 
-func readConfig(pluginConfig backend.PluginConfig) (*models.GoogleSheetConfig, error) {
-	config := models.GoogleSheetConfig{}
+func readConfig(pluginConfig backend.PluginConfig) (*models.TimestreamConfig, error) {
+	config := models.TimestreamConfig{}
 	if err := json.Unmarshal(pluginConfig.DataSourceConfig.JSONData, &config); err != nil {
 		return nil, fmt.Errorf("could not unmarshal DataSourceInfo json: %w", err)
 	}
-	config.APIKey = pluginConfig.DataSourceConfig.DecryptedSecureJSONData["apiKey"]
-	config.JWT = pluginConfig.DataSourceConfig.DecryptedSecureJSONData["jwt"]
+	// config.APIKey = pluginConfig.DataSourceConfig.DecryptedSecureJSONData["apiKey"]
+	// config.JWT = pluginConfig.DataSourceConfig.DecryptedSecureJSONData["jwt"]
 	return &config, nil
 }
 
@@ -66,7 +65,7 @@ func readQuery(q backend.DataQuery) (*models.QueryModel, error) {
 }
 
 // CheckHealth checks if the plugin is running properly
-func (ds *GoogleSheetsDataSource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func (ds *TimestreamDataSource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	res := &backend.CheckHealthResult{}
 
 	// Just checking that the plugin exe is alive and running
@@ -103,7 +102,7 @@ func (ds *GoogleSheetsDataSource) CheckHealth(ctx context.Context, req *backend.
 }
 
 // QueryData queries for data.
-func (ds *GoogleSheetsDataSource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (ds *TimestreamDataSource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	res := &backend.QueryDataResponse{}
 	config, err := readConfig(req.PluginConfig)
 	if err != nil {
@@ -116,7 +115,7 @@ func (ds *GoogleSheetsDataSource) QueryData(ctx context.Context, req *backend.Qu
 			return nil, fmt.Errorf("failed to read query: %w", err)
 		}
 
-		if len(queryModel.Spreadsheet) < 1 {
+		if len(queryModel.RawQuery) < 1 {
 			continue // not query really exists
 		}
 
@@ -156,19 +155,8 @@ func writeResult(rw http.ResponseWriter, path string, val interface{}, err error
 	rw.WriteHeader(code)
 }
 
-func (ds *GoogleSheetsDataSource) handleResourceSpreadsheets(rw http.ResponseWriter, req *http.Request) {
-	backend.Logger.Debug("Received resource call", "url", req.URL.String(), "method", req.Method)
-	if req.Method != http.MethodGet {
-		return
-	}
-
-	ctx := req.Context()
-	config, err := readConfig(httpadapter.PluginConfigFromContext(ctx))
-	if err != nil {
-		writeResult(rw, "?", nil, err)
-		return
-	}
-
-	res, err := ds.googlesheet.GetSpreadsheets(ctx, config)
-	writeResult(rw, "spreadsheets", res, err)
+func (ds *TimestreamDataSource) handleResourceSpreadsheets(rw http.ResponseWriter, req *http.Request) {
+	res := map[string]string{}
+	res["hello"] = "world"
+	writeResult(rw, "spreadsheets", res, nil)
 }

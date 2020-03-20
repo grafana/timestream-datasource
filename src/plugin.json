@@ -1,13 +1,13 @@
 {
   "type": "datasource",
-  "name": "Timestream",
+  "name": "AWS Timestream",
   "id": "grafana-timestream-datasource",
   "backend": true,
   "executable": "gfx_timestream",
   "metrics": true,
 
   "info": {
-    "description": "Show data from google sheets",
+    "description": "Amazons managed time series database",
     "author": {
       "name": "Grafana Labs",
       "url": "https://grafana.com"

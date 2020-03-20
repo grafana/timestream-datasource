@@ -53,7 +53,7 @@ func TestGooglesheets(t *testing.T) {
 		client := &fakeClient{}
 
 		t.Run("spreadsheets get cached", func(t *testing.T) {
-			gsd := &GoogleSheets{
+			gsd := &Timestream{
 				Cache: cache.New(300*time.Second, 50*time.Second),
 			}
 			qm := models.QueryModel{Range: "A1:O", Spreadsheet: "someid", CacheDurationSeconds: 10}
@@ -72,7 +72,7 @@ func TestGooglesheets(t *testing.T) {
 		})
 
 		t.Run("spreadsheets don't get cached if CacheDurationSeconds is 0", func(t *testing.T) {
-			gsd := &GoogleSheets{
+			gsd := &Timestream{
 				Cache: cache.New(300*time.Second, 50*time.Second),
 			}
 			qm := models.QueryModel{Range: "A1:O", Spreadsheet: "someid", CacheDurationSeconds: 0}
@@ -90,7 +90,7 @@ func TestGooglesheets(t *testing.T) {
 		sheet, err := loadTestSheet("./testdata/mixed-data.json")
 		require.NoError(t, err)
 
-		gsd := &GoogleSheets{
+		gsd := &Timestream{
 			Cache: cache.New(300*time.Second, 50*time.Second),
 		}
 		qm := models.QueryModel{Range: "A1:O", Spreadsheet: "someid", CacheDurationSeconds: 10}
@@ -129,7 +129,7 @@ func TestGooglesheets(t *testing.T) {
 		sheet, err := loadTestSheet("./testdata/single-cell.json")
 		require.NoError(t, err)
 
-		gsd := &GoogleSheets{
+		gsd := &Timestream{
 			Cache: cache.New(300*time.Second, 50*time.Second),
 		}
 		qm := models.QueryModel{Range: "A2", Spreadsheet: "someid", CacheDurationSeconds: 10}

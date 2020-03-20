@@ -1,13 +1,12 @@
 import { DataSourcePlugin } from "@grafana/data";
 import { DataSource } from "./DataSource";
-import { ConfigEditor, QueryEditor, MetaInspector } from "./components";
-import { SheetsQuery, SheetsSourceOptions } from "./types";
+import { QueryEditor, ConfigEditor } from "./components";
+import { TimestreamQuery, TimestreamOptions } from "./types";
 
 export const plugin = new DataSourcePlugin<
   DataSource,
-  SheetsQuery,
-  SheetsSourceOptions
+  TimestreamQuery,
+  TimestreamOptions
 >(DataSource)
   .setConfigEditor(ConfigEditor)
-  .setQueryEditor(QueryEditor)
-  .setMetadataInspector(MetaInspector);
+  .setQueryEditor(QueryEditor);
