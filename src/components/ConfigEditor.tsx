@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { DataSourcePluginOptionsEditorProps} from '@grafana/data';
+import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { TimestreamOptions, TimestreamSecureJsonData } from '../types';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
@@ -21,10 +21,6 @@ export class ConfigEditor extends PureComponent<Props> {
   };
 
   render() {
-    return (
-      <div className="gf-form-group">
-        TODO....
-      </div>
-    );
+    return <div className="gf-form-group">TODO....</div>;
   }
 }

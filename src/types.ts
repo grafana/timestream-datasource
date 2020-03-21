@@ -1,4 +1,4 @@
-import { DataQuery, DataSourceJsonData } from "@grafana/data";
+import { DataQuery, DataSourceJsonData } from '@grafana/data';
 
 export interface TimestreamQuery extends DataQuery {
   rawQuery?: string;

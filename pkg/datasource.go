@@ -151,6 +151,7 @@ func (ds *TimestreamDataSource) QueryData(ctx context.Context, req *backend.Quer
 			// TODO: add a frame with an error header
 			return nil, err
 		}
+		frame.Name = q.RefID // ???
 		frame.RefID = q.RefID
 
 		res.Frames = append(res.Frames, []*data.Frame{frame}...)
