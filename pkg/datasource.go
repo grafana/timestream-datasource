@@ -6,21 +6,25 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/timestreamquery"
+
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/grafana/timestream-datasource/pkg/googlesheets"
 	"github.com/grafana/timestream-datasource/pkg/models"
+	"github.com/grafana/timestream-datasource/pkg/timestream"
 	"github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"context"
 )
 
-const metricNamespace = "sheets_datasource"
+const metricNamespace = "timestream"
 
 // TimestreamDataSource handler for google sheets
 type TimestreamDataSource struct {
-	googlesheet *googlesheets.Timestream
+	Cache *cache.Cache
 }
 
 // NewDataSource creates the google sheets datasource and sets up all the routes
@@ -37,9 +41,7 @@ func NewDataSource(mux *http.ServeMux) *TimestreamDataSource {
 
 	cache := cache.New(300*time.Second, 5*time.Second)
 	ds := &TimestreamDataSource{
-		googlesheet: &googlesheets.Timestream{
-			Cache: cache,
-		},
+		Cache: cache,
 	}
 
 	mux.HandleFunc("/spreadsheets", ds.handleResourceSpreadsheets)
@@ -64,6 +66,14 @@ func readQuery(q backend.DataQuery) (*models.QueryModel, error) {
 	return &queryModel, nil
 }
 
+// GetSession for the current datasource
+func (ds *TimestreamDataSource) GetSession(pluginConfig *models.TimestreamConfig) (*session.Session, error) {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-east-1"),
+	})
+	return sess, err
+}
+
 // CheckHealth checks if the plugin is running properly
 func (ds *TimestreamDataSource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	res := &backend.CheckHealthResult{}
@@ -82,18 +92,15 @@ func (ds *TimestreamDataSource) CheckHealth(ctx context.Context, req *backend.Ch
 		return res, nil
 	}
 
-	client, err := googlesheets.NewGoogleClient(ctx, config)
+	sess, err := ds.GetSession(config)
 	if err != nil {
 		res.Status = backend.HealthStatusError
-		res.Message = "Unable to create client"
+		res.Message = "Unable to get Session"
 		return res, nil
 	}
 
-	err = client.TestClient()
-	if err != nil {
-		res.Status = backend.HealthStatusError
-		res.Message = "Permissions check failed"
-		return res, nil
+	if sess == nil {
+		return nil, fmt.Errorf("null session")
 	}
 
 	res.Status = backend.HealthStatusOk
@@ -109,6 +116,11 @@ func (ds *TimestreamDataSource) QueryData(ctx context.Context, req *backend.Quer
 		return nil, err
 	}
 
+	sess, err := ds.GetSession(config)
+	if err != nil {
+		return nil, err
+	}
+
 	for _, q := range req.Queries {
 		queryModel, err := readQuery(q)
 		if err != nil {
@@ -119,13 +131,28 @@ func (ds *TimestreamDataSource) QueryData(ctx context.Context, req *backend.Quer
 			continue // not query really exists
 		}
 
-		frame, err := ds.googlesheet.Query(ctx, q.RefID, queryModel, config, q.TimeRange)
-		if err != nil {
-			backend.Logger.Error("Query failed", "refId", q.RefID, "error", err)
-			// TEMP: at the moment, the only way to return an error is by using meta
-			res.Metadata = map[string]string{"error": err.Error()}
-			continue
+		allowTruncation := !queryModel.NoTruncation
+		queryInput := &timestreamquery.QueryInput{
+			QueryString:           &queryModel.RawQuery,
+			AllowResultTruncation: &allowTruncation,
 		}
+		fmt.Println("QueryInput:")
+		fmt.Println(queryInput)
+
+		// execute the query
+		querySvc := timestreamquery.New(sess)
+		result, err := querySvc.Query(queryInput)
+		if err != nil {
+			// TODO: add a frame with an error header
+			return nil, err
+		}
+
+		frame, err := timestream.QueryResultToDataFrame(result)
+		if err != nil {
+			// TODO: add a frame with an error header
+			return nil, err
+		}
+		frame.RefID = q.RefID
 
 		res.Frames = append(res.Frames, []*data.Frame{frame}...)
 	}

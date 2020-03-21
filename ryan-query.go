@@ -1,4 +1,4 @@
-package timestream
+package main
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
@@ -8,14 +8,14 @@ import (
 	"fmt"
 )
 
-// TryQueryRunner runs a query 
-func TryQueryRunner() error {
+// TryQueryRunner runs a query
+func main() {
 	// setup the query client
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
 	})
-	if(err != nil) {
-		return err
+	if err != nil {
+		panic("dooh")
 	}
 
 	querySvc := timestreamquery.New(sess)
@@ -33,7 +33,7 @@ func TryQueryRunner() error {
     FROM ` + database + "." + table + `
     WHERE measure_name = 'cpu_utilization'
     AND hostname = '` + hostName + `'
-        AND time > ago(2h)
+        AND time > ago(5d)
     GROUP BY region, hostname, az, BIN(time, 15s)
     ORDER BY binned_timestamp ASC
     LIMIT 10
@@ -60,11 +60,11 @@ func TryQueryRunner() error {
 	// `
 	//	CROSS JOIN UNNEST(interpolated_avg_cpu_utilization)`
 
-	queryStr = `select create_time_series(time, measure_value) 
-        FROM ` + database + "." + table + `
-        where hostname = "` + hostName + `" 
-        and measure_name = 'cpu_utilization'
-        GROUP BY hostname,measure_name`
+	// queryStr = `select create_time_series(time, measure_value)
+	//     FROM ` + database + "." + table + `
+	//     where hostname = "` + hostName + `"
+	//     and measure_name = 'cpu_utilization'
+	//     GROUP BY hostname,measure_name`
 
 	allowTruncation := true
 	queryInput := &timestreamquery.QueryInput{
@@ -136,5 +136,4 @@ func TryQueryRunner() error {
 			fmt.Println("data is truncated")
 		}
 	}
-	return nil
 }

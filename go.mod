@@ -5,12 +5,11 @@ go 1.14
 replace github.com/aws/aws-sdk-go => ./tmp/github.com/aws/aws-sdk-go
 
 require (
-github.com/aws/aws-sdk-go v0.0.0-00010101000000-000000000000
-
 	cloud.google.com/go v0.52.0 // indirect
 	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195
 	github.com/aws/aws-sdk-go v1.29.27
 	github.com/davecgh/go-spew v1.1.1
+	github.com/go-macaron/session v0.0.0-20200308113048-b7fb93714c69
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.3.3 // indirect; indirect	github.com/grafana/grafana-plugin-sdk-go v0.28.0
 	github.com/grafana/grafana-plugin-sdk-go v0.30.0
