@@ -85,7 +85,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, erro
 		}
 	}
 
-	frame := data.NewFrame("result", // No name
+	frame := data.NewFrame("", // No name
 		fields...,
 	)
 	return frame, nil
