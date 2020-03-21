@@ -136,8 +136,7 @@ func (ds *TimestreamDataSource) QueryData(ctx context.Context, req *backend.Quer
 			QueryString:           &queryModel.RawQuery,
 			AllowResultTruncation: &allowTruncation,
 		}
-		fmt.Println("QueryInput:")
-		fmt.Println(queryInput)
+		backend.Logger.Debug("QueryInput:", queryModel.RawQuery)
 
 		// execute the query
 		querySvc := timestreamquery.New(sess)
