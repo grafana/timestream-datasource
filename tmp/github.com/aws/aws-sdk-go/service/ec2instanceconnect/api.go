@@ -112,8 +112,8 @@ func (c *EC2InstanceConnect) SendSSHPublicKeyWithContext(ctx aws.Context, input 
 // Indicates that either your AWS credentials are invalid or you do not have
 // access to the EC2 instance.
 type AuthException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -130,17 +130,17 @@ func (s AuthException) GoString() string {
 
 func newErrorAuthException(v protocol.ResponseMetadata) error {
 	return &AuthException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s AuthException) Code() string {
+func (s *AuthException) Code() string {
 	return "AuthException"
 }
 
 // Message returns the exception's message.
-func (s AuthException) Message() string {
+func (s *AuthException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -148,29 +148,29 @@ func (s AuthException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s AuthException) OrigErr() error {
+func (s *AuthException) OrigErr() error {
 	return nil
 }
 
-func (s AuthException) Error() string {
+func (s *AuthException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s AuthException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *AuthException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s AuthException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *AuthException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Indicates that the instance requested was not found in the given zone. Check
 // that you have provided a valid instance ID and the correct zone.
 type EC2InstanceNotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -187,17 +187,17 @@ func (s EC2InstanceNotFoundException) GoString() string {
 
 func newErrorEC2InstanceNotFoundException(v protocol.ResponseMetadata) error {
 	return &EC2InstanceNotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s EC2InstanceNotFoundException) Code() string {
+func (s *EC2InstanceNotFoundException) Code() string {
 	return "EC2InstanceNotFoundException"
 }
 
 // Message returns the exception's message.
-func (s EC2InstanceNotFoundException) Message() string {
+func (s *EC2InstanceNotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -205,29 +205,29 @@ func (s EC2InstanceNotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s EC2InstanceNotFoundException) OrigErr() error {
+func (s *EC2InstanceNotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s EC2InstanceNotFoundException) Error() string {
+func (s *EC2InstanceNotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s EC2InstanceNotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *EC2InstanceNotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s EC2InstanceNotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *EC2InstanceNotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Indicates that you provided bad input. Ensure you have a valid instance ID,
 // the correct zone, and a valid SSH public key.
 type InvalidArgsException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -244,17 +244,17 @@ func (s InvalidArgsException) GoString() string {
 
 func newErrorInvalidArgsException(v protocol.ResponseMetadata) error {
 	return &InvalidArgsException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InvalidArgsException) Code() string {
+func (s *InvalidArgsException) Code() string {
 	return "InvalidArgsException"
 }
 
 // Message returns the exception's message.
-func (s InvalidArgsException) Message() string {
+func (s *InvalidArgsException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -262,22 +262,22 @@ func (s InvalidArgsException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidArgsException) OrigErr() error {
+func (s *InvalidArgsException) OrigErr() error {
 	return nil
 }
 
-func (s InvalidArgsException) Error() string {
+func (s *InvalidArgsException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InvalidArgsException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InvalidArgsException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InvalidArgsException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InvalidArgsException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type SendSSHPublicKeyInput struct {
@@ -410,8 +410,8 @@ func (s *SendSSHPublicKeyOutput) SetSuccess(v bool) *SendSSHPublicKeyOutput {
 // Indicates that the service encountered an error. Follow the message's instructions
 // and try again.
 type ServiceException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -428,17 +428,17 @@ func (s ServiceException) GoString() string {
 
 func newErrorServiceException(v protocol.ResponseMetadata) error {
 	return &ServiceException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ServiceException) Code() string {
+func (s *ServiceException) Code() string {
 	return "ServiceException"
 }
 
 // Message returns the exception's message.
-func (s ServiceException) Message() string {
+func (s *ServiceException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -446,30 +446,30 @@ func (s ServiceException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceException) OrigErr() error {
+func (s *ServiceException) OrigErr() error {
 	return nil
 }
 
-func (s ServiceException) Error() string {
+func (s *ServiceException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ServiceException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ServiceException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ServiceException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ServiceException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Indicates you have been making requests too frequently and have been throttled.
 // Wait for a while and try again. If higher call volume is warranted contact
 // AWS Support.
 type ThrottlingException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -486,17 +486,17 @@ func (s ThrottlingException) GoString() string {
 
 func newErrorThrottlingException(v protocol.ResponseMetadata) error {
 	return &ThrottlingException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ThrottlingException) Code() string {
+func (s *ThrottlingException) Code() string {
 	return "ThrottlingException"
 }
 
 // Message returns the exception's message.
-func (s ThrottlingException) Message() string {
+func (s *ThrottlingException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -504,20 +504,20 @@ func (s ThrottlingException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ThrottlingException) OrigErr() error {
+func (s *ThrottlingException) OrigErr() error {
 	return nil
 }
 
-func (s ThrottlingException) Error() string {
+func (s *ThrottlingException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ThrottlingException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ThrottlingException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ThrottlingException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ThrottlingException) RequestID() string {
+	return s.RespMetadata.RequestID
 }

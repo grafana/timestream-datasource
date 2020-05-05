@@ -21,25 +21,12 @@ const (
 	// server error.
 	ErrCodeInternalServerException = "InternalServerException"
 
-	// ErrCodeResultSizeExceededException for service response error code
-	// "ResultSizeExceededException".
-	//
-	// The result size of this operation exceeded the specified limits.
-	ErrCodeResultSizeExceededException = "ResultSizeExceededException"
-
 	// ErrCodeThrottlingException for service response error code
 	// "ThrottlingException".
 	//
 	// Too many requests were made by a user exceeding service quotas. The request
 	// was throttled.
 	ErrCodeThrottlingException = "ThrottlingException"
-
-	// ErrCodeTimeoutException for service response error code
-	// "TimeoutException".
-	//
-	// The query execution time has exceeded the max time allotted for this query.
-	// For more information, see Quotas in the Timestream Developer Guide.
-	ErrCodeTimeoutException = "TimeoutException"
 
 	// ErrCodeValidationException for service response error code
 	// "ValidationException".
@@ -49,10 +36,8 @@ const (
 )
 
 var exceptionFromCode = map[string]func(protocol.ResponseMetadata) error{
-	"AccessDeniedException":       newErrorAccessDeniedException,
-	"InternalServerException":     newErrorInternalServerException,
-	"ResultSizeExceededException": newErrorResultSizeExceededException,
-	"ThrottlingException":         newErrorThrottlingException,
-	"TimeoutException":            newErrorTimeoutException,
-	"ValidationException":         newErrorValidationException,
+	"AccessDeniedException":   newErrorAccessDeniedException,
+	"InternalServerException": newErrorInternalServerException,
+	"ThrottlingException":     newErrorThrottlingException,
+	"ValidationException":     newErrorValidationException,
 }

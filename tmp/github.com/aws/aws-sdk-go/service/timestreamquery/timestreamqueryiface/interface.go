@@ -26,7 +26,7 @@ import (
 //    // myFunc uses an SDK service client to make a request to
 //    // Amazon Timestream Query.
 //    func myFunc(svc timestreamqueryiface.TimestreamQueryAPI) bool {
-//        // Make svc.DescribeEndpoints request
+//        // Make svc.CancelQuery request
 //    }
 //
 //    func main() {
@@ -42,7 +42,7 @@ import (
 //    type mockTimestreamQueryClient struct {
 //        timestreamqueryiface.TimestreamQueryAPI
 //    }
-//    func (m *mockTimestreamQueryClient) DescribeEndpoints(input *timestreamquery.DescribeEndpointsInput) (*timestreamquery.DescribeEndpointsOutput, error) {
+//    func (m *mockTimestreamQueryClient) CancelQuery(input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
 //        // mock response/functionality
 //    }
 //
@@ -60,6 +60,10 @@ import (
 // and waiters. Its suggested to use the pattern above for testing, or using
 // tooling to generate mocks to satisfy the interfaces.
 type TimestreamQueryAPI interface {
+	CancelQuery(*timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error)
+	CancelQueryWithContext(aws.Context, *timestreamquery.CancelQueryInput, ...request.Option) (*timestreamquery.CancelQueryOutput, error)
+	CancelQueryRequest(*timestreamquery.CancelQueryInput) (*request.Request, *timestreamquery.CancelQueryOutput)
+
 	DescribeEndpoints(*timestreamquery.DescribeEndpointsInput) (*timestreamquery.DescribeEndpointsOutput, error)
 	DescribeEndpointsWithContext(aws.Context, *timestreamquery.DescribeEndpointsInput, ...request.Option) (*timestreamquery.DescribeEndpointsOutput, error)
 	DescribeEndpointsRequest(*timestreamquery.DescribeEndpointsInput) (*request.Request, *timestreamquery.DescribeEndpointsOutput)
@@ -67,6 +71,9 @@ type TimestreamQueryAPI interface {
 	Query(*timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error)
 	QueryWithContext(aws.Context, *timestreamquery.QueryInput, ...request.Option) (*timestreamquery.QueryOutput, error)
 	QueryRequest(*timestreamquery.QueryInput) (*request.Request, *timestreamquery.QueryOutput)
+
+	QueryPages(*timestreamquery.QueryInput, func(*timestreamquery.QueryOutput, bool) bool) error
+	QueryPagesWithContext(aws.Context, *timestreamquery.QueryInput, func(*timestreamquery.QueryOutput, bool) bool, ...request.Option) error
 }
 
 var _ TimestreamQueryAPI = (*timestreamquery.TimestreamQuery)(nil)

@@ -1629,8 +1629,8 @@ func (s *AffectedEntity) SetTags(v map[string]*string) *AffectedEntity {
 // the action to complete before trying again. To get the current status, use
 // the DescribeHealthServiceStatusForOrganization operation.
 type ConcurrentModificationException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -1647,17 +1647,17 @@ func (s ConcurrentModificationException) GoString() string {
 
 func newErrorConcurrentModificationException(v protocol.ResponseMetadata) error {
 	return &ConcurrentModificationException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ConcurrentModificationException) Code() string {
+func (s *ConcurrentModificationException) Code() string {
 	return "ConcurrentModificationException"
 }
 
 // Message returns the exception's message.
-func (s ConcurrentModificationException) Message() string {
+func (s *ConcurrentModificationException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1665,22 +1665,22 @@ func (s ConcurrentModificationException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ConcurrentModificationException) OrigErr() error {
+func (s *ConcurrentModificationException) OrigErr() error {
 	return nil
 }
 
-func (s ConcurrentModificationException) Error() string {
+func (s *ConcurrentModificationException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ConcurrentModificationException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ConcurrentModificationException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ConcurrentModificationException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ConcurrentModificationException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // A range of dates and times that is used by the EventFilter and EntityFilter
@@ -3618,8 +3618,8 @@ func (s *EventTypeFilter) SetServices(v []*string) *EventTypeFilter {
 
 // The specified pagination token (nextToken) is not valid.
 type InvalidPaginationToken struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -3636,17 +3636,17 @@ func (s InvalidPaginationToken) GoString() string {
 
 func newErrorInvalidPaginationToken(v protocol.ResponseMetadata) error {
 	return &InvalidPaginationToken{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InvalidPaginationToken) Code() string {
+func (s *InvalidPaginationToken) Code() string {
 	return "InvalidPaginationToken"
 }
 
 // Message returns the exception's message.
-func (s InvalidPaginationToken) Message() string {
+func (s *InvalidPaginationToken) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3654,22 +3654,22 @@ func (s InvalidPaginationToken) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidPaginationToken) OrigErr() error {
+func (s *InvalidPaginationToken) OrigErr() error {
 	return nil
 }
 
-func (s InvalidPaginationToken) Error() string {
+func (s *InvalidPaginationToken) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InvalidPaginationToken) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InvalidPaginationToken) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InvalidPaginationToken) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InvalidPaginationToken) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Error information returned when a DescribeAffectedEntitiesForOrganization
@@ -4100,8 +4100,8 @@ func (s *OrganizationEventFilter) SetStartTime(v *DateTimeRange) *OrganizationEv
 
 // The specified locale is not supported.
 type UnsupportedLocale struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -4118,17 +4118,17 @@ func (s UnsupportedLocale) GoString() string {
 
 func newErrorUnsupportedLocale(v protocol.ResponseMetadata) error {
 	return &UnsupportedLocale{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnsupportedLocale) Code() string {
+func (s *UnsupportedLocale) Code() string {
 	return "UnsupportedLocale"
 }
 
 // Message returns the exception's message.
-func (s UnsupportedLocale) Message() string {
+func (s *UnsupportedLocale) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -4136,22 +4136,22 @@ func (s UnsupportedLocale) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnsupportedLocale) OrigErr() error {
+func (s *UnsupportedLocale) OrigErr() error {
 	return nil
 }
 
-func (s UnsupportedLocale) Error() string {
+func (s *UnsupportedLocale) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnsupportedLocale) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnsupportedLocale) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnsupportedLocale) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnsupportedLocale) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 const (

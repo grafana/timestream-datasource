@@ -14,6 +14,23 @@
     "uid":"timestream-query-2018-11-01"
   },
   "operations":{
+    "CancelQuery":{
+      "name":"CancelQuery",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CancelQueryRequest"},
+      "output":{"shape":"CancelQueryResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"}
+      ],
+      "endpointdiscovery":{"required":true},
+      "idempotent":true
+    },
     "DescribeEndpoints":{
       "name":"DescribeEndpoints",
       "http":{
@@ -22,6 +39,10 @@
       },
       "input":{"shape":"DescribeEndpointsRequest"},
       "output":{"shape":"DescribeEndpointsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"}
+      ],
       "endpointoperation":true
     },
     "Query":{
@@ -36,9 +57,7 @@
         {"shape":"AccessDeniedException"},
         {"shape":"InternalServerException"},
         {"shape":"ThrottlingException"},
-        {"shape":"ValidationException"},
-        {"shape":"TimeoutException"},
-        {"shape":"ResultSizeExceededException"}
+        {"shape":"ValidationException"}
       ],
       "endpointdiscovery":{"required":true}
     }
@@ -53,7 +72,24 @@
       "synthetic":true
     },
     "AvailabilityErrorMessage":{"type":"string"},
-    "Boolean":{"type":"boolean"},
+    "CancelQueryRequest":{
+      "type":"structure",
+      "required":["QueryId"],
+      "members":{
+        "QueryId":{"shape":"String"}
+      }
+    },
+    "CancelQueryResponse":{
+      "type":"structure",
+      "members":{
+        "CancellationMessage":{"shape":"String"}
+      }
+    },
+    "ClientRequestToken":{
+      "type":"string",
+      "max":128,
+      "min":32
+    },
     "ColumnInfo":{
       "type":"structure",
       "required":["Type"],
@@ -116,6 +152,12 @@
       "exception":true
     },
     "Long":{"type":"long"},
+    "MaxQueryResults":{
+      "type":"integer",
+      "box":true,
+      "max":1000,
+      "min":1
+    },
     "NullableBoolean":{
       "type":"boolean",
       "box":true
@@ -124,30 +166,29 @@
       "type":"structure",
       "required":["QueryString"],
       "members":{
-        "QueryString":{"shape":"QueryString"},
-        "AllowResultTruncation":{"shape":"NullableBoolean"}
+        "QueryString":{"shape":"String"},
+        "ClientToken":{
+          "shape":"ClientRequestToken",
+          "idempotencyToken":true
+        },
+        "QueryDescription":{"shape":"String"},
+        "NextToken":{"shape":"String"},
+        "MaxRows":{"shape":"MaxQueryResults"}
       }
     },
     "QueryResponse":{
       "type":"structure",
       "required":[
+        "QueryId",
         "Rows",
-        "ColumnInfo",
-        "IsDataTruncated"
+        "ColumnInfo"
       ],
       "members":{
+        "QueryId":{"shape":"String"},
+        "NextToken":{"shape":"String"},
         "Rows":{"shape":"RowList"},
-        "ColumnInfo":{"shape":"ColumnInfoList"},
-        "IsDataTruncated":{"shape":"Boolean"}
+        "ColumnInfo":{"shape":"ColumnInfoList"}
       }
-    },
-    "QueryString":{"type":"string"},
-    "ResultSizeExceededException":{
-      "type":"structure",
-      "members":{
-        "message":{"shape":"ErrorMessage"}
-      },
-      "exception":true
     },
     "Row":{
       "type":"structure",
@@ -200,14 +241,6 @@
     "TimeSeriesDataPointList":{
       "type":"list",
       "member":{"shape":"TimeSeriesDataPoint"}
-    },
-    "TimeoutException":{
-      "type":"structure",
-      "members":{
-        "message":{"shape":"ErrorMessage"}
-      },
-      "exception":true,
-      "synthetic":true
     },
     "Timestamp":{"type":"string"},
     "Type":{

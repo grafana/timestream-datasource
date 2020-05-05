@@ -69,16 +69,17 @@ func (c *AugmentedAIRuntime) DeleteHumanLoopRequest(input *DeleteHumanLoopInput)
 //
 // Returned Error Types:
 //   * ValidationException
-//   Your request was not valid. Check the syntax and try again.
+//   The request isn't valid. Check the syntax and try again.
 //
 //   * ResourceNotFoundException
-//   We were unable to find the requested resource.
+//   We couldn't find the requested resource.
 //
 //   * ThrottlingException
-//   Your request has exceeded the allowed amount of requests.
+//   You exceeded the maximum number of requests.
 //
 //   * InternalServerException
-//   Your request could not be processed.
+//   We couldn't process your request because of an issue with the server. Try
+//   again later.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/sagemaker-a2i-runtime-2019-11-07/DeleteHumanLoop
 func (c *AugmentedAIRuntime) DeleteHumanLoop(input *DeleteHumanLoopInput) (*DeleteHumanLoopOutput, error) {
@@ -157,16 +158,17 @@ func (c *AugmentedAIRuntime) DescribeHumanLoopRequest(input *DescribeHumanLoopIn
 //
 // Returned Error Types:
 //   * ValidationException
-//   Your request was not valid. Check the syntax and try again.
+//   The request isn't valid. Check the syntax and try again.
 //
 //   * ResourceNotFoundException
-//   We were unable to find the requested resource.
+//   We couldn't find the requested resource.
 //
 //   * ThrottlingException
-//   Your request has exceeded the allowed amount of requests.
+//   You exceeded the maximum number of requests.
 //
 //   * InternalServerException
-//   Your request could not be processed.
+//   We couldn't process your request because of an issue with the server. Try
+//   again later.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/sagemaker-a2i-runtime-2019-11-07/DescribeHumanLoop
 func (c *AugmentedAIRuntime) DescribeHumanLoop(input *DescribeHumanLoopInput) (*DescribeHumanLoopOutput, error) {
@@ -252,13 +254,17 @@ func (c *AugmentedAIRuntime) ListHumanLoopsRequest(input *ListHumanLoopsInput) (
 //
 // Returned Error Types:
 //   * ValidationException
-//   Your request was not valid. Check the syntax and try again.
+//   The request isn't valid. Check the syntax and try again.
+//
+//   * ResourceNotFoundException
+//   We couldn't find the requested resource.
 //
 //   * ThrottlingException
-//   Your request has exceeded the allowed amount of requests.
+//   You exceeded the maximum number of requests.
 //
 //   * InternalServerException
-//   Your request could not be processed.
+//   We couldn't process your request because of an issue with the server. Try
+//   again later.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/sagemaker-a2i-runtime-2019-11-07/ListHumanLoops
 func (c *AugmentedAIRuntime) ListHumanLoops(input *ListHumanLoopsInput) (*ListHumanLoopsOutput, error) {
@@ -389,17 +395,18 @@ func (c *AugmentedAIRuntime) StartHumanLoopRequest(input *StartHumanLoopInput) (
 //
 // Returned Error Types:
 //   * ValidationException
-//   Your request was not valid. Check the syntax and try again.
+//   The request isn't valid. Check the syntax and try again.
 //
 //   * ThrottlingException
-//   Your request has exceeded the allowed amount of requests.
+//   You exceeded the maximum number of requests.
 //
 //   * ServiceQuotaExceededException
-//   You have exceeded your service quota. To perform the requested action, remove
-//   some of the relevant resources, or request a service quota increase.
+//   You exceeded your service quota. Delete some resources or request an increase
+//   in your service quota.
 //
 //   * InternalServerException
-//   Your request could not be processed.
+//   We couldn't process your request because of an issue with the server. Try
+//   again later.
 //
 //   * ConflictException
 //   Your request has the same name as another active human loop but has different
@@ -484,16 +491,17 @@ func (c *AugmentedAIRuntime) StopHumanLoopRequest(input *StopHumanLoopInput) (re
 //
 // Returned Error Types:
 //   * ValidationException
-//   Your request was not valid. Check the syntax and try again.
+//   The request isn't valid. Check the syntax and try again.
 //
 //   * ResourceNotFoundException
-//   We were unable to find the requested resource.
+//   We couldn't find the requested resource.
 //
 //   * ThrottlingException
-//   Your request has exceeded the allowed amount of requests.
+//   You exceeded the maximum number of requests.
 //
 //   * InternalServerException
-//   Your request could not be processed.
+//   We couldn't process your request because of an issue with the server. Try
+//   again later.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/sagemaker-a2i-runtime-2019-11-07/StopHumanLoop
 func (c *AugmentedAIRuntime) StopHumanLoop(input *StopHumanLoopInput) (*StopHumanLoopOutput, error) {
@@ -521,8 +529,8 @@ func (c *AugmentedAIRuntime) StopHumanLoopWithContext(ctx aws.Context, input *St
 // input data. You cannot start two human loops with the same name and different
 // input data.
 type ConflictException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -539,17 +547,17 @@ func (s ConflictException) GoString() string {
 
 func newErrorConflictException(v protocol.ResponseMetadata) error {
 	return &ConflictException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ConflictException) Code() string {
+func (s *ConflictException) Code() string {
 	return "ConflictException"
 }
 
 // Message returns the exception's message.
-func (s ConflictException) Message() string {
+func (s *ConflictException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -557,28 +565,28 @@ func (s ConflictException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ConflictException) OrigErr() error {
+func (s *ConflictException) OrigErr() error {
 	return nil
 }
 
-func (s ConflictException) Error() string {
+func (s *ConflictException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ConflictException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ConflictException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ConflictException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ConflictException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type DeleteHumanLoopInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the human loop you want to delete.
+	// The name of the human loop that you want to delete.
 	//
 	// HumanLoopName is a required field
 	HumanLoopName *string `location:"uri" locationName:"HumanLoopName" min:"1" type:"string" required:"true"`
@@ -633,7 +641,7 @@ func (s DeleteHumanLoopOutput) GoString() string {
 type DescribeHumanLoopInput struct {
 	_ struct{} `type:"structure"`
 
-	// The unique name of the human loop.
+	// The name of the human loop that you want information about.
 	//
 	// HumanLoopName is a required field
 	HumanLoopName *string `location:"uri" locationName:"HumanLoopName" min:"1" type:"string" required:"true"`
@@ -679,11 +687,11 @@ type DescribeHumanLoopOutput struct {
 	// CreationTime is a required field
 	CreationTime *time.Time `type:"timestamp" required:"true"`
 
-	// A failure code denoting a specific type of failure.
+	// A failure code that identifies the type of failure.
 	FailureCode *string `type:"string"`
 
-	// The reason why a human loop has failed. The failure reason is returned when
-	// the human loop status is Failed.
+	// The reason why a human loop failed. The failure reason is returned when the
+	// status of the human loop is Failed.
 	FailureReason *string `type:"string"`
 
 	// The Amazon Resource Name (ARN) of the flow definition.
@@ -696,15 +704,17 @@ type DescribeHumanLoopOutput struct {
 	// HumanLoopArn is a required field
 	HumanLoopArn *string `type:"string" required:"true"`
 
-	// The name of the human loop.
+	// The name of the human loop. The name must be lowercase, unique within the
+	// Region in your account, and can have up to 63 characters. Valid characters:
+	// a-z, 0-9, and - (hyphen).
 	//
 	// HumanLoopName is a required field
 	HumanLoopName *string `min:"1" type:"string" required:"true"`
 
-	// An object containing information about the output of the human loop.
+	// An object that contains information about the output of the human loop.
 	HumanLoopOutput *HumanLoopOutput `type:"structure"`
 
-	// The status of the human loop. Valid values:
+	// The status of the human loop.
 	//
 	// HumanLoopStatus is a required field
 	HumanLoopStatus *string `type:"string" required:"true" enum:"HumanLoopStatus"`
@@ -886,17 +896,18 @@ type HumanLoopSummary struct {
 	// When Amazon Augmented AI created the human loop.
 	CreationTime *time.Time `type:"timestamp"`
 
-	// The reason why the human loop failed. A failure reason is returned only when
-	// the status of the human loop is Failed.
+	// The reason why the human loop failed. A failure reason is returned when the
+	// status of the human loop is Failed.
 	FailureReason *string `type:"string"`
 
-	// The Amazon Resource Name (ARN) of the flow definition.
+	// The Amazon Resource Name (ARN) of the flow definition used to configure the
+	// human loop.
 	FlowDefinitionArn *string `type:"string"`
 
 	// The name of the human loop.
 	HumanLoopName *string `min:"1" type:"string"`
 
-	// The status of the human loop. Valid values:
+	// The status of the human loop.
 	HumanLoopStatus *string `type:"string" enum:"HumanLoopStatus"`
 }
 
@@ -940,10 +951,11 @@ func (s *HumanLoopSummary) SetHumanLoopStatus(v string) *HumanLoopSummary {
 	return s
 }
 
-// Your request could not be processed.
+// We couldn't process your request because of an issue with the server. Try
+// again later.
 type InternalServerException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -960,17 +972,17 @@ func (s InternalServerException) GoString() string {
 
 func newErrorInternalServerException(v protocol.ResponseMetadata) error {
 	return &InternalServerException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InternalServerException) Code() string {
+func (s *InternalServerException) Code() string {
 	return "InternalServerException"
 }
 
 // Message returns the exception's message.
-func (s InternalServerException) Message() string {
+func (s *InternalServerException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -978,22 +990,22 @@ func (s InternalServerException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InternalServerException) OrigErr() error {
+func (s *InternalServerException) OrigErr() error {
 	return nil
 }
 
-func (s InternalServerException) Error() string {
+func (s *InternalServerException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InternalServerException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InternalServerException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InternalServerException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InternalServerException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type ListHumanLoopsInput struct {
@@ -1013,15 +1025,14 @@ type ListHumanLoopsInput struct {
 	FlowDefinitionArn *string `location:"querystring" locationName:"FlowDefinitionArn" type:"string" required:"true"`
 
 	// The total number of items to return. If the total number of available items
-	// is more than the value specified in MaxResults, then a NextToken will be
-	// provided in the output that you can use to resume pagination.
+	// is more than the value specified in MaxResults, then a NextToken is returned
+	// in the output. You can use this token to display the next page of results.
 	MaxResults *int64 `location:"querystring" locationName:"MaxResults" min:"1" type:"integer"`
 
-	// A token to resume pagination.
+	// A token to display the next page of results.
 	NextToken *string `location:"querystring" locationName:"NextToken" type:"string"`
 
-	// An optional value that specifies whether you want the results sorted in Ascending
-	// or Descending order.
+	// Optional. The order for displaying results. Valid values: Ascending and Descending.
 	SortOrder *string `location:"querystring" locationName:"SortOrder" type:"string" enum:"SortOrder"`
 }
 
@@ -1090,12 +1101,12 @@ func (s *ListHumanLoopsInput) SetSortOrder(v string) *ListHumanLoopsInput {
 type ListHumanLoopsOutput struct {
 	_ struct{} `type:"structure"`
 
-	// An array of objects containing information about the human loops.
+	// An array of objects that contain information about the human loops.
 	//
 	// HumanLoopSummaries is a required field
 	HumanLoopSummaries []*HumanLoopSummary `type:"list" required:"true"`
 
-	// A token to resume pagination.
+	// A token to display the next page of results.
 	NextToken *string `type:"string"`
 }
 
@@ -1121,10 +1132,10 @@ func (s *ListHumanLoopsOutput) SetNextToken(v string) *ListHumanLoopsOutput {
 	return s
 }
 
-// We were unable to find the requested resource.
+// We couldn't find the requested resource.
 type ResourceNotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1141,17 +1152,17 @@ func (s ResourceNotFoundException) GoString() string {
 
 func newErrorResourceNotFoundException(v protocol.ResponseMetadata) error {
 	return &ResourceNotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ResourceNotFoundException) Code() string {
+func (s *ResourceNotFoundException) Code() string {
 	return "ResourceNotFoundException"
 }
 
 // Message returns the exception's message.
-func (s ResourceNotFoundException) Message() string {
+func (s *ResourceNotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1159,29 +1170,29 @@ func (s ResourceNotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResourceNotFoundException) OrigErr() error {
+func (s *ResourceNotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s ResourceNotFoundException) Error() string {
+func (s *ResourceNotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ResourceNotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ResourceNotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ResourceNotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ResourceNotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
-// You have exceeded your service quota. To perform the requested action, remove
-// some of the relevant resources, or request a service quota increase.
+// You exceeded your service quota. Delete some resources or request an increase
+// in your service quota.
 type ServiceQuotaExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1198,17 +1209,17 @@ func (s ServiceQuotaExceededException) GoString() string {
 
 func newErrorServiceQuotaExceededException(v protocol.ResponseMetadata) error {
 	return &ServiceQuotaExceededException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ServiceQuotaExceededException) Code() string {
+func (s *ServiceQuotaExceededException) Code() string {
 	return "ServiceQuotaExceededException"
 }
 
 // Message returns the exception's message.
-func (s ServiceQuotaExceededException) Message() string {
+func (s *ServiceQuotaExceededException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1216,36 +1227,38 @@ func (s ServiceQuotaExceededException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceQuotaExceededException) OrigErr() error {
+func (s *ServiceQuotaExceededException) OrigErr() error {
 	return nil
 }
 
-func (s ServiceQuotaExceededException) Error() string {
+func (s *ServiceQuotaExceededException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ServiceQuotaExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ServiceQuotaExceededException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ServiceQuotaExceededException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ServiceQuotaExceededException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type StartHumanLoopInput struct {
 	_ struct{} `type:"structure"`
 
-	// Attributes of the data specified by the customer.
+	// Attributes of the specified data. Use DataAttributes to specify if your data
+	// is free of personally identifiable information and/or free of adult content.
 	DataAttributes *HumanLoopDataAttributes `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the flow definition.
+	// The Amazon Resource Name (ARN) of the flow definition associated with this
+	// human loop.
 	//
 	// FlowDefinitionArn is a required field
 	FlowDefinitionArn *string `type:"string" required:"true"`
 
-	// An object containing information about the human loop.
+	// An object that contains information about the human loop.
 	//
 	// HumanLoopInput is a required field
 	HumanLoopInput *HumanLoopInput `type:"structure" required:"true"`
@@ -1348,7 +1361,7 @@ func (s *StartHumanLoopOutput) SetHumanLoopArn(v string) *StartHumanLoopOutput {
 type StopHumanLoopInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the human loop you want to stop.
+	// The name of the human loop that you want to stop.
 	//
 	// HumanLoopName is a required field
 	HumanLoopName *string `min:"1" type:"string" required:"true"`
@@ -1400,10 +1413,10 @@ func (s StopHumanLoopOutput) GoString() string {
 	return s.String()
 }
 
-// Your request has exceeded the allowed amount of requests.
+// You exceeded the maximum number of requests.
 type ThrottlingException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1420,17 +1433,17 @@ func (s ThrottlingException) GoString() string {
 
 func newErrorThrottlingException(v protocol.ResponseMetadata) error {
 	return &ThrottlingException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ThrottlingException) Code() string {
+func (s *ThrottlingException) Code() string {
 	return "ThrottlingException"
 }
 
 // Message returns the exception's message.
-func (s ThrottlingException) Message() string {
+func (s *ThrottlingException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1438,28 +1451,28 @@ func (s ThrottlingException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ThrottlingException) OrigErr() error {
+func (s *ThrottlingException) OrigErr() error {
 	return nil
 }
 
-func (s ThrottlingException) Error() string {
+func (s *ThrottlingException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ThrottlingException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ThrottlingException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ThrottlingException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ThrottlingException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
-// Your request was not valid. Check the syntax and try again.
+// The request isn't valid. Check the syntax and try again.
 type ValidationException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1476,17 +1489,17 @@ func (s ValidationException) GoString() string {
 
 func newErrorValidationException(v protocol.ResponseMetadata) error {
 	return &ValidationException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ValidationException) Code() string {
+func (s *ValidationException) Code() string {
 	return "ValidationException"
 }
 
 // Message returns the exception's message.
-func (s ValidationException) Message() string {
+func (s *ValidationException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1494,22 +1507,22 @@ func (s ValidationException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ValidationException) OrigErr() error {
+func (s *ValidationException) OrigErr() error {
 	return nil
 }
 
-func (s ValidationException) Error() string {
+func (s *ValidationException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ValidationException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ValidationException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ValidationException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ValidationException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 const (

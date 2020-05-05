@@ -60,10 +60,10 @@
       "input":{"shape":"DeleteDatabaseRequest"},
       "output":{"shape":"DeleteDatabaseResponse"},
       "errors":[
-        {"shape":"ResourceInUseException"},
+        {"shape":"ConflictException"},
         {"shape":"ResourceNotFoundException"},
-        {"shape":"InvalidRequestException"},
-        {"shape":"ServiceUnavailableException"}
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
       ],
       "endpointdiscovery":{"required":true}
     },
@@ -109,6 +109,10 @@
       },
       "input":{"shape":"DescribeEndpointsRequest"},
       "output":{"shape":"DescribeEndpointsResponse"},
+      "errors":[
+        {"shape":"InternalServerException"},
+        {"shape":"ValidationException"}
+      ],
       "endpointoperation":true
     },
     "DescribeTable":{
@@ -186,7 +190,7 @@
       "output":{"shape":"TagResourceResponse"},
       "errors":[
         {"shape":"ResourceNotFoundException"},
-        {"shape":"TooManyTagsException"},
+        {"shape":"ServiceQuotaExceededException"},
         {"shape":"ValidationException"}
       ],
       "endpointdiscovery":{"required":true}
@@ -201,7 +205,7 @@
       "output":{"shape":"UntagResourceResponse"},
       "errors":[
         {"shape":"ValidationException"},
-        {"shape":"TooManyTagsException"},
+        {"shape":"ServiceQuotaExceededException"},
         {"shape":"ResourceNotFoundException"}
       ],
       "endpointdiscovery":{"required":true}
@@ -235,7 +239,8 @@
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
         {"shape":"ResourceNotFoundException"},
-        {"shape":"AccessDeniedException"}
+        {"shape":"AccessDeniedException"},
+        {"shape":"RejectedRecordsException"}
       ],
       "endpointdiscovery":{"required":true}
     }
@@ -267,7 +272,8 @@
       "required":["DatabaseName"],
       "members":{
         "DatabaseName":{"shape":"ResourceName"},
-        "KmsKeyId":{"shape":"KmsKeyId"}
+        "KmsKeyId":{"shape":"KmsKeyId"},
+        "Tags":{"shape":"TagList"}
       }
     },
     "CreateDatabaseResponse":{
@@ -285,7 +291,8 @@
       "members":{
         "DatabaseName":{"shape":"ResourceName"},
         "TableName":{"shape":"ResourceName"},
-        "RetentionProperties":{"shape":"RetentionProperties"}
+        "RetentionProperties":{"shape":"RetentionProperties"},
+        "Tags":{"shape":"TagList"}
       }
     },
     "CreateTableResponse":{
@@ -384,6 +391,10 @@
     },
     "Dimension":{
       "type":"structure",
+      "required":[
+        "Name",
+        "Value"
+      ],
       "members":{
         "Name":{"shape":"StringValue"},
         "Value":{"shape":"StringValue"},
@@ -414,20 +425,10 @@
       "type":"list",
       "member":{"shape":"Endpoint"}
     },
-    "ErrorMessage":{
-      "type":"string",
-      "pattern":"^[a-zA-Z0-9_. ]{1,255}$"
-    },
+    "ErrorMessage":{"type":"string"},
     "InternalServerException":{
       "type":"structure",
       "required":["Message"],
-      "members":{
-        "Message":{"shape":"ErrorMessage"}
-      },
-      "exception":true
-    },
-    "InvalidRequestException":{
-      "type":"structure",
       "members":{
         "Message":{"shape":"ErrorMessage"}
       },
@@ -487,9 +488,19 @@
       "max":2555,
       "min":1
     },
+    "MeasureValue":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
     "MeasureValueType":{
       "type":"string",
-      "enum":["DOUBLE"]
+      "enum":[
+        "DOUBLE",
+        "BIGINT",
+        "VARCHAR",
+        "BOOLEAN"
+      ]
     },
     "MemoryStoreRetentionPeriodInHours":{
       "type":"long",
@@ -501,29 +512,42 @@
       "type":"integer",
       "box":true,
       "max":20,
-      "min":0
+      "min":1
     },
     "Record":{
       "type":"structure",
       "members":{
         "Dimensions":{"shape":"Dimensions"},
         "MeasureName":{"shape":"StringValue"},
-        "MeasureValue":{"shape":"StringValue"},
+        "MeasureValue":{"shape":"MeasureValue"},
         "MeasureValueType":{"shape":"MeasureValueType"},
         "Timestamp":{"shape":"StringValue"},
         "TimestampUnit":{"shape":"TimestampUnit"}
       }
     },
+    "RecordIndex":{"type":"integer"},
     "Records":{
       "type":"list",
       "member":{"shape":"Record"},
-      "max":1000,
+      "max":100,
       "min":1
     },
-    "ResourceInUseException":{
+    "RejectedRecord":{
       "type":"structure",
       "members":{
-        "Message":{"shape":"ErrorMessage"}
+        "RecordIndex":{"shape":"RecordIndex"},
+        "Reason":{"shape":"ErrorMessage"}
+      }
+    },
+    "RejectedRecords":{
+      "type":"list",
+      "member":{"shape":"RejectedRecord"}
+    },
+    "RejectedRecordsException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"},
+        "RejectedRecords":{"shape":"RejectedRecords"}
       },
       "exception":true
     },
@@ -551,22 +575,12 @@
         "MagneticStoreRetentionPeriodInDays":{"shape":"MagneticStoreRetentionPeriodInDays"}
       }
     },
-    "ServiceErrorMessage":{"type":"string"},
     "ServiceQuotaExceededException":{
       "type":"structure",
       "members":{
         "Message":{"shape":"ErrorMessage"}
       },
       "exception":true
-    },
-    "ServiceUnavailableException":{
-      "type":"structure",
-      "members":{
-        "Message":{"shape":"ServiceErrorMessage"}
-      },
-      "exception":true,
-      "fault":true,
-      "synthetic":true
     },
     "String":{"type":"string"},
     "StringValue":{
@@ -580,8 +594,8 @@
         "Arn":{"shape":"TableARN"},
         "TableName":{"shape":"ResourceName"},
         "DatabaseName":{"shape":"ResourceName"},
-        "RetentionProperties":{"shape":"RetentionProperties"},
         "TableStatus":{"shape":"TableStatus"},
+        "RetentionProperties":{"shape":"RetentionProperties"},
         "CreationTime":{"shape":"Date"},
         "LastUpdatedTime":{"shape":"Date"}
       }
@@ -664,14 +678,6 @@
         "NANOSECONDS"
       ]
     },
-    "TooManyTagsException":{
-      "type":"structure",
-      "members":{
-        "Message":{"shape":"ErrorMessage"},
-        "ResourceName":{"shape":"AmazonResourceName"}
-      },
-      "exception":true
-    },
     "UntagResourceRequest":{
       "type":"structure",
       "required":[
@@ -719,7 +725,8 @@
       "type":"structure",
       "required":[
         "DatabaseName",
-        "TableName"
+        "TableName",
+        "Records"
       ],
       "members":{
         "DatabaseName":{"shape":"Name"},

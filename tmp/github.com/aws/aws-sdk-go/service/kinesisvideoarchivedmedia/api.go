@@ -830,8 +830,8 @@ func (c *KinesisVideoArchivedMedia) ListFragmentsPagesWithContext(ctx aws.Contex
 // Kinesis Video Streams has throttled the request because you have exceeded
 // the limit of allowed client calls. Try making the call later.
 type ClientLimitExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -848,17 +848,17 @@ func (s ClientLimitExceededException) GoString() string {
 
 func newErrorClientLimitExceededException(v protocol.ResponseMetadata) error {
 	return &ClientLimitExceededException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ClientLimitExceededException) Code() string {
+func (s *ClientLimitExceededException) Code() string {
 	return "ClientLimitExceededException"
 }
 
 // Message returns the exception's message.
-func (s ClientLimitExceededException) Message() string {
+func (s *ClientLimitExceededException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -866,22 +866,22 @@ func (s ClientLimitExceededException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ClientLimitExceededException) OrigErr() error {
+func (s *ClientLimitExceededException) OrigErr() error {
 	return nil
 }
 
-func (s ClientLimitExceededException) Error() string {
+func (s *ClientLimitExceededException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ClientLimitExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ClientLimitExceededException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ClientLimitExceededException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ClientLimitExceededException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Contains the range of timestamps for the requested media, and the source
@@ -1874,8 +1874,8 @@ func (s *HLSTimestampRange) SetStartTimestamp(v time.Time) *HLSTimestampRange {
 // A specified parameter exceeds its restrictions, is not supported, or can't
 // be used.
 type InvalidArgumentException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1892,17 +1892,17 @@ func (s InvalidArgumentException) GoString() string {
 
 func newErrorInvalidArgumentException(v protocol.ResponseMetadata) error {
 	return &InvalidArgumentException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InvalidArgumentException) Code() string {
+func (s *InvalidArgumentException) Code() string {
 	return "InvalidArgumentException"
 }
 
 // Message returns the exception's message.
-func (s InvalidArgumentException) Message() string {
+func (s *InvalidArgumentException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1910,29 +1910,29 @@ func (s InvalidArgumentException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidArgumentException) OrigErr() error {
+func (s *InvalidArgumentException) OrigErr() error {
 	return nil
 }
 
-func (s InvalidArgumentException) Error() string {
+func (s *InvalidArgumentException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InvalidArgumentException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InvalidArgumentException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InvalidArgumentException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InvalidArgumentException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The codec private data in at least one of the tracks of the video stream
 // is not valid for this operation.
 type InvalidCodecPrivateDataException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1949,17 +1949,17 @@ func (s InvalidCodecPrivateDataException) GoString() string {
 
 func newErrorInvalidCodecPrivateDataException(v protocol.ResponseMetadata) error {
 	return &InvalidCodecPrivateDataException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InvalidCodecPrivateDataException) Code() string {
+func (s *InvalidCodecPrivateDataException) Code() string {
 	return "InvalidCodecPrivateDataException"
 }
 
 // Message returns the exception's message.
-func (s InvalidCodecPrivateDataException) Message() string {
+func (s *InvalidCodecPrivateDataException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1967,22 +1967,22 @@ func (s InvalidCodecPrivateDataException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidCodecPrivateDataException) OrigErr() error {
+func (s *InvalidCodecPrivateDataException) OrigErr() error {
 	return nil
 }
 
-func (s InvalidCodecPrivateDataException) Error() string {
+func (s *InvalidCodecPrivateDataException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InvalidCodecPrivateDataException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InvalidCodecPrivateDataException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InvalidCodecPrivateDataException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InvalidCodecPrivateDataException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type ListFragmentsInput struct {
@@ -2105,8 +2105,8 @@ func (s *ListFragmentsOutput) SetNextToken(v string) *ListFragmentsOutput {
 
 // No codec private data was found in at least one of tracks of the video stream.
 type MissingCodecPrivateDataException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2123,17 +2123,17 @@ func (s MissingCodecPrivateDataException) GoString() string {
 
 func newErrorMissingCodecPrivateDataException(v protocol.ResponseMetadata) error {
 	return &MissingCodecPrivateDataException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s MissingCodecPrivateDataException) Code() string {
+func (s *MissingCodecPrivateDataException) Code() string {
 	return "MissingCodecPrivateDataException"
 }
 
 // Message returns the exception's message.
-func (s MissingCodecPrivateDataException) Message() string {
+func (s *MissingCodecPrivateDataException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2141,29 +2141,29 @@ func (s MissingCodecPrivateDataException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s MissingCodecPrivateDataException) OrigErr() error {
+func (s *MissingCodecPrivateDataException) OrigErr() error {
 	return nil
 }
 
-func (s MissingCodecPrivateDataException) Error() string {
+func (s *MissingCodecPrivateDataException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s MissingCodecPrivateDataException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *MissingCodecPrivateDataException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s MissingCodecPrivateDataException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *MissingCodecPrivateDataException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // A streaming session was requested for a stream that does not retain data
 // (that is, has a DataRetentionInHours of 0).
 type NoDataRetentionException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2180,17 +2180,17 @@ func (s NoDataRetentionException) GoString() string {
 
 func newErrorNoDataRetentionException(v protocol.ResponseMetadata) error {
 	return &NoDataRetentionException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s NoDataRetentionException) Code() string {
+func (s *NoDataRetentionException) Code() string {
 	return "NoDataRetentionException"
 }
 
 // Message returns the exception's message.
-func (s NoDataRetentionException) Message() string {
+func (s *NoDataRetentionException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2198,29 +2198,29 @@ func (s NoDataRetentionException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s NoDataRetentionException) OrigErr() error {
+func (s *NoDataRetentionException) OrigErr() error {
 	return nil
 }
 
-func (s NoDataRetentionException) Error() string {
+func (s *NoDataRetentionException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s NoDataRetentionException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *NoDataRetentionException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s NoDataRetentionException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *NoDataRetentionException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Status Code: 403, The caller is not authorized to perform an operation on
 // the given stream, or the token has expired.
 type NotAuthorizedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2237,17 +2237,17 @@ func (s NotAuthorizedException) GoString() string {
 
 func newErrorNotAuthorizedException(v protocol.ResponseMetadata) error {
 	return &NotAuthorizedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s NotAuthorizedException) Code() string {
+func (s *NotAuthorizedException) Code() string {
 	return "NotAuthorizedException"
 }
 
 // Message returns the exception's message.
-func (s NotAuthorizedException) Message() string {
+func (s *NotAuthorizedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2255,22 +2255,22 @@ func (s NotAuthorizedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s NotAuthorizedException) OrigErr() error {
+func (s *NotAuthorizedException) OrigErr() error {
 	return nil
 }
 
-func (s NotAuthorizedException) Error() string {
+func (s *NotAuthorizedException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s NotAuthorizedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *NotAuthorizedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s NotAuthorizedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *NotAuthorizedException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // GetMedia throws this error when Kinesis Video Streams can't find the stream
@@ -2282,8 +2282,8 @@ func (s NotAuthorizedException) RequestID() string {
 // a session with a PlaybackMode of LIVE is requested for a stream that has
 // no fragments within the last 30 seconds.
 type ResourceNotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2300,17 +2300,17 @@ func (s ResourceNotFoundException) GoString() string {
 
 func newErrorResourceNotFoundException(v protocol.ResponseMetadata) error {
 	return &ResourceNotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ResourceNotFoundException) Code() string {
+func (s *ResourceNotFoundException) Code() string {
 	return "ResourceNotFoundException"
 }
 
 // Message returns the exception's message.
-func (s ResourceNotFoundException) Message() string {
+func (s *ResourceNotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2318,22 +2318,22 @@ func (s ResourceNotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResourceNotFoundException) OrigErr() error {
+func (s *ResourceNotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s ResourceNotFoundException) Error() string {
+func (s *ResourceNotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ResourceNotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ResourceNotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ResourceNotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ResourceNotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The range of timestamps for which to return fragments.
@@ -2394,8 +2394,8 @@ func (s *TimestampRange) SetStartTimestamp(v time.Time) *TimestampRange {
 // fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC
 // and, optionally, the codec ID for track 2 should be A_AAC.
 type UnsupportedStreamMediaTypeException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2412,17 +2412,17 @@ func (s UnsupportedStreamMediaTypeException) GoString() string {
 
 func newErrorUnsupportedStreamMediaTypeException(v protocol.ResponseMetadata) error {
 	return &UnsupportedStreamMediaTypeException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnsupportedStreamMediaTypeException) Code() string {
+func (s *UnsupportedStreamMediaTypeException) Code() string {
 	return "UnsupportedStreamMediaTypeException"
 }
 
 // Message returns the exception's message.
-func (s UnsupportedStreamMediaTypeException) Message() string {
+func (s *UnsupportedStreamMediaTypeException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2430,22 +2430,22 @@ func (s UnsupportedStreamMediaTypeException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnsupportedStreamMediaTypeException) OrigErr() error {
+func (s *UnsupportedStreamMediaTypeException) OrigErr() error {
 	return nil
 }
 
-func (s UnsupportedStreamMediaTypeException) Error() string {
+func (s *UnsupportedStreamMediaTypeException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnsupportedStreamMediaTypeException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnsupportedStreamMediaTypeException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnsupportedStreamMediaTypeException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnsupportedStreamMediaTypeException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 const (

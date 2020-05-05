@@ -852,8 +852,8 @@ func (u unmarshalerForEventStreamEvent) UnmarshalerForEventName(eventType string
 }
 
 type ExceptionEvent struct {
-	_            struct{} `locationName:"ExceptionEvent" type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `locationName:"ExceptionEvent" type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	IntVal *int64 `type:"integer"`
 
@@ -899,17 +899,17 @@ func (s *ExceptionEvent) MarshalEvent(pm protocol.PayloadMarshaler) (msg eventst
 
 func newErrorExceptionEvent(v protocol.ResponseMetadata) error {
 	return &ExceptionEvent{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ExceptionEvent) Code() string {
+func (s *ExceptionEvent) Code() string {
 	return "ExceptionEvent"
 }
 
 // Message returns the exception's message.
-func (s ExceptionEvent) Message() string {
+func (s *ExceptionEvent) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -917,27 +917,27 @@ func (s ExceptionEvent) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ExceptionEvent) OrigErr() error {
+func (s *ExceptionEvent) OrigErr() error {
 	return nil
 }
 
-func (s ExceptionEvent) Error() string {
+func (s *ExceptionEvent) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ExceptionEvent) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ExceptionEvent) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ExceptionEvent) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ExceptionEvent) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type ExceptionEvent2 struct {
-	_            struct{} `locationName:"ExceptionEvent2" type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `locationName:"ExceptionEvent2" type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -981,17 +981,17 @@ func (s *ExceptionEvent2) MarshalEvent(pm protocol.PayloadMarshaler) (msg events
 
 func newErrorExceptionEvent2(v protocol.ResponseMetadata) error {
 	return &ExceptionEvent2{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ExceptionEvent2) Code() string {
+func (s *ExceptionEvent2) Code() string {
 	return "ExceptionEvent2"
 }
 
 // Message returns the exception's message.
-func (s ExceptionEvent2) Message() string {
+func (s *ExceptionEvent2) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -999,22 +999,22 @@ func (s ExceptionEvent2) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ExceptionEvent2) OrigErr() error {
+func (s *ExceptionEvent2) OrigErr() error {
 	return nil
 }
 
-func (s ExceptionEvent2) Error() string {
+func (s *ExceptionEvent2) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ExceptionEvent2) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ExceptionEvent2) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ExceptionEvent2) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ExceptionEvent2) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type ExplicitPayloadEvent struct {

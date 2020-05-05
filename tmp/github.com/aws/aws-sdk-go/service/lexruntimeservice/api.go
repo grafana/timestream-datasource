@@ -638,8 +638,8 @@ func (c *LexRuntimeService) PutSessionWithContext(ctx aws.Context, input *PutSes
 // Either the Amazon Lex bot is still building, or one of the dependent services
 // (Amazon Polly, AWS Lambda) failed with an internal service error.
 type BadGatewayException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -656,17 +656,17 @@ func (s BadGatewayException) GoString() string {
 
 func newErrorBadGatewayException(v protocol.ResponseMetadata) error {
 	return &BadGatewayException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s BadGatewayException) Code() string {
+func (s *BadGatewayException) Code() string {
 	return "BadGatewayException"
 }
 
 // Message returns the exception's message.
-func (s BadGatewayException) Message() string {
+func (s *BadGatewayException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -674,29 +674,29 @@ func (s BadGatewayException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s BadGatewayException) OrigErr() error {
+func (s *BadGatewayException) OrigErr() error {
 	return nil
 }
 
-func (s BadGatewayException) Error() string {
+func (s *BadGatewayException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s BadGatewayException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *BadGatewayException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s BadGatewayException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *BadGatewayException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Request validation failed, there is no usable message in the context, or
 // the bot build failed, is still in progress, or contains unbuilt changes.
 type BadRequestException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -713,17 +713,17 @@ func (s BadRequestException) GoString() string {
 
 func newErrorBadRequestException(v protocol.ResponseMetadata) error {
 	return &BadRequestException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s BadRequestException) Code() string {
+func (s *BadRequestException) Code() string {
 	return "BadRequestException"
 }
 
 // Message returns the exception's message.
-func (s BadRequestException) Message() string {
+func (s *BadRequestException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -731,22 +731,22 @@ func (s BadRequestException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s BadRequestException) OrigErr() error {
+func (s *BadRequestException) OrigErr() error {
 	return nil
 }
 
-func (s BadRequestException) Error() string {
+func (s *BadRequestException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s BadRequestException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *BadRequestException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s BadRequestException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *BadRequestException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Represents an option to be shown on the client platform (Facebook, Slack,
@@ -791,8 +791,8 @@ func (s *Button) SetValue(v string) *Button {
 
 // Two clients are using the same AWS account, Amazon Lex bot, and user ID.
 type ConflictException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -809,17 +809,17 @@ func (s ConflictException) GoString() string {
 
 func newErrorConflictException(v protocol.ResponseMetadata) error {
 	return &ConflictException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ConflictException) Code() string {
+func (s *ConflictException) Code() string {
 	return "ConflictException"
 }
 
 // Message returns the exception's message.
-func (s ConflictException) Message() string {
+func (s *ConflictException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -827,22 +827,22 @@ func (s ConflictException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ConflictException) OrigErr() error {
+func (s *ConflictException) OrigErr() error {
 	return nil
 }
 
-func (s ConflictException) Error() string {
+func (s *ConflictException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ConflictException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ConflictException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ConflictException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ConflictException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type DeleteSessionInput struct {
@@ -981,8 +981,8 @@ func (s *DeleteSessionOutput) SetUserId(v string) *DeleteSessionOutput {
 //    * If a fulfillment Lambda function returns a Delegate dialog action without
 //    removing any slot values.
 type DependencyFailedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -999,17 +999,17 @@ func (s DependencyFailedException) GoString() string {
 
 func newErrorDependencyFailedException(v protocol.ResponseMetadata) error {
 	return &DependencyFailedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s DependencyFailedException) Code() string {
+func (s *DependencyFailedException) Code() string {
 	return "DependencyFailedException"
 }
 
 // Message returns the exception's message.
-func (s DependencyFailedException) Message() string {
+func (s *DependencyFailedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1017,22 +1017,22 @@ func (s DependencyFailedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s DependencyFailedException) OrigErr() error {
+func (s *DependencyFailedException) OrigErr() error {
 	return nil
 }
 
-func (s DependencyFailedException) Error() string {
+func (s *DependencyFailedException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s DependencyFailedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *DependencyFailedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s DependencyFailedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *DependencyFailedException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Describes the next action that the bot should take in its interaction with
@@ -1518,8 +1518,8 @@ func (s *IntentSummary) SetSlots(v map[string]*string) *IntentSummary {
 
 // Internal service error. Retry the call.
 type InternalFailureException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -1536,17 +1536,17 @@ func (s InternalFailureException) GoString() string {
 
 func newErrorInternalFailureException(v protocol.ResponseMetadata) error {
 	return &InternalFailureException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InternalFailureException) Code() string {
+func (s *InternalFailureException) Code() string {
 	return "InternalFailureException"
 }
 
 // Message returns the exception's message.
-func (s InternalFailureException) Message() string {
+func (s *InternalFailureException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1554,28 +1554,28 @@ func (s InternalFailureException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InternalFailureException) OrigErr() error {
+func (s *InternalFailureException) OrigErr() error {
 	return nil
 }
 
-func (s InternalFailureException) Error() string {
+func (s *InternalFailureException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InternalFailureException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InternalFailureException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InternalFailureException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InternalFailureException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Exceeded a limit.
 type LimitExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 
@@ -1594,17 +1594,17 @@ func (s LimitExceededException) GoString() string {
 
 func newErrorLimitExceededException(v protocol.ResponseMetadata) error {
 	return &LimitExceededException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s LimitExceededException) Code() string {
+func (s *LimitExceededException) Code() string {
 	return "LimitExceededException"
 }
 
 // Message returns the exception's message.
-func (s LimitExceededException) Message() string {
+func (s *LimitExceededException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1612,28 +1612,28 @@ func (s LimitExceededException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s LimitExceededException) OrigErr() error {
+func (s *LimitExceededException) OrigErr() error {
 	return nil
 }
 
-func (s LimitExceededException) Error() string {
+func (s *LimitExceededException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s LimitExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *LimitExceededException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s LimitExceededException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *LimitExceededException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // This exception is not used.
 type LoopDetectedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1650,17 +1650,17 @@ func (s LoopDetectedException) GoString() string {
 
 func newErrorLoopDetectedException(v protocol.ResponseMetadata) error {
 	return &LoopDetectedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s LoopDetectedException) Code() string {
+func (s *LoopDetectedException) Code() string {
 	return "LoopDetectedException"
 }
 
 // Message returns the exception's message.
-func (s LoopDetectedException) Message() string {
+func (s *LoopDetectedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1668,28 +1668,28 @@ func (s LoopDetectedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s LoopDetectedException) OrigErr() error {
+func (s *LoopDetectedException) OrigErr() error {
 	return nil
 }
 
-func (s LoopDetectedException) Error() string {
+func (s *LoopDetectedException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s LoopDetectedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *LoopDetectedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s LoopDetectedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *LoopDetectedException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The accept header in the request does not have a valid value.
 type NotAcceptableException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -1706,17 +1706,17 @@ func (s NotAcceptableException) GoString() string {
 
 func newErrorNotAcceptableException(v protocol.ResponseMetadata) error {
 	return &NotAcceptableException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s NotAcceptableException) Code() string {
+func (s *NotAcceptableException) Code() string {
 	return "NotAcceptableException"
 }
 
 // Message returns the exception's message.
-func (s NotAcceptableException) Message() string {
+func (s *NotAcceptableException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1724,29 +1724,29 @@ func (s NotAcceptableException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s NotAcceptableException) OrigErr() error {
+func (s *NotAcceptableException) OrigErr() error {
 	return nil
 }
 
-func (s NotAcceptableException) Error() string {
+func (s *NotAcceptableException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s NotAcceptableException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *NotAcceptableException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s NotAcceptableException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *NotAcceptableException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The resource (such as the Amazon Lex bot or an alias) that is referred to
 // is not found.
 type NotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -1763,17 +1763,17 @@ func (s NotFoundException) GoString() string {
 
 func newErrorNotFoundException(v protocol.ResponseMetadata) error {
 	return &NotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s NotFoundException) Code() string {
+func (s *NotFoundException) Code() string {
 	return "NotFoundException"
 }
 
 // Message returns the exception's message.
-func (s NotFoundException) Message() string {
+func (s *NotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1781,22 +1781,22 @@ func (s NotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s NotFoundException) OrigErr() error {
+func (s *NotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s NotFoundException) Error() string {
+func (s *NotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s NotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *NotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s NotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *NotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type PostContentInput struct {
@@ -2838,8 +2838,8 @@ func (s *PutSessionOutput) SetSlots(v aws.JSONValue) *PutSessionOutput {
 
 // The input speech is too long.
 type RequestTimeoutException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -2856,17 +2856,17 @@ func (s RequestTimeoutException) GoString() string {
 
 func newErrorRequestTimeoutException(v protocol.ResponseMetadata) error {
 	return &RequestTimeoutException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s RequestTimeoutException) Code() string {
+func (s *RequestTimeoutException) Code() string {
 	return "RequestTimeoutException"
 }
 
 // Message returns the exception's message.
-func (s RequestTimeoutException) Message() string {
+func (s *RequestTimeoutException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2874,22 +2874,22 @@ func (s RequestTimeoutException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s RequestTimeoutException) OrigErr() error {
+func (s *RequestTimeoutException) OrigErr() error {
 	return nil
 }
 
-func (s RequestTimeoutException) Error() string {
+func (s *RequestTimeoutException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s RequestTimeoutException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *RequestTimeoutException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s RequestTimeoutException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *RequestTimeoutException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // If you configure a response card when creating your bots, Amazon Lex substitutes
@@ -2976,8 +2976,8 @@ func (s *SentimentResponse) SetSentimentScore(v string) *SentimentResponse {
 
 // The Content-Type header (PostContent API) has an invalid value.
 type UnsupportedMediaTypeException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -2994,17 +2994,17 @@ func (s UnsupportedMediaTypeException) GoString() string {
 
 func newErrorUnsupportedMediaTypeException(v protocol.ResponseMetadata) error {
 	return &UnsupportedMediaTypeException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnsupportedMediaTypeException) Code() string {
+func (s *UnsupportedMediaTypeException) Code() string {
 	return "UnsupportedMediaTypeException"
 }
 
 // Message returns the exception's message.
-func (s UnsupportedMediaTypeException) Message() string {
+func (s *UnsupportedMediaTypeException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3012,22 +3012,22 @@ func (s UnsupportedMediaTypeException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnsupportedMediaTypeException) OrigErr() error {
+func (s *UnsupportedMediaTypeException) OrigErr() error {
 	return nil
 }
 
-func (s UnsupportedMediaTypeException) Error() string {
+func (s *UnsupportedMediaTypeException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnsupportedMediaTypeException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnsupportedMediaTypeException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnsupportedMediaTypeException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnsupportedMediaTypeException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 const (

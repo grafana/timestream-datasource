@@ -1,8 +1,9 @@
 {
   "version": "2.0",
-  "service": "<p> Amazon Timestream is a fast, scalable, fully managed time series database service that makes it easy to store and analyze trillions of time series data points per day. With Timestream, you can easily store and analyze IoT sensor data to derive insights from your IoT applications. You can analyze industrial telemetry to streamline equipment management and maintenance. You can also store and analyze log data and metrics to improve the performance and availability of your applications. Timestream is built from the ground up to effectively ingest, process, and store time series data. It organizes data to optimize query processing. It automatically scales based on the volume of data ingested and on the query volume to ensure you receive optimal performance while inserting and querying data. As your data grows over time, Timestream’s adaptive query processing engine spans across storage tiers to provide fast analysis while reducing costs. </p>",
+  "service": "<p> </p>",
   "operations": {
-    "DescribeEndpoints": null,
+    "CancelQuery": null,
+    "DescribeEndpoints": "<p> </p>",
     "Query": "<p> Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. To receive truncated results, you must set AllowResultTruncation to true. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide. </p>"
   },
   "shapes": {
@@ -17,10 +18,20 @@
         "ThrottlingException$message": null
       }
     },
-    "Boolean": {
+    "CancelQueryRequest": {
       "base": null,
       "refs": {
-        "QueryResponse$IsDataTruncated": "<p> An indicator for whether the result set is truncated. </p>"
+      }
+    },
+    "CancelQueryResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ClientRequestToken": {
+      "base": null,
+      "refs": {
+        "QueryRequest$ClientToken": null
       }
     },
     "ColumnInfo": {
@@ -63,7 +74,7 @@
       }
     },
     "Endpoint": {
-      "base": null,
+      "base": "<p> </p>",
       "refs": {
         "Endpoints$member": null
       }
@@ -71,15 +82,13 @@
     "Endpoints": {
       "base": null,
       "refs": {
-        "DescribeEndpointsResponse$Endpoints": null
+        "DescribeEndpointsResponse$Endpoints": "<p> </p>"
       }
     },
     "ErrorMessage": {
       "base": null,
       "refs": {
         "InternalServerException$Message": null,
-        "ResultSizeExceededException$message": null,
-        "TimeoutException$message": null,
         "ValidationException$Message": null
       }
     },
@@ -91,14 +100,19 @@
     "Long": {
       "base": null,
       "refs": {
-        "Endpoint$CachePeriodInMinutes": null
+        "Endpoint$CachePeriodInMinutes": "<p> </p>"
+      }
+    },
+    "MaxQueryResults": {
+      "base": null,
+      "refs": {
+        "QueryRequest$MaxRows": null
       }
     },
     "NullableBoolean": {
       "base": null,
       "refs": {
-        "Datum$NullValue": "<p> Indicates if the data point is null. </p>",
-        "QueryRequest$AllowResultTruncation": "<p> Indicates if Query should return truncated results if the result set exceeds 1MB. The default value for this parameter is false. You need to set this to true to accept truncated data. </p>"
+        "Datum$NullValue": "<p> Indicates if the data point is null. </p>"
       }
     },
     "QueryRequest": {
@@ -108,17 +122,6 @@
     },
     "QueryResponse": {
       "base": null,
-      "refs": {
-      }
-    },
-    "QueryString": {
-      "base": null,
-      "refs": {
-        "QueryRequest$QueryString": "<p> The query to be executed by Timestream. </p>"
-      }
-    },
-    "ResultSizeExceededException": {
-      "base": "<p> The result size of this operation exceeded the specified limits. </p>",
       "refs": {
       }
     },
@@ -156,8 +159,15 @@
     "String": {
       "base": null,
       "refs": {
+        "CancelQueryRequest$QueryId": null,
+        "CancelQueryResponse$CancellationMessage": null,
         "ColumnInfo$Name": "<p> The name of the result set column. The name of the result set is available for columns of all data types except for arrays. </p>",
-        "Endpoint$Address": null
+        "Endpoint$Address": "<p> </p>",
+        "QueryRequest$QueryString": "<p> The query to be executed by Timestream. </p>",
+        "QueryRequest$QueryDescription": null,
+        "QueryRequest$NextToken": null,
+        "QueryResponse$QueryId": null,
+        "QueryResponse$NextToken": null
       }
     },
     "ThrottlingException": {
@@ -175,11 +185,6 @@
       "base": null,
       "refs": {
         "Datum$TimeSeriesValue": "<p> Indicates if the data point is of timeseries data type. </p>"
-      }
-    },
-    "TimeoutException": {
-      "base": "<p> The query execution time has exceeded the max time allotted for this query. For more information, see Quotas in the Timestream Developer Guide. </p>",
-      "refs": {
       }
     },
     "Timestamp": {

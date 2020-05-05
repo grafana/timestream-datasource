@@ -3003,8 +3003,8 @@ func (s *DisableDomainTransferLockOutput) SetOperationId(v string) *DisableDomai
 
 // The number of domains has exceeded the allowed threshold for the account.
 type DomainLimitExceeded struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// The number of domains has exceeded the allowed threshold for the account.
 	Message_ *string `locationName:"message" type:"string"`
@@ -3022,17 +3022,17 @@ func (s DomainLimitExceeded) GoString() string {
 
 func newErrorDomainLimitExceeded(v protocol.ResponseMetadata) error {
 	return &DomainLimitExceeded{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s DomainLimitExceeded) Code() string {
+func (s *DomainLimitExceeded) Code() string {
 	return "DomainLimitExceeded"
 }
 
 // Message returns the exception's message.
-func (s DomainLimitExceeded) Message() string {
+func (s *DomainLimitExceeded) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3040,22 +3040,22 @@ func (s DomainLimitExceeded) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s DomainLimitExceeded) OrigErr() error {
+func (s *DomainLimitExceeded) OrigErr() error {
 	return nil
 }
 
-func (s DomainLimitExceeded) Error() string {
+func (s *DomainLimitExceeded) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s DomainLimitExceeded) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *DomainLimitExceeded) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s DomainLimitExceeded) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *DomainLimitExceeded) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Information about one suggested domain name.
@@ -3233,8 +3233,8 @@ func (s *DomainTransferability) SetTransferable(v string) *DomainTransferability
 
 // The request is already in progress for the domain.
 type DuplicateRequest struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// The request is already in progress for the domain.
 	Message_ *string `locationName:"message" type:"string"`
@@ -3252,17 +3252,17 @@ func (s DuplicateRequest) GoString() string {
 
 func newErrorDuplicateRequest(v protocol.ResponseMetadata) error {
 	return &DuplicateRequest{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s DuplicateRequest) Code() string {
+func (s *DuplicateRequest) Code() string {
 	return "DuplicateRequest"
 }
 
 // Message returns the exception's message.
-func (s DuplicateRequest) Message() string {
+func (s *DuplicateRequest) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3270,22 +3270,22 @@ func (s DuplicateRequest) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s DuplicateRequest) OrigErr() error {
+func (s *DuplicateRequest) OrigErr() error {
 	return nil
 }
 
-func (s DuplicateRequest) Error() string {
+func (s *DuplicateRequest) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s DuplicateRequest) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *DuplicateRequest) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s DuplicateRequest) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *DuplicateRequest) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type EnableDomainAutoRenewInput struct {
@@ -4054,8 +4054,8 @@ func (s *GetOperationDetailOutput) SetType(v string) *GetOperationDetailOutput {
 // might refer to the ID of an operation that is already completed. For a domain
 // name, it might not be a valid domain name or belong to the requester account.
 type InvalidInput struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// The requested item is not acceptable. For example, for an OperationId it
 	// might refer to the ID of an operation that is already completed. For a domain
@@ -4075,17 +4075,17 @@ func (s InvalidInput) GoString() string {
 
 func newErrorInvalidInput(v protocol.ResponseMetadata) error {
 	return &InvalidInput{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InvalidInput) Code() string {
+func (s *InvalidInput) Code() string {
 	return "InvalidInput"
 }
 
 // Message returns the exception's message.
-func (s InvalidInput) Message() string {
+func (s *InvalidInput) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -4093,22 +4093,22 @@ func (s InvalidInput) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidInput) OrigErr() error {
+func (s *InvalidInput) OrigErr() error {
 	return nil
 }
 
-func (s InvalidInput) Error() string {
+func (s *InvalidInput) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InvalidInput) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InvalidInput) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InvalidInput) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InvalidInput) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The ListDomains request includes the following elements.
@@ -4401,8 +4401,8 @@ func (s *Nameserver) SetName(v string) *Nameserver {
 // The number of operations or jobs running exceeded the allowed threshold for
 // the account.
 type OperationLimitExceeded struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// The number of operations or jobs running exceeded the allowed threshold for
 	// the account.
@@ -4421,17 +4421,17 @@ func (s OperationLimitExceeded) GoString() string {
 
 func newErrorOperationLimitExceeded(v protocol.ResponseMetadata) error {
 	return &OperationLimitExceeded{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s OperationLimitExceeded) Code() string {
+func (s *OperationLimitExceeded) Code() string {
 	return "OperationLimitExceeded"
 }
 
 // Message returns the exception's message.
-func (s OperationLimitExceeded) Message() string {
+func (s *OperationLimitExceeded) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -4439,22 +4439,22 @@ func (s OperationLimitExceeded) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s OperationLimitExceeded) OrigErr() error {
+func (s *OperationLimitExceeded) OrigErr() error {
 	return nil
 }
 
-func (s OperationLimitExceeded) Error() string {
+func (s *OperationLimitExceeded) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s OperationLimitExceeded) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *OperationLimitExceeded) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s OperationLimitExceeded) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *OperationLimitExceeded) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // OperationSummary includes the following elements.
@@ -4967,8 +4967,8 @@ func (s *RetrieveDomainAuthCodeOutput) SetAuthCode(v string) *RetrieveDomainAuth
 
 // The top-level domain does not support this operation.
 type TLDRulesViolation struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// The top-level domain does not support this operation.
 	Message_ *string `locationName:"message" type:"string"`
@@ -4986,17 +4986,17 @@ func (s TLDRulesViolation) GoString() string {
 
 func newErrorTLDRulesViolation(v protocol.ResponseMetadata) error {
 	return &TLDRulesViolation{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s TLDRulesViolation) Code() string {
+func (s *TLDRulesViolation) Code() string {
 	return "TLDRulesViolation"
 }
 
 // Message returns the exception's message.
-func (s TLDRulesViolation) Message() string {
+func (s *TLDRulesViolation) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -5004,22 +5004,22 @@ func (s TLDRulesViolation) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s TLDRulesViolation) OrigErr() error {
+func (s *TLDRulesViolation) OrigErr() error {
 	return nil
 }
 
-func (s TLDRulesViolation) Error() string {
+func (s *TLDRulesViolation) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s TLDRulesViolation) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *TLDRulesViolation) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s TLDRulesViolation) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *TLDRulesViolation) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Each tag includes the following elements.
@@ -5309,8 +5309,8 @@ func (s *TransferDomainOutput) SetOperationId(v string) *TransferDomainOutput {
 
 // Amazon Route 53 does not support this top-level domain (TLD).
 type UnsupportedTLD struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// Amazon Route 53 does not support this top-level domain (TLD).
 	Message_ *string `locationName:"message" type:"string"`
@@ -5328,17 +5328,17 @@ func (s UnsupportedTLD) GoString() string {
 
 func newErrorUnsupportedTLD(v protocol.ResponseMetadata) error {
 	return &UnsupportedTLD{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnsupportedTLD) Code() string {
+func (s *UnsupportedTLD) Code() string {
 	return "UnsupportedTLD"
 }
 
 // Message returns the exception's message.
-func (s UnsupportedTLD) Message() string {
+func (s *UnsupportedTLD) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -5346,22 +5346,22 @@ func (s UnsupportedTLD) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnsupportedTLD) OrigErr() error {
+func (s *UnsupportedTLD) OrigErr() error {
 	return nil
 }
 
-func (s UnsupportedTLD) Error() string {
+func (s *UnsupportedTLD) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnsupportedTLD) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnsupportedTLD) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnsupportedTLD) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnsupportedTLD) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The UpdateDomainContact request includes the following elements.

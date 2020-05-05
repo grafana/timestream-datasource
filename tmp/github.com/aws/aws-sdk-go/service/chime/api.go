@@ -1659,6 +1659,105 @@ func (c *Chime) CreatePhoneNumberOrderWithContext(ctx aws.Context, input *Create
 	return out, req.Send()
 }
 
+const opCreateProxySession = "CreateProxySession"
+
+// CreateProxySessionRequest generates a "aws/request.Request" representing the
+// client's request for the CreateProxySession operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateProxySession for more information on using the CreateProxySession
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateProxySessionRequest method.
+//    req, resp := client.CreateProxySessionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/CreateProxySession
+func (c *Chime) CreateProxySessionRequest(input *CreateProxySessionInput) (req *request.Request, output *CreateProxySessionOutput) {
+	op := &request.Operation{
+		Name:       opCreateProxySession,
+		HTTPMethod: "POST",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/proxy-sessions",
+	}
+
+	if input == nil {
+		input = &CreateProxySessionInput{}
+	}
+
+	output = &CreateProxySessionOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateProxySession API operation for Amazon Chime.
+//
+// Creates a proxy session on the specified Amazon Chime Voice Connector for
+// the specified participant phone numbers.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation CreateProxySession for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/CreateProxySession
+func (c *Chime) CreateProxySession(input *CreateProxySessionInput) (*CreateProxySessionOutput, error) {
+	req, out := c.CreateProxySessionRequest(input)
+	return out, req.Send()
+}
+
+// CreateProxySessionWithContext is the same as CreateProxySession with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateProxySession for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) CreateProxySessionWithContext(ctx aws.Context, input *CreateProxySessionInput, opts ...request.Option) (*CreateProxySessionOutput, error) {
+	req, out := c.CreateProxySessionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opCreateRoom = "CreateRoom"
 
 // CreateRoomRequest generates a "aws/request.Request" representing the
@@ -2704,6 +2803,106 @@ func (c *Chime) DeletePhoneNumberWithContext(ctx aws.Context, input *DeletePhone
 	return out, req.Send()
 }
 
+const opDeleteProxySession = "DeleteProxySession"
+
+// DeleteProxySessionRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteProxySession operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteProxySession for more information on using the DeleteProxySession
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteProxySessionRequest method.
+//    req, resp := client.DeleteProxySessionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/DeleteProxySession
+func (c *Chime) DeleteProxySessionRequest(input *DeleteProxySessionInput) (req *request.Request, output *DeleteProxySessionOutput) {
+	op := &request.Operation{
+		Name:       opDeleteProxySession,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}",
+	}
+
+	if input == nil {
+		input = &DeleteProxySessionInput{}
+	}
+
+	output = &DeleteProxySessionOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// DeleteProxySession API operation for Amazon Chime.
+//
+// Deletes the specified proxy session from the specified Amazon Chime Voice
+// Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation DeleteProxySession for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/DeleteProxySession
+func (c *Chime) DeleteProxySession(input *DeleteProxySessionInput) (*DeleteProxySessionOutput, error) {
+	req, out := c.DeleteProxySessionRequest(input)
+	return out, req.Send()
+}
+
+// DeleteProxySessionWithContext is the same as DeleteProxySession with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteProxySession for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) DeleteProxySessionWithContext(ctx aws.Context, input *DeleteProxySessionInput, opts ...request.Option) (*DeleteProxySessionOutput, error) {
+	req, out := c.DeleteProxySessionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDeleteRoom = "DeleteRoom"
 
 // DeleteRoomRequest generates a "aws/request.Request" representing the
@@ -3206,6 +3405,105 @@ func (c *Chime) DeleteVoiceConnectorOrigination(input *DeleteVoiceConnectorOrigi
 // for more information on using Contexts.
 func (c *Chime) DeleteVoiceConnectorOriginationWithContext(ctx aws.Context, input *DeleteVoiceConnectorOriginationInput, opts ...request.Option) (*DeleteVoiceConnectorOriginationOutput, error) {
 	req, out := c.DeleteVoiceConnectorOriginationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opDeleteVoiceConnectorProxy = "DeleteVoiceConnectorProxy"
+
+// DeleteVoiceConnectorProxyRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteVoiceConnectorProxy operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteVoiceConnectorProxy for more information on using the DeleteVoiceConnectorProxy
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteVoiceConnectorProxyRequest method.
+//    req, resp := client.DeleteVoiceConnectorProxyRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/DeleteVoiceConnectorProxy
+func (c *Chime) DeleteVoiceConnectorProxyRequest(input *DeleteVoiceConnectorProxyInput) (req *request.Request, output *DeleteVoiceConnectorProxyOutput) {
+	op := &request.Operation{
+		Name:       opDeleteVoiceConnectorProxy,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy",
+	}
+
+	if input == nil {
+		input = &DeleteVoiceConnectorProxyInput{}
+	}
+
+	output = &DeleteVoiceConnectorProxyOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// DeleteVoiceConnectorProxy API operation for Amazon Chime.
+//
+// Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation DeleteVoiceConnectorProxy for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/DeleteVoiceConnectorProxy
+func (c *Chime) DeleteVoiceConnectorProxy(input *DeleteVoiceConnectorProxyInput) (*DeleteVoiceConnectorProxyOutput, error) {
+	req, out := c.DeleteVoiceConnectorProxyRequest(input)
+	return out, req.Send()
+}
+
+// DeleteVoiceConnectorProxyWithContext is the same as DeleteVoiceConnectorProxy with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteVoiceConnectorProxy for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) DeleteVoiceConnectorProxyWithContext(ctx aws.Context, input *DeleteVoiceConnectorProxyInput, opts ...request.Option) (*DeleteVoiceConnectorProxyOutput, error) {
+	req, out := c.DeleteVoiceConnectorProxyRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -4898,6 +5196,105 @@ func (c *Chime) GetPhoneNumberSettingsWithContext(ctx aws.Context, input *GetPho
 	return out, req.Send()
 }
 
+const opGetProxySession = "GetProxySession"
+
+// GetProxySessionRequest generates a "aws/request.Request" representing the
+// client's request for the GetProxySession operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetProxySession for more information on using the GetProxySession
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetProxySessionRequest method.
+//    req, resp := client.GetProxySessionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetProxySession
+func (c *Chime) GetProxySessionRequest(input *GetProxySessionInput) (req *request.Request, output *GetProxySessionOutput) {
+	op := &request.Operation{
+		Name:       opGetProxySession,
+		HTTPMethod: "GET",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}",
+	}
+
+	if input == nil {
+		input = &GetProxySessionInput{}
+	}
+
+	output = &GetProxySessionOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetProxySession API operation for Amazon Chime.
+//
+// Gets the specified proxy session details for the specified Amazon Chime Voice
+// Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation GetProxySession for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetProxySession
+func (c *Chime) GetProxySession(input *GetProxySessionInput) (*GetProxySessionOutput, error) {
+	req, out := c.GetProxySessionRequest(input)
+	return out, req.Send()
+}
+
+// GetProxySessionWithContext is the same as GetProxySession with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetProxySession for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) GetProxySessionWithContext(ctx aws.Context, input *GetProxySessionInput, opts ...request.Option) (*GetProxySessionOutput, error) {
+	req, out := c.GetProxySessionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetRoom = "GetRoom"
 
 // GetRoomRequest generates a "aws/request.Request" representing the
@@ -5595,6 +5992,105 @@ func (c *Chime) GetVoiceConnectorOriginationWithContext(ctx aws.Context, input *
 	return out, req.Send()
 }
 
+const opGetVoiceConnectorProxy = "GetVoiceConnectorProxy"
+
+// GetVoiceConnectorProxyRequest generates a "aws/request.Request" representing the
+// client's request for the GetVoiceConnectorProxy operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetVoiceConnectorProxy for more information on using the GetVoiceConnectorProxy
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetVoiceConnectorProxyRequest method.
+//    req, resp := client.GetVoiceConnectorProxyRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetVoiceConnectorProxy
+func (c *Chime) GetVoiceConnectorProxyRequest(input *GetVoiceConnectorProxyInput) (req *request.Request, output *GetVoiceConnectorProxyOutput) {
+	op := &request.Operation{
+		Name:       opGetVoiceConnectorProxy,
+		HTTPMethod: "GET",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy",
+	}
+
+	if input == nil {
+		input = &GetVoiceConnectorProxyInput{}
+	}
+
+	output = &GetVoiceConnectorProxyOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetVoiceConnectorProxy API operation for Amazon Chime.
+//
+// Gets the proxy configuration details for the specified Amazon Chime Voice
+// Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation GetVoiceConnectorProxy for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetVoiceConnectorProxy
+func (c *Chime) GetVoiceConnectorProxy(input *GetVoiceConnectorProxyInput) (*GetVoiceConnectorProxyOutput, error) {
+	req, out := c.GetVoiceConnectorProxyRequest(input)
+	return out, req.Send()
+}
+
+// GetVoiceConnectorProxyWithContext is the same as GetVoiceConnectorProxy with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetVoiceConnectorProxy for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) GetVoiceConnectorProxyWithContext(ctx aws.Context, input *GetVoiceConnectorProxyInput, opts ...request.Option) (*GetVoiceConnectorProxyOutput, error) {
+	req, out := c.GetVoiceConnectorProxyRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetVoiceConnectorStreamingConfiguration = "GetVoiceConnectorStreamingConfiguration"
 
 // GetVoiceConnectorStreamingConfigurationRequest generates a "aws/request.Request" representing the
@@ -6153,6 +6649,104 @@ func (c *Chime) ListAccountsPagesWithContext(ctx aws.Context, input *ListAccount
 	return p.Err()
 }
 
+const opListAttendeeTags = "ListAttendeeTags"
+
+// ListAttendeeTagsRequest generates a "aws/request.Request" representing the
+// client's request for the ListAttendeeTags operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ListAttendeeTags for more information on using the ListAttendeeTags
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ListAttendeeTagsRequest method.
+//    req, resp := client.ListAttendeeTagsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListAttendeeTags
+func (c *Chime) ListAttendeeTagsRequest(input *ListAttendeeTagsInput) (req *request.Request, output *ListAttendeeTagsOutput) {
+	op := &request.Operation{
+		Name:       opListAttendeeTags,
+		HTTPMethod: "GET",
+		HTTPPath:   "/meetings/{meetingId}/attendees/{attendeeId}/tags",
+	}
+
+	if input == nil {
+		input = &ListAttendeeTagsInput{}
+	}
+
+	output = &ListAttendeeTagsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ListAttendeeTags API operation for Amazon Chime.
+//
+// Lists the tags applied to an Amazon Chime SDK attendee resource.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation ListAttendeeTags for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListAttendeeTags
+func (c *Chime) ListAttendeeTags(input *ListAttendeeTagsInput) (*ListAttendeeTagsOutput, error) {
+	req, out := c.ListAttendeeTagsRequest(input)
+	return out, req.Send()
+}
+
+// ListAttendeeTagsWithContext is the same as ListAttendeeTags with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ListAttendeeTags for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) ListAttendeeTagsWithContext(ctx aws.Context, input *ListAttendeeTagsInput, opts ...request.Option) (*ListAttendeeTagsOutput, error) {
+	req, out := c.ListAttendeeTagsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opListAttendees = "ListAttendees"
 
 // ListAttendeesRequest generates a "aws/request.Request" representing the
@@ -6466,6 +7060,104 @@ func (c *Chime) ListBotsPagesWithContext(ctx aws.Context, input *ListBotsInput, 
 	}
 
 	return p.Err()
+}
+
+const opListMeetingTags = "ListMeetingTags"
+
+// ListMeetingTagsRequest generates a "aws/request.Request" representing the
+// client's request for the ListMeetingTags operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ListMeetingTags for more information on using the ListMeetingTags
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ListMeetingTagsRequest method.
+//    req, resp := client.ListMeetingTagsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListMeetingTags
+func (c *Chime) ListMeetingTagsRequest(input *ListMeetingTagsInput) (req *request.Request, output *ListMeetingTagsOutput) {
+	op := &request.Operation{
+		Name:       opListMeetingTags,
+		HTTPMethod: "GET",
+		HTTPPath:   "/meetings/{meetingId}/tags",
+	}
+
+	if input == nil {
+		input = &ListMeetingTagsInput{}
+	}
+
+	output = &ListMeetingTagsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ListMeetingTags API operation for Amazon Chime.
+//
+// Lists the tags applied to an Amazon Chime SDK meeting resource.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation ListMeetingTags for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListMeetingTags
+func (c *Chime) ListMeetingTags(input *ListMeetingTagsInput) (*ListMeetingTagsOutput, error) {
+	req, out := c.ListMeetingTagsRequest(input)
+	return out, req.Send()
+}
+
+// ListMeetingTagsWithContext is the same as ListMeetingTags with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ListMeetingTags for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) ListMeetingTagsWithContext(ctx aws.Context, input *ListMeetingTagsInput, opts ...request.Option) (*ListMeetingTagsOutput, error) {
+	req, out := c.ListMeetingTagsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
 }
 
 const opListMeetings = "ListMeetings"
@@ -6930,6 +7622,162 @@ func (c *Chime) ListPhoneNumbersPagesWithContext(ctx aws.Context, input *ListPho
 	return p.Err()
 }
 
+const opListProxySessions = "ListProxySessions"
+
+// ListProxySessionsRequest generates a "aws/request.Request" representing the
+// client's request for the ListProxySessions operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ListProxySessions for more information on using the ListProxySessions
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ListProxySessionsRequest method.
+//    req, resp := client.ListProxySessionsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListProxySessions
+func (c *Chime) ListProxySessionsRequest(input *ListProxySessionsInput) (req *request.Request, output *ListProxySessionsOutput) {
+	op := &request.Operation{
+		Name:       opListProxySessions,
+		HTTPMethod: "GET",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/proxy-sessions",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &ListProxySessionsInput{}
+	}
+
+	output = &ListProxySessionsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ListProxySessions API operation for Amazon Chime.
+//
+// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation ListProxySessions for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListProxySessions
+func (c *Chime) ListProxySessions(input *ListProxySessionsInput) (*ListProxySessionsOutput, error) {
+	req, out := c.ListProxySessionsRequest(input)
+	return out, req.Send()
+}
+
+// ListProxySessionsWithContext is the same as ListProxySessions with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ListProxySessions for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) ListProxySessionsWithContext(ctx aws.Context, input *ListProxySessionsInput, opts ...request.Option) (*ListProxySessionsOutput, error) {
+	req, out := c.ListProxySessionsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// ListProxySessionsPages iterates over the pages of a ListProxySessions operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See ListProxySessions method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a ListProxySessions operation.
+//    pageNum := 0
+//    err := client.ListProxySessionsPages(params,
+//        func(page *chime.ListProxySessionsOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *Chime) ListProxySessionsPages(input *ListProxySessionsInput, fn func(*ListProxySessionsOutput, bool) bool) error {
+	return c.ListProxySessionsPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// ListProxySessionsPagesWithContext same as ListProxySessionsPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) ListProxySessionsPagesWithContext(ctx aws.Context, input *ListProxySessionsInput, fn func(*ListProxySessionsOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *ListProxySessionsInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.ListProxySessionsRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*ListProxySessionsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 const opListRoomMemberships = "ListRoomMemberships"
 
 // ListRoomMembershipsRequest generates a "aws/request.Request" representing the
@@ -7243,6 +8091,101 @@ func (c *Chime) ListRoomsPagesWithContext(ctx aws.Context, input *ListRoomsInput
 	}
 
 	return p.Err()
+}
+
+const opListTagsForResource = "ListTagsForResource"
+
+// ListTagsForResourceRequest generates a "aws/request.Request" representing the
+// client's request for the ListTagsForResource operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ListTagsForResource for more information on using the ListTagsForResource
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ListTagsForResourceRequest method.
+//    req, resp := client.ListTagsForResourceRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListTagsForResource
+func (c *Chime) ListTagsForResourceRequest(input *ListTagsForResourceInput) (req *request.Request, output *ListTagsForResourceOutput) {
+	op := &request.Operation{
+		Name:       opListTagsForResource,
+		HTTPMethod: "GET",
+		HTTPPath:   "/tags",
+	}
+
+	if input == nil {
+		input = &ListTagsForResourceInput{}
+	}
+
+	output = &ListTagsForResourceOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ListTagsForResource API operation for Amazon Chime.
+//
+// Lists the tags applied to an Amazon Chime SDK meeting resource.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation ListTagsForResource for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/ListTagsForResource
+func (c *Chime) ListTagsForResource(input *ListTagsForResourceInput) (*ListTagsForResourceOutput, error) {
+	req, out := c.ListTagsForResourceRequest(input)
+	return out, req.Send()
+}
+
+// ListTagsForResourceWithContext is the same as ListTagsForResource with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ListTagsForResource for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) ListTagsForResourceWithContext(ctx aws.Context, input *ListTagsForResourceInput, opts ...request.Option) (*ListTagsForResourceOutput, error) {
+	req, out := c.ListTagsForResourceRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
 }
 
 const opListUsers = "ListUsers"
@@ -8206,6 +9149,108 @@ func (c *Chime) PutVoiceConnectorOriginationWithContext(ctx aws.Context, input *
 	return out, req.Send()
 }
 
+const opPutVoiceConnectorProxy = "PutVoiceConnectorProxy"
+
+// PutVoiceConnectorProxyRequest generates a "aws/request.Request" representing the
+// client's request for the PutVoiceConnectorProxy operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See PutVoiceConnectorProxy for more information on using the PutVoiceConnectorProxy
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the PutVoiceConnectorProxyRequest method.
+//    req, resp := client.PutVoiceConnectorProxyRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/PutVoiceConnectorProxy
+func (c *Chime) PutVoiceConnectorProxyRequest(input *PutVoiceConnectorProxyInput) (req *request.Request, output *PutVoiceConnectorProxyOutput) {
+	op := &request.Operation{
+		Name:       opPutVoiceConnectorProxy,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy",
+	}
+
+	if input == nil {
+		input = &PutVoiceConnectorProxyInput{}
+	}
+
+	output = &PutVoiceConnectorProxyOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// PutVoiceConnectorProxy API operation for Amazon Chime.
+//
+// Puts the specified proxy configuration to the specified Amazon Chime Voice
+// Connector.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation PutVoiceConnectorProxy for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * AccessDeniedException
+//   You don't have permissions to perform the requested operation.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/PutVoiceConnectorProxy
+func (c *Chime) PutVoiceConnectorProxy(input *PutVoiceConnectorProxyInput) (*PutVoiceConnectorProxyOutput, error) {
+	req, out := c.PutVoiceConnectorProxyRequest(input)
+	return out, req.Send()
+}
+
+// PutVoiceConnectorProxyWithContext is the same as PutVoiceConnectorProxy with the addition of
+// the ability to pass a context and additional request options.
+//
+// See PutVoiceConnectorProxy for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) PutVoiceConnectorProxyWithContext(ctx aws.Context, input *PutVoiceConnectorProxyInput, opts ...request.Option) (*PutVoiceConnectorProxyOutput, error) {
+	req, out := c.PutVoiceConnectorProxyRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opPutVoiceConnectorStreamingConfiguration = "PutVoiceConnectorStreamingConfiguration"
 
 // PutVoiceConnectorStreamingConfigurationRequest generates a "aws/request.Request" representing the
@@ -8903,6 +9948,600 @@ func (c *Chime) SearchAvailablePhoneNumbersWithContext(ctx aws.Context, input *S
 	return out, req.Send()
 }
 
+const opTagAttendee = "TagAttendee"
+
+// TagAttendeeRequest generates a "aws/request.Request" representing the
+// client's request for the TagAttendee operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See TagAttendee for more information on using the TagAttendee
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the TagAttendeeRequest method.
+//    req, resp := client.TagAttendeeRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagAttendee
+func (c *Chime) TagAttendeeRequest(input *TagAttendeeInput) (req *request.Request, output *TagAttendeeOutput) {
+	op := &request.Operation{
+		Name:       opTagAttendee,
+		HTTPMethod: "POST",
+		HTTPPath:   "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=add",
+	}
+
+	if input == nil {
+		input = &TagAttendeeInput{}
+	}
+
+	output = &TagAttendeeOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// TagAttendee API operation for Amazon Chime.
+//
+// Applies the specified tags to the specified Amazon Chime SDK attendee.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation TagAttendee for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ResourceLimitExceededException
+//   The request exceeds the resource limit.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagAttendee
+func (c *Chime) TagAttendee(input *TagAttendeeInput) (*TagAttendeeOutput, error) {
+	req, out := c.TagAttendeeRequest(input)
+	return out, req.Send()
+}
+
+// TagAttendeeWithContext is the same as TagAttendee with the addition of
+// the ability to pass a context and additional request options.
+//
+// See TagAttendee for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) TagAttendeeWithContext(ctx aws.Context, input *TagAttendeeInput, opts ...request.Option) (*TagAttendeeOutput, error) {
+	req, out := c.TagAttendeeRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opTagMeeting = "TagMeeting"
+
+// TagMeetingRequest generates a "aws/request.Request" representing the
+// client's request for the TagMeeting operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See TagMeeting for more information on using the TagMeeting
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the TagMeetingRequest method.
+//    req, resp := client.TagMeetingRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagMeeting
+func (c *Chime) TagMeetingRequest(input *TagMeetingInput) (req *request.Request, output *TagMeetingOutput) {
+	op := &request.Operation{
+		Name:       opTagMeeting,
+		HTTPMethod: "POST",
+		HTTPPath:   "/meetings/{meetingId}/tags?operation=add",
+	}
+
+	if input == nil {
+		input = &TagMeetingInput{}
+	}
+
+	output = &TagMeetingOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// TagMeeting API operation for Amazon Chime.
+//
+// Applies the specified tags to the specified Amazon Chime SDK meeting.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation TagMeeting for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ResourceLimitExceededException
+//   The request exceeds the resource limit.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagMeeting
+func (c *Chime) TagMeeting(input *TagMeetingInput) (*TagMeetingOutput, error) {
+	req, out := c.TagMeetingRequest(input)
+	return out, req.Send()
+}
+
+// TagMeetingWithContext is the same as TagMeeting with the addition of
+// the ability to pass a context and additional request options.
+//
+// See TagMeeting for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) TagMeetingWithContext(ctx aws.Context, input *TagMeetingInput, opts ...request.Option) (*TagMeetingOutput, error) {
+	req, out := c.TagMeetingRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opTagResource = "TagResource"
+
+// TagResourceRequest generates a "aws/request.Request" representing the
+// client's request for the TagResource operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See TagResource for more information on using the TagResource
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the TagResourceRequest method.
+//    req, resp := client.TagResourceRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagResource
+func (c *Chime) TagResourceRequest(input *TagResourceInput) (req *request.Request, output *TagResourceOutput) {
+	op := &request.Operation{
+		Name:       opTagResource,
+		HTTPMethod: "POST",
+		HTTPPath:   "/tags?operation=tag-resource",
+	}
+
+	if input == nil {
+		input = &TagResourceInput{}
+	}
+
+	output = &TagResourceOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// TagResource API operation for Amazon Chime.
+//
+// Applies the specified tags to the specified Amazon Chime SDK meeting resource.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation TagResource for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/TagResource
+func (c *Chime) TagResource(input *TagResourceInput) (*TagResourceOutput, error) {
+	req, out := c.TagResourceRequest(input)
+	return out, req.Send()
+}
+
+// TagResourceWithContext is the same as TagResource with the addition of
+// the ability to pass a context and additional request options.
+//
+// See TagResource for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) TagResourceWithContext(ctx aws.Context, input *TagResourceInput, opts ...request.Option) (*TagResourceOutput, error) {
+	req, out := c.TagResourceRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opUntagAttendee = "UntagAttendee"
+
+// UntagAttendeeRequest generates a "aws/request.Request" representing the
+// client's request for the UntagAttendee operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UntagAttendee for more information on using the UntagAttendee
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UntagAttendeeRequest method.
+//    req, resp := client.UntagAttendeeRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagAttendee
+func (c *Chime) UntagAttendeeRequest(input *UntagAttendeeInput) (req *request.Request, output *UntagAttendeeOutput) {
+	op := &request.Operation{
+		Name:       opUntagAttendee,
+		HTTPMethod: "POST",
+		HTTPPath:   "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=delete",
+	}
+
+	if input == nil {
+		input = &UntagAttendeeInput{}
+	}
+
+	output = &UntagAttendeeOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// UntagAttendee API operation for Amazon Chime.
+//
+// Untags the specified tags from the specified Amazon Chime SDK attendee.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation UntagAttendee for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagAttendee
+func (c *Chime) UntagAttendee(input *UntagAttendeeInput) (*UntagAttendeeOutput, error) {
+	req, out := c.UntagAttendeeRequest(input)
+	return out, req.Send()
+}
+
+// UntagAttendeeWithContext is the same as UntagAttendee with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UntagAttendee for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) UntagAttendeeWithContext(ctx aws.Context, input *UntagAttendeeInput, opts ...request.Option) (*UntagAttendeeOutput, error) {
+	req, out := c.UntagAttendeeRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opUntagMeeting = "UntagMeeting"
+
+// UntagMeetingRequest generates a "aws/request.Request" representing the
+// client's request for the UntagMeeting operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UntagMeeting for more information on using the UntagMeeting
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UntagMeetingRequest method.
+//    req, resp := client.UntagMeetingRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagMeeting
+func (c *Chime) UntagMeetingRequest(input *UntagMeetingInput) (req *request.Request, output *UntagMeetingOutput) {
+	op := &request.Operation{
+		Name:       opUntagMeeting,
+		HTTPMethod: "POST",
+		HTTPPath:   "/meetings/{meetingId}/tags?operation=delete",
+	}
+
+	if input == nil {
+		input = &UntagMeetingInput{}
+	}
+
+	output = &UntagMeetingOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// UntagMeeting API operation for Amazon Chime.
+//
+// Untags the specified tags from the specified Amazon Chime SDK meeting.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation UntagMeeting for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagMeeting
+func (c *Chime) UntagMeeting(input *UntagMeetingInput) (*UntagMeetingOutput, error) {
+	req, out := c.UntagMeetingRequest(input)
+	return out, req.Send()
+}
+
+// UntagMeetingWithContext is the same as UntagMeeting with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UntagMeeting for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) UntagMeetingWithContext(ctx aws.Context, input *UntagMeetingInput, opts ...request.Option) (*UntagMeetingOutput, error) {
+	req, out := c.UntagMeetingRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opUntagResource = "UntagResource"
+
+// UntagResourceRequest generates a "aws/request.Request" representing the
+// client's request for the UntagResource operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UntagResource for more information on using the UntagResource
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UntagResourceRequest method.
+//    req, resp := client.UntagResourceRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagResource
+func (c *Chime) UntagResourceRequest(input *UntagResourceInput) (req *request.Request, output *UntagResourceOutput) {
+	op := &request.Operation{
+		Name:       opUntagResource,
+		HTTPMethod: "POST",
+		HTTPPath:   "/tags?operation=untag-resource",
+	}
+
+	if input == nil {
+		input = &UntagResourceInput{}
+	}
+
+	output = &UntagResourceOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// UntagResource API operation for Amazon Chime.
+//
+// Untags the specified tags from the specified Amazon Chime SDK meeting resource.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation UntagResource for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UntagResource
+func (c *Chime) UntagResource(input *UntagResourceInput) (*UntagResourceOutput, error) {
+	req, out := c.UntagResourceRequest(input)
+	return out, req.Send()
+}
+
+// UntagResourceWithContext is the same as UntagResource with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UntagResource for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) UntagResourceWithContext(ctx aws.Context, input *UntagResourceInput, opts ...request.Option) (*UntagResourceOutput, error) {
+	req, out := c.UntagResourceRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opUpdateAccount = "UpdateAccount"
 
 // UpdateAccountRequest generates a "aws/request.Request" representing the
@@ -9511,6 +11150,104 @@ func (c *Chime) UpdatePhoneNumberSettingsWithContext(ctx aws.Context, input *Upd
 	return out, req.Send()
 }
 
+const opUpdateProxySession = "UpdateProxySession"
+
+// UpdateProxySessionRequest generates a "aws/request.Request" representing the
+// client's request for the UpdateProxySession operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UpdateProxySession for more information on using the UpdateProxySession
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UpdateProxySessionRequest method.
+//    req, resp := client.UpdateProxySessionRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UpdateProxySession
+func (c *Chime) UpdateProxySessionRequest(input *UpdateProxySessionInput) (req *request.Request, output *UpdateProxySessionOutput) {
+	op := &request.Operation{
+		Name:       opUpdateProxySession,
+		HTTPMethod: "POST",
+		HTTPPath:   "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}",
+	}
+
+	if input == nil {
+		input = &UpdateProxySessionInput{}
+	}
+
+	output = &UpdateProxySessionOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// UpdateProxySession API operation for Amazon Chime.
+//
+// Updates the specified proxy session details, such as voice or SMS capabilities.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation UpdateProxySession for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/UpdateProxySession
+func (c *Chime) UpdateProxySession(input *UpdateProxySessionInput) (*UpdateProxySessionOutput, error) {
+	req, out := c.UpdateProxySessionRequest(input)
+	return out, req.Send()
+}
+
+// UpdateProxySessionWithContext is the same as UpdateProxySession with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UpdateProxySession for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) UpdateProxySessionWithContext(ctx aws.Context, input *UpdateProxySessionInput, opts ...request.Option) (*UpdateProxySessionOutput, error) {
+	req, out := c.UpdateProxySessionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opUpdateRoom = "UpdateRoom"
 
 // UpdateRoomRequest generates a "aws/request.Request" representing the
@@ -10112,8 +11849,8 @@ func (c *Chime) UpdateVoiceConnectorGroupWithContext(ctx aws.Context, input *Upd
 
 // You don't have permissions to perform the requested operation.
 type AccessDeniedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -10132,17 +11869,17 @@ func (s AccessDeniedException) GoString() string {
 
 func newErrorAccessDeniedException(v protocol.ResponseMetadata) error {
 	return &AccessDeniedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s AccessDeniedException) Code() string {
+func (s *AccessDeniedException) Code() string {
 	return "AccessDeniedException"
 }
 
 // Message returns the exception's message.
-func (s AccessDeniedException) Message() string {
+func (s *AccessDeniedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -10150,22 +11887,22 @@ func (s AccessDeniedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s AccessDeniedException) OrigErr() error {
+func (s *AccessDeniedException) OrigErr() error {
 	return nil
 }
 
-func (s AccessDeniedException) Error() string {
+func (s *AccessDeniedException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s AccessDeniedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *AccessDeniedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s AccessDeniedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *AccessDeniedException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The Amazon Chime account details. An AWS account can have multiple Amazon
@@ -10717,8 +12454,8 @@ func (s *Attendee) SetJoinToken(v string) *Attendee {
 
 // The input parameters don't match the service's restrictions.
 type BadRequestException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -10737,17 +12474,17 @@ func (s BadRequestException) GoString() string {
 
 func newErrorBadRequestException(v protocol.ResponseMetadata) error {
 	return &BadRequestException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s BadRequestException) Code() string {
+func (s *BadRequestException) Code() string {
 	return "BadRequestException"
 }
 
 // Message returns the exception's message.
-func (s BadRequestException) Message() string {
+func (s *BadRequestException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -10755,22 +12492,22 @@ func (s BadRequestException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s BadRequestException) OrigErr() error {
+func (s *BadRequestException) OrigErr() error {
 	return nil
 }
 
-func (s BadRequestException) Error() string {
+func (s *BadRequestException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s BadRequestException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *BadRequestException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s BadRequestException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *BadRequestException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type BatchCreateAttendeeInput struct {
@@ -11483,8 +13220,8 @@ func (s *BusinessCallingSettings) SetCdrBucket(v string) *BusinessCallingSetting
 // The request could not be processed because of conflict in the current state
 // of the resource.
 type ConflictException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -11503,17 +13240,17 @@ func (s ConflictException) GoString() string {
 
 func newErrorConflictException(v protocol.ResponseMetadata) error {
 	return &ConflictException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ConflictException) Code() string {
+func (s *ConflictException) Code() string {
 	return "ConflictException"
 }
 
 // Message returns the exception's message.
-func (s ConflictException) Message() string {
+func (s *ConflictException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -11521,22 +13258,22 @@ func (s ConflictException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ConflictException) OrigErr() error {
+func (s *ConflictException) OrigErr() error {
 	return nil
 }
 
-func (s ConflictException) Error() string {
+func (s *ConflictException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ConflictException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ConflictException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ConflictException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ConflictException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type CreateAccountInput struct {
@@ -11661,6 +13398,9 @@ type CreateAttendeeInput struct {
 	//
 	// MeetingId is a required field
 	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+
+	// The tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -11688,6 +13428,19 @@ func (s *CreateAttendeeInput) Validate() error {
 	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
 	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -11704,6 +13457,12 @@ func (s *CreateAttendeeInput) SetExternalUserId(v string) *CreateAttendeeInput {
 // SetMeetingId sets the MeetingId field's value.
 func (s *CreateAttendeeInput) SetMeetingId(v string) *CreateAttendeeInput {
 	s.MeetingId = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateAttendeeInput) SetTags(v []*Tag) *CreateAttendeeInput {
+	s.Tags = v
 	return s
 }
 
@@ -11740,6 +13499,9 @@ type CreateAttendeeRequestItem struct {
 	//
 	// ExternalUserId is a required field
 	ExternalUserId *string `min:"2" type:"string" required:"true" sensitive:"true"`
+
+	// The tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -11761,6 +13523,19 @@ func (s *CreateAttendeeRequestItem) Validate() error {
 	if s.ExternalUserId != nil && len(*s.ExternalUserId) < 2 {
 		invalidParams.Add(request.NewErrParamMinLen("ExternalUserId", 2))
 	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -11771,6 +13546,12 @@ func (s *CreateAttendeeRequestItem) Validate() error {
 // SetExternalUserId sets the ExternalUserId field's value.
 func (s *CreateAttendeeRequestItem) SetExternalUserId(v string) *CreateAttendeeRequestItem {
 	s.ExternalUserId = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateAttendeeRequestItem) SetTags(v []*Tag) *CreateAttendeeRequestItem {
+	s.Tags = v
 	return s
 }
 
@@ -11868,6 +13649,9 @@ type CreateMeetingInput struct {
 	// meetings.
 	ClientRequestToken *string `min:"2" type:"string" idempotencyToken:"true" sensitive:"true"`
 
+	// The external meeting ID.
+	ExternalMeetingId *string `min:"2" type:"string" sensitive:"true"`
+
 	// The Region in which to create the meeting. Available values: ap-northeast-1,
 	// ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1,
 	// eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
@@ -11879,6 +13663,9 @@ type CreateMeetingInput struct {
 	// The configuration for resource targets to receive notifications when meeting
 	// and attendee events occur.
 	NotificationsConfiguration *MeetingNotificationConfiguration `type:"structure"`
+
+	// The tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -11897,12 +13684,28 @@ func (s *CreateMeetingInput) Validate() error {
 	if s.ClientRequestToken != nil && len(*s.ClientRequestToken) < 2 {
 		invalidParams.Add(request.NewErrParamMinLen("ClientRequestToken", 2))
 	}
+	if s.ExternalMeetingId != nil && len(*s.ExternalMeetingId) < 2 {
+		invalidParams.Add(request.NewErrParamMinLen("ExternalMeetingId", 2))
+	}
 	if s.MeetingHostId != nil && len(*s.MeetingHostId) < 2 {
 		invalidParams.Add(request.NewErrParamMinLen("MeetingHostId", 2))
+	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
 	}
 	if s.NotificationsConfiguration != nil {
 		if err := s.NotificationsConfiguration.Validate(); err != nil {
 			invalidParams.AddNested("NotificationsConfiguration", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
 		}
 	}
 
@@ -11915,6 +13718,12 @@ func (s *CreateMeetingInput) Validate() error {
 // SetClientRequestToken sets the ClientRequestToken field's value.
 func (s *CreateMeetingInput) SetClientRequestToken(v string) *CreateMeetingInput {
 	s.ClientRequestToken = &v
+	return s
+}
+
+// SetExternalMeetingId sets the ExternalMeetingId field's value.
+func (s *CreateMeetingInput) SetExternalMeetingId(v string) *CreateMeetingInput {
+	s.ExternalMeetingId = &v
 	return s
 }
 
@@ -11933,6 +13742,12 @@ func (s *CreateMeetingInput) SetMeetingHostId(v string) *CreateMeetingInput {
 // SetNotificationsConfiguration sets the NotificationsConfiguration field's value.
 func (s *CreateMeetingInput) SetNotificationsConfiguration(v *MeetingNotificationConfiguration) *CreateMeetingInput {
 	s.NotificationsConfiguration = v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateMeetingInput) SetTags(v []*Tag) *CreateMeetingInput {
+	s.Tags = v
 	return s
 }
 
@@ -12031,6 +13846,156 @@ func (s CreatePhoneNumberOrderOutput) GoString() string {
 // SetPhoneNumberOrder sets the PhoneNumberOrder field's value.
 func (s *CreatePhoneNumberOrderOutput) SetPhoneNumberOrder(v *PhoneNumberOrder) *CreatePhoneNumberOrderOutput {
 	s.PhoneNumberOrder = v
+	return s
+}
+
+type CreateProxySessionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session capabilities.
+	//
+	// Capabilities is a required field
+	Capabilities []*string `type:"list" required:"true"`
+
+	// The number of minutes allowed for the proxy session.
+	ExpiryMinutes *int64 `min:"1" type:"integer"`
+
+	// The preference for matching the country or area code of the proxy phone number
+	// with that of the first participant.
+	GeoMatchLevel *string `type:"string" enum:"GeoMatchLevel"`
+
+	// The country and area code for the proxy phone number.
+	GeoMatchParams *GeoMatchParams `type:"structure"`
+
+	// The name of the proxy session.
+	Name *string `type:"string" sensitive:"true"`
+
+	// The preference for proxy phone number reuse, or stickiness, between the same
+	// participants across sessions.
+	NumberSelectionBehavior *string `type:"string" enum:"NumberSelectionBehavior"`
+
+	// The participant phone numbers.
+	//
+	// ParticipantPhoneNumbers is a required field
+	ParticipantPhoneNumbers []*string `min:"2" type:"list" required:"true"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateProxySessionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateProxySessionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateProxySessionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateProxySessionInput"}
+	if s.Capabilities == nil {
+		invalidParams.Add(request.NewErrParamRequired("Capabilities"))
+	}
+	if s.ExpiryMinutes != nil && *s.ExpiryMinutes < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("ExpiryMinutes", 1))
+	}
+	if s.ParticipantPhoneNumbers == nil {
+		invalidParams.Add(request.NewErrParamRequired("ParticipantPhoneNumbers"))
+	}
+	if s.ParticipantPhoneNumbers != nil && len(s.ParticipantPhoneNumbers) < 2 {
+		invalidParams.Add(request.NewErrParamMinLen("ParticipantPhoneNumbers", 2))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+	if s.GeoMatchParams != nil {
+		if err := s.GeoMatchParams.Validate(); err != nil {
+			invalidParams.AddNested("GeoMatchParams", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetCapabilities sets the Capabilities field's value.
+func (s *CreateProxySessionInput) SetCapabilities(v []*string) *CreateProxySessionInput {
+	s.Capabilities = v
+	return s
+}
+
+// SetExpiryMinutes sets the ExpiryMinutes field's value.
+func (s *CreateProxySessionInput) SetExpiryMinutes(v int64) *CreateProxySessionInput {
+	s.ExpiryMinutes = &v
+	return s
+}
+
+// SetGeoMatchLevel sets the GeoMatchLevel field's value.
+func (s *CreateProxySessionInput) SetGeoMatchLevel(v string) *CreateProxySessionInput {
+	s.GeoMatchLevel = &v
+	return s
+}
+
+// SetGeoMatchParams sets the GeoMatchParams field's value.
+func (s *CreateProxySessionInput) SetGeoMatchParams(v *GeoMatchParams) *CreateProxySessionInput {
+	s.GeoMatchParams = v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *CreateProxySessionInput) SetName(v string) *CreateProxySessionInput {
+	s.Name = &v
+	return s
+}
+
+// SetNumberSelectionBehavior sets the NumberSelectionBehavior field's value.
+func (s *CreateProxySessionInput) SetNumberSelectionBehavior(v string) *CreateProxySessionInput {
+	s.NumberSelectionBehavior = &v
+	return s
+}
+
+// SetParticipantPhoneNumbers sets the ParticipantPhoneNumbers field's value.
+func (s *CreateProxySessionInput) SetParticipantPhoneNumbers(v []*string) *CreateProxySessionInput {
+	s.ParticipantPhoneNumbers = v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *CreateProxySessionInput) SetVoiceConnectorId(v string) *CreateProxySessionInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type CreateProxySessionOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session details.
+	ProxySession *ProxySession `type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateProxySessionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateProxySessionOutput) GoString() string {
+	return s.String()
+}
+
+// SetProxySession sets the ProxySession field's value.
+func (s *CreateProxySessionOutput) SetProxySession(v *ProxySession) *CreateProxySessionOutput {
+	s.ProxySession = v
 	return s
 }
 
@@ -12835,6 +14800,78 @@ func (s DeletePhoneNumberOutput) GoString() string {
 	return s.String()
 }
 
+type DeleteProxySessionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session ID.
+	//
+	// ProxySessionId is a required field
+	ProxySessionId *string `location:"uri" locationName:"proxySessionId" min:"1" type:"string" required:"true"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteProxySessionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteProxySessionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteProxySessionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteProxySessionInput"}
+	if s.ProxySessionId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ProxySessionId"))
+	}
+	if s.ProxySessionId != nil && len(*s.ProxySessionId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ProxySessionId", 1))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetProxySessionId sets the ProxySessionId field's value.
+func (s *DeleteProxySessionInput) SetProxySessionId(v string) *DeleteProxySessionInput {
+	s.ProxySessionId = &v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *DeleteProxySessionInput) SetVoiceConnectorId(v string) *DeleteProxySessionInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type DeleteProxySessionOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DeleteProxySessionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteProxySessionOutput) GoString() string {
+	return s.String()
+}
+
 type DeleteRoomInput struct {
 	_ struct{} `type:"structure"`
 
@@ -13158,6 +15195,61 @@ func (s DeleteVoiceConnectorOutput) String() string {
 
 // GoString returns the string representation
 func (s DeleteVoiceConnectorOutput) GoString() string {
+	return s.String()
+}
+
+type DeleteVoiceConnectorProxyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime Voice Connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteVoiceConnectorProxyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteVoiceConnectorProxyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteVoiceConnectorProxyInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteVoiceConnectorProxyInput"}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *DeleteVoiceConnectorProxyInput) SetVoiceConnectorId(v string) *DeleteVoiceConnectorProxyInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type DeleteVoiceConnectorProxyOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DeleteVoiceConnectorProxyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteVoiceConnectorProxyOutput) GoString() string {
 	return s.String()
 }
 
@@ -13676,8 +15768,8 @@ func (s *EventsConfiguration) SetOutboundEventsHTTPSEndpoint(v string) *EventsCo
 // The client is permanently forbidden from making the request. For example,
 // when a user tries to create an account from an unsupported Region.
 type ForbiddenException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -13696,17 +15788,17 @@ func (s ForbiddenException) GoString() string {
 
 func newErrorForbiddenException(v protocol.ResponseMetadata) error {
 	return &ForbiddenException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ForbiddenException) Code() string {
+func (s *ForbiddenException) Code() string {
 	return "ForbiddenException"
 }
 
 // Message returns the exception's message.
-func (s ForbiddenException) Message() string {
+func (s *ForbiddenException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -13714,22 +15806,75 @@ func (s ForbiddenException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ForbiddenException) OrigErr() error {
+func (s *ForbiddenException) OrigErr() error {
 	return nil
 }
 
-func (s ForbiddenException) Error() string {
+func (s *ForbiddenException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ForbiddenException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ForbiddenException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ForbiddenException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ForbiddenException) RequestID() string {
+	return s.RespMetadata.RequestID
+}
+
+// The country and area code for a proxy phone number in a proxy phone session.
+type GeoMatchParams struct {
+	_ struct{} `type:"structure"`
+
+	// The area code.
+	//
+	// AreaCode is a required field
+	AreaCode *string `type:"string" required:"true"`
+
+	// The country.
+	//
+	// Country is a required field
+	Country *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GeoMatchParams) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GeoMatchParams) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GeoMatchParams) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GeoMatchParams"}
+	if s.AreaCode == nil {
+		invalidParams.Add(request.NewErrParamRequired("AreaCode"))
+	}
+	if s.Country == nil {
+		invalidParams.Add(request.NewErrParamRequired("Country"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAreaCode sets the AreaCode field's value.
+func (s *GeoMatchParams) SetAreaCode(v string) *GeoMatchParams {
+	s.AreaCode = &v
+	return s
+}
+
+// SetCountry sets the Country field's value.
+func (s *GeoMatchParams) SetCountry(v string) *GeoMatchParams {
+	s.Country = &v
+	return s
 }
 
 type GetAccountInput struct {
@@ -14387,6 +16532,87 @@ func (s *GetPhoneNumberSettingsOutput) SetCallingNameUpdatedTimestamp(v time.Tim
 	return s
 }
 
+type GetProxySessionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session ID.
+	//
+	// ProxySessionId is a required field
+	ProxySessionId *string `location:"uri" locationName:"proxySessionId" min:"1" type:"string" required:"true"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetProxySessionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetProxySessionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetProxySessionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetProxySessionInput"}
+	if s.ProxySessionId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ProxySessionId"))
+	}
+	if s.ProxySessionId != nil && len(*s.ProxySessionId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ProxySessionId", 1))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetProxySessionId sets the ProxySessionId field's value.
+func (s *GetProxySessionInput) SetProxySessionId(v string) *GetProxySessionInput {
+	s.ProxySessionId = &v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *GetProxySessionInput) SetVoiceConnectorId(v string) *GetProxySessionInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type GetProxySessionOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session details.
+	ProxySession *ProxySession `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetProxySessionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetProxySessionOutput) GoString() string {
+	return s.String()
+}
+
+// SetProxySession sets the ProxySession field's value.
+func (s *GetProxySessionOutput) SetProxySession(v *ProxySession) *GetProxySessionOutput {
+	s.ProxySession = v
+	return s
+}
+
 type GetRoomInput struct {
 	_ struct{} `type:"structure"`
 
@@ -14886,6 +17112,70 @@ func (s *GetVoiceConnectorOutput) SetVoiceConnector(v *VoiceConnector) *GetVoice
 	return s
 }
 
+type GetVoiceConnectorProxyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetVoiceConnectorProxyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetVoiceConnectorProxyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetVoiceConnectorProxyInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetVoiceConnectorProxyInput"}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *GetVoiceConnectorProxyInput) SetVoiceConnectorId(v string) *GetVoiceConnectorProxyInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type GetVoiceConnectorProxyOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy configuration details.
+	Proxy *Proxy `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetVoiceConnectorProxyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetVoiceConnectorProxyOutput) GoString() string {
+	return s.String()
+}
+
+// SetProxy sets the Proxy field's value.
+func (s *GetVoiceConnectorProxyOutput) SetProxy(v *Proxy) *GetVoiceConnectorProxyOutput {
+	s.Proxy = v
+	return s
+}
+
 type GetVoiceConnectorStreamingConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -15315,6 +17605,87 @@ func (s *ListAccountsOutput) SetNextToken(v string) *ListAccountsOutput {
 	return s
 }
 
+type ListAttendeeTagsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK attendee ID.
+	//
+	// AttendeeId is a required field
+	AttendeeId *string `location:"uri" locationName:"attendeeId" type:"string" required:"true"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ListAttendeeTagsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListAttendeeTagsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListAttendeeTagsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ListAttendeeTagsInput"}
+	if s.AttendeeId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AttendeeId"))
+	}
+	if s.AttendeeId != nil && len(*s.AttendeeId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AttendeeId", 1))
+	}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAttendeeId sets the AttendeeId field's value.
+func (s *ListAttendeeTagsInput) SetAttendeeId(v string) *ListAttendeeTagsInput {
+	s.AttendeeId = &v
+	return s
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *ListAttendeeTagsInput) SetMeetingId(v string) *ListAttendeeTagsInput {
+	s.MeetingId = &v
+	return s
+}
+
+type ListAttendeeTagsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A list of tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
+}
+
+// String returns the string representation
+func (s ListAttendeeTagsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListAttendeeTagsOutput) GoString() string {
+	return s.String()
+}
+
+// SetTags sets the Tags field's value.
+func (s *ListAttendeeTagsOutput) SetTags(v []*Tag) *ListAttendeeTagsOutput {
+	s.Tags = v
+	return s
+}
+
 type ListAttendeesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -15501,6 +17872,70 @@ func (s *ListBotsOutput) SetBots(v []*Bot) *ListBotsOutput {
 // SetNextToken sets the NextToken field's value.
 func (s *ListBotsOutput) SetNextToken(v string) *ListBotsOutput {
 	s.NextToken = &v
+	return s
+}
+
+type ListMeetingTagsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ListMeetingTagsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListMeetingTagsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListMeetingTagsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ListMeetingTagsInput"}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *ListMeetingTagsInput) SetMeetingId(v string) *ListMeetingTagsInput {
+	s.MeetingId = &v
+	return s
+}
+
+type ListMeetingTagsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A list of tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
+}
+
+// String returns the string representation
+func (s ListMeetingTagsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListMeetingTagsOutput) GoString() string {
+	return s.String()
+}
+
+// SetTags sets the Tags field's value.
+func (s *ListMeetingTagsOutput) SetTags(v []*Tag) *ListMeetingTagsOutput {
+	s.Tags = v
 	return s
 }
 
@@ -15771,6 +18206,109 @@ func (s *ListPhoneNumbersOutput) SetPhoneNumbers(v []*PhoneNumber) *ListPhoneNum
 	return s
 }
 
+type ListProxySessionsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The maximum number of results to return in a single call.
+	MaxResults *int64 `location:"querystring" locationName:"max-results" min:"1" type:"integer"`
+
+	// The token to use to retrieve the next page of results.
+	NextToken *string `location:"querystring" locationName:"next-token" type:"string"`
+
+	// The proxy session status.
+	Status *string `location:"querystring" locationName:"status" type:"string" enum:"ProxySessionStatus"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ListProxySessionsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListProxySessionsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListProxySessionsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ListProxySessionsInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetMaxResults sets the MaxResults field's value.
+func (s *ListProxySessionsInput) SetMaxResults(v int64) *ListProxySessionsInput {
+	s.MaxResults = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *ListProxySessionsInput) SetNextToken(v string) *ListProxySessionsInput {
+	s.NextToken = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *ListProxySessionsInput) SetStatus(v string) *ListProxySessionsInput {
+	s.Status = &v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *ListProxySessionsInput) SetVoiceConnectorId(v string) *ListProxySessionsInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type ListProxySessionsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The token to use to retrieve the next page of results.
+	NextToken *string `type:"string"`
+
+	// The proxy session details.
+	ProxySessions []*ProxySession `type:"list"`
+}
+
+// String returns the string representation
+func (s ListProxySessionsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListProxySessionsOutput) GoString() string {
+	return s.String()
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *ListProxySessionsOutput) SetNextToken(v string) *ListProxySessionsOutput {
+	s.NextToken = &v
+	return s
+}
+
+// SetProxySessions sets the ProxySessions field's value.
+func (s *ListProxySessionsOutput) SetProxySessions(v []*ProxySession) *ListProxySessionsOutput {
+	s.ProxySessions = v
+	return s
+}
+
 type ListRoomMembershipsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -15982,6 +18520,70 @@ func (s *ListRoomsOutput) SetNextToken(v string) *ListRoomsOutput {
 // SetRooms sets the Rooms field's value.
 func (s *ListRoomsOutput) SetRooms(v []*Room) *ListRoomsOutput {
 	s.Rooms = v
+	return s
+}
+
+type ListTagsForResourceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The resource ARN.
+	//
+	// ResourceARN is a required field
+	ResourceARN *string `location:"querystring" locationName:"arn" min:"1" type:"string" required:"true" sensitive:"true"`
+}
+
+// String returns the string representation
+func (s ListTagsForResourceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListTagsForResourceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListTagsForResourceInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ListTagsForResourceInput"}
+	if s.ResourceARN == nil {
+		invalidParams.Add(request.NewErrParamRequired("ResourceARN"))
+	}
+	if s.ResourceARN != nil && len(*s.ResourceARN) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ResourceARN", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetResourceARN sets the ResourceARN field's value.
+func (s *ListTagsForResourceInput) SetResourceARN(v string) *ListTagsForResourceInput {
+	s.ResourceARN = &v
+	return s
+}
+
+type ListTagsForResourceOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A list of tag-key value pairs.
+	Tags []*Tag `min:"1" type:"list"`
+}
+
+// String returns the string representation
+func (s ListTagsForResourceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListTagsForResourceOutput) GoString() string {
+	return s.String()
+}
+
+// SetTags sets the Tags field's value.
+func (s *ListTagsForResourceOutput) SetTags(v []*Tag) *ListTagsForResourceOutput {
+	s.Tags = v
 	return s
 }
 
@@ -16496,6 +19098,9 @@ func (s *MediaPlacement) SetTurnControlUrl(v string) *MediaPlacement {
 type Meeting struct {
 	_ struct{} `type:"structure"`
 
+	// The external meeting ID.
+	ExternalMeetingId *string `min:"2" type:"string" sensitive:"true"`
+
 	// The media placement for the meeting.
 	MediaPlacement *MediaPlacement `type:"structure"`
 
@@ -16516,6 +19121,12 @@ func (s Meeting) String() string {
 // GoString returns the string representation
 func (s Meeting) GoString() string {
 	return s.String()
+}
+
+// SetExternalMeetingId sets the ExternalMeetingId field's value.
+func (s *Meeting) SetExternalMeetingId(v string) *Meeting {
+	s.ExternalMeetingId = &v
+	return s
 }
 
 // SetMediaPlacement sets the MediaPlacement field's value.
@@ -16723,8 +19334,8 @@ func (s *MembershipItem) SetRole(v string) *MembershipItem {
 
 // One or more of the resources in the request does not exist in the system.
 type NotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -16743,17 +19354,17 @@ func (s NotFoundException) GoString() string {
 
 func newErrorNotFoundException(v protocol.ResponseMetadata) error {
 	return &NotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s NotFoundException) Code() string {
+func (s *NotFoundException) Code() string {
 	return "NotFoundException"
 }
 
 // Message returns the exception's message.
-func (s NotFoundException) Message() string {
+func (s *NotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -16761,22 +19372,22 @@ func (s NotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s NotFoundException) OrigErr() error {
+func (s *NotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s NotFoundException) Error() string {
+func (s *NotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s NotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *NotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s NotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *NotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // A phone number for which an order has been placed.
@@ -16946,6 +19557,40 @@ func (s *OriginationRoute) SetProtocol(v string) *OriginationRoute {
 // SetWeight sets the Weight field's value.
 func (s *OriginationRoute) SetWeight(v int64) *OriginationRoute {
 	s.Weight = &v
+	return s
+}
+
+// The phone number and proxy phone number for a participant in an Amazon Chime
+// Voice Connector proxy session.
+type Participant struct {
+	_ struct{} `type:"structure"`
+
+	// The participant's phone number.
+	PhoneNumber *string `type:"string" sensitive:"true"`
+
+	// The participant's proxy phone number.
+	ProxyPhoneNumber *string `type:"string" sensitive:"true"`
+}
+
+// String returns the string representation
+func (s Participant) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Participant) GoString() string {
+	return s.String()
+}
+
+// SetPhoneNumber sets the PhoneNumber field's value.
+func (s *Participant) SetPhoneNumber(v string) *Participant {
+	s.PhoneNumber = &v
+	return s
+}
+
+// SetProxyPhoneNumber sets the ProxyPhoneNumber field's value.
+func (s *Participant) SetProxyPhoneNumber(v string) *Participant {
+	s.ProxyPhoneNumber = &v
 	return s
 }
 
@@ -17302,6 +19947,192 @@ func (s *PhoneNumberOrder) SetUpdatedTimestamp(v time.Time) *PhoneNumberOrder {
 	return s
 }
 
+// The proxy configuration for an Amazon Chime Voice Connector.
+type Proxy struct {
+	_ struct{} `type:"structure"`
+
+	// The default number of minutes allowed for proxy sessions.
+	DefaultSessionExpiryMinutes *int64 `type:"integer"`
+
+	// When true, stops proxy sessions from being created on the specified Amazon
+	// Chime Voice Connector.
+	Disabled *bool `type:"boolean"`
+
+	// The phone number to route calls to after a proxy session expires.
+	FallBackPhoneNumber *string `type:"string" sensitive:"true"`
+
+	// The countries for proxy phone numbers to be selected from.
+	PhoneNumberCountries []*string `type:"list"`
+}
+
+// String returns the string representation
+func (s Proxy) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Proxy) GoString() string {
+	return s.String()
+}
+
+// SetDefaultSessionExpiryMinutes sets the DefaultSessionExpiryMinutes field's value.
+func (s *Proxy) SetDefaultSessionExpiryMinutes(v int64) *Proxy {
+	s.DefaultSessionExpiryMinutes = &v
+	return s
+}
+
+// SetDisabled sets the Disabled field's value.
+func (s *Proxy) SetDisabled(v bool) *Proxy {
+	s.Disabled = &v
+	return s
+}
+
+// SetFallBackPhoneNumber sets the FallBackPhoneNumber field's value.
+func (s *Proxy) SetFallBackPhoneNumber(v string) *Proxy {
+	s.FallBackPhoneNumber = &v
+	return s
+}
+
+// SetPhoneNumberCountries sets the PhoneNumberCountries field's value.
+func (s *Proxy) SetPhoneNumberCountries(v []*string) *Proxy {
+	s.PhoneNumberCountries = v
+	return s
+}
+
+// The proxy session for an Amazon Chime Voice Connector.
+type ProxySession struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session capabilities.
+	Capabilities []*string `type:"list"`
+
+	// The created timestamp, in ISO 8601 format.
+	CreatedTimestamp *time.Time `type:"timestamp" timestampFormat:"iso8601"`
+
+	// The ended timestamp, in ISO 8601 format.
+	EndedTimestamp *time.Time `type:"timestamp" timestampFormat:"iso8601"`
+
+	// The number of minutes allowed for the proxy session.
+	ExpiryMinutes *int64 `min:"1" type:"integer"`
+
+	// The preference for matching the country or area code of the proxy phone number
+	// with that of the first participant.
+	GeoMatchLevel *string `type:"string" enum:"GeoMatchLevel"`
+
+	// The country and area code for the proxy phone number.
+	GeoMatchParams *GeoMatchParams `type:"structure"`
+
+	// The name of the proxy session.
+	Name *string `type:"string"`
+
+	// The preference for proxy phone number reuse, or stickiness, between the same
+	// participants across sessions.
+	NumberSelectionBehavior *string `type:"string" enum:"NumberSelectionBehavior"`
+
+	// The proxy session participants.
+	Participants []*Participant `type:"list"`
+
+	// The proxy session ID.
+	ProxySessionId *string `min:"1" type:"string"`
+
+	// The status of the proxy session.
+	Status *string `type:"string" enum:"ProxySessionStatus"`
+
+	// The updated timestamp, in ISO 8601 format.
+	UpdatedTimestamp *time.Time `type:"timestamp" timestampFormat:"iso8601"`
+
+	// The Amazon Chime voice connector ID.
+	VoiceConnectorId *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s ProxySession) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ProxySession) GoString() string {
+	return s.String()
+}
+
+// SetCapabilities sets the Capabilities field's value.
+func (s *ProxySession) SetCapabilities(v []*string) *ProxySession {
+	s.Capabilities = v
+	return s
+}
+
+// SetCreatedTimestamp sets the CreatedTimestamp field's value.
+func (s *ProxySession) SetCreatedTimestamp(v time.Time) *ProxySession {
+	s.CreatedTimestamp = &v
+	return s
+}
+
+// SetEndedTimestamp sets the EndedTimestamp field's value.
+func (s *ProxySession) SetEndedTimestamp(v time.Time) *ProxySession {
+	s.EndedTimestamp = &v
+	return s
+}
+
+// SetExpiryMinutes sets the ExpiryMinutes field's value.
+func (s *ProxySession) SetExpiryMinutes(v int64) *ProxySession {
+	s.ExpiryMinutes = &v
+	return s
+}
+
+// SetGeoMatchLevel sets the GeoMatchLevel field's value.
+func (s *ProxySession) SetGeoMatchLevel(v string) *ProxySession {
+	s.GeoMatchLevel = &v
+	return s
+}
+
+// SetGeoMatchParams sets the GeoMatchParams field's value.
+func (s *ProxySession) SetGeoMatchParams(v *GeoMatchParams) *ProxySession {
+	s.GeoMatchParams = v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *ProxySession) SetName(v string) *ProxySession {
+	s.Name = &v
+	return s
+}
+
+// SetNumberSelectionBehavior sets the NumberSelectionBehavior field's value.
+func (s *ProxySession) SetNumberSelectionBehavior(v string) *ProxySession {
+	s.NumberSelectionBehavior = &v
+	return s
+}
+
+// SetParticipants sets the Participants field's value.
+func (s *ProxySession) SetParticipants(v []*Participant) *ProxySession {
+	s.Participants = v
+	return s
+}
+
+// SetProxySessionId sets the ProxySessionId field's value.
+func (s *ProxySession) SetProxySessionId(v string) *ProxySession {
+	s.ProxySessionId = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *ProxySession) SetStatus(v string) *ProxySession {
+	s.Status = &v
+	return s
+}
+
+// SetUpdatedTimestamp sets the UpdatedTimestamp field's value.
+func (s *ProxySession) SetUpdatedTimestamp(v time.Time) *ProxySession {
+	s.UpdatedTimestamp = &v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *ProxySession) SetVoiceConnectorId(v string) *ProxySession {
+	s.VoiceConnectorId = &v
+	return s
+}
+
 type PutEventsConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -17560,6 +20391,120 @@ func (s PutVoiceConnectorOriginationOutput) GoString() string {
 // SetOrigination sets the Origination field's value.
 func (s *PutVoiceConnectorOriginationOutput) SetOrigination(v *Origination) *PutVoiceConnectorOriginationOutput {
 	s.Origination = v
+	return s
+}
+
+type PutVoiceConnectorProxyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The default number of minutes allowed for proxy sessions.
+	//
+	// DefaultSessionExpiryMinutes is a required field
+	DefaultSessionExpiryMinutes *int64 `type:"integer" required:"true"`
+
+	// When true, stops proxy sessions from being created on the specified Amazon
+	// Chime Voice Connector.
+	Disabled *bool `type:"boolean"`
+
+	// The phone number to route calls to after a proxy session expires.
+	FallBackPhoneNumber *string `type:"string" sensitive:"true"`
+
+	// The countries for proxy phone numbers to be selected from.
+	//
+	// PhoneNumberPoolCountries is a required field
+	PhoneNumberPoolCountries []*string `min:"1" type:"list" required:"true"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s PutVoiceConnectorProxyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutVoiceConnectorProxyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutVoiceConnectorProxyInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "PutVoiceConnectorProxyInput"}
+	if s.DefaultSessionExpiryMinutes == nil {
+		invalidParams.Add(request.NewErrParamRequired("DefaultSessionExpiryMinutes"))
+	}
+	if s.PhoneNumberPoolCountries == nil {
+		invalidParams.Add(request.NewErrParamRequired("PhoneNumberPoolCountries"))
+	}
+	if s.PhoneNumberPoolCountries != nil && len(s.PhoneNumberPoolCountries) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("PhoneNumberPoolCountries", 1))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDefaultSessionExpiryMinutes sets the DefaultSessionExpiryMinutes field's value.
+func (s *PutVoiceConnectorProxyInput) SetDefaultSessionExpiryMinutes(v int64) *PutVoiceConnectorProxyInput {
+	s.DefaultSessionExpiryMinutes = &v
+	return s
+}
+
+// SetDisabled sets the Disabled field's value.
+func (s *PutVoiceConnectorProxyInput) SetDisabled(v bool) *PutVoiceConnectorProxyInput {
+	s.Disabled = &v
+	return s
+}
+
+// SetFallBackPhoneNumber sets the FallBackPhoneNumber field's value.
+func (s *PutVoiceConnectorProxyInput) SetFallBackPhoneNumber(v string) *PutVoiceConnectorProxyInput {
+	s.FallBackPhoneNumber = &v
+	return s
+}
+
+// SetPhoneNumberPoolCountries sets the PhoneNumberPoolCountries field's value.
+func (s *PutVoiceConnectorProxyInput) SetPhoneNumberPoolCountries(v []*string) *PutVoiceConnectorProxyInput {
+	s.PhoneNumberPoolCountries = v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *PutVoiceConnectorProxyInput) SetVoiceConnectorId(v string) *PutVoiceConnectorProxyInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type PutVoiceConnectorProxyOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy configuration details.
+	Proxy *Proxy `type:"structure"`
+}
+
+// String returns the string representation
+func (s PutVoiceConnectorProxyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutVoiceConnectorProxyOutput) GoString() string {
+	return s.String()
+}
+
+// SetProxy sets the Proxy field's value.
+func (s *PutVoiceConnectorProxyOutput) SetProxy(v *Proxy) *PutVoiceConnectorProxyOutput {
+	s.Proxy = v
 	return s
 }
 
@@ -17958,8 +20903,8 @@ func (s *ResetPersonalPINOutput) SetUser(v *User) *ResetPersonalPINOutput {
 
 // The request exceeds the resource limit.
 type ResourceLimitExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -17978,17 +20923,17 @@ func (s ResourceLimitExceededException) GoString() string {
 
 func newErrorResourceLimitExceededException(v protocol.ResponseMetadata) error {
 	return &ResourceLimitExceededException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ResourceLimitExceededException) Code() string {
+func (s *ResourceLimitExceededException) Code() string {
 	return "ResourceLimitExceededException"
 }
 
 // Message returns the exception's message.
-func (s ResourceLimitExceededException) Message() string {
+func (s *ResourceLimitExceededException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -17996,22 +20941,22 @@ func (s ResourceLimitExceededException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResourceLimitExceededException) OrigErr() error {
+func (s *ResourceLimitExceededException) OrigErr() error {
 	return nil
 }
 
-func (s ResourceLimitExceededException) Error() string {
+func (s *ResourceLimitExceededException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ResourceLimitExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ResourceLimitExceededException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ResourceLimitExceededException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ResourceLimitExceededException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type RestorePhoneNumberInput struct {
@@ -18325,8 +21270,8 @@ func (s *SearchAvailablePhoneNumbersOutput) SetE164PhoneNumbers(v []*string) *Se
 
 // The service encountered an unexpected error.
 type ServiceFailureException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -18345,17 +21290,17 @@ func (s ServiceFailureException) GoString() string {
 
 func newErrorServiceFailureException(v protocol.ResponseMetadata) error {
 	return &ServiceFailureException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ServiceFailureException) Code() string {
+func (s *ServiceFailureException) Code() string {
 	return "ServiceFailureException"
 }
 
 // Message returns the exception's message.
-func (s ServiceFailureException) Message() string {
+func (s *ServiceFailureException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -18363,28 +21308,28 @@ func (s ServiceFailureException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceFailureException) OrigErr() error {
+func (s *ServiceFailureException) OrigErr() error {
 	return nil
 }
 
-func (s ServiceFailureException) Error() string {
+func (s *ServiceFailureException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ServiceFailureException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ServiceFailureException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ServiceFailureException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ServiceFailureException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The service is currently unavailable.
 type ServiceUnavailableException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -18403,17 +21348,17 @@ func (s ServiceUnavailableException) GoString() string {
 
 func newErrorServiceUnavailableException(v protocol.ResponseMetadata) error {
 	return &ServiceUnavailableException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ServiceUnavailableException) Code() string {
+func (s *ServiceUnavailableException) Code() string {
 	return "ServiceUnavailableException"
 }
 
 // Message returns the exception's message.
-func (s ServiceUnavailableException) Message() string {
+func (s *ServiceUnavailableException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -18421,22 +21366,22 @@ func (s ServiceUnavailableException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceUnavailableException) OrigErr() error {
+func (s *ServiceUnavailableException) OrigErr() error {
 	return nil
 }
 
-func (s ServiceUnavailableException) Error() string {
+func (s *ServiceUnavailableException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ServiceUnavailableException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ServiceUnavailableException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ServiceUnavailableException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ServiceUnavailableException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // An Active Directory (AD) group whose members are granted permission to act
@@ -18512,6 +21457,328 @@ func (s *StreamingConfiguration) SetDataRetentionInHours(v int64) *StreamingConf
 func (s *StreamingConfiguration) SetDisabled(v bool) *StreamingConfiguration {
 	s.Disabled = &v
 	return s
+}
+
+// Describes a tag applied to a resource.
+type Tag struct {
+	_ struct{} `type:"structure"`
+
+	// The key of the tag.
+	//
+	// Key is a required field
+	Key *string `min:"1" type:"string" required:"true" sensitive:"true"`
+
+	// The value of the tag.
+	//
+	// Value is a required field
+	Value *string `min:"1" type:"string" required:"true" sensitive:"true"`
+}
+
+// String returns the string representation
+func (s Tag) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Tag) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *Tag) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "Tag"}
+	if s.Key == nil {
+		invalidParams.Add(request.NewErrParamRequired("Key"))
+	}
+	if s.Key != nil && len(*s.Key) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Key", 1))
+	}
+	if s.Value == nil {
+		invalidParams.Add(request.NewErrParamRequired("Value"))
+	}
+	if s.Value != nil && len(*s.Value) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Value", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetKey sets the Key field's value.
+func (s *Tag) SetKey(v string) *Tag {
+	s.Key = &v
+	return s
+}
+
+// SetValue sets the Value field's value.
+func (s *Tag) SetValue(v string) *Tag {
+	s.Value = &v
+	return s
+}
+
+type TagAttendeeInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK attendee ID.
+	//
+	// AttendeeId is a required field
+	AttendeeId *string `location:"uri" locationName:"attendeeId" type:"string" required:"true"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+
+	// The tag key-value pairs.
+	//
+	// Tags is a required field
+	Tags []*Tag `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s TagAttendeeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagAttendeeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *TagAttendeeInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "TagAttendeeInput"}
+	if s.AttendeeId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AttendeeId"))
+	}
+	if s.AttendeeId != nil && len(*s.AttendeeId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AttendeeId", 1))
+	}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+	if s.Tags == nil {
+		invalidParams.Add(request.NewErrParamRequired("Tags"))
+	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAttendeeId sets the AttendeeId field's value.
+func (s *TagAttendeeInput) SetAttendeeId(v string) *TagAttendeeInput {
+	s.AttendeeId = &v
+	return s
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *TagAttendeeInput) SetMeetingId(v string) *TagAttendeeInput {
+	s.MeetingId = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *TagAttendeeInput) SetTags(v []*Tag) *TagAttendeeInput {
+	s.Tags = v
+	return s
+}
+
+type TagAttendeeOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s TagAttendeeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagAttendeeOutput) GoString() string {
+	return s.String()
+}
+
+type TagMeetingInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+
+	// The tag key-value pairs.
+	//
+	// Tags is a required field
+	Tags []*Tag `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s TagMeetingInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagMeetingInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *TagMeetingInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "TagMeetingInput"}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+	if s.Tags == nil {
+		invalidParams.Add(request.NewErrParamRequired("Tags"))
+	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *TagMeetingInput) SetMeetingId(v string) *TagMeetingInput {
+	s.MeetingId = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *TagMeetingInput) SetTags(v []*Tag) *TagMeetingInput {
+	s.Tags = v
+	return s
+}
+
+type TagMeetingOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s TagMeetingOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagMeetingOutput) GoString() string {
+	return s.String()
+}
+
+type TagResourceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The resource ARN.
+	//
+	// ResourceARN is a required field
+	ResourceARN *string `min:"1" type:"string" required:"true" sensitive:"true"`
+
+	// The tag key-value pairs.
+	//
+	// Tags is a required field
+	Tags []*Tag `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s TagResourceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagResourceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *TagResourceInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "TagResourceInput"}
+	if s.ResourceARN == nil {
+		invalidParams.Add(request.NewErrParamRequired("ResourceARN"))
+	}
+	if s.ResourceARN != nil && len(*s.ResourceARN) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ResourceARN", 1))
+	}
+	if s.Tags == nil {
+		invalidParams.Add(request.NewErrParamRequired("Tags"))
+	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetResourceARN sets the ResourceARN field's value.
+func (s *TagResourceInput) SetResourceARN(v string) *TagResourceInput {
+	s.ResourceARN = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *TagResourceInput) SetTags(v []*Tag) *TagResourceInput {
+	s.Tags = v
+	return s
+}
+
+type TagResourceOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s TagResourceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TagResourceOutput) GoString() string {
+	return s.String()
 }
 
 // Settings that allow management of telephony permissions for an Amazon Chime
@@ -18693,8 +21960,8 @@ func (s *TerminationHealth) SetTimestamp(v time.Time) *TerminationHealth {
 
 // The client exceeded its request rate limit.
 type ThrottledClientException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -18713,17 +21980,17 @@ func (s ThrottledClientException) GoString() string {
 
 func newErrorThrottledClientException(v protocol.ResponseMetadata) error {
 	return &ThrottledClientException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ThrottledClientException) Code() string {
+func (s *ThrottledClientException) Code() string {
 	return "ThrottledClientException"
 }
 
 // Message returns the exception's message.
-func (s ThrottledClientException) Message() string {
+func (s *ThrottledClientException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -18731,28 +21998,28 @@ func (s ThrottledClientException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ThrottledClientException) OrigErr() error {
+func (s *ThrottledClientException) OrigErr() error {
 	return nil
 }
 
-func (s ThrottledClientException) Error() string {
+func (s *ThrottledClientException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ThrottledClientException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ThrottledClientException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ThrottledClientException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ThrottledClientException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The client is not currently authorized to make the request.
 type UnauthorizedClientException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -18771,17 +22038,17 @@ func (s UnauthorizedClientException) GoString() string {
 
 func newErrorUnauthorizedClientException(v protocol.ResponseMetadata) error {
 	return &UnauthorizedClientException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnauthorizedClientException) Code() string {
+func (s *UnauthorizedClientException) Code() string {
 	return "UnauthorizedClientException"
 }
 
 // Message returns the exception's message.
-func (s UnauthorizedClientException) Message() string {
+func (s *UnauthorizedClientException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -18789,29 +22056,29 @@ func (s UnauthorizedClientException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnauthorizedClientException) OrigErr() error {
+func (s *UnauthorizedClientException) OrigErr() error {
 	return nil
 }
 
-func (s UnauthorizedClientException) Error() string {
+func (s *UnauthorizedClientException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnauthorizedClientException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnauthorizedClientException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnauthorizedClientException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnauthorizedClientException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The request was well-formed but was unable to be followed due to semantic
 // errors.
 type UnprocessableEntityException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Code_ *string `locationName:"Code" type:"string" enum:"ErrorCode"`
 
@@ -18830,17 +22097,17 @@ func (s UnprocessableEntityException) GoString() string {
 
 func newErrorUnprocessableEntityException(v protocol.ResponseMetadata) error {
 	return &UnprocessableEntityException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s UnprocessableEntityException) Code() string {
+func (s *UnprocessableEntityException) Code() string {
 	return "UnprocessableEntityException"
 }
 
 // Message returns the exception's message.
-func (s UnprocessableEntityException) Message() string {
+func (s *UnprocessableEntityException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -18848,22 +22115,255 @@ func (s UnprocessableEntityException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s UnprocessableEntityException) OrigErr() error {
+func (s *UnprocessableEntityException) OrigErr() error {
 	return nil
 }
 
-func (s UnprocessableEntityException) Error() string {
+func (s *UnprocessableEntityException) Error() string {
 	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s UnprocessableEntityException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *UnprocessableEntityException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s UnprocessableEntityException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *UnprocessableEntityException) RequestID() string {
+	return s.RespMetadata.RequestID
+}
+
+type UntagAttendeeInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK attendee ID.
+	//
+	// AttendeeId is a required field
+	AttendeeId *string `location:"uri" locationName:"attendeeId" type:"string" required:"true"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+
+	// The tag keys.
+	//
+	// TagKeys is a required field
+	TagKeys []*string `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s UntagAttendeeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagAttendeeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UntagAttendeeInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UntagAttendeeInput"}
+	if s.AttendeeId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AttendeeId"))
+	}
+	if s.AttendeeId != nil && len(*s.AttendeeId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AttendeeId", 1))
+	}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+	if s.TagKeys == nil {
+		invalidParams.Add(request.NewErrParamRequired("TagKeys"))
+	}
+	if s.TagKeys != nil && len(s.TagKeys) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("TagKeys", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAttendeeId sets the AttendeeId field's value.
+func (s *UntagAttendeeInput) SetAttendeeId(v string) *UntagAttendeeInput {
+	s.AttendeeId = &v
+	return s
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *UntagAttendeeInput) SetMeetingId(v string) *UntagAttendeeInput {
+	s.MeetingId = &v
+	return s
+}
+
+// SetTagKeys sets the TagKeys field's value.
+func (s *UntagAttendeeInput) SetTagKeys(v []*string) *UntagAttendeeInput {
+	s.TagKeys = v
+	return s
+}
+
+type UntagAttendeeOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s UntagAttendeeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagAttendeeOutput) GoString() string {
+	return s.String()
+}
+
+type UntagMeetingInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime SDK meeting ID.
+	//
+	// MeetingId is a required field
+	MeetingId *string `location:"uri" locationName:"meetingId" type:"string" required:"true"`
+
+	// The tag keys.
+	//
+	// TagKeys is a required field
+	TagKeys []*string `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s UntagMeetingInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagMeetingInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UntagMeetingInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UntagMeetingInput"}
+	if s.MeetingId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MeetingId"))
+	}
+	if s.MeetingId != nil && len(*s.MeetingId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingId", 1))
+	}
+	if s.TagKeys == nil {
+		invalidParams.Add(request.NewErrParamRequired("TagKeys"))
+	}
+	if s.TagKeys != nil && len(s.TagKeys) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("TagKeys", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetMeetingId sets the MeetingId field's value.
+func (s *UntagMeetingInput) SetMeetingId(v string) *UntagMeetingInput {
+	s.MeetingId = &v
+	return s
+}
+
+// SetTagKeys sets the TagKeys field's value.
+func (s *UntagMeetingInput) SetTagKeys(v []*string) *UntagMeetingInput {
+	s.TagKeys = v
+	return s
+}
+
+type UntagMeetingOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s UntagMeetingOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagMeetingOutput) GoString() string {
+	return s.String()
+}
+
+type UntagResourceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The resource ARN.
+	//
+	// ResourceARN is a required field
+	ResourceARN *string `min:"1" type:"string" required:"true" sensitive:"true"`
+
+	// The tag keys.
+	//
+	// TagKeys is a required field
+	TagKeys []*string `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s UntagResourceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagResourceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UntagResourceInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UntagResourceInput"}
+	if s.ResourceARN == nil {
+		invalidParams.Add(request.NewErrParamRequired("ResourceARN"))
+	}
+	if s.ResourceARN != nil && len(*s.ResourceARN) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ResourceARN", 1))
+	}
+	if s.TagKeys == nil {
+		invalidParams.Add(request.NewErrParamRequired("TagKeys"))
+	}
+	if s.TagKeys != nil && len(s.TagKeys) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("TagKeys", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetResourceARN sets the ResourceARN field's value.
+func (s *UntagResourceInput) SetResourceARN(v string) *UntagResourceInput {
+	s.ResourceARN = &v
+	return s
+}
+
+// SetTagKeys sets the TagKeys field's value.
+func (s *UntagResourceInput) SetTagKeys(v []*string) *UntagResourceInput {
+	s.TagKeys = v
+	return s
+}
+
+type UntagResourceOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s UntagResourceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UntagResourceOutput) GoString() string {
+	return s.String()
 }
 
 type UpdateAccountInput struct {
@@ -19357,6 +22857,113 @@ func (s UpdatePhoneNumberSettingsOutput) String() string {
 // GoString returns the string representation
 func (s UpdatePhoneNumberSettingsOutput) GoString() string {
 	return s.String()
+}
+
+type UpdateProxySessionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session capabilities.
+	//
+	// Capabilities is a required field
+	Capabilities []*string `type:"list" required:"true"`
+
+	// The number of minutes allowed for the proxy session.
+	ExpiryMinutes *int64 `min:"1" type:"integer"`
+
+	// The proxy session ID.
+	//
+	// ProxySessionId is a required field
+	ProxySessionId *string `location:"uri" locationName:"proxySessionId" min:"1" type:"string" required:"true"`
+
+	// The Amazon Chime voice connector ID.
+	//
+	// VoiceConnectorId is a required field
+	VoiceConnectorId *string `location:"uri" locationName:"voiceConnectorId" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateProxySessionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateProxySessionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateProxySessionInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UpdateProxySessionInput"}
+	if s.Capabilities == nil {
+		invalidParams.Add(request.NewErrParamRequired("Capabilities"))
+	}
+	if s.ExpiryMinutes != nil && *s.ExpiryMinutes < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("ExpiryMinutes", 1))
+	}
+	if s.ProxySessionId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ProxySessionId"))
+	}
+	if s.ProxySessionId != nil && len(*s.ProxySessionId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ProxySessionId", 1))
+	}
+	if s.VoiceConnectorId == nil {
+		invalidParams.Add(request.NewErrParamRequired("VoiceConnectorId"))
+	}
+	if s.VoiceConnectorId != nil && len(*s.VoiceConnectorId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("VoiceConnectorId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetCapabilities sets the Capabilities field's value.
+func (s *UpdateProxySessionInput) SetCapabilities(v []*string) *UpdateProxySessionInput {
+	s.Capabilities = v
+	return s
+}
+
+// SetExpiryMinutes sets the ExpiryMinutes field's value.
+func (s *UpdateProxySessionInput) SetExpiryMinutes(v int64) *UpdateProxySessionInput {
+	s.ExpiryMinutes = &v
+	return s
+}
+
+// SetProxySessionId sets the ProxySessionId field's value.
+func (s *UpdateProxySessionInput) SetProxySessionId(v string) *UpdateProxySessionInput {
+	s.ProxySessionId = &v
+	return s
+}
+
+// SetVoiceConnectorId sets the VoiceConnectorId field's value.
+func (s *UpdateProxySessionInput) SetVoiceConnectorId(v string) *UpdateProxySessionInput {
+	s.VoiceConnectorId = &v
+	return s
+}
+
+type UpdateProxySessionOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The proxy session details.
+	ProxySession *ProxySession `type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateProxySessionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateProxySessionOutput) GoString() string {
+	return s.String()
+}
+
+// SetProxySession sets the ProxySession field's value.
+func (s *UpdateProxySessionOutput) SetProxySession(v *ProxySession) *UpdateProxySessionOutput {
+	s.ProxySession = v
+	return s
 }
 
 type UpdateRoomInput struct {
@@ -20508,6 +24115,14 @@ const (
 )
 
 const (
+	// CapabilityVoice is a Capability enum value
+	CapabilityVoice = "Voice"
+
+	// CapabilitySms is a Capability enum value
+	CapabilitySms = "SMS"
+)
+
+const (
 	// EmailStatusNotSent is a EmailStatus enum value
 	EmailStatusNotSent = "NotSent"
 
@@ -20563,6 +24178,14 @@ const (
 )
 
 const (
+	// GeoMatchLevelCountry is a GeoMatchLevel enum value
+	GeoMatchLevelCountry = "Country"
+
+	// GeoMatchLevelAreaCode is a GeoMatchLevel enum value
+	GeoMatchLevelAreaCode = "AreaCode"
+)
+
+const (
 	// InviteStatusPending is a InviteStatus enum value
 	InviteStatusPending = "Pending"
 
@@ -20596,6 +24219,14 @@ const (
 
 	// MemberTypeWebhook is a MemberType enum value
 	MemberTypeWebhook = "Webhook"
+)
+
+const (
+	// NumberSelectionBehaviorPreferSticky is a NumberSelectionBehavior enum value
+	NumberSelectionBehaviorPreferSticky = "PreferSticky"
+
+	// NumberSelectionBehaviorAvoidSticky is a NumberSelectionBehavior enum value
+	NumberSelectionBehaviorAvoidSticky = "AvoidSticky"
 )
 
 const (
@@ -20685,6 +24316,17 @@ const (
 
 	// PhoneNumberTypeTollFree is a PhoneNumberType enum value
 	PhoneNumberTypeTollFree = "TollFree"
+)
+
+const (
+	// ProxySessionStatusOpen is a ProxySessionStatus enum value
+	ProxySessionStatusOpen = "Open"
+
+	// ProxySessionStatusInProgress is a ProxySessionStatus enum value
+	ProxySessionStatusInProgress = "InProgress"
+
+	// ProxySessionStatusClosed is a ProxySessionStatus enum value
+	ProxySessionStatusClosed = "Closed"
 )
 
 const (

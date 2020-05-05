@@ -15,6 +15,117 @@ import (
 	"github.com/aws/aws-sdk-go/private/protocol"
 )
 
+const opCancelQuery = "CancelQuery"
+
+// CancelQueryRequest generates a "aws/request.Request" representing the
+// client's request for the CancelQuery operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CancelQuery for more information on using the CancelQuery
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CancelQueryRequest method.
+//    req, resp := client.CancelQueryRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/CancelQuery
+func (c *TimestreamQuery) CancelQueryRequest(input *CancelQueryInput) (req *request.Request, output *CancelQueryOutput) {
+	op := &request.Operation{
+		Name:       opCancelQuery,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CancelQueryInput{}
+	}
+
+	output = &CancelQueryOutput{}
+	req = c.newRequest(op, input, output)
+	// if a custom endpoint is provided for the request,
+	// we skip endpoint discovery workflow
+	if req.Config.Endpoint == nil {
+		de := discovererDescribeEndpoints{
+			Required:      true,
+			EndpointCache: c.endpointCache,
+			Params: map[string]*string{
+				"op": aws.String(req.Operation.Name),
+			},
+			Client: c,
+		}
+
+		for k, v := range de.Params {
+			if v == nil {
+				delete(de.Params, k)
+			}
+		}
+
+		req.Handlers.Build.PushFrontNamed(request.NamedHandler{
+			Name: "crr.endpointdiscovery",
+			Fn:   de.Handler,
+		})
+	}
+	return
+}
+
+// CancelQuery API operation for Amazon Timestream Query.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Timestream Query's
+// API operation CancelQuery for usage and error information.
+//
+// Returned Error Types:
+//   * AccessDeniedException
+//   You are not authorized to perform this action.
+//
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
+//
+//   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
+//
+//   * ValidationException
+//   Invalid or malformed request.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/CancelQuery
+func (c *TimestreamQuery) CancelQuery(input *CancelQueryInput) (*CancelQueryOutput, error) {
+	req, out := c.CancelQueryRequest(input)
+	return out, req.Send()
+}
+
+// CancelQueryWithContext is the same as CancelQuery with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CancelQuery for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *TimestreamQuery) CancelQueryWithContext(ctx aws.Context, input *CancelQueryInput, opts ...request.Option) (*CancelQueryOutput, error) {
+	req, out := c.CancelQueryRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDescribeEndpoints = "DescribeEndpoints"
 
 // DescribeEndpointsRequest generates a "aws/request.Request" representing the
@@ -65,6 +176,15 @@ func (c *TimestreamQuery) DescribeEndpointsRequest(input *DescribeEndpointsInput
 //
 // See the AWS API reference guide for Amazon Timestream Query's
 // API operation DescribeEndpoints for usage and error information.
+//
+// Returned Error Types:
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
+//
+//   * ValidationException
+//   Invalid or malformed request.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/DescribeEndpoints
 func (c *TimestreamQuery) DescribeEndpoints(input *DescribeEndpointsInput) (*DescribeEndpointsOutput, error) {
 	req, out := c.DescribeEndpointsRequest(input)
@@ -190,6 +310,12 @@ func (c *TimestreamQuery) QueryRequest(input *QueryInput) (req *request.Request,
 		Name:       opQuery,
 		HTTPMethod: "POST",
 		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxRows",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
@@ -255,13 +381,6 @@ func (c *TimestreamQuery) QueryRequest(input *QueryInput) (req *request.Request,
 //   * ValidationException
 //   Invalid or malformed request.
 //
-//   * TimeoutException
-//   The query execution time has exceeded the max time allotted for this query.
-//   For more information, see Quotas in the Timestream Developer Guide.
-//
-//   * ResultSizeExceededException
-//   The result size of this operation exceeded the specified limits.
-//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/Query
 func (c *TimestreamQuery) Query(input *QueryInput) (*QueryOutput, error) {
 	req, out := c.QueryRequest(input)
@@ -284,10 +403,62 @@ func (c *TimestreamQuery) QueryWithContext(ctx aws.Context, input *QueryInput, o
 	return out, req.Send()
 }
 
+// QueryPages iterates over the pages of a Query operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See Query method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a Query operation.
+//    pageNum := 0
+//    err := client.QueryPages(params,
+//        func(page *timestreamquery.QueryOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *TimestreamQuery) QueryPages(input *QueryInput, fn func(*QueryOutput, bool) bool) error {
+	return c.QueryPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// QueryPagesWithContext same as QueryPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *TimestreamQuery) QueryPagesWithContext(ctx aws.Context, input *QueryInput, fn func(*QueryOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *QueryInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.QueryRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*QueryOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 // You are not authorized to perform this action.
 type AccessDeniedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -304,17 +475,17 @@ func (s AccessDeniedException) GoString() string {
 
 func newErrorAccessDeniedException(v protocol.ResponseMetadata) error {
 	return &AccessDeniedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s AccessDeniedException) Code() string {
+func (s *AccessDeniedException) Code() string {
 	return "AccessDeniedException"
 }
 
 // Message returns the exception's message.
-func (s AccessDeniedException) Message() string {
+func (s *AccessDeniedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -322,22 +493,80 @@ func (s AccessDeniedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s AccessDeniedException) OrigErr() error {
+func (s *AccessDeniedException) OrigErr() error {
 	return nil
 }
 
-func (s AccessDeniedException) Error() string {
+func (s *AccessDeniedException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s AccessDeniedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *AccessDeniedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s AccessDeniedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *AccessDeniedException) RequestID() string {
+	return s.RespMetadata.RequestID
+}
+
+type CancelQueryInput struct {
+	_ struct{} `type:"structure"`
+
+	// QueryId is a required field
+	QueryId *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s CancelQueryInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CancelQueryInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CancelQueryInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CancelQueryInput"}
+	if s.QueryId == nil {
+		invalidParams.Add(request.NewErrParamRequired("QueryId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetQueryId sets the QueryId field's value.
+func (s *CancelQueryInput) SetQueryId(v string) *CancelQueryInput {
+	s.QueryId = &v
+	return s
+}
+
+type CancelQueryOutput struct {
+	_ struct{} `type:"structure"`
+
+	CancellationMessage *string `type:"string"`
+}
+
+// String returns the string representation
+func (s CancelQueryOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CancelQueryOutput) GoString() string {
+	return s.String()
+}
+
+// SetCancellationMessage sets the CancellationMessage field's value.
+func (s *CancelQueryOutput) SetCancellationMessage(v string) *CancelQueryOutput {
+	s.CancellationMessage = &v
+	return s
 }
 
 // Contains the meta data for query results such as the column names, data types,
@@ -512,8 +741,8 @@ func (s *Endpoint) SetCachePeriodInMinutes(v int64) *Endpoint {
 // Timestream was unable to fully process this request because of an internal
 // server error.
 type InternalServerException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -530,17 +759,17 @@ func (s InternalServerException) GoString() string {
 
 func newErrorInternalServerException(v protocol.ResponseMetadata) error {
 	return &InternalServerException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InternalServerException) Code() string {
+func (s *InternalServerException) Code() string {
 	return "InternalServerException"
 }
 
 // Message returns the exception's message.
-func (s InternalServerException) Message() string {
+func (s *InternalServerException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -548,31 +777,34 @@ func (s InternalServerException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InternalServerException) OrigErr() error {
+func (s *InternalServerException) OrigErr() error {
 	return nil
 }
 
-func (s InternalServerException) Error() string {
+func (s *InternalServerException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InternalServerException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InternalServerException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InternalServerException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InternalServerException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type QueryInput struct {
 	_ struct{} `type:"structure"`
 
-	// Indicates if Query should return truncated results if the result set exceeds
-	// 1MB. The default value for this parameter is false. You need to set this
-	// to true to accept truncated data.
-	AllowResultTruncation *bool `type:"boolean"`
+	ClientToken *string `min:"32" type:"string" idempotencyToken:"true"`
+
+	MaxRows *int64 `min:"1" type:"integer"`
+
+	NextToken *string `type:"string"`
+
+	QueryDescription *string `type:"string"`
 
 	// The query to be executed by Timestream.
 	//
@@ -593,6 +825,12 @@ func (s QueryInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *QueryInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "QueryInput"}
+	if s.ClientToken != nil && len(*s.ClientToken) < 32 {
+		invalidParams.Add(request.NewErrParamMinLen("ClientToken", 32))
+	}
+	if s.MaxRows != nil && *s.MaxRows < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxRows", 1))
+	}
 	if s.QueryString == nil {
 		invalidParams.Add(request.NewErrParamRequired("QueryString"))
 	}
@@ -603,9 +841,27 @@ func (s *QueryInput) Validate() error {
 	return nil
 }
 
-// SetAllowResultTruncation sets the AllowResultTruncation field's value.
-func (s *QueryInput) SetAllowResultTruncation(v bool) *QueryInput {
-	s.AllowResultTruncation = &v
+// SetClientToken sets the ClientToken field's value.
+func (s *QueryInput) SetClientToken(v string) *QueryInput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetMaxRows sets the MaxRows field's value.
+func (s *QueryInput) SetMaxRows(v int64) *QueryInput {
+	s.MaxRows = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *QueryInput) SetNextToken(v string) *QueryInput {
+	s.NextToken = &v
+	return s
+}
+
+// SetQueryDescription sets the QueryDescription field's value.
+func (s *QueryInput) SetQueryDescription(v string) *QueryInput {
+	s.QueryDescription = &v
 	return s
 }
 
@@ -623,10 +879,10 @@ type QueryOutput struct {
 	// ColumnInfo is a required field
 	ColumnInfo []*ColumnInfo `type:"list" required:"true"`
 
-	// An indicator for whether the result set is truncated.
-	//
-	// IsDataTruncated is a required field
-	IsDataTruncated *bool `type:"boolean" required:"true"`
+	NextToken *string `type:"string"`
+
+	// QueryId is a required field
+	QueryId *string `type:"string" required:"true"`
 
 	// The result set rows returned by the query.
 	//
@@ -650,9 +906,15 @@ func (s *QueryOutput) SetColumnInfo(v []*ColumnInfo) *QueryOutput {
 	return s
 }
 
-// SetIsDataTruncated sets the IsDataTruncated field's value.
-func (s *QueryOutput) SetIsDataTruncated(v bool) *QueryOutput {
-	s.IsDataTruncated = &v
+// SetNextToken sets the NextToken field's value.
+func (s *QueryOutput) SetNextToken(v string) *QueryOutput {
+	s.NextToken = &v
+	return s
+}
+
+// SetQueryId sets the QueryId field's value.
+func (s *QueryOutput) SetQueryId(v string) *QueryOutput {
+	s.QueryId = &v
 	return s
 }
 
@@ -660,62 +922,6 @@ func (s *QueryOutput) SetIsDataTruncated(v bool) *QueryOutput {
 func (s *QueryOutput) SetRows(v []*Row) *QueryOutput {
 	s.Rows = v
 	return s
-}
-
-// The result size of this operation exceeded the specified limits.
-type ResultSizeExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
-
-	Message_ *string `locationName:"message" type:"string"`
-}
-
-// String returns the string representation
-func (s ResultSizeExceededException) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s ResultSizeExceededException) GoString() string {
-	return s.String()
-}
-
-func newErrorResultSizeExceededException(v protocol.ResponseMetadata) error {
-	return &ResultSizeExceededException{
-		respMetadata: v,
-	}
-}
-
-// Code returns the exception type name.
-func (s ResultSizeExceededException) Code() string {
-	return "ResultSizeExceededException"
-}
-
-// Message returns the exception's message.
-func (s ResultSizeExceededException) Message() string {
-	if s.Message_ != nil {
-		return *s.Message_
-	}
-	return ""
-}
-
-// OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResultSizeExceededException) OrigErr() error {
-	return nil
-}
-
-func (s ResultSizeExceededException) Error() string {
-	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
-}
-
-// Status code returns the HTTP status code for the request's response error.
-func (s ResultSizeExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
-}
-
-// RequestID returns the service's response RequestID for request.
-func (s ResultSizeExceededException) RequestID() string {
-	return s.respMetadata.RequestID
 }
 
 // Represents a single row in the query results.
@@ -747,8 +953,8 @@ func (s *Row) SetData(v []*Datum) *Row {
 // Too many requests were made by a user exceeding service quotas. The request
 // was throttled.
 type ThrottlingException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"message" type:"string"`
 }
@@ -765,17 +971,17 @@ func (s ThrottlingException) GoString() string {
 
 func newErrorThrottlingException(v protocol.ResponseMetadata) error {
 	return &ThrottlingException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ThrottlingException) Code() string {
+func (s *ThrottlingException) Code() string {
 	return "ThrottlingException"
 }
 
 // Message returns the exception's message.
-func (s ThrottlingException) Message() string {
+func (s *ThrottlingException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -783,22 +989,22 @@ func (s ThrottlingException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ThrottlingException) OrigErr() error {
+func (s *ThrottlingException) OrigErr() error {
 	return nil
 }
 
-func (s ThrottlingException) Error() string {
+func (s *ThrottlingException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ThrottlingException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ThrottlingException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ThrottlingException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ThrottlingException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // The timeseries datatype represents the values of a measure over time. A time
@@ -839,63 +1045,6 @@ func (s *TimeSeriesDataPoint) SetTime(v string) *TimeSeriesDataPoint {
 func (s *TimeSeriesDataPoint) SetValue(v *Datum) *TimeSeriesDataPoint {
 	s.Value = v
 	return s
-}
-
-// The query execution time has exceeded the max time allotted for this query.
-// For more information, see Quotas in the Timestream Developer Guide.
-type TimeoutException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
-
-	Message_ *string `locationName:"message" type:"string"`
-}
-
-// String returns the string representation
-func (s TimeoutException) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s TimeoutException) GoString() string {
-	return s.String()
-}
-
-func newErrorTimeoutException(v protocol.ResponseMetadata) error {
-	return &TimeoutException{
-		respMetadata: v,
-	}
-}
-
-// Code returns the exception type name.
-func (s TimeoutException) Code() string {
-	return "TimeoutException"
-}
-
-// Message returns the exception's message.
-func (s TimeoutException) Message() string {
-	if s.Message_ != nil {
-		return *s.Message_
-	}
-	return ""
-}
-
-// OrigErr always returns nil, satisfies awserr.Error interface.
-func (s TimeoutException) OrigErr() error {
-	return nil
-}
-
-func (s TimeoutException) Error() string {
-	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
-}
-
-// Status code returns the HTTP status code for the request's response error.
-func (s TimeoutException) StatusCode() int {
-	return s.respMetadata.StatusCode
-}
-
-// RequestID returns the service's response RequestID for request.
-func (s TimeoutException) RequestID() string {
-	return s.respMetadata.RequestID
 }
 
 // Contains the data type of a column in a query result set. The data type can
@@ -955,8 +1104,8 @@ func (s *Type) SetTimeSeriesMeasureValueColumnInfo(v *ColumnInfo) *Type {
 
 // Invalid or malformed request.
 type ValidationException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -973,17 +1122,17 @@ func (s ValidationException) GoString() string {
 
 func newErrorValidationException(v protocol.ResponseMetadata) error {
 	return &ValidationException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ValidationException) Code() string {
+func (s *ValidationException) Code() string {
 	return "ValidationException"
 }
 
 // Message returns the exception's message.
-func (s ValidationException) Message() string {
+func (s *ValidationException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -991,22 +1140,22 @@ func (s ValidationException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ValidationException) OrigErr() error {
+func (s *ValidationException) OrigErr() error {
 	return nil
 }
 
-func (s ValidationException) Error() string {
+func (s *ValidationException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ValidationException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ValidationException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ValidationException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ValidationException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 const (

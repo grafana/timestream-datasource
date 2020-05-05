@@ -68,8 +68,7 @@ func main() {
 
 	allowTruncation := true
 	queryInput := &timestreamquery.QueryInput{
-		QueryString:           &queryStr,
-		AllowResultTruncation: &allowTruncation,
+		QueryString: &queryStr,
 		// timeout setttings?
 	}
 	fmt.Println("QueryInput:")
@@ -132,8 +131,8 @@ func main() {
 		}
 		fmt.Println("Number of rows:", len(query.Rows))
 
-		if *query.IsDataTruncated {
-			fmt.Println("data is truncated")
+		if *query.NextToken {
+			fmt.Println("has more data")
 		}
 	}
 }

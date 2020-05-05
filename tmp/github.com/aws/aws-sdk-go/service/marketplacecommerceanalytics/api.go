@@ -191,8 +191,8 @@ func (c *MarketplaceCommerceAnalytics) StartSupportDataExportWithContext(ctx aws
 
 // This exception is thrown when an internal service error occurs.
 type Exception struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	// This message describes details of the error.
 	Message_ *string `locationName:"message" type:"string"`
@@ -210,17 +210,17 @@ func (s Exception) GoString() string {
 
 func newErrorException(v protocol.ResponseMetadata) error {
 	return &Exception{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s Exception) Code() string {
+func (s *Exception) Code() string {
 	return "MarketplaceCommerceAnalyticsException"
 }
 
 // Message returns the exception's message.
-func (s Exception) Message() string {
+func (s *Exception) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -228,22 +228,22 @@ func (s Exception) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s Exception) OrigErr() error {
+func (s *Exception) OrigErr() error {
 	return nil
 }
 
-func (s Exception) Error() string {
+func (s *Exception) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s Exception) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *Exception) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s Exception) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *Exception) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Container for the parameters to the GenerateDataSet operation.

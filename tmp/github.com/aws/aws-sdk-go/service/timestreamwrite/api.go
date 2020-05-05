@@ -83,6 +83,12 @@ func (c *TimestreamWrite) CreateDatabaseRequest(input *CreateDatabaseInput) (req
 
 // CreateDatabase API operation for Amazon Timestream Write.
 //
+// Creates a new Timestream database. If the KMS key is not specified, the database
+// will be encrypted with a Timestream managed KMS key located in your account.
+// Refer to AWS managed KMS keys (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
+// for more info. Service quotas apply. For more information, see ts-limits
+// in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -92,16 +98,25 @@ func (c *TimestreamWrite) CreateDatabaseRequest(input *CreateDatabaseInput) (req
 //
 // Returned Error Types:
 //   * ConflictException
+//   Timestream was unable to process this request because it contains resource
+//   that already exists.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 //   * ServiceQuotaExceededException
+//   Instance quota of resource exceeded for this account.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/CreateDatabase
 func (c *TimestreamWrite) CreateDatabase(input *CreateDatabaseInput) (*CreateDatabaseOutput, error) {
@@ -192,6 +207,13 @@ func (c *TimestreamWrite) CreateTableRequest(input *CreateTableInput) (req *requ
 
 // CreateTable API operation for Amazon Timestream Write.
 //
+// The CreateTable operation adds a new table to your account. In an AWS account,
+// table names must be unique within each Region. That is, you can have two
+// tables with same name if you create the tables in different Regions. While
+// creating the table, you must specify the table name, database name, and the
+// retention duration for the magnetic and memory store. Service quotas apply.
+// For more information, see ts-limits in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -201,18 +223,29 @@ func (c *TimestreamWrite) CreateTableRequest(input *CreateTableInput) (req *requ
 //
 // Returned Error Types:
 //   * ConflictException
+//   Timestream was unable to process this request because it contains resource
+//   that already exists.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * ServiceQuotaExceededException
+//   Instance quota of resource exceeded for this account.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/CreateTable
 func (c *TimestreamWrite) CreateTable(input *CreateTableInput) (*CreateTableOutput, error) {
@@ -303,6 +336,9 @@ func (c *TimestreamWrite) DeleteDatabaseRequest(input *DeleteDatabaseInput) (req
 
 // DeleteDatabase API operation for Amazon Timestream Write.
 //
+// Deletes a given Timestream database. This is an irreversible operation. After
+// a database is deleted, the time series data from its tables cannot be recovered.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -311,13 +347,20 @@ func (c *TimestreamWrite) DeleteDatabaseRequest(input *DeleteDatabaseInput) (req
 // API operation DeleteDatabase for usage and error information.
 //
 // Returned Error Types:
-//   * ResourceInUseException
+//   * ConflictException
+//   Timestream was unable to process this request because it contains resource
+//   that already exists.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
-//   * InvalidRequestException
+//   * ValidationException
+//   Invalid or malformed request.
 //
-//   * ServiceUnavailableException
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DeleteDatabase
 func (c *TimestreamWrite) DeleteDatabase(input *DeleteDatabaseInput) (*DeleteDatabaseOutput, error) {
@@ -409,6 +452,10 @@ func (c *TimestreamWrite) DeleteTableRequest(input *DeleteTableInput) (req *requ
 
 // DeleteTable API operation for Amazon Timestream Write.
 //
+// Deletes a given Timestream table. This is an irreversible operation. After
+// a Timestream database table is deleted, the time series data stored in the
+// table cannot be recovered.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -418,14 +465,22 @@ func (c *TimestreamWrite) DeleteTableRequest(input *DeleteTableInput) (req *requ
 //
 // Returned Error Types:
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DeleteTable
 func (c *TimestreamWrite) DeleteTable(input *DeleteTableInput) (*DeleteTableOutput, error) {
@@ -516,6 +571,10 @@ func (c *TimestreamWrite) DescribeDatabaseRequest(input *DescribeDatabaseInput) 
 
 // DescribeDatabase API operation for Amazon Timestream Write.
 //
+// Returns information about the table, including the table name, database name,
+// retention duration of the memory store and the magnetic store. Service quotas
+// apply. For more information, see ts-limits in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -525,14 +584,22 @@ func (c *TimestreamWrite) DescribeDatabaseRequest(input *DescribeDatabaseInput) 
 //
 // Returned Error Types:
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DescribeDatabase
 func (c *TimestreamWrite) DescribeDatabase(input *DescribeDatabaseInput) (*DescribeDatabaseOutput, error) {
@@ -606,6 +673,15 @@ func (c *TimestreamWrite) DescribeEndpointsRequest(input *DescribeEndpointsInput
 //
 // See the AWS API reference guide for Amazon Timestream Write's
 // API operation DescribeEndpoints for usage and error information.
+//
+// Returned Error Types:
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
+//
+//   * ValidationException
+//   Invalid or malformed request.
+//
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DescribeEndpoints
 func (c *TimestreamWrite) DescribeEndpoints(input *DescribeEndpointsInput) (*DescribeEndpointsOutput, error) {
 	req, out := c.DescribeEndpointsRequest(input)
@@ -767,6 +843,10 @@ func (c *TimestreamWrite) DescribeTableRequest(input *DescribeTableInput) (req *
 
 // DescribeTable API operation for Amazon Timestream Write.
 //
+// Returns information about the table, including the table name, database name,
+// retention duration of the memory store and the magnetic store. Service quotas
+// apply. For more information, see ts-limits in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -776,14 +856,22 @@ func (c *TimestreamWrite) DescribeTableRequest(input *DescribeTableInput) (req *
 //
 // Returned Error Types:
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DescribeTable
 func (c *TimestreamWrite) DescribeTable(input *DescribeTableInput) (*DescribeTableOutput, error) {
@@ -880,6 +968,9 @@ func (c *TimestreamWrite) ListDatabasesRequest(input *ListDatabasesInput) (req *
 
 // ListDatabases API operation for Amazon Timestream Write.
 //
+// Returns a list of your Timestream databases. Service quotas apply. For more
+// information, see ts-limits in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -889,14 +980,22 @@ func (c *TimestreamWrite) ListDatabasesRequest(input *ListDatabasesInput) (req *
 //
 // Returned Error Types:
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/ListDatabases
 func (c *TimestreamWrite) ListDatabases(input *ListDatabasesInput) (*ListDatabasesOutput, error) {
@@ -1045,6 +1144,8 @@ func (c *TimestreamWrite) ListTablesRequest(input *ListTablesInput) (req *reques
 
 // ListTables API operation for Amazon Timestream Write.
 //
+// A list of table names.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1054,14 +1155,22 @@ func (c *TimestreamWrite) ListTablesRequest(input *ListTablesInput) (req *reques
 //
 // Returned Error Types:
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/ListTables
 func (c *TimestreamWrite) ListTables(input *ListTablesInput) (*ListTablesOutput, error) {
@@ -1204,6 +1313,8 @@ func (c *TimestreamWrite) ListTagsForResourceRequest(input *ListTagsForResourceI
 
 // ListTagsForResource API operation for Amazon Timestream Write.
 //
+// List all tags on a Timestream resource.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1213,8 +1324,11 @@ func (c *TimestreamWrite) ListTagsForResourceRequest(input *ListTagsForResourceI
 //
 // Returned Error Types:
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/ListTagsForResource
 func (c *TimestreamWrite) ListTagsForResource(input *ListTagsForResourceInput) (*ListTagsForResourceOutput, error) {
@@ -1306,6 +1420,10 @@ func (c *TimestreamWrite) TagResourceRequest(input *TagResourceInput) (req *requ
 
 // TagResource API operation for Amazon Timestream Write.
 //
+// Associate a set of tags with a Timestream resource. You can then activate
+// these user-defined tags so that they appear on the Billing and Cost Management
+// console for cost allocation tracking.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1315,10 +1433,14 @@ func (c *TimestreamWrite) TagResourceRequest(input *TagResourceInput) (req *requ
 //
 // Returned Error Types:
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
-//   * TooManyTagsException
+//   * ServiceQuotaExceededException
+//   Instance quota of resource exceeded for this account.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/TagResource
 func (c *TimestreamWrite) TagResource(input *TagResourceInput) (*TagResourceOutput, error) {
@@ -1410,6 +1532,8 @@ func (c *TimestreamWrite) UntagResourceRequest(input *UntagResourceInput) (req *
 
 // UntagResource API operation for Amazon Timestream Write.
 //
+// Removes the association of tags from a Timestream resource.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1419,10 +1543,14 @@ func (c *TimestreamWrite) UntagResourceRequest(input *UntagResourceInput) (req *
 //
 // Returned Error Types:
 //   * ValidationException
+//   Invalid or malformed request.
 //
-//   * TooManyTagsException
+//   * ServiceQuotaExceededException
+//   Instance quota of resource exceeded for this account.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/UntagResource
 func (c *TimestreamWrite) UntagResource(input *UntagResourceInput) (*UntagResourceOutput, error) {
@@ -1513,6 +1641,19 @@ func (c *TimestreamWrite) UpdateTableRequest(input *UpdateTableInput) (req *requ
 
 // UpdateTable API operation for Amazon Timestream Write.
 //
+// Modifies attributes such as the retention duration of the memory store and
+// magnetic store for your Timestream table. Note that if you are using UpdateTable
+// to upgrade the retention period of the memory or magnetic store, the retention
+// change takes effective from that point onwards. For example, if the retention
+// period of the memory store was set to 2 hours and then changed to 24 hours
+// through this API, the memory store will be capable of holding 24 hours of
+// data, but will be populated with 24 hours of data 22 hours after this change
+// was made. Timestream does not retrieve data from the magnetic store to populate
+// the memory store.
+//
+// Service quotas apply. For more information, see ts-limits in the Timestream
+// Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1522,14 +1663,22 @@ func (c *TimestreamWrite) UpdateTableRequest(input *UpdateTableInput) (req *requ
 //
 // Returned Error Types:
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/UpdateTable
 func (c *TimestreamWrite) UpdateTable(input *UpdateTableInput) (*UpdateTableOutput, error) {
@@ -1621,6 +1770,19 @@ func (c *TimestreamWrite) WriteRecordsRequest(input *WriteRecordsInput) (req *re
 
 // WriteRecords API operation for Amazon Timestream Write.
 //
+// The WriteRecords operation enables you to write your time series data into
+// Timestream. You can specify a single data point or a batch of data points
+// to be inserted into the system. Timestream offers you with a flexible schema
+// that auto detects the column names and data types for your Timestream tables
+// based on the dimension names and data types of the data points you specify
+// when invoking writes into the database. Timestream support eventual consistency
+// read semantics. This means that when you query data immediately after writing
+// a batch of data into Timestream, the query results might not reflect the
+// results of a recently completed write operation. The results may also include
+// some stale data. If you repeat the query request after a short time, the
+// results should return the latest data. Service quotas apply. For more information,
+// see ts-limits in the Timestream Developer Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -1630,14 +1792,36 @@ func (c *TimestreamWrite) WriteRecordsRequest(input *WriteRecordsInput) (req *re
 //
 // Returned Error Types:
 //   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
 //
 //   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ValidationException
+//   Invalid or malformed request.
 //
 //   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
+//   You are not authorized to perform this action.
+//
+//   * RejectedRecordsException
+//   WriteRecords would throw this exception in the following cases:
+//
+//      * Records with duplicate data where there are multiple records with the
+//      same dimensions, timestamps, and measure names but different measure values.
+//
+//      * Records with timestamps that lie outside the retention duration of the
+//      memory store
+//
+//      * Records with dimensions or measures that exceed the Timestream defined
+//      limits.
+//
+//   For more information, see ts-limits in the Timestream Developer Guide.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/WriteRecords
 func (c *TimestreamWrite) WriteRecords(input *WriteRecordsInput) (*WriteRecordsOutput, error) {
@@ -1661,9 +1845,10 @@ func (c *TimestreamWrite) WriteRecordsWithContext(ctx aws.Context, input *WriteR
 	return out, req.Send()
 }
 
+// You are not authorized to perform this action.
 type AccessDeniedException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1680,17 +1865,17 @@ func (s AccessDeniedException) GoString() string {
 
 func newErrorAccessDeniedException(v protocol.ResponseMetadata) error {
 	return &AccessDeniedException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s AccessDeniedException) Code() string {
+func (s *AccessDeniedException) Code() string {
 	return "AccessDeniedException"
 }
 
 // Message returns the exception's message.
-func (s AccessDeniedException) Message() string {
+func (s *AccessDeniedException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1698,27 +1883,29 @@ func (s AccessDeniedException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s AccessDeniedException) OrigErr() error {
+func (s *AccessDeniedException) OrigErr() error {
 	return nil
 }
 
-func (s AccessDeniedException) Error() string {
+func (s *AccessDeniedException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s AccessDeniedException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *AccessDeniedException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s AccessDeniedException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *AccessDeniedException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
+// Timestream was unable to process this request because it contains resource
+// that already exists.
 type ConflictException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -1735,17 +1922,17 @@ func (s ConflictException) GoString() string {
 
 func newErrorConflictException(v protocol.ResponseMetadata) error {
 	return &ConflictException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ConflictException) Code() string {
+func (s *ConflictException) Code() string {
 	return "ConflictException"
 }
 
 // Message returns the exception's message.
-func (s ConflictException) Message() string {
+func (s *ConflictException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -1753,31 +1940,40 @@ func (s ConflictException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ConflictException) OrigErr() error {
+func (s *ConflictException) OrigErr() error {
 	return nil
 }
 
-func (s ConflictException) Error() string {
+func (s *ConflictException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ConflictException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ConflictException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ConflictException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ConflictException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type CreateDatabaseInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
+	// The KMS key for the database. If the KMS key is not specified, the database
+	// will be encrypted with a Timestream managed KMS key located in your account.
+	// Refer to AWS managed KMS keys (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
+	// for more info.
 	KmsKeyId *string `type:"string"`
+
+	// A list of key-value pairs to label the table.
+	Tags []*Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -1799,6 +1995,16 @@ func (s *CreateDatabaseInput) Validate() error {
 	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
 		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
 	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1818,9 +2024,16 @@ func (s *CreateDatabaseInput) SetKmsKeyId(v string) *CreateDatabaseInput {
 	return s
 }
 
+// SetTags sets the Tags field's value.
+func (s *CreateDatabaseInput) SetTags(v []*Tag) *CreateDatabaseInput {
+	s.Tags = v
+	return s
+}
+
 type CreateDatabaseOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The newly created Timestream database.
 	Database *Database `type:"structure"`
 }
 
@@ -1843,13 +2056,22 @@ func (s *CreateDatabaseOutput) SetDatabase(v *Database) *CreateDatabaseOutput {
 type CreateTableInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
+	// The duration for which your time series data must be stored in the memory
+	// store and the magnetic store.
 	RetentionProperties *RetentionProperties `type:"structure"`
 
+	// The name of the Timestream table.
+	//
 	// TableName is a required field
 	TableName *string `min:"3" type:"string" required:"true"`
+
+	// A list of key-value pairs to label the table.
+	Tags []*Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -1882,6 +2104,16 @@ func (s *CreateTableInput) Validate() error {
 			invalidParams.AddNested("RetentionProperties", err.(request.ErrInvalidParams))
 		}
 	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1907,9 +2139,16 @@ func (s *CreateTableInput) SetTableName(v string) *CreateTableInput {
 	return s
 }
 
+// SetTags sets the Tags field's value.
+func (s *CreateTableInput) SetTags(v []*Tag) *CreateTableInput {
+	s.Tags = v
+	return s
+}
+
 type CreateTableOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The newly created Timestream table.
 	Table *Table `type:"structure"`
 }
 
@@ -1929,17 +2168,25 @@ func (s *CreateTableOutput) SetTable(v *Table) *CreateTableOutput {
 	return s
 }
 
+// A top level container for a table. Databases and tables are the fundamental
+// management concepts in Amazon Timestream. All tables in a database are encrypted
+// with the same KMS key.
 type Database struct {
 	_ struct{} `type:"structure"`
 
+	// The Amazon Resource Name that uniquely identifies this database.
 	Arn *string `type:"string"`
 
+	// The time when the database was created, calculated from the Unix epoch time.
 	CreationTime *time.Time `type:"timestamp"`
 
+	// The name of the Timestream database.
 	DatabaseName *string `min:"3" type:"string"`
 
+	// The identifier of the KMS key used to encrypt the data stored in the database.
 	KmsKeyId *string `type:"string"`
 
+	// The total number of tables found within a Timestream database.
 	TableCount *int64 `type:"long"`
 }
 
@@ -1986,6 +2233,8 @@ func (s *Database) SetTableCount(v int64) *Database {
 type DeleteDatabaseInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database to be deleted.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 }
@@ -2025,6 +2274,8 @@ func (s *DeleteDatabaseInput) SetDatabaseName(v string) *DeleteDatabaseInput {
 type DeleteDatabaseOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The Timestream database to be deleted.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 }
@@ -2048,9 +2299,13 @@ func (s *DeleteDatabaseOutput) SetDatabaseName(v string) *DeleteDatabaseOutput {
 type DeleteTableInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the database where the Timestream database is to be deleted.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
+	// The name of the Timestream table to be deleted.
+	//
 	// TableName is a required field
 	TableName *string `min:"3" type:"string" required:"true"`
 }
@@ -2116,6 +2371,8 @@ func (s DeleteTableOutput) GoString() string {
 type DescribeDatabaseInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 }
@@ -2155,6 +2412,7 @@ func (s *DescribeDatabaseInput) SetDatabaseName(v string) *DescribeDatabaseInput
 type DescribeDatabaseOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream table.
 	Database *Database `type:"structure"`
 }
 
@@ -2214,9 +2472,13 @@ func (s *DescribeEndpointsOutput) SetEndpoints(v []*Endpoint) *DescribeEndpoints
 type DescribeTableInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
+	// The name of the Timestream table.
+	//
 	// TableName is a required field
 	TableName *string `min:"3" type:"string" required:"true"`
 }
@@ -2268,6 +2530,7 @@ func (s *DescribeTableInput) SetTableName(v string) *DescribeTableInput {
 type DescribeTableOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The Timestream table.
 	Table *Table `type:"structure"`
 }
 
@@ -2287,14 +2550,26 @@ func (s *DescribeTableOutput) SetTable(v *Table) *DescribeTableOutput {
 	return s
 }
 
+// Dimension represents the meta data attributes of the time series. For example,
+// the name and availability zone of an EC2 instance or the name of the manufacturer
+// of a wind turbine are dimensions.
 type Dimension struct {
 	_ struct{} `type:"structure"`
 
+	// The data type of the dimension for the time series data point.
 	DimensionValueType *string `type:"string" enum:"DimensionValueType"`
 
-	Name *string `min:"1" type:"string"`
+	// Dimension represents the meta data attributes of the time series. For example,
+	// the name and availability zone of an EC2 instance or the name of the manufacturer
+	// of a wind turbine are dimensions.
+	//
+	// Name is a required field
+	Name *string `min:"1" type:"string" required:"true"`
 
-	Value *string `min:"1" type:"string"`
+	// The value of the dimension.
+	//
+	// Value is a required field
+	Value *string `min:"1" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -2310,8 +2585,14 @@ func (s Dimension) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *Dimension) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "Dimension"}
+	if s.Name == nil {
+		invalidParams.Add(request.NewErrParamRequired("Name"))
+	}
 	if s.Name != nil && len(*s.Name) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("Name", 1))
+	}
+	if s.Value == nil {
+		invalidParams.Add(request.NewErrParamRequired("Value"))
 	}
 	if s.Value != nil && len(*s.Value) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("Value", 1))
@@ -2373,9 +2654,11 @@ func (s *Endpoint) SetCachePeriodInMinutes(v int64) *Endpoint {
 	return s
 }
 
+// Timestream was unable to fully process this request because of an internal
+// server error.
 type InternalServerException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2392,17 +2675,17 @@ func (s InternalServerException) GoString() string {
 
 func newErrorInternalServerException(v protocol.ResponseMetadata) error {
 	return &InternalServerException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s InternalServerException) Code() string {
+func (s *InternalServerException) Code() string {
 	return "InternalServerException"
 }
 
 // Message returns the exception's message.
-func (s InternalServerException) Message() string {
+func (s *InternalServerException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2410,84 +2693,35 @@ func (s InternalServerException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InternalServerException) OrigErr() error {
+func (s *InternalServerException) OrigErr() error {
 	return nil
 }
 
-func (s InternalServerException) Error() string {
+func (s *InternalServerException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s InternalServerException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *InternalServerException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s InternalServerException) RequestID() string {
-	return s.respMetadata.RequestID
-}
-
-type InvalidRequestException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
-
-	Message_ *string `locationName:"Message" type:"string"`
-}
-
-// String returns the string representation
-func (s InvalidRequestException) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s InvalidRequestException) GoString() string {
-	return s.String()
-}
-
-func newErrorInvalidRequestException(v protocol.ResponseMetadata) error {
-	return &InvalidRequestException{
-		respMetadata: v,
-	}
-}
-
-// Code returns the exception type name.
-func (s InvalidRequestException) Code() string {
-	return "InvalidRequestException"
-}
-
-// Message returns the exception's message.
-func (s InvalidRequestException) Message() string {
-	if s.Message_ != nil {
-		return *s.Message_
-	}
-	return ""
-}
-
-// OrigErr always returns nil, satisfies awserr.Error interface.
-func (s InvalidRequestException) OrigErr() error {
-	return nil
-}
-
-func (s InvalidRequestException) Error() string {
-	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
-}
-
-// Status code returns the HTTP status code for the request's response error.
-func (s InvalidRequestException) StatusCode() int {
-	return s.respMetadata.StatusCode
-}
-
-// RequestID returns the service's response RequestID for request.
-func (s InvalidRequestException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *InternalServerException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type ListDatabasesInput struct {
 	_ struct{} `type:"structure"`
 
-	MaxResults *int64 `type:"integer"`
+	// The total number of items to return in the output. If the total number of
+	// items available is more than the value specified, a NextToken is provided
+	// in the output. To resume pagination, provide the NextToken value as argument
+	// of a subsequent API invocation.
+	MaxResults *int64 `min:"1" type:"integer"`
 
+	// The pagination token. To resume pagination, provide the NextToken value as
+	// argument of a subsequent API invocation.
 	NextToken *string `type:"string"`
 }
 
@@ -2499,6 +2733,19 @@ func (s ListDatabasesInput) String() string {
 // GoString returns the string representation
 func (s ListDatabasesInput) GoString() string {
 	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListDatabasesInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ListDatabasesInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 // SetMaxResults sets the MaxResults field's value.
@@ -2516,8 +2763,10 @@ func (s *ListDatabasesInput) SetNextToken(v string) *ListDatabasesInput {
 type ListDatabasesOutput struct {
 	_ struct{} `type:"structure"`
 
+	// A list of database names.
 	Databases []*Database `type:"list"`
 
+	// The pagination token. This parameter is returned when the response is truncated.
 	NextToken *string `type:"string"`
 }
 
@@ -2546,11 +2795,19 @@ func (s *ListDatabasesOutput) SetNextToken(v string) *ListDatabasesOutput {
 type ListTablesInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
-	MaxResults *int64 `type:"integer"`
+	// The total number of items to return in the output. If the total number of
+	// items available is more than the value specified, a NextToken is provided
+	// in the output. To resume pagination, provide the NextToken value as argument
+	// of a subsequent API invocation.
+	MaxResults *int64 `min:"1" type:"integer"`
 
+	// The pagination token. To resume pagination, provide the NextToken value as
+	// argument of a subsequent API invocation.
 	NextToken *string `type:"string"`
 }
 
@@ -2572,6 +2829,9 @@ func (s *ListTablesInput) Validate() error {
 	}
 	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
 		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
+	}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
 	}
 
 	if invalidParams.Len() > 0 {
@@ -2601,8 +2861,11 @@ func (s *ListTablesInput) SetNextToken(v string) *ListTablesInput {
 type ListTablesOutput struct {
 	_ struct{} `type:"structure"`
 
+	// A token to specify where to start paginating. This is the NextToken from
+	// a previously truncated response.
 	NextToken *string `type:"string"`
 
+	// A list of table names.
 	Tables []*Table `type:"list"`
 }
 
@@ -2631,6 +2894,9 @@ func (s *ListTablesOutput) SetTables(v []*Table) *ListTablesOutput {
 type ListTagsForResourceInput struct {
 	_ struct{} `type:"structure"`
 
+	// The Timestream resource with tags to be listed. This value is an Amazon Resource
+	// Name (ARN).
+	//
 	// ResourceARN is a required field
 	ResourceARN *string `min:"1" type:"string" required:"true"`
 }
@@ -2670,6 +2936,7 @@ func (s *ListTagsForResourceInput) SetResourceARN(v string) *ListTagsForResource
 type ListTagsForResourceOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The tags currently associated with the Timestream resource.
 	Tags []*Tag `type:"list"`
 }
 
@@ -2689,19 +2956,36 @@ func (s *ListTagsForResourceOutput) SetTags(v []*Tag) *ListTagsForResourceOutput
 	return s
 }
 
+// Record represents a time series data point being written into Timestream.
+// Each record contains an array of dimensions. Dimensions represent the meta
+// data attributes of a time series data point such as the instance name or
+// availability zone of an EC2 instance. A record also contains the measure
+// name which is the name of the measure being collected for example the CPU
+// utilization of an EC2 instance. A record also contains the measure value
+// and the value type which is the data type of the measure value. In addition,
+// the record contains the timestamp when the measure was collected that the
+// timestamp unit which represents the granularity of the timestamp.
 type Record struct {
 	_ struct{} `type:"structure"`
 
+	// Contains the list of dimensions for time series data points.
 	Dimensions []*Dimension `type:"list"`
 
+	// Measure represents the data attribute of the time series. For example, the
+	// CPU utilization of an EC2 instance or the RPM of a wind turbine are measures.
 	MeasureName *string `min:"1" type:"string"`
 
+	// Contains the measure value for the time series data point.
 	MeasureValue *string `min:"1" type:"string"`
 
+	// Contains the data type of the measure value for the time series data point.
 	MeasureValueType *string `type:"string" enum:"MeasureValueType"`
 
+	// Contains the time at which the measure value for the data point was collected.
 	Timestamp *string `min:"1" type:"string"`
 
+	// The granularity of the timestamp unit. It indicates if the time value is
+	// in seconds, milliseconds, nanoseconds or other supported values.
 	TimestampUnit *string `type:"string" enum:"TimestampUnit"`
 }
 
@@ -2780,36 +3064,98 @@ func (s *Record) SetTimestampUnit(v string) *Record {
 	return s
 }
 
-type ResourceInUseException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+// Records that were not successfully inserted into Timestream due to data validation
+// issues that must be resolved prior to reinserting time series data into the
+// system.
+type RejectedRecord struct {
+	_ struct{} `type:"structure"`
 
-	Message_ *string `locationName:"Message" type:"string"`
+	// The reason why a record was not successfully inserted into Timestream. Possible
+	// causes of failure include:
+	//
+	//    * Records with duplicate data where there are multiple records with the
+	//    same dimensions, timestamps, and measure names but different measure values.
+	//
+	//    * Records with timestamps that lie outside the retention duration of the
+	//    memory store
+	//
+	//    * Records with dimensions or measures that exceed the Timestream defined
+	//    limits.
+	//
+	// For more information, see ts-limits in the Timestream Developer Guide.
+	Reason *string `type:"string"`
+
+	// The index of the record in the input request for WriteRecords. Indexes begin
+	// with 0.
+	RecordIndex *int64 `type:"integer"`
 }
 
 // String returns the string representation
-func (s ResourceInUseException) String() string {
+func (s RejectedRecord) String() string {
 	return awsutil.Prettify(s)
 }
 
 // GoString returns the string representation
-func (s ResourceInUseException) GoString() string {
+func (s RejectedRecord) GoString() string {
 	return s.String()
 }
 
-func newErrorResourceInUseException(v protocol.ResponseMetadata) error {
-	return &ResourceInUseException{
-		respMetadata: v,
+// SetReason sets the Reason field's value.
+func (s *RejectedRecord) SetReason(v string) *RejectedRecord {
+	s.Reason = &v
+	return s
+}
+
+// SetRecordIndex sets the RecordIndex field's value.
+func (s *RejectedRecord) SetRecordIndex(v int64) *RejectedRecord {
+	s.RecordIndex = &v
+	return s
+}
+
+// WriteRecords would throw this exception in the following cases:
+//
+//    * Records with duplicate data where there are multiple records with the
+//    same dimensions, timestamps, and measure names but different measure values.
+//
+//    * Records with timestamps that lie outside the retention duration of the
+//    memory store
+//
+//    * Records with dimensions or measures that exceed the Timestream defined
+//    limits.
+//
+// For more information, see ts-limits in the Timestream Developer Guide.
+type RejectedRecordsException struct {
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
+
+	Message_ *string `locationName:"Message" type:"string"`
+
+	RejectedRecords []*RejectedRecord `type:"list"`
+}
+
+// String returns the string representation
+func (s RejectedRecordsException) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RejectedRecordsException) GoString() string {
+	return s.String()
+}
+
+func newErrorRejectedRecordsException(v protocol.ResponseMetadata) error {
+	return &RejectedRecordsException{
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ResourceInUseException) Code() string {
-	return "ResourceInUseException"
+func (s *RejectedRecordsException) Code() string {
+	return "RejectedRecordsException"
 }
 
 // Message returns the exception's message.
-func (s ResourceInUseException) Message() string {
+func (s *RejectedRecordsException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2817,27 +3163,29 @@ func (s ResourceInUseException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResourceInUseException) OrigErr() error {
+func (s *RejectedRecordsException) OrigErr() error {
 	return nil
 }
 
-func (s ResourceInUseException) Error() string {
-	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
+func (s *RejectedRecordsException) Error() string {
+	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ResourceInUseException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *RejectedRecordsException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ResourceInUseException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *RejectedRecordsException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
+// The operation tried to access a nonexistent resource. The resource might
+// not be specified correctly, or its status might not be ACTIVE.
 type ResourceNotFoundException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2854,17 +3202,17 @@ func (s ResourceNotFoundException) GoString() string {
 
 func newErrorResourceNotFoundException(v protocol.ResponseMetadata) error {
 	return &ResourceNotFoundException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ResourceNotFoundException) Code() string {
+func (s *ResourceNotFoundException) Code() string {
 	return "ResourceNotFoundException"
 }
 
 // Message returns the exception's message.
-func (s ResourceNotFoundException) Message() string {
+func (s *ResourceNotFoundException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2872,30 +3220,36 @@ func (s ResourceNotFoundException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ResourceNotFoundException) OrigErr() error {
+func (s *ResourceNotFoundException) OrigErr() error {
 	return nil
 }
 
-func (s ResourceNotFoundException) Error() string {
+func (s *ResourceNotFoundException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ResourceNotFoundException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ResourceNotFoundException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ResourceNotFoundException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ResourceNotFoundException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
+// Retention properties contain the duration for which your time series data
+// must be stored in the magnetic store and the memory store.
 type RetentionProperties struct {
 	_ struct{} `type:"structure"`
 
+	// The duration for which data must be stored in the magnetic store.
+	//
 	// MagneticStoreRetentionPeriodInDays is a required field
 	MagneticStoreRetentionPeriodInDays *int64 `min:"1" type:"long" required:"true"`
 
+	// The duration for which data must be stored in the memory store.
+	//
 	// MemoryStoreRetentionPeriodInHours is a required field
 	MemoryStoreRetentionPeriodInHours *int64 `min:"1" type:"long" required:"true"`
 }
@@ -2944,9 +3298,10 @@ func (s *RetentionProperties) SetMemoryStoreRetentionPeriodInHours(v int64) *Ret
 	return s
 }
 
+// Instance quota of resource exceeded for this account.
 type ServiceQuotaExceededException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -2963,17 +3318,17 @@ func (s ServiceQuotaExceededException) GoString() string {
 
 func newErrorServiceQuotaExceededException(v protocol.ResponseMetadata) error {
 	return &ServiceQuotaExceededException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ServiceQuotaExceededException) Code() string {
+func (s *ServiceQuotaExceededException) Code() string {
 	return "ServiceQuotaExceededException"
 }
 
 // Message returns the exception's message.
-func (s ServiceQuotaExceededException) Message() string {
+func (s *ServiceQuotaExceededException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -2981,94 +3336,53 @@ func (s ServiceQuotaExceededException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceQuotaExceededException) OrigErr() error {
+func (s *ServiceQuotaExceededException) OrigErr() error {
 	return nil
 }
 
-func (s ServiceQuotaExceededException) Error() string {
+func (s *ServiceQuotaExceededException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ServiceQuotaExceededException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ServiceQuotaExceededException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ServiceQuotaExceededException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ServiceQuotaExceededException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
-type ServiceUnavailableException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
-
-	Message_ *string `locationName:"Message" type:"string"`
-}
-
-// String returns the string representation
-func (s ServiceUnavailableException) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s ServiceUnavailableException) GoString() string {
-	return s.String()
-}
-
-func newErrorServiceUnavailableException(v protocol.ResponseMetadata) error {
-	return &ServiceUnavailableException{
-		respMetadata: v,
-	}
-}
-
-// Code returns the exception type name.
-func (s ServiceUnavailableException) Code() string {
-	return "ServiceUnavailableException"
-}
-
-// Message returns the exception's message.
-func (s ServiceUnavailableException) Message() string {
-	if s.Message_ != nil {
-		return *s.Message_
-	}
-	return ""
-}
-
-// OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ServiceUnavailableException) OrigErr() error {
-	return nil
-}
-
-func (s ServiceUnavailableException) Error() string {
-	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
-}
-
-// Status code returns the HTTP status code for the request's response error.
-func (s ServiceUnavailableException) StatusCode() int {
-	return s.respMetadata.StatusCode
-}
-
-// RequestID returns the service's response RequestID for request.
-func (s ServiceUnavailableException) RequestID() string {
-	return s.respMetadata.RequestID
-}
-
+// Table represents a database table in Timestream. Tables contain one or more
+// related time series. You can modify the retention duration of the memory
+// store and the magnetic store for a table.
 type Table struct {
 	_ struct{} `type:"structure"`
 
+	// The Amazon Resource Name that uniquely identifies this table.
 	Arn *string `type:"string"`
 
+	// The time when the Timestream table was created.
 	CreationTime *time.Time `type:"timestamp"`
 
+	// The name of the Timestream database that contains this table.
 	DatabaseName *string `min:"3" type:"string"`
 
+	// The time when the Timestream table was last updated.
 	LastUpdatedTime *time.Time `type:"timestamp"`
 
+	// The retention duration for the memory store and magnetic store.
 	RetentionProperties *RetentionProperties `type:"structure"`
 
+	// The name of the Timestream table.
 	TableName *string `min:"3" type:"string"`
 
+	// The current state of the table:
+	//
+	//    * DELETING - The table is being deleted.
+	//
+	//    * ACTIVE - The table is ready for use.
 	TableStatus *string `type:"string" enum:"TableStatus"`
 }
 
@@ -3124,12 +3438,20 @@ func (s *Table) SetTableStatus(v string) *Table {
 	return s
 }
 
+// A tag is a label that you assign to a Timestream database and/or table. Each
+// tag consists of a key and an optional value, both of which you define. Tags
+// enable you to categorize databases and/or tables, for example, by purpose,
+// owner, or environment.
 type Tag struct {
 	_ struct{} `type:"structure"`
 
+	// The key of the tag. Tag keys are case sensitive.
+	//
 	// Key is a required field
 	Key *string `min:"1" type:"string" required:"true"`
 
+	// The value of the tag. Tag values are case-sensitive and can be null.
+	//
 	// Value is a required field
 	Value *string `type:"string" required:"true"`
 }
@@ -3178,9 +3500,14 @@ func (s *Tag) SetValue(v string) *Tag {
 type TagResourceInput struct {
 	_ struct{} `type:"structure"`
 
+	// Identifies the Timestream resource to which tags should be added. This value
+	// is an Amazon Resource Name (ARN).
+	//
 	// ResourceARN is a required field
 	ResourceARN *string `min:"1" type:"string" required:"true"`
 
+	// The tags to be assigned to the Timestream resource.
+	//
 	// Tags is a required field
 	Tags []*Tag `type:"list" required:"true"`
 }
@@ -3250,9 +3577,11 @@ func (s TagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// Too many requests were made by a user exceeding service quotas. The request
+// was throttled.
 type ThrottlingException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -3269,17 +3598,17 @@ func (s ThrottlingException) GoString() string {
 
 func newErrorThrottlingException(v protocol.ResponseMetadata) error {
 	return &ThrottlingException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ThrottlingException) Code() string {
+func (s *ThrottlingException) Code() string {
 	return "ThrottlingException"
 }
 
 // Message returns the exception's message.
-func (s ThrottlingException) Message() string {
+func (s *ThrottlingException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3287,87 +3616,36 @@ func (s ThrottlingException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ThrottlingException) OrigErr() error {
+func (s *ThrottlingException) OrigErr() error {
 	return nil
 }
 
-func (s ThrottlingException) Error() string {
+func (s *ThrottlingException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ThrottlingException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ThrottlingException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ThrottlingException) RequestID() string {
-	return s.respMetadata.RequestID
-}
-
-type TooManyTagsException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
-
-	Message_ *string `locationName:"Message" type:"string"`
-
-	ResourceName *string `min:"1" type:"string"`
-}
-
-// String returns the string representation
-func (s TooManyTagsException) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s TooManyTagsException) GoString() string {
-	return s.String()
-}
-
-func newErrorTooManyTagsException(v protocol.ResponseMetadata) error {
-	return &TooManyTagsException{
-		respMetadata: v,
-	}
-}
-
-// Code returns the exception type name.
-func (s TooManyTagsException) Code() string {
-	return "TooManyTagsException"
-}
-
-// Message returns the exception's message.
-func (s TooManyTagsException) Message() string {
-	if s.Message_ != nil {
-		return *s.Message_
-	}
-	return ""
-}
-
-// OrigErr always returns nil, satisfies awserr.Error interface.
-func (s TooManyTagsException) OrigErr() error {
-	return nil
-}
-
-func (s TooManyTagsException) Error() string {
-	return fmt.Sprintf("%s: %s\n%s", s.Code(), s.Message(), s.String())
-}
-
-// Status code returns the HTTP status code for the request's response error.
-func (s TooManyTagsException) StatusCode() int {
-	return s.respMetadata.StatusCode
-}
-
-// RequestID returns the service's response RequestID for request.
-func (s TooManyTagsException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ThrottlingException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type UntagResourceInput struct {
 	_ struct{} `type:"structure"`
 
+	// The Timestream resource that the tags will be removed from. This value is
+	// an Amazon Resource Name (ARN).
+	//
 	// ResourceARN is a required field
 	ResourceARN *string `min:"1" type:"string" required:"true"`
 
+	// A list of tags keys. Existing tags of the resource whose keys are members
+	// of this list will be removed from the Timestream resource.
+	//
 	// TagKeys is a required field
 	TagKeys []*string `type:"list" required:"true"`
 }
@@ -3430,12 +3708,18 @@ func (s UntagResourceOutput) GoString() string {
 type UpdateTableInput struct {
 	_ struct{} `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `min:"3" type:"string" required:"true"`
 
+	// The retention duration of the memory store and the magnetic store.
+	//
 	// RetentionProperties is a required field
 	RetentionProperties *RetentionProperties `type:"structure" required:"true"`
 
+	// The name of the Timesream table.
+	//
 	// TableName is a required field
 	TableName *string `min:"3" type:"string" required:"true"`
 }
@@ -3501,6 +3785,7 @@ func (s *UpdateTableInput) SetTableName(v string) *UpdateTableInput {
 type UpdateTableOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The updated Timestream table.
 	Table *Table `type:"structure"`
 }
 
@@ -3520,9 +3805,10 @@ func (s *UpdateTableOutput) SetTable(v *Table) *UpdateTableOutput {
 	return s
 }
 
+// Invalid or malformed request.
 type ValidationException struct {
-	_            struct{} `type:"structure"`
-	respMetadata protocol.ResponseMetadata
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
 
 	Message_ *string `locationName:"Message" type:"string"`
 }
@@ -3539,17 +3825,17 @@ func (s ValidationException) GoString() string {
 
 func newErrorValidationException(v protocol.ResponseMetadata) error {
 	return &ValidationException{
-		respMetadata: v,
+		RespMetadata: v,
 	}
 }
 
 // Code returns the exception type name.
-func (s ValidationException) Code() string {
+func (s *ValidationException) Code() string {
 	return "ValidationException"
 }
 
 // Message returns the exception's message.
-func (s ValidationException) Message() string {
+func (s *ValidationException) Message() string {
 	if s.Message_ != nil {
 		return *s.Message_
 	}
@@ -3557,34 +3843,46 @@ func (s ValidationException) Message() string {
 }
 
 // OrigErr always returns nil, satisfies awserr.Error interface.
-func (s ValidationException) OrigErr() error {
+func (s *ValidationException) OrigErr() error {
 	return nil
 }
 
-func (s ValidationException) Error() string {
+func (s *ValidationException) Error() string {
 	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
 }
 
 // Status code returns the HTTP status code for the request's response error.
-func (s ValidationException) StatusCode() int {
-	return s.respMetadata.StatusCode
+func (s *ValidationException) StatusCode() int {
+	return s.RespMetadata.StatusCode
 }
 
 // RequestID returns the service's response RequestID for request.
-func (s ValidationException) RequestID() string {
-	return s.respMetadata.RequestID
+func (s *ValidationException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 type WriteRecordsInput struct {
 	_ struct{} `type:"structure"`
 
+	// A record containing the common measure and dimension attributes shared across
+	// all the records in the request. The measure and dimension attributes specified
+	// in here will be merged with the measure and dimension attributes in the records
+	// object when the data is written into Timestream.
 	CommonAttributes *Record `type:"structure"`
 
+	// The name of the Timestream database.
+	//
 	// DatabaseName is a required field
 	DatabaseName *string `type:"string" required:"true"`
 
-	Records []*Record `min:"1" type:"list"`
+	// An array of records containing the unique dimension and measure attributes
+	// for each time series data point.
+	//
+	// Records is a required field
+	Records []*Record `min:"1" type:"list" required:"true"`
 
+	// The name of the Timesream table.
+	//
 	// TableName is a required field
 	TableName *string `type:"string" required:"true"`
 }
@@ -3604,6 +3902,9 @@ func (s *WriteRecordsInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "WriteRecordsInput"}
 	if s.DatabaseName == nil {
 		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
+	}
+	if s.Records == nil {
+		invalidParams.Add(request.NewErrParamRequired("Records"))
 	}
 	if s.Records != nil && len(s.Records) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("Records", 1))
@@ -3679,6 +3980,15 @@ const (
 const (
 	// MeasureValueTypeDouble is a MeasureValueType enum value
 	MeasureValueTypeDouble = "DOUBLE"
+
+	// MeasureValueTypeBigint is a MeasureValueType enum value
+	MeasureValueTypeBigint = "BIGINT"
+
+	// MeasureValueTypeVarchar is a MeasureValueType enum value
+	MeasureValueTypeVarchar = "VARCHAR"
+
+	// MeasureValueTypeBoolean is a MeasureValueType enum value
+	MeasureValueTypeBoolean = "BOOLEAN"
 )
 
 const (
