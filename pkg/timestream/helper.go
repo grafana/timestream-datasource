@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -15,9 +16,9 @@ func datumParserBool(datum *timestreamquery.Datum) (interface{}, error) {
 	return strconv.ParseBool(*datum.ScalarValue)
 }
 
-func datumParserInt(datum *timestreamquery.Datum) (interface{}, error) {
-	return strconv.Atoi(*datum.ScalarValue)
-}
+// func datumParserInt(datum *timestreamquery.Datum) (interface{}, error) {
+// 	return strconv.Atoi(*datum.ScalarValue)
+// }
 
 func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
 	return strconv.ParseFloat(*datum.ScalarValue, 0)
@@ -88,5 +89,8 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, erro
 	frame := data.NewFrame("", // No name
 		fields...,
 	)
+	if len(warnings) > 0 {
+		backend.Logger.Warn("hymmm", "warnings", warnings)
+	}
 	return frame, nil
 }
