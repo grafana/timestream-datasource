@@ -7,24 +7,18 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-// InfluxSettings contains config properties (share with other AWS services?)
-type DatasourceSettings struct {
+// Settings - all filled from
+type Settings struct {
+	Region string `json:"region"`
 }
 
-// // Whether to use GZip compression in requests. Default false
-// useGZip bool
-// // TLS configuration for secure connection. Default nil
-// tlsConfig *tls.Config
-// // HTTP request timeout in sec. Default 20
-// httpRequestTimeout uint
+// LoadSettings will read and validate Settings from the DataSourceConfg
+func LoadSettings(config backend.DataSourceInstanceSettings) (Settings, error) {
+	settings := Settings{}
 
-func LoadSettings(settings backend.DataSourceInstanceSettings) (*DatasourceSettings, error) {
-	model := &DatasourceSettings{}
-
-	err := json.Unmarshal(settings.JSONData, &model)
-	if err != nil {
-		return nil, fmt.Errorf("error reading settings: %s", err.Error())
+	if err := json.Unmarshal(config.JSONData, &settings); err != nil {
+		return settings, fmt.Errorf("could not unmarshal DataSourceInfo json: %w", err)
 	}
 
-	return model, nil
+	return settings, nil
 }

@@ -4,15 +4,17 @@ import (
 	"os"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
+	"github.com/grafana/timestream-datasource/pkg/timestream"
 )
 
 func main() {
 	// Setup the plugin environment
 	backend.SetupPluginEnvironment("timestream-datasource")
 
-	host := experimental.NewInstanceManager(&TimestreamHost{})
-	err := host.RunGRPCServer()
+	err := datasource.Serve(timestream.NewDatasource())
+
+	// Log any error if we could start the plugin.
 	if err != nil {
 		backend.Logger.Error(err.Error())
 		os.Exit(1)

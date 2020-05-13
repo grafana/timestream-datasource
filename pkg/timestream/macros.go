@@ -1,4 +1,4 @@
-package datasource
+package timestream
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ func Interpolate(query models.QueryModel) (string, error) {
 
 	flux := query.RawQuery
 
-	// TODO: This was just copied from NewRelic!!!! needs to be updated for flux!!!!
+	// TODO: This was just copied from NewRelic!!!!
 	timeFilterExp, err := regexp.Compile(timeFilter)
 	if timeFilterExp.MatchString(flux) {
 		timeRange := query.TimeRange
