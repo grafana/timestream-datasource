@@ -24,8 +24,8 @@ func TestInterpolate(t *testing.T) {
 	}{
 		{
 			name:   "interpolate __timeFilter function",
-			before: `SELECT average(value) FROM test $__timeFilter TIMESERIES`,
-			after:  `SELECT average(value) FROM test SINCE 1500376552001 UNTIL 1500376552002 TIMESERIES`,
+			before: `SELECT average(value) FROM test AND $__timeFilter TIMESERIES`,
+			after:  `SELECT average(value) FROM test AND time BETWEEN from_milliseconds(1500376552001) AND from_milliseconds(1500376552002) TIMESERIES`,
 		},
 	}
 	for _, tt := range tests {
