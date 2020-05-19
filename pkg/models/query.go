@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
@@ -12,6 +13,7 @@ type QueryModel struct {
 	RawQuery string `json:"rawQuery"`
 
 	// Not from JSON
+	Interval      time.Duration     `json:"-"`
 	TimeRange     backend.TimeRange `json:"-"`
 	MaxDataPoints int64             `json:"-"`
 }
@@ -25,6 +27,7 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	}
 
 	// Copy directly from the well typed query
+	model.Interval = query.Interval
 	model.TimeRange = query.TimeRange
 	model.MaxDataPoints = query.MaxDataPoints
 	return model, nil

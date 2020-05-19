@@ -18,6 +18,8 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		return
 	}
 
+	backend.Logger.Info("running query", "query", raw)
+
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String(raw),
 	}
