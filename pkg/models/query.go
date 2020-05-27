@@ -18,6 +18,7 @@ type QueryModel struct {
 	MaxDataPoints int64             `json:"-"`
 }
 
+// GetQueryModel returns a parsed query
 func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	model := &QueryModel{}
 

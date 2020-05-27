@@ -18,4 +18,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       rawQuery: this.templateSrv.replace(query.rawQuery),
     };
   }
+
+  getQueryDisplayText(query: TimestreamQuery): string {
+    return query.rawQuery ?? '';
+  }
 }

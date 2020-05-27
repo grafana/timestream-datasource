@@ -1,39 +1,60 @@
-import React, { PureComponent, ChangeEvent } from 'react';
+import React, { PureComponent } from 'react';
 import { QueryEditorProps } from '@grafana/data';
-import { TextArea } from '@grafana/ui';
+import Editor from '@monaco-editor/react';
 import { DataSource } from '../DataSource';
 import { TimestreamQuery, TimestreamOptions } from '../types';
+import { config } from '@grafana/runtime';
+
+import './monoco';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 
+/**
+ *
+ * https://github.com/influxdata/influxdb/blob/master/ui/src/shared/components/FluxMonacoEditor.tsx
+ * https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-completion-provider-example
+ *
+ */
+
 export class QueryEditor extends PureComponent<Props> {
-  onRawQueryChange = (event: ChangeEvent<any>) => {
+  getEditorValue: any | undefined;
+
+  onRawQueryChange = () => {
     this.props.onChange({
       ...this.props.query,
-      rawQuery: event.target.value,
+      rawQuery: this.getEditorValue(),
     });
+    this.props.onRunQuery();
   };
 
-  toggleNoTruncation = (event?: React.SyntheticEvent<HTMLInputElement>) => {
-    const { query, onChange, onRunQuery } = this.props;
-    onChange({
-      ...query,
-      noTruncation: !query.noTruncation,
-    });
-    onRunQuery();
+  onEditorDidMount = (getEditorValue: any) => {
+    this.getEditorValue = getEditorValue;
   };
 
   render() {
     const { query } = this.props;
+
     return (
       <>
-        <div>
-          <TextArea
-            className="gf-form-input"
-            rows={15}
+        <div onBlur={this.onRawQueryChange}>
+          <Editor
+            height={'250px'}
+            language="sql"
             value={query.rawQuery}
-            onChange={this.onRawQueryChange}
-            placeholder="timestream query"
+            editorDidMount={this.onEditorDidMount}
+            theme={config.theme.isDark ? 'dark' : 'light'}
+            options={{
+              wordWrap: 'off',
+              codeLens: false, // too small to bother
+              minimap: {
+                enabled: false,
+                renderCharacters: false,
+              },
+              lineNumbersMinChars: 4,
+              lineDecorationsWidth: 0,
+              overviewRulerBorder: false,
+              automaticLayout: true,
+            }}
           />
         </div>
       </>
