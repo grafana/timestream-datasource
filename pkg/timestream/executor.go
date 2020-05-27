@@ -53,7 +53,7 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	stats := make([]QueryResultMetaStat, 1)
 	stats[0] = QueryResultMetaStat{
 		DisplayName: "Execution time",
-		Value:       float64(time.Now().Sub(start).Milliseconds()),
+		Value:       float64(time.Since(start).Milliseconds()),
 		Unit:        "ms",
 	}
 
