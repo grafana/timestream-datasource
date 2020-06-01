@@ -10,7 +10,8 @@ import (
 
 // QueryModel represents a spreadsheet query.
 type QueryModel struct {
-	RawQuery string `json:"rawQuery"`
+	RawQuery string   `json:"rawQuery"`
+	Labels   []string `json:"labels"`
 
 	// Not from JSON
 	Interval      time.Duration     `json:"-"`

@@ -37,18 +37,27 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		QueryString: aws.String(raw),
 	}
 
+	// Add all the stats
+	meta := make(map[string]interface{})
+	meta["executedQuery"] = raw
+
 	var frame *data.Frame
 	output, err := runner.runQuery(ctx, input)
 	if err == nil {
 		frame, err = QueryResultToDataFrame(output)
+		// if err == nil {
+		// 	// make columns into tags
+		// 	frame, err = data.LongToWide(frame, &data.FillMissing{
+		// 		Mode: data.FillModeNull,
+		// 	})
+		// }
+
+		meta["queryId"] = output.QueryId
+		meta["nextToken"] = output.NextToken
 	}
 	if frame == nil {
 		frame = data.NewFrame("")
 	}
-
-	// Add all the stats
-	meta := make(map[string]interface{})
-	meta["executedQuery"] = raw
 
 	stats := make([]QueryResultMetaStat, 1)
 	stats[0] = QueryResultMetaStat{
