@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	// Setup the plugin environment
 	backend.SetupPluginEnvironment("timestream-datasource")
 
 	err := datasource.Serve(timestream.NewDatasource())

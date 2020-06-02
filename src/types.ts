@@ -1,14 +1,15 @@
-import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { DataQuery } from '@grafana/data';
+import { AwsDataSourceJsonData, AwsDataSourceSecureJsonData } from 'common/types';
 
 export interface TimestreamQuery extends DataQuery {
   rawQuery?: string;
   noTruncation?: boolean;
 }
 
-export interface TimestreamOptions extends DataSourceJsonData {
+export interface TimestreamOptions extends AwsDataSourceJsonData {
   // nothing for now
 }
 
-export interface TimestreamSecureJsonData {
+export interface TimestreamSecureJsonData extends AwsDataSourceSecureJsonData {
   // nothing for now
 }

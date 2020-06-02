@@ -8,9 +8,10 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
-	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 )
@@ -20,12 +21,11 @@ type queryRunner interface {
 	runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error)
 }
 
-// This is an interface to help testing
-type TimestreamRunner struct {
+type timestreamRunner struct {
 	querySvc *timestreamquery.TimestreamQuery
 }
 
-func (r *TimestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
+func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
 	return r.querySvc.Query(input)
 }
 
@@ -34,23 +34,32 @@ type instanceSettings struct {
 }
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	settings, err := models.LoadSettings(s)
+	settings, err := aws.LoadSettings(s)
 	if err != nil {
 		return nil, fmt.Errorf("error reading settings: %s", err.Error())
 	}
 	backend.Logger.Info("new instance", "settings", settings)
 
 	// setup the query client
-	sess, err := session.NewSession(&aws.Config{Region: aws.String("us-east-1")})
+	cfg, err := aws.GetAwsConfig(settings)
 	if err != nil {
 		return nil, err
 	}
 
-	// querySvc := timestreamquery.New(sess, &aws.Config{Endpoint: aws.String("query-cell0.timestream.us-east-1.amazonaws.com")})
+	sess, err := session.NewSession(cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	querySvc := timestreamquery.New(sess)
 
+	// Add the user agent version
+	querySvc.Handlers.Send.PushFront(func(r *request.Request) {
+		r.HTTPRequest.Header.Set("User-Agent", fmt.Sprintf("GrafanaTimestream/%s", "alpha"))
+	})
+
 	return &instanceSettings{
-		Runner: &TimestreamRunner{
+		Runner: &timestreamRunner{
 			querySvc: querySvc,
 		},
 	}, nil
@@ -61,15 +70,14 @@ func (s *instanceSettings) Dispose() {
 	// to cleanup.
 }
 
-// TimestreamDS ...
-type TimestreamDS struct {
+type timestreamDS struct {
 	im instancemgmt.InstanceManager
 }
 
 // NewDatasource creates a new datasource server
 func NewDatasource() datasource.ServeOpts {
 	im := datasource.NewInstanceManager(newDataSourceInstance)
-	ds := &TimestreamDS{
+	ds := &timestreamDS{
 		im: im,
 	}
 
@@ -80,16 +88,16 @@ func NewDatasource() datasource.ServeOpts {
 	}
 }
 
-func (ds *TimestreamDS) getInstance(ctx backend.PluginContext) (*instanceSettings, error) {
+func (ds *timestreamDS) getInstance(ctx backend.PluginContext) (*instanceSettings, error) {
 	s, err := ds.im.Get(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return s.(*instanceSettings), nil // ugly cast... but go ¯\_(ツ)_/¯
+	return s.(*instanceSettings), nil
 }
 
 // CheckHealth will check the currently configured settings
-func (ds *TimestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	s, err := ds.getInstance(req.PluginContext)
 	if err != nil {
 		return &backend.CheckHealthResult{
@@ -106,7 +114,7 @@ func (ds *TimestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealt
 }
 
 // QueryData - Primary method called by grafana-server
-func (ds *TimestreamDS) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	s, err := ds.getInstance(req.PluginContext)
 	if err != nil {
 		return nil, err
@@ -127,7 +135,7 @@ func (ds *TimestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 }
 
 // CallResource HTTP style resource
-func (ds *TimestreamDS) CallResource(tx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+func (ds *timestreamDS) CallResource(tx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	if req.Path == "hello" {
 		return resource.SendPlainText(sender, "world")
 	}
