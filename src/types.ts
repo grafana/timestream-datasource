@@ -44,9 +44,6 @@ export interface TimestreamQuery extends DataQuery {
 
   // The rendered query
   rawQuery?: string;
-
-  // Colums to use as labels
-  labels?: string[];
 }
 
 export interface TimestreamOptions extends AwsDataSourceJsonData {

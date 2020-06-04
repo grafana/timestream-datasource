@@ -38,7 +38,6 @@ export class QueryEditor extends PureComponent<Props, State> {
       ...this.props.query,
       database: value.value,
     };
-
     this.props.onChange(query);
     console.log('DB Changed!', query);
   };

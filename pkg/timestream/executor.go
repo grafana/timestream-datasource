@@ -2,6 +2,7 @@ package timestream
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -37,26 +38,22 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		QueryString: aws.String(raw),
 	}
 
-	// Add all the stats
-	meta := make(map[string]interface{})
-	meta["executedQuery"] = raw
-
 	var frame *data.Frame
 	output, err := runner.runQuery(ctx, input)
 	if err == nil {
 		frame, err = QueryResultToDataFrame(output)
-		// if err == nil {
-		// 	// make columns into tags
-		// 	frame, err = data.LongToWide(frame, &data.FillMissing{
-		// 		Mode: data.FillModeNull,
-		// 	})
-		// }
-
-		meta["queryId"] = output.QueryId
-		meta["nextToken"] = output.NextToken
 	}
 	if frame == nil {
 		frame = data.NewFrame("")
+	}
+
+	// Add all the stats
+	meta := make(map[string]interface{})
+	if output != nil {
+		meta["queryId"] = output.QueryId
+		if output.NextToken != nil {
+			meta["nextToken"] = output.NextToken
+		}
 	}
 
 	stats := make([]QueryResultMetaStat, 1)
@@ -66,10 +63,25 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		Unit:        "ms",
 	}
 
-	frame.Meta = &data.FrameMeta{
-		Custom: meta,
-		Stats:  stats,
+	rows, _ := frame.RowLen()
+	if output.NextToken != nil {
+		if rows > 0 {
+			frame.AppendNotices(data.Notice{
+				Severity: data.NoticeSeverityWarning,
+				Text:     "More results not yet supported",
+			})
+		} else if err == nil {
+			err = fmt.Errorf("Slow query not yet supported")
+		}
 	}
+
+	if frame.Meta == nil {
+		frame.Meta = &data.FrameMeta{}
+	}
+
+	frame.Meta.Custom = meta
+	frame.Meta.Stats = stats
+	frame.Meta.ExecutedQueryString = raw
 
 	dr.Frames = append(dr.Frames, frame)
 	dr.Error = err

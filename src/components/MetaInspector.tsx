@@ -9,15 +9,27 @@ export class MetaInspector extends PureComponent<Props> {
   state = { index: 0 };
 
   renderInfo = (frame: DataFrame) => {
-    const query = frame.meta?.custom?.executedQuery as string;
-    if (!query) {
+    const custom = frame.meta?.custom;
+    if (!custom) {
       return null;
     }
 
+    // meta["queryId"] = output.QueryId
+    // meta["nextToken"] = output.NextToken
+
     return (
       <div>
+        <h3>Query ID</h3>
+        <pre>{custom.queryId}</pre>
+        {custom.nextToken && (
+          <>
+            <h3>Next Token</h3>
+            <pre>{custom.nextToken}</pre>
+          </>
+        )}
+
         <h3>Executed Query</h3>
-        <pre>{query}</pre>
+        <pre>{(frame.meta as any).executedQueryString}</pre>
       </div>
     );
   };

@@ -27,11 +27,20 @@ func TestInterpolate(t *testing.T) {
 			before: `SELECT average(value) FROM test AND $__timeFilter TIMESERIES`,
 			after:  `SELECT average(value) FROM test AND time BETWEEN from_milliseconds(1500376552001) AND from_milliseconds(1500376552002) TIMESERIES`,
 		},
+		{
+			name:   "standard templates",
+			before: `SELECT ${database} ${database} ${table} ${measure} TIMESERIES`,
+			after:  `SELECT db db t m TIMESERIES`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
 			query := models.QueryModel{
+				Database: "db",
+				Table:    "t",
+				Measure:  "m",
+
 				RawQuery:  tt.before,
 				TimeRange: timeRange,
 			}

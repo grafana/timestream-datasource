@@ -25,8 +25,10 @@ type DatasourceSettings struct {
 func LoadSettings(config backend.DataSourceInstanceSettings) (DatasourceSettings, error) {
 	settings := DatasourceSettings{}
 
-	if err := json.Unmarshal(config.JSONData, &settings); err != nil {
-		return settings, fmt.Errorf("could not unmarshal DatasourceSettings json: %w", err)
+	if config.JSONData != nil && len(config.JSONData) > 1 {
+		if err := json.Unmarshal(config.JSONData, &settings); err != nil {
+			return settings, fmt.Errorf("could not unmarshal DatasourceSettings json: %w", err)
+		}
 	}
 
 	if settings.Region == "default" || settings.Region == "" {

@@ -3,6 +3,7 @@ package timestream
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
@@ -18,6 +19,11 @@ const intervalStr = `\$__intervalStr`
 func Interpolate(query models.QueryModel) (string, error) {
 
 	txt := query.RawQuery
+
+	// Simple Macros
+	txt = replaceIfNotVar(txt, "${database}", query.Database)
+	txt = replaceIfNotVar(txt, "${table}", query.Table)
+	txt = replaceIfNotVar(txt, "${measure}", query.Measure)
 
 	timeFilterExp, err := regexp.Compile(timeFilter)
 	if err != nil {
@@ -43,4 +49,11 @@ func Interpolate(query models.QueryModel) (string, error) {
 	}
 
 	return txt, err
+}
+
+func replaceIfNotVar(txt string, key string, val string) string {
+	if val == "" || strings.HasPrefix(val, "$") {
+		return txt // unchanged
+	}
+	return strings.ReplaceAll(txt, key, val)
 }

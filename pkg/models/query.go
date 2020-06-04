@@ -10,8 +10,12 @@ import (
 
 // QueryModel represents a spreadsheet query.
 type QueryModel struct {
-	RawQuery string   `json:"rawQuery"`
-	Labels   []string `json:"labels"`
+	RawQuery string `json:"rawQuery"`
+
+	// Templates ${value}
+	Database string `json:"database,omitempty"`
+	Table    string `json:"table,omitempty"`
+	Measure  string `json:"measure,omitempty"`
 
 	// Not from JSON
 	Interval      time.Duration     `json:"-"`

@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -40,7 +39,8 @@ func datumParserString(datum *timestreamquery.Datum) (interface{}, error) {
 // QueryResultToDataFrame creates a DataFrame from query results
 func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, error) {
 	fields := []*data.Field{}
-	warnings := []string{}
+	notices := []data.Notice{}
+	cellParsingError := false
 
 	length := len(res.Rows)
 	for index, columnMeta := range res.ColumnInfo {
@@ -62,7 +62,10 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, erro
 				field = data.NewField(*columnMeta.Name, nil, make([]float64, length))
 				parser = datumParserFloat64
 			default:
-				warnings = append(warnings, fmt.Sprintf("Unsupported scalar value: %s", *columnMeta.Type.ScalarType))
+				notices = append(notices, data.Notice{
+					Severity: data.NoticeSeverityWarning,
+					Text:     fmt.Sprintf("Unsupported scalar value: %s", *columnMeta.Type.ScalarType),
+				})
 			}
 
 			if field != nil {
@@ -74,7 +77,13 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, erro
 					}
 					v, err := parser(row.Data[index])
 					if err != nil {
-						warnings = append(warnings, fmt.Sprintf("Error parsing: row:%d, colum:%d", i, index))
+						if !cellParsingError {
+							notices = append(notices, data.Notice{
+								Severity: data.NoticeSeverityError,
+								Text:     fmt.Sprintf("Error parsing: row:%d, colum:%d", i, index),
+							})
+						}
+						cellParsingError = true
 					} else {
 						field.Set(i, v)
 					}
@@ -82,15 +91,18 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (*data.Frame, erro
 				fields = append(fields, field)
 			}
 		} else {
-			warnings = append(warnings, fmt.Sprintf("Unsupported column type: %s", columnMeta.Type.GoString()))
+			notices = append(notices, data.Notice{
+				Severity: data.NoticeSeverityWarning,
+				Text:     fmt.Sprintf("Unsupported column type: %s", columnMeta.Type.GoString()),
+			})
 		}
 	}
 
 	frame := data.NewFrame("", // No name
 		fields...,
 	)
-	if len(warnings) > 0 {
-		backend.Logger.Warn("hymmm", "warnings", warnings)
+	if len(notices) > 0 {
+		frame.AppendNotices(notices...)
 	}
 	return frame, nil
 }
