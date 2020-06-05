@@ -22,9 +22,15 @@ export class QueryEditor extends PureComponent<Props, State> {
   state: State = {};
 
   onRawQueryChange = () => {
+    const rawQuery = this.getEditorValue();
+    if (this.props.query.rawQuery === rawQuery) {
+      return; // no change
+    }
+
     this.props.onChange({
       ...this.props.query,
-      rawQuery: this.getEditorValue(),
+      rawQuery,
+      queryType: QueryType.Raw,
     });
     this.props.onRunQuery();
   };
@@ -64,6 +70,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       ...this.props.query,
       rawQuery: value.value,
     });
+    this.props.onRunQuery();
   };
 
   render() {

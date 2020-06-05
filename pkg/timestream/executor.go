@@ -38,14 +38,17 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		QueryString: aws.String(raw),
 	}
 
-	var frame *data.Frame
 	output, err := runner.runQuery(ctx, input)
 	if err == nil {
-		frame, err = QueryResultToDataFrame(output)
+		dr = QueryResultToDataFrame(output)
+	} else {
+		dr.Error = err
 	}
-	if frame == nil {
-		frame = data.NewFrame("")
+
+	if len(dr.Frames) < 1 {
+		dr.Frames = append(dr.Frames, data.NewFrame(""))
 	}
+	frame := dr.Frames[0]
 
 	// Add all the stats
 	meta := make(map[string]interface{})
@@ -54,13 +57,6 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		if output.NextToken != nil {
 			meta["nextToken"] = output.NextToken
 		}
-	}
-
-	stats := make([]QueryResultMetaStat, 1)
-	stats[0] = QueryResultMetaStat{
-		DisplayName: "Execution time",
-		Value:       float64(time.Since(start).Milliseconds()),
-		Unit:        "ms",
 	}
 
 	rows, _ := frame.RowLen()
@@ -80,10 +76,14 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	}
 
 	frame.Meta.Custom = meta
-	frame.Meta.Stats = stats
 	frame.Meta.ExecutedQueryString = raw
 
-	dr.Frames = append(dr.Frames, frame)
-	dr.Error = err
+	stats := make([]QueryResultMetaStat, 1)
+	stats[0] = QueryResultMetaStat{
+		DisplayName: "Execution time",
+		Value:       float64(time.Since(start).Milliseconds()),
+		Unit:        "ms",
+	}
+	frame.Meta.Stats = stats
 	return
 }

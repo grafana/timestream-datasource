@@ -22,22 +22,22 @@ export const queryTypes: Array<SelectableValue<QueryType>> = [
 export const sampleQueries: Array<SelectableValue<string>> = [
   {
     label: 'Show databases',
-    value: 'SHOW DATABASES', // Invalid syntax
+    value: 'SHOW DATABASES',
     description: 'List the databases available in your instance',
   },
   {
     label: 'Show tables',
-    value: 'SHOW TABLES FROM ${database}', // invalid: SHOW TABLES FROM grafanaDb
+    value: 'SHOW TABLES FROM ${database}',
     description: 'List the tables within a database',
   },
   {
     label: 'Describe table',
-    value: 'DESCRIBE ${database}.${table}', // Works! DESCRIBE grafanaDB.grafanaTable
+    value: 'DESCRIBE ${database}.${table}',
     description: 'describe a table in a database',
   },
   {
     label: 'Show measurements',
-    value: 'SELECT measurements FROM ${database}.${table}',
+    value: 'SHOW MEASURES FROM ${database}.${table}',
     description: 'Show measurements in the selected table',
   },
 ];

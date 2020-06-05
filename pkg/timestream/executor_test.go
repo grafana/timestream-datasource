@@ -26,13 +26,11 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 
 	if dr.Frames != nil {
 		for idx, frame := range dr.Frames {
+			frame.Meta.Custom["queryId"] = "{CHANGES}"
 			meta, _ := json.MarshalIndent(frame.Meta, "", "    ")
 			str += fmt.Sprintf("Frame[%d] %s\n", idx, string(meta))
 
-			table, err := dr.Frames[0].StringTable(100, 10)
-			if err != nil {
-				t.Fatalf("error writing string table: %s", err)
-			}
+			table, _ := frame.StringTable(100, 10)
 			str += table
 			str += "\n\n\n"
 		}
@@ -40,7 +38,7 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 
 	saved, err := mockClient.readText()
 	if err != nil {
-		t.Error("Error reading saved value... recreating")
+		//t.Error("Error reading saved value... recreating")
 		err = mockClient.saveText(str)
 		if err != nil {
 			t.Error(err)
@@ -55,7 +53,9 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 
 func TestSavedConversions(t *testing.T) {
 	runTest(t, "describe-table")
-	runTest(t, "simple-query")
+	runTest(t, "select-star")
+	runTest(t, "simple-timeseries")
+	runTest(t, "some-timeseries")
 }
 
 func TestGenerateTestData(t *testing.T) {
@@ -66,7 +66,7 @@ func TestGenerateTestData(t *testing.T) {
 		RawQuery: "DESCRIBE grafanaDB.grafanaTable",
 	}
 
-	m["simple-query.json"] = models.QueryModel{
+	m["select-star.json"] = models.QueryModel{
 		Interval: time.Second * 5,
 		TimeRange: backend.TimeRange{
 			From: time.Unix(0, int64(time.Millisecond)*1588698110284),
@@ -74,15 +74,51 @@ func TestGenerateTestData(t *testing.T) {
 		},
 		Database: "grafanaDB",
 		Table:    "grafanaTable",
-		RawQuery: `SELECT region, cell, silo, microservice_name,
-		BIN(time, $__intervalStr) AS time_bin,
-		ROUND(AVG(measure_value::double), 2) AS avg_value
-	FROM ${database}.${table}
-	WHERE $__timeFilter
-		AND measure_name = 'cpu_user'
-		AND region = 'us-east-1' AND cell = 'us-east-1-cell-1' AND microservice_name = 'apollo'
-	GROUP BY region, cell, silo, microservice_name, BIN(time, $__intervalStr)
-	ORDER BY time_bin DESC`,
+		RawQuery: `SELECT * FROM grafanaDB.grafanaTable LIMIT 10`,
+	}
+
+	m["single-timeseries.json"] = models.QueryModel{
+		RawQuery: `SELECT region, cell, silo, availability_zone, microservice_name,
+		instance_name, process_name, jdk_version,
+		CREATE_TIME_SERIES(time, measure_value::double) AS gc_reclaimed
+	FROM grafanaDB.grafanaTable
+	WHERE time > ago(2h)
+		AND measure_name = 'gc_reclaimed'
+		AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND silo = 'ap-northeast-1-cell-5-silo-2'
+		AND availability_zone = 'ap-northeast-1-3' AND microservice_name = 'zeus'
+		AND instance_name = 'i-zaZswmJk-zeus-0002.amazonaws.com' AND process_name = 'server' AND jdk_version = 'JDK_11'
+	GROUP BY region, cell, silo, availability_zone, microservice_name,
+		instance_name, process_name, jdk_version`,
+	}
+
+	m["some-timeseries.json"] = models.QueryModel{
+		RawQuery: `SELECT 
+			region, 
+			cell, 
+			silo, 
+			availability_zone, 
+			microservice_name,
+			instance_name, 
+			process_name, 
+			jdk_version,
+			CREATE_TIME_SERIES(time, measure_value::double) AS gc_reclaimed
+		FROM grafanaDB.grafanaTable
+		WHERE time > ago(1h)
+			AND measure_name = 'gc_reclaimed'
+			AND region = 'ap-northeast-1' 
+			AND cell = 'ap-northeast-1-cell-5' 
+			AND silo = 'ap-northeast-1-cell-5-silo-2'
+			AND availability_zone = 'ap-northeast-1-3' 
+			AND microservice_name = 'zeus'
+			AND instance_name = 'i-zaZswmJk-zeus-0002.amazonaws.com' 
+		GROUP BY region, 
+			cell, 
+			silo, 
+			availability_zone, 
+			microservice_name,
+			instance_name, 
+			process_name, 
+			jdk_version`,
 	}
 
 	for key, value := range m {
