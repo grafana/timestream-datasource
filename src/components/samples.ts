@@ -40,4 +40,9 @@ export const sampleQueries: Array<SelectableValue<string>> = [
     value: 'SHOW MEASURES FROM ${database}.${table}',
     description: 'Show measurements in the selected table',
   },
+  {
+    label: 'First 10 rows',
+    value: 'SELECT * FROM ${database}.${table} LIMIT 10',
+    description: 'Select the first 10 rows of the table',
+  },
 ];

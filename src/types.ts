@@ -36,6 +36,12 @@ export interface MeasureInfo {
   dimensions: KeyValue<DataType>;
 }
 
+export interface TimestreamCustomMeta {
+  queryId: string;
+  nextToken?: string;
+  hasSeries?: boolean;
+}
+
 export interface TimestreamQuery extends DataQuery {
   // Standard templates
   database?: string;
@@ -44,6 +50,9 @@ export interface TimestreamQuery extends DataQuery {
 
   // The rendered query
   rawQuery?: string;
+
+  // Not a real parameter...
+  // nextToken?: string;
 }
 
 export interface TimestreamOptions extends AwsDataSourceJsonData {

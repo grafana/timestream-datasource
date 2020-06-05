@@ -13,13 +13,13 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "next",
+    "@grafana/data": "canary",
     "@grafana/e2e": "canary",
-    "@grafana/runtime": "next",
+    "@grafana/runtime": "canary",
     "@grafana/toolkit": "next",
+    "@grafana/ui": "canary",
     "@monaco-editor/react": "3.3.0",
     "monaco-editor": "^0.20.0",
-    "@grafana/ui": "next",
     "@types/lodash": "latest"
   }
 }

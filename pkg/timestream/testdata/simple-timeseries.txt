@@ -1,9 +1,0 @@
-open ./testdata/simple-timeseries.json: no such file or directoryFrame[0] {
-    "custom": {
-        "queryId": "{CHANGES}"
-    },
-    "stats": []
-}
-
-
-

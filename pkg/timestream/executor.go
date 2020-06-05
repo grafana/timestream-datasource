@@ -2,7 +2,6 @@ package timestream
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -52,35 +51,11 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		dr.Frames = append(dr.Frames, data.NewFrame(""))
 	}
 	frame := dr.Frames[0]
-	rows, _ := frame.RowLen()
-
-	// Add all the stats
-	meta := make(map[string]interface{})
-	if output != nil {
-		meta["queryId"] = output.QueryId
-		if output.NextToken != nil {
-			meta["nextToken"] = output.NextToken
-		}
-
-		if output.NextToken != nil {
-			if rows > 0 {
-				frame.AppendNotices(data.Notice{
-					Severity: data.NoticeSeverityWarning,
-					Text:     "More results not yet supported",
-				})
-			} else if err == nil {
-				err = fmt.Errorf("Slow query not yet supported")
-			}
-		}
-	}
 
 	if frame.Meta == nil {
 		frame.Meta = &data.FrameMeta{}
 	}
-
-	frame.Meta.Custom = meta
 	frame.Meta.ExecutedQueryString = raw
-
 	stats := make([]QueryResultMetaStat, 1)
 	stats[0] = QueryResultMetaStat{
 		DisplayName: "Execution time",

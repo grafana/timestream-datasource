@@ -104,12 +104,27 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		dr.Frames = append(dr.Frames, frame)
 	}
 
+	meta := make(map[string]interface{})
+	meta["queryId"] = res.QueryId
+	if res.NextToken != nil {
+		meta["nextToken"] = res.NextToken
+	}
+	if timeseriesColumn != nil {
+		meta["hasSeries"] = true
+	}
+
+	// At least one empty result
+	if len(dr.Frames) < 1 {
+		dr.Frames = append(dr.Frames, data.NewFrame(""))
+	}
+
 	// Attach all notices to the first response
 	if len(notices) > 0 {
-		if len(dr.Frames) < 1 {
-			dr.Frames = append(dr.Frames, data.NewFrame(""))
-		}
 		dr.Frames[0].AppendNotices(notices...)
 	}
+	if dr.Frames[0].Meta == nil {
+		dr.Frames[0].Meta = &data.FrameMeta{}
+	}
+	dr.Frames[0].Meta.Custom = meta
 	return
 }

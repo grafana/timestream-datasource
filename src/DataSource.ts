@@ -1,7 +1,7 @@
-import { DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
+import { DataSourceInstanceSettings, ScopedVars, DataQueryResponse, DataFrame, LoadingState } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 
-import { TimestreamQuery, TimestreamOptions, MeasureInfo, DataType } from './types';
+import { TimestreamQuery, TimestreamOptions, MeasureInfo, DataType, TimestreamCustomMeta } from './types';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
   constructor(instanceSettings: DataSourceInstanceSettings<TimestreamOptions>) {
@@ -25,6 +25,37 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       ...query,
       rawQuery: getTemplateSrv().replace(query.rawQuery, local),
     };
+  }
+
+  // In flight data..
+  pending = new Map<string, DataFrame>();
+
+  processResponse(res: DataQueryResponse): Promise<DataQueryResponse> {
+    if (res.data?.length) {
+      let data = res.data[0] as DataFrame;
+      const meta = data.meta?.custom as TimestreamCustomMeta;
+      if (meta && meta.queryId) {
+        const old = this.pending.get(meta.queryId);
+        if (old) {
+          console.log('TODO, append', old, data);
+          res.data = [old]; // new array
+        }
+
+        if (meta.nextToken) {
+          res.state = LoadingState.Streaming; // Spinner
+          if (meta.hasSeries) {
+            // nothing special since each will get a unique key
+          } else {
+            res.key = meta.queryId; // We need to append the rows explicitly
+            this.pending.set(meta.queryId, data);
+          }
+          alert(`TODO... query: ${meta.nextToken}`);
+        } else {
+          this.pending.delete(meta.queryId);
+        }
+      }
+    }
+    return Promise.resolve(res);
   }
 
   //----------------------------------------------

@@ -25,13 +25,20 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 
 	if dr.Frames != nil {
 		for idx, frame := range dr.Frames {
-			frame.Meta.Custom["queryId"] = "{CHANGES}"
-			if frame.Meta.Stats != nil {
-				frame.Meta.Stats = make([]string, 0) // avoid timing changes
+			metaString := ""
+			if frame.Meta != nil {
+				if frame.Meta.Custom != nil {
+					frame.Meta.Custom["queryId"] = "{CHANGES}"
+				}
+				if frame.Meta.Stats != nil {
+					frame.Meta.Stats = make([]string, 0) // avoid timing changes
+				}
+
+				meta, _ := json.MarshalIndent(frame.Meta, "", "    ")
+				metaString = string(meta)
 			}
 
-			meta, _ := json.MarshalIndent(frame.Meta, "", "    ")
-			str += fmt.Sprintf("Frame[%d] %s\n", idx, string(meta))
+			str += fmt.Sprintf("Frame[%d] %s\n", idx, string(metaString))
 
 			table, _ := frame.StringTable(100, 10)
 			str += table
@@ -57,12 +64,12 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 func TestSavedConversions(t *testing.T) {
 	runTest(t, "describe-table")
 	runTest(t, "select-star")
-	runTest(t, "simple-timeseries")
+	runTest(t, "single-timeseries")
 	runTest(t, "some-timeseries")
 }
 
 func TestGenerateTestData(t *testing.T) {
-	t.Skip("Integration Test") // comment line to run this
+	//t.Skip("Integration Test") // comment line to run this
 
 	m := make(map[string]models.QueryModel)
 	m["describe-table.json"] = models.QueryModel{
@@ -106,7 +113,6 @@ func TestGenerateTestData(t *testing.T) {
 			AND silo = 'ap-northeast-1-cell-5-silo-2'
 			AND availability_zone = 'ap-northeast-1-3' 
 			AND microservice_name = 'zeus'
-			AND instance_name = 'i-zaZswmJk-zeus-0002.amazonaws.com' 
 		GROUP BY region, 
 			cell, 
 			silo, 
@@ -114,7 +120,9 @@ func TestGenerateTestData(t *testing.T) {
 			microservice_name,
 			instance_name, 
 			process_name, 
-			jdk_version`,
+			jdk_version		
+		ORDER BY AVG(measure_value::double) DESC
+		LIMIT 10`,
 	}
 
 	for key, value := range m {
