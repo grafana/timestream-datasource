@@ -10,7 +10,8 @@ import (
 
 // QueryModel represents a spreadsheet query.
 type QueryModel struct {
-	RawQuery string `json:"rawQuery"`
+	RawQuery  string `json:"rawQuery,omitempty"`
+	NextToken string `json:"nextToken,omitempty"`
 
 	// Templates ${value}
 	Database string `json:"database,omitempty"`

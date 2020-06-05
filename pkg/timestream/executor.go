@@ -26,16 +26,19 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	start := time.Now()
 	dr = backend.DataResponse{}
 
+	input := &timestreamquery.QueryInput{}
 	raw, err := Interpolate(query)
 	if err != nil {
 		dr.Error = err
 		return
 	}
 
-	backend.Logger.Info("running query", "query", raw)
-
-	input := &timestreamquery.QueryInput{
-		QueryString: aws.String(raw),
+	if len(query.NextToken) > 0 {
+		input.NextToken = aws.String(query.NextToken)
+		backend.Logger.Info("running continue query", "token", query.NextToken)
+	} else {
+		input.QueryString = aws.String(raw)
+		backend.Logger.Info("running query", "query", raw)
 	}
 
 	output, err := runner.runQuery(ctx, input)
@@ -49,6 +52,7 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		dr.Frames = append(dr.Frames, data.NewFrame(""))
 	}
 	frame := dr.Frames[0]
+	rows, _ := frame.RowLen()
 
 	// Add all the stats
 	meta := make(map[string]interface{})
@@ -57,17 +61,16 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		if output.NextToken != nil {
 			meta["nextToken"] = output.NextToken
 		}
-	}
 
-	rows, _ := frame.RowLen()
-	if output.NextToken != nil {
-		if rows > 0 {
-			frame.AppendNotices(data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     "More results not yet supported",
-			})
-		} else if err == nil {
-			err = fmt.Errorf("Slow query not yet supported")
+		if output.NextToken != nil {
+			if rows > 0 {
+				frame.AppendNotices(data.Notice{
+					Severity: data.NoticeSeverityWarning,
+					Text:     "More results not yet supported",
+				})
+			} else if err == nil {
+				err = fmt.Errorf("Slow query not yet supported")
+			}
 		}
 	}
 

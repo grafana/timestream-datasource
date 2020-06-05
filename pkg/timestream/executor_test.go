@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
@@ -27,6 +26,10 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 	if dr.Frames != nil {
 		for idx, frame := range dr.Frames {
 			frame.Meta.Custom["queryId"] = "{CHANGES}"
+			if frame.Meta.Stats != nil {
+				frame.Meta.Stats = make([]string, 0) // avoid timing changes
+			}
+
 			meta, _ := json.MarshalIndent(frame.Meta, "", "    ")
 			str += fmt.Sprintf("Frame[%d] %s\n", idx, string(meta))
 
@@ -67,13 +70,6 @@ func TestGenerateTestData(t *testing.T) {
 	}
 
 	m["select-star.json"] = models.QueryModel{
-		Interval: time.Second * 5,
-		TimeRange: backend.TimeRange{
-			From: time.Unix(0, int64(time.Millisecond)*1588698110284),
-			To:   time.Unix(0, int64(time.Millisecond)*1588700180087),
-		},
-		Database: "grafanaDB",
-		Table:    "grafanaTable",
 		RawQuery: `SELECT * FROM grafanaDB.grafanaTable LIMIT 10`,
 	}
 

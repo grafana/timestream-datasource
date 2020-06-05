@@ -2,13 +2,7 @@ Frame[0] {
     "custom": {
         "queryId": "{CHANGES}"
     },
-    "stats": [
-        {
-            "displayName": "Execution time",
-            "value": 0,
-            "unit": "ms"
-        }
-    ]
+    "stats": []
 }
 Name: 
 Dimensions: 3 Fields by 15 Rows

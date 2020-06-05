@@ -2,15 +2,15 @@ import { SelectableValue } from '@grafana/data';
 import { QueryType } from 'types';
 
 export const queryTypes: Array<SelectableValue<QueryType>> = [
-  {
-    label: 'Builder',
-    value: QueryType.Builder,
-    description: 'Limited features, but simple query types',
-  },
+  // {
+  //   label: 'Builder',
+  //   value: QueryType.Builder,
+  //   description: 'Limited features, but simple query types',
+  // },
   {
     label: 'Samples',
     value: QueryType.Samples,
-    description: 'Possible query structures for inspiration/exploration',
+    description: 'Example query structures',
   },
   {
     label: 'Raw Query',
