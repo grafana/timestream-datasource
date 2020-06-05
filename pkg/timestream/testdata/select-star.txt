@@ -1,0 +1,39 @@
+Frame[0] {
+    "custom": {
+        "queryId": "{CHANGES}"
+    },
+    "stats": [
+        {
+            "displayName": "Execution time",
+            "value": 0,
+            "unit": "ms"
+        }
+    ],
+    "notices": [
+        {
+            "severity": "warning",
+            "text": "Unsupported scalar value: BIGINT"
+        }
+    ]
+}
+Name: 
+Dimensions: 14 Fields by 10 Rows
++-------------------------+-------------------------+--------------------------------------+--------------------+------------------+-------------------+------------------+----------------+-------------------------+---------------------+-----------------------------+------------------------------+--------------------+-------------------------------+
+| Name: availability_zone | Name: microservice_name | Name: instance_name                  | Name: process_name | Name: os_version | Name: jdk_version | Name: cell       | Name: region   | Name: silo              | Name: instance_type | Name: measure_value::double | Name: measure_value::varchar | Name: measure_name | Name: time                    |
+| Labels:                 | Labels:                 | Labels:                              | Labels:            | Labels:          | Labels:           | Labels:          | Labels:        | Labels:                 | Labels:             | Labels:                     | Labels:                      | Labels:            | Labels:                       |
+| Type: []string          | Type: []string          | Type: []string                       | Type: []string     | Type: []string   | Type: []string    | Type: []string   | Type: []string | Type: []string          | Type: []string      | Type: []float64             | Type: []string               | Type: []string     | Type: []time.Time             |
++-------------------------+-------------------------+--------------------------------------+--------------------+------------------+-------------------+------------------+----------------+-------------------------+---------------------+-----------------------------+------------------------------+--------------------+-------------------------------+
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 8.74640762810347            |                              | latency_per_write  | 2020-06-04 04:37:35 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 55.627059428736125          |                              | latency_per_write  | 2020-06-04 04:39:46 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 2.240781636603617           |                              | latency_per_write  | 2020-06-04 04:41:53 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 14.695278336331318          |                              | latency_per_write  | 2020-06-04 04:44:00 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 19.763564147794167          |                              | latency_per_write  | 2020-06-04 04:46:06 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 25.279008463091866          |                              | latency_per_write  | 2020-06-04 04:48:12 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 35.8449571032675            |                              | latency_per_write  | 2020-06-04 04:50:19 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 62.99882356418368           |                              | latency_per_write  | 2020-06-04 04:52:25 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 78.26737901595652           |                              | latency_per_write  | 2020-06-04 04:54:31 +0000 UTC |
+| us-east-1-1             | apollo                  | i-zaZswmJk-apollo-0000.amazonaws.com |                    | AL2              |                   | us-east-1-cell-1 | us-east-1      | us-east-1-cell-1-silo-1 | r5.4xlarge          | 98.08590754446676           |                              | latency_per_write  | 2020-06-04 04:56:38 +0000 UTC |
++-------------------------+-------------------------+--------------------------------------+--------------------+------------------+-------------------+------------------+----------------+-------------------------+---------------------+-----------------------------+------------------------------+--------------------+-------------------------------+
+
+
+

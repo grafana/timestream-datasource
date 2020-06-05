@@ -59,7 +59,7 @@ func TestSavedConversions(t *testing.T) {
 }
 
 func TestGenerateTestData(t *testing.T) {
-	//t.Skip("Integration Test") // comment line to run this
+	t.Skip("Integration Test") // comment line to run this
 
 	m := make(map[string]models.QueryModel)
 	m["describe-table.json"] = models.QueryModel{
