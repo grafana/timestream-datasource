@@ -9,7 +9,7 @@ import {
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
 
-import { TimestreamQuery, TimestreamOptions, MeasureInfo, DataType, TimestreamCustomMeta } from './types';
+import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta } from './types';
 import { keepChecking } from 'looper';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -71,23 +71,42 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   //----------------------------------------------
   // SCHEMA Style Functions
   //----------------------------------------------
+  private async getStrings(rawQuery: string): Promise<string[]> {
+    return this.query(({
+      targets: [
+        {
+          refId: 'X',
+          rawQuery,
+        },
+      ],
+    } as unknown) as DataQueryRequest)
+      .toPromise()
+      .then(res => {
+        const first = res.data[0] as DataFrame;
+        const vals = first.fields[0]?.values;
+        if (vals) {
+          return vals.toArray(); //
+        }
+        return [];
+      });
+  }
 
   async getDatabases(like?: string): Promise<string[]> {
-    return Promise.resolve(['db1', 'db2']);
+    return this.getStrings('SHOW DATABASES');
   }
 
   async getTables(db: string, like?: string): Promise<string[]> {
-    return Promise.resolve(['t1', 't2', 't3']);
+    if (!db) {
+      return [];
+    }
+    return this.getStrings(`SHOW TABLES FROM ${db}`);
   }
 
-  async getMeasures(db: string, table: string): Promise<MeasureInfo[]> {
-    return Promise.resolve([
-      {
-        name: 'm1',
-        type: DataType.double,
-        dimensions: { availability_zone: DataType.varchar },
-      },
-    ]);
+  async getMeasures(db: string, table: string): Promise<string[]> {
+    if (!db || !table) {
+      return [];
+    }
+    return this.getStrings(`SHOW MEASURES FROM ${db}.${table}`);
   }
 }
 

@@ -3,16 +3,14 @@ import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import Editor from '@monaco-editor/react';
 import { DataSource } from '../DataSource';
 import { TimestreamQuery, TimestreamOptions, QueryType, MeasureInfo } from '../types';
-import { config } from '@grafana/runtime';
+import { config, getTemplateSrv } from '@grafana/runtime';
 import { QueryField } from './Forms';
 
-import { Segment } from '@grafana/ui';
+import { Segment, SegmentAsync, InlineFormLabel } from '@grafana/ui';
 import { sampleQueries, queryTypes } from './samples';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 interface State {
-  dbs?: Array<SelectableValue<string>>;
-  tables?: Array<SelectableValue<string>>;
   measures?: Array<SelectableValue<MeasureInfo>>;
 }
 
@@ -20,6 +18,9 @@ export class QueryEditor extends PureComponent<Props, State> {
   getEditorValue: any | undefined;
 
   state: State = {};
+
+  //-----------------------------------------------------
+  //-----------------------------------------------------
 
   onRawQueryChange = () => {
     const rawQuery = this.getEditorValue();
@@ -39,13 +40,79 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.getEditorValue = getEditorValue;
   };
 
+  getCurrentVars() {
+    let { database, table } = this.props.query;
+    const templateSrv = getTemplateSrv();
+
+    if (isVar(database)) {
+      database = templateSrv.replace(database!);
+    } else if (!database) {
+      database = templateSrv.replace('${database}');
+    }
+
+    if (isVar(table)) {
+      table = templateSrv.replace(table!);
+    } else if (!table) {
+      table = templateSrv.replace('${table}');
+    }
+
+    return {
+      database,
+      table,
+    };
+  }
+
+  getDatabaseOptions = async (q?: string) => {
+    const vals = await this.props.datasource.getDatabases();
+    const opts = vals.map(v => {
+      return { value: v, label: v };
+    });
+    if (this.props.query.database) {
+      opts.push({ value: '', label: '-- remove --' });
+    }
+    return opts;
+  };
+
+  getTablesOptions = async (q?: string) => {
+    const vars = this.getCurrentVars();
+    const vals = await this.props.datasource.getTables(vars.database);
+    const opts = vals.map(v => {
+      return { value: v, label: v };
+    });
+    if (this.props.query.table) {
+      opts.push({ value: '', label: '-- remove --' });
+    }
+    return opts;
+  };
+
+  getMeasureOptions = async (q?: string) => {
+    const vars = this.getCurrentVars();
+    const vals = await this.props.datasource.getMeasures(vars.database, vars.table);
+    const opts = vals.map(v => {
+      return { value: v, label: v };
+    });
+    if (this.props.query.table) {
+      opts.push({ value: '', label: '-- remove --' });
+    }
+    return opts;
+  };
+
   onDbChanged = (value: SelectableValue<string>) => {
     const query = {
       ...this.props.query,
       database: value.value,
     };
+    if (!query.database) {
+      delete query.database;
+    }
+
+    // Remove the table when Db changes
+    if (!isVar(query.table)) {
+      delete query.table;
+    }
+
     this.props.onChange(query);
-    console.log('DB Changed!', query);
+    this.props.onRunQuery();
   };
 
   onTableChanged = (value: SelectableValue<string>) => {
@@ -53,9 +120,25 @@ export class QueryEditor extends PureComponent<Props, State> {
       ...this.props.query,
       table: value.value,
     };
+    if (!query.table) {
+      delete query.table;
+    }
 
     this.props.onChange(query);
     console.log('Table Changed!', query);
+  };
+
+  onMeasureChanged = (value: SelectableValue<string>) => {
+    const query = {
+      ...this.props.query,
+      measure: value.value,
+    };
+    if (!query.measure) {
+      delete query.measure;
+    }
+
+    this.props.onChange(query);
+    console.log('Measure Changed!', query);
   };
 
   onQueryTypeChange = (value: SelectableValue<QueryType>) => {
@@ -75,8 +158,13 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   render() {
     const { query } = this.props;
-    const { dbs, tables } = this.state;
     const queryType = queryTypes.find(v => v.value === query.queryType) || queryTypes[1]; // Samples
+
+    const vars = {
+      database: '${database}',
+      table: '${table}',
+      measure: '${measure}',
+    };
 
     return (
       <>
@@ -92,24 +180,47 @@ export class QueryEditor extends PureComponent<Props, State> {
           </div>
         </div>
         <div className={'gf-form-inline'}>
-          <QueryField label="Database">
-            <Segment
-              value={query.database || '${database}'}
-              options={dbs || []}
-              onChange={this.onDbChanged}
-              allowCustomValue
-            />
-          </QueryField>
+          <InlineFormLabel width={8} className="query-keyword">
+            Variables
+          </InlineFormLabel>
+          <InlineFormLabel className="keyword" width={6}>
+            {vars.database}
+          </InlineFormLabel>
+          <SegmentAsync
+            value={query.database || '+'}
+            loadOptions={this.getDatabaseOptions}
+            onChange={this.onDbChanged}
+            allowCustomValue
+          />
+
           {query.database && (
-            <QueryField label="Table">
-              <Segment
-                value={query.table || '${table}'}
-                options={tables || []}
+            <>
+              <InlineFormLabel className="keyword" width={5}>
+                {vars.table}
+              </InlineFormLabel>
+              <SegmentAsync
+                value={query.table || '+'}
+                loadOptions={this.getTablesOptions}
                 onChange={this.onTableChanged}
                 allowCustomValue
               />
-            </QueryField>
+            </>
           )}
+
+          {query.table && (
+            <>
+              <InlineFormLabel className="keyword" width={5}>
+                {vars.measure}
+              </InlineFormLabel>
+              <SegmentAsync
+                value={query.measure || '+'}
+                loadOptions={this.getMeasureOptions}
+                onChange={this.onMeasureChanged}
+                allowCustomValue
+              />
+            </>
+          )}
+
           <div className="gf-form gf-form--grow">
             <div className="gf-form-label gf-form-label--grow" />
           </div>
@@ -140,4 +251,8 @@ export class QueryEditor extends PureComponent<Props, State> {
       </>
     );
   }
+}
+
+function isVar(txt?: string): boolean {
+  return !!txt && txt.startsWith('${');
 }
