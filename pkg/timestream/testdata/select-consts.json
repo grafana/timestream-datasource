@@ -1,0 +1,44 @@
+{
+    "ColumnInfo": [
+        {
+            "Name": "t_int32",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "INTEGER",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        },
+        {
+            "Name": "t_varchar",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "VARCHAR",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        }
+    ],
+    "NextToken": null,
+    "QueryId": "AHU6MLPDU5K4LL36RL72J27FR443O5FZ7GMR2MJQY76IR5OO5DJCQ",
+    "Rows": [
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "1",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "two",
+                    "TimeSeriesValue": null
+                }
+            ]
+        }
+    ]
+}
