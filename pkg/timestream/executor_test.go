@@ -62,6 +62,7 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 }
 
 func TestSavedConversions(t *testing.T) {
+	runTest(t, "select-consts")
 	runTest(t, "describe-table")
 	runTest(t, "select-star")
 	runTest(t, "single-timeseries")
@@ -69,9 +70,16 @@ func TestSavedConversions(t *testing.T) {
 }
 
 func TestGenerateTestData(t *testing.T) {
-	//t.Skip("Integration Test") // comment line to run this
+	t.Skip("Integration Test") // comment line to run this
 
 	m := make(map[string]models.QueryModel)
+	m["select-consts.json"] = models.QueryModel{
+		RawQuery: `SELECT 
+		  1     as t_int32, 
+		  'two' as t_varchar
+		`,
+	}
+
 	m["describe-table.json"] = models.QueryModel{
 		RawQuery: "DESCRIBE grafanaDB.grafanaTable",
 	}

@@ -1,7 +1,16 @@
-import { DataSourceInstanceSettings, ScopedVars, DataQueryResponse, DataFrame, LoadingState } from '@grafana/data';
+import {
+  DataSourceInstanceSettings,
+  ScopedVars,
+  DataQueryResponse,
+  DataFrame,
+  LoadingState,
+  DataQueryRequest,
+} from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
+import { Observable } from 'rxjs';
 
 import { TimestreamQuery, TimestreamOptions, MeasureInfo, DataType, TimestreamCustomMeta } from './types';
+import { keepChecking } from 'looper';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
   constructor(instanceSettings: DataSourceInstanceSettings<TimestreamOptions>) {
@@ -18,44 +27,45 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     }
 
     const local: ScopedVars = {};
-    maybeAllVariable(local, 'database', query);
-    maybeAllVariable(local, 'table', query);
-    maybeAllVariable(local, 'measure', query);
+    maybeSetVariable(local, 'database', query);
+    maybeSetVariable(local, 'table', query);
+    maybeSetVariable(local, 'measure', query);
     return {
       ...query,
       rawQuery: getTemplateSrv().replace(query.rawQuery, local),
     };
   }
 
-  // In flight data..
-  pending = new Map<string, DataFrame>();
-
-  processResponse(res: DataQueryResponse): Promise<DataQueryResponse> {
-    if (res.data?.length) {
-      let data = res.data[0] as DataFrame;
-      const meta = data.meta?.custom as TimestreamCustomMeta;
-      if (meta && meta.queryId) {
-        const old = this.pending.get(meta.queryId);
-        if (old) {
-          console.log('TODO, append', old, data);
-          res.data = [old]; // new array
-        }
-
-        if (meta.nextToken) {
-          res.state = LoadingState.Streaming; // Spinner
-          if (meta.hasSeries) {
-            // nothing special since each will get a unique key
-          } else {
-            res.key = meta.queryId; // We need to append the rows explicitly
-            this.pending.set(meta.queryId, data);
+  query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
+    return new Observable<DataQueryResponse>(subscriber => {
+      super
+        .query(request)
+        .toPromise()
+        .then(rsp => {
+          const meta = getNextTokenMeta(rsp);
+          if (meta) {
+            rsp.state = LoadingState.Loading; // streaming?
+            if (!meta.hasSeries) {
+              rsp.key = meta.queryId;
+            }
+            keepChecking({
+              subscriber,
+              req: request,
+              rsp,
+              count: 1,
+              ds: this,
+            });
           }
-          alert(`TODO... query: ${meta.nextToken}`);
-        } else {
-          this.pending.delete(meta.queryId);
-        }
-      }
-    }
-    return Promise.resolve(res);
+          subscriber.next(rsp);
+          if (!meta) {
+            subscriber.complete(); // done
+          }
+        });
+
+      return () => {
+        console.log('unsubscribe.. timestream cancel?', this);
+      };
+    });
   }
 
   //----------------------------------------------
@@ -81,9 +91,20 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   }
 }
 
-function maybeAllVariable(vars: ScopedVars, key: string, obj: any) {
+function maybeSetVariable(vars: ScopedVars, key: string, obj: any) {
   const value = obj[key];
   if (value && !value.startsWith('$')) {
     vars[key] = { text: key, value: value };
   }
+}
+
+export function getNextTokenMeta(rsp: DataQueryResponse): TimestreamCustomMeta | undefined {
+  if (rsp.data?.length) {
+    const first = rsp.data[0] as DataFrame;
+    const meta = first.meta?.custom as TimestreamCustomMeta;
+    if (meta && meta.nextToken) {
+      return meta;
+    }
+  }
+  return undefined;
 }

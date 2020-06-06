@@ -25,19 +25,18 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	start := time.Now()
 	dr = backend.DataResponse{}
 
-	input := &timestreamquery.QueryInput{}
 	raw, err := Interpolate(query)
 	if err != nil {
 		dr.Error = err
 		return
 	}
+	input := &timestreamquery.QueryInput{
+		QueryString: aws.String(raw),
+	}
 
 	if len(query.NextToken) > 0 {
 		input.NextToken = aws.String(query.NextToken)
 		backend.Logger.Info("running continue query", "token", query.NextToken)
-	} else {
-		input.QueryString = aws.String(raw)
-		backend.Logger.Info("running query", "query", raw)
 	}
 
 	output, err := runner.runQuery(ctx, input)

@@ -48,6 +48,12 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 				parser:    datumParserInt64,
 			}, nil
 
+		case "INTEGER": // timestreamquery.ScalarTypeBigint:
+			return &fieldBuilder{
+				fieldType: data.FieldTypeNullableInt32,
+				parser:    datumParserInt32,
+			}, nil
+
 		default:
 			return nil, fmt.Errorf("Unsupported scalar value: %s", *t.ScalarType)
 		}
