@@ -6,7 +6,7 @@ import { TimestreamQuery, TimestreamOptions, QueryType, MeasureInfo } from '../t
 import { config } from '@grafana/runtime';
 import { QueryField } from './Forms';
 
-import { Segment } from '@grafana/ui';
+import { Segment, InlineFormLabel } from '@grafana/ui';
 import { sampleQueries, queryTypes } from './samples';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;

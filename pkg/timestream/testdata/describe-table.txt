@@ -6,22 +6,22 @@ Frame[0] {
 }
 Name: 
 Dimensions: 3 Fields by 15 Rows
-+-------------------+----------------+-----------------------+
-| Name: Column      | Name: Type     | Name: Column Category |
-| Labels:           | Labels:        | Labels:               |
-| Type: []string    | Type: []string | Type: []string        |
-+-------------------+----------------+-----------------------+
-| availability_zone | varchar        | DIMENSION             |
-| microservice_name | varchar        | DIMENSION             |
-| instance_name     | varchar        | DIMENSION             |
-| process_name      | varchar        | DIMENSION             |
-| os_version        | varchar        | DIMENSION             |
-| jdk_version       | varchar        | DIMENSION             |
-| cell              | varchar        | DIMENSION             |
-| region            | varchar        | DIMENSION             |
-| silo              | varchar        | DIMENSION             |
-| ...               | ...            | ...                   |
-+-------------------+----------------+-----------------------+
++-------------------+-----------------+-----------------------+
+| Name: Column      | Name: Type      | Name: Column Category |
+| Labels:           | Labels:         | Labels:               |
+| Type: []*string   | Type: []*string | Type: []*string       |
++-------------------+-----------------+-----------------------+
+| availability_zone | varchar         | DIMENSION             |
+| microservice_name | varchar         | DIMENSION             |
+| instance_name     | varchar         | DIMENSION             |
+| process_name      | varchar         | DIMENSION             |
+| os_version        | varchar         | DIMENSION             |
+| jdk_version       | varchar         | DIMENSION             |
+| cell              | varchar         | DIMENSION             |
+| region            | varchar         | DIMENSION             |
+| silo              | varchar         | DIMENSION             |
+| ...               | ...             | ...                   |
++-------------------+-----------------+-----------------------+
 
 
 

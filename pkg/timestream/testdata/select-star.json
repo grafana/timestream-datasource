@@ -137,7 +137,7 @@
         }
     ],
     "NextToken": null,
-    "QueryId": "AGEQJYMFBITQB56W6BY2NKSCPSSAF5Z35RYB772YEDG6DWN2H4KWC",
+    "QueryId": "AE5K5SYI77PT3HHHLE57JK35JHI4UX72QVSQHS3SIRQNUQ2A5RZMY",
     "Rows": [
         {
             "Data": [
@@ -215,7 +215,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "31.22033599361298",
+                    "ScalarValue": "90.25268864587973",
                     "TimeSeriesValue": null
                 },
                 {
@@ -243,7 +243,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-04 23:56:32.000000000",
+                    "ScalarValue": "2020-06-05 15:15:51.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -324,7 +324,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "84.36505134504986",
+                    "ScalarValue": "19.903028203271756",
                     "TimeSeriesValue": null
                 },
                 {
@@ -352,7 +352,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-04 23:58:10.000000000",
+                    "ScalarValue": "2020-06-05 15:18:02.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -433,7 +433,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "39.61483767179256",
+                    "ScalarValue": "49.378959923123254",
                     "TimeSeriesValue": null
                 },
                 {
@@ -461,7 +461,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-04 23:59:43.000000000",
+                    "ScalarValue": "2020-06-05 15:19:57.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -542,7 +542,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "5.419432787481759",
+                    "ScalarValue": "32.972727452625115",
                     "TimeSeriesValue": null
                 },
                 {
@@ -570,7 +570,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:01:09.000000000",
+                    "ScalarValue": "2020-06-05 15:21:53.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -651,7 +651,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "37.03773683091063",
+                    "ScalarValue": "53.81475840832846",
                     "TimeSeriesValue": null
                 },
                 {
@@ -679,7 +679,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:02:46.000000000",
+                    "ScalarValue": "2020-06-05 15:23:49.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -760,7 +760,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "8.997035443388635",
+                    "ScalarValue": "35.02757589815768",
                     "TimeSeriesValue": null
                 },
                 {
@@ -788,7 +788,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:04:13.000000000",
+                    "ScalarValue": "2020-06-05 15:25:43.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -869,7 +869,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "23.016299047816357",
+                    "ScalarValue": "75.44833507353106",
                     "TimeSeriesValue": null
                 },
                 {
@@ -897,7 +897,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:05:44.000000000",
+                    "ScalarValue": "2020-06-05 15:27:37.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -978,7 +978,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "38.714750300981294",
+                    "ScalarValue": "45.05576699624557",
                     "TimeSeriesValue": null
                 },
                 {
@@ -1006,7 +1006,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:07:17.000000000",
+                    "ScalarValue": "2020-06-05 15:29:33.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -1087,7 +1087,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "44.210355474682416",
+                    "ScalarValue": "93.23989111380858",
                     "TimeSeriesValue": null
                 },
                 {
@@ -1115,7 +1115,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:08:52.000000000",
+                    "ScalarValue": "2020-06-05 15:31:30.000000000",
                     "TimeSeriesValue": null
                 }
             ]
@@ -1196,7 +1196,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "83.78756797935796",
+                    "ScalarValue": "15.600054779879324",
                     "TimeSeriesValue": null
                 },
                 {
@@ -1224,7 +1224,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2020-06-05 00:10:29.000000000",
+                    "ScalarValue": "2020-06-05 15:33:27.000000000",
                     "TimeSeriesValue": null
                 }
             ]

@@ -91,7 +91,7 @@
         }
     ],
     "NextToken": null,
-    "QueryId": "AFX63XORMSGLY3RRMEYOV6GWRHZ7PRKT5XMTCYDZO35FPLLIBALAO",
+    "QueryId": "AFAPA6V2VSGJDBGV73S54J7PL37MSVECQUBL7TSSMMYUS37CELXWG",
     "Rows": [
         {
             "Data": [
@@ -158,566 +158,6 @@
                     "ScalarValue": null,
                     "TimeSeriesValue": [
                         {
-                            "Time": "2020-06-05 20:35:58.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "43.24100902955339",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:37:53.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "62.39956835319958",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:39:47.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "43.03645319443324",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:41:40.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "19.410112787353405",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:43:33.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "17.488852227360297",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:45:26.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "21.39178867327326",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:47:20.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "85.98882732780095",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:49:14.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "80.78317345435042",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:51:07.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "97.27881670555047",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:53:00.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "10.86083582830667",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:54:59.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "91.4563529768799",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:57:00.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "81.53912218385982",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 20:59:00.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "78.09748354670515",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:00:57.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "93.0385584151833",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:02:56.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "30.76249599724936",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:04:52.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "70.93227663808884",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:06:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "37.09715859567694",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:08:43.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "44.00035953297001",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:10:38.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "10.420979217069293",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:12:34.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "37.85596346634221",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:14:30.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "1.6971043938184716",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:16:23.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "38.13978234429989",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:18:18.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "95.28756928667138",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:20:11.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "69.21686442315293",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:22:03.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "22.591947476009754",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:23:55.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "16.345181412107614",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:25:48.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "4.034663865710819",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:27:39.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "92.5417719672268",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:29:31.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "2.8337949105104676",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:31:24.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "33.46278505708125",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:33:26.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "65.30299882993789",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:35:29.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "98.47048287597843",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:37:35.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "85.400170835897",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:39:38.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "95.72786219786937",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:41:40.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "73.008777292753",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:43:42.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "81.44213666308734",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:45:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "58.38704616831253",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:47:54.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "49.01762286518439",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:49:58.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "10.476590775967598",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:52:00.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "33.27288102605941",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:54:02.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "87.43142542718749",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:56:02.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "15.783886983503537",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 21:58:03.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "74.2228269342709",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:00:06.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "78.53889968638958",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:02:34.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "90.65928748444225",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:04:41.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "58.92382233177129",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:06:46.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "96.71307346217685",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:08:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "36.025786242458416",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:10:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "89.65314775878817",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:12:48.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "83.78711507607629",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:14:47.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "61.72911956649051",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:16:50.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "31.880664370296884",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:18:52.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "71.89503132794668",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:20:56.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "8.995658521841376",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:22:58.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "20.205360326650123",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-06-05 22:24:58.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "69.44174997551833",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
                             "Time": "2020-06-05 22:27:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
@@ -744,6 +184,576 @@
                                 "NullValue": null,
                                 "RowValue": null,
                                 "ScalarValue": "52.12788753790433",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:32:50.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "62.68557813651029",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:34:46.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "56.865499687661035",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:36:45.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "97.27971950946349",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:38:50.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "52.05804617984332",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:40:54.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "87.43787946409365",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:42:54.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "19.89459153539517",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:44:53.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "26.412715260032794",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:46:48.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "66.5183617724169",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:48:45.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "83.8033363846837",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:50:42.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "73.87441199893715",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:52:38.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "84.86012429574104",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:54:34.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "4.441363618722194",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:56:30.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "33.34890012118073",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 22:58:27.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "0.07503039369456399",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:00:23.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "85.3700609442024",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:02:25.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "76.93884114992657",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:04:23.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "31.19663621351779",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:06:20.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "94.21590864704241",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:08:21.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "95.38339853344618",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:10:18.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "53.19594690125555",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:12:14.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "98.41542088071866",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:14:09.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "69.2637187448233",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:16:04.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "20.691144543481922",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:18:00.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "71.15958205146123",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:19:56.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "37.471137029559756",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:21:49.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "37.35458929668398",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:23:46.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "53.94218185327367",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:25:44.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "58.870072878141",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:27:40.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "4.345968846091786",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:29:37.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "36.20240399764625",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:31:32.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "6.766416519645746",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:33:27.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "8.59510611778832",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:35:25.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "88.29395566804341",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:37:21.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "86.22410540414684",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:39:17.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "22.826846686568768",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:41:11.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "75.83762566816331",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:43:05.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "7.68464119288883",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:44:59.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "44.42344674533383",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:46:53.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "87.68516970506609",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:48:45.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "46.812485790437705",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:50:39.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "50.82629553033324",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:52:30.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "16.123607577553734",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:54:23.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "70.79073005914007",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:56:14.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "31.919855255247455",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:58:04.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "10.79129041719672",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-05 23:59:56.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "55.4675824816603",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:02:01.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "64.69452183327641",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:04:10.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "26.895920117378825",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:06:07.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "60.896301280859255",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:08:03.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "28.93972720561053",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:10:01.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "88.96427358676394",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:12:01.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "88.89379531347241",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:14:01.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "17.909392960534298",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:16:02.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "62.07224166253975",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:18:09.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "16.90922482097148",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:20:14.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "60.964741606920036",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2020-06-06 00:22:19.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "40.54616568057773",
                                 "TimeSeriesValue": null
                             }
                         }

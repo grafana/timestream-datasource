@@ -91,7 +91,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 						})
 					}
 					cellParsingError = true
-				} else {
+				} else if v != nil {
 					field.Set(i, v)
 				}
 			}
