@@ -58,12 +58,12 @@
         "requestUri":"/"
       },
       "input":{"shape":"DeleteDatabaseRequest"},
-      "output":{"shape":"DeleteDatabaseResponse"},
       "errors":[
-        {"shape":"ConflictException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ValidationException"},
-        {"shape":"InternalServerException"}
+        {"shape":"AccessDeniedException"}
       ],
       "endpointdiscovery":{"required":true}
     },
@@ -74,7 +74,6 @@
         "requestUri":"/"
       },
       "input":{"shape":"DeleteTableRequest"},
-      "output":{"shape":"DeleteTableResponse"},
       "errors":[
         {"shape":"InternalServerException"},
         {"shape":"ThrottlingException"},
@@ -144,7 +143,6 @@
         {"shape":"InternalServerException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"},
-        {"shape":"ResourceNotFoundException"},
         {"shape":"AccessDeniedException"}
       ],
       "endpointdiscovery":{"required":true}
@@ -210,6 +208,24 @@
       ],
       "endpointdiscovery":{"required":true}
     },
+    "UpdateDatabase":{
+      "name":"UpdateDatabase",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateDatabaseRequest"},
+      "output":{"shape":"UpdateDatabaseResponse"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ServiceQuotaExceededException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalServerException"}
+      ],
+      "endpointdiscovery":{"required":true}
+    },
     "UpdateTable":{
       "name":"UpdateTable",
       "http":{
@@ -272,7 +288,7 @@
       "required":["DatabaseName"],
       "members":{
         "DatabaseName":{"shape":"ResourceName"},
-        "KmsKeyId":{"shape":"KmsKeyId"},
+        "KmsKeyId":{"shape":"StringValue2048"},
         "Tags":{"shape":"TagList"}
       }
     },
@@ -304,27 +320,20 @@
     "Database":{
       "type":"structure",
       "members":{
-        "Arn":{"shape":"DatabaseARN"},
+        "Arn":{"shape":"String"},
         "DatabaseName":{"shape":"ResourceName"},
         "TableCount":{"shape":"Long"},
-        "KmsKeyId":{"shape":"KmsKeyId"},
-        "CreationTime":{"shape":"Date"}
+        "KmsKeyId":{"shape":"StringValue2048"},
+        "CreationTime":{"shape":"Date"},
+        "LastUpdatedTime":{"shape":"Date"}
       }
     },
-    "DatabaseARN":{"type":"string"},
     "DatabaseList":{
       "type":"list",
       "member":{"shape":"Database"}
     },
     "Date":{"type":"timestamp"},
     "DeleteDatabaseRequest":{
-      "type":"structure",
-      "required":["DatabaseName"],
-      "members":{
-        "DatabaseName":{"shape":"ResourceName"}
-      }
-    },
-    "DeleteDatabaseResponse":{
       "type":"structure",
       "required":["DatabaseName"],
       "members":{
@@ -340,11 +349,6 @@
       "members":{
         "DatabaseName":{"shape":"ResourceName"},
         "TableName":{"shape":"ResourceName"}
-      }
-    },
-    "DeleteTableResponse":{
-      "type":"structure",
-      "members":{
       }
     },
     "DescribeDatabaseRequest":{
@@ -396,14 +400,14 @@
         "Value"
       ],
       "members":{
-        "Name":{"shape":"StringValue"},
-        "Value":{"shape":"StringValue"},
+        "Name":{"shape":"StringValue256"},
+        "Value":{"shape":"StringValue256"},
         "DimensionValueType":{"shape":"DimensionValueType"}
       }
     },
     "DimensionValueType":{
       "type":"string",
-      "enum":["STRING"]
+      "enum":["VARCHAR"]
     },
     "Dimensions":{
       "type":"list",
@@ -432,12 +436,8 @@
       "members":{
         "Message":{"shape":"ErrorMessage"}
       },
-      "exception":true
-    },
-    "KmsKeyId":{
-      "type":"string",
-      "max":2048,
-      "min":0
+      "exception":true,
+      "fault":true
     },
     "ListDatabasesRequest":{
       "type":"structure",
@@ -455,7 +455,6 @@
     },
     "ListTablesRequest":{
       "type":"structure",
-      "required":["DatabaseName"],
       "members":{
         "DatabaseName":{"shape":"ResourceName"},
         "NextToken":{"shape":"String"},
@@ -488,11 +487,6 @@
       "max":2555,
       "min":1
     },
-    "MeasureValue":{
-      "type":"string",
-      "max":2048,
-      "min":1
-    },
     "MeasureValueType":{
       "type":"string",
       "enum":[
@@ -504,10 +498,9 @@
     },
     "MemoryStoreRetentionPeriodInHours":{
       "type":"long",
-      "max":24,
+      "max":8766,
       "min":1
     },
-    "Name":{"type":"string"},
     "PaginationLimit":{
       "type":"integer",
       "box":true,
@@ -518,11 +511,11 @@
       "type":"structure",
       "members":{
         "Dimensions":{"shape":"Dimensions"},
-        "MeasureName":{"shape":"StringValue"},
-        "MeasureValue":{"shape":"MeasureValue"},
+        "MeasureName":{"shape":"StringValue256"},
+        "MeasureValue":{"shape":"StringValue2048"},
         "MeasureValueType":{"shape":"MeasureValueType"},
-        "Timestamp":{"shape":"StringValue"},
-        "TimestampUnit":{"shape":"TimestampUnit"}
+        "Time":{"shape":"StringValue256"},
+        "TimeUnit":{"shape":"TimeUnit"}
       }
     },
     "RecordIndex":{"type":"integer"},
@@ -583,7 +576,12 @@
       "exception":true
     },
     "String":{"type":"string"},
-    "StringValue":{
+    "StringValue2048":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "StringValue256":{
       "type":"string",
       "max":256,
       "min":1
@@ -591,7 +589,7 @@
     "Table":{
       "type":"structure",
       "members":{
-        "Arn":{"shape":"TableARN"},
+        "Arn":{"shape":"String"},
         "TableName":{"shape":"ResourceName"},
         "DatabaseName":{"shape":"ResourceName"},
         "TableStatus":{"shape":"TableStatus"},
@@ -600,7 +598,6 @@
         "LastUpdatedTime":{"shape":"Date"}
       }
     },
-    "TableARN":{"type":"string"},
     "TableList":{
       "type":"list",
       "member":{"shape":"Table"}
@@ -669,7 +666,7 @@
       },
       "exception":true
     },
-    "TimestampUnit":{
+    "TimeUnit":{
       "type":"string",
       "enum":[
         "MILLISECONDS",
@@ -692,6 +689,23 @@
     "UntagResourceResponse":{
       "type":"structure",
       "members":{
+      }
+    },
+    "UpdateDatabaseRequest":{
+      "type":"structure",
+      "required":[
+        "DatabaseName",
+        "KmsKeyId"
+      ],
+      "members":{
+        "DatabaseName":{"shape":"ResourceName"},
+        "KmsKeyId":{"shape":"StringValue2048"}
+      }
+    },
+    "UpdateDatabaseResponse":{
+      "type":"structure",
+      "members":{
+        "Database":{"shape":"Database"}
       }
     },
     "UpdateTableRequest":{
@@ -729,8 +743,8 @@
         "Records"
       ],
       "members":{
-        "DatabaseName":{"shape":"Name"},
-        "TableName":{"shape":"Name"},
+        "DatabaseName":{"shape":"ResourceName"},
+        "TableName":{"shape":"ResourceName"},
         "CommonAttributes":{"shape":"Record"},
         "Records":{"shape":"Records"}
       }

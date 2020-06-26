@@ -55,9 +55,9 @@ func (c *TimestreamWrite) CreateDatabaseRequest(input *CreateDatabaseInput) (req
 
 	output = &CreateDatabaseOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -179,9 +179,9 @@ func (c *TimestreamWrite) CreateTableRequest(input *CreateTableInput) (req *requ
 
 	output = &CreateTableOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -308,9 +308,10 @@ func (c *TimestreamWrite) DeleteDatabaseRequest(input *DeleteDatabaseInput) (req
 
 	output = &DeleteDatabaseOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	req.Handlers.Unmarshal.Swap(jsonrpc.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -347,9 +348,13 @@ func (c *TimestreamWrite) DeleteDatabaseRequest(input *DeleteDatabaseInput) (req
 // API operation DeleteDatabase for usage and error information.
 //
 // Returned Error Types:
-//   * ConflictException
-//   Timestream was unable to process this request because it contains resource
-//   that already exists.
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
+//
+//   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
 //
 //   * ResourceNotFoundException
 //   The operation tried to access a nonexistent resource. The resource might
@@ -358,9 +363,8 @@ func (c *TimestreamWrite) DeleteDatabaseRequest(input *DeleteDatabaseInput) (req
 //   * ValidationException
 //   Invalid or malformed request.
 //
-//   * InternalServerException
-//   Timestream was unable to fully process this request because of an internal
-//   server error.
+//   * AccessDeniedException
+//   You are not authorized to perform this action.
 //
 // See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/DeleteDatabase
 func (c *TimestreamWrite) DeleteDatabase(input *DeleteDatabaseInput) (*DeleteDatabaseOutput, error) {
@@ -424,9 +428,9 @@ func (c *TimestreamWrite) DeleteTableRequest(input *DeleteTableInput) (req *requ
 	output = &DeleteTableOutput{}
 	req = c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Swap(jsonrpc.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -543,9 +547,9 @@ func (c *TimestreamWrite) DescribeDatabaseRequest(input *DescribeDatabaseInput) 
 
 	output = &DescribeDatabaseOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -815,9 +819,9 @@ func (c *TimestreamWrite) DescribeTableRequest(input *DescribeTableInput) (req *
 
 	output = &DescribeTableOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -940,9 +944,9 @@ func (c *TimestreamWrite) ListDatabasesRequest(input *ListDatabasesInput) (req *
 
 	output = &ListDatabasesOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -989,10 +993,6 @@ func (c *TimestreamWrite) ListDatabasesRequest(input *ListDatabasesInput) (req *
 //
 //   * ValidationException
 //   Invalid or malformed request.
-//
-//   * ResourceNotFoundException
-//   The operation tried to access a nonexistent resource. The resource might
-//   not be specified correctly, or its status might not be ACTIVE.
 //
 //   * AccessDeniedException
 //   You are not authorized to perform this action.
@@ -1116,9 +1116,9 @@ func (c *TimestreamWrite) ListTablesRequest(input *ListTablesInput) (req *reques
 
 	output = &ListTablesOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1285,9 +1285,9 @@ func (c *TimestreamWrite) ListTagsForResourceRequest(input *ListTagsForResourceI
 
 	output = &ListTagsForResourceOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1392,9 +1392,9 @@ func (c *TimestreamWrite) TagResourceRequest(input *TagResourceInput) (req *requ
 	output = &TagResourceOutput{}
 	req = c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Swap(jsonrpc.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1504,9 +1504,9 @@ func (c *TimestreamWrite) UntagResourceRequest(input *UntagResourceInput) (req *
 	output = &UntagResourceOutput{}
 	req = c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Swap(jsonrpc.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1574,6 +1574,129 @@ func (c *TimestreamWrite) UntagResourceWithContext(ctx aws.Context, input *Untag
 	return out, req.Send()
 }
 
+const opUpdateDatabase = "UpdateDatabase"
+
+// UpdateDatabaseRequest generates a "aws/request.Request" representing the
+// client's request for the UpdateDatabase operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See UpdateDatabase for more information on using the UpdateDatabase
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the UpdateDatabaseRequest method.
+//    req, resp := client.UpdateDatabaseRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/UpdateDatabase
+func (c *TimestreamWrite) UpdateDatabaseRequest(input *UpdateDatabaseInput) (req *request.Request, output *UpdateDatabaseOutput) {
+	op := &request.Operation{
+		Name:       opUpdateDatabase,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateDatabaseInput{}
+	}
+
+	output = &UpdateDatabaseOutput{}
+	req = c.newRequest(op, input, output)
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
+		de := discovererDescribeEndpoints{
+			Required:      true,
+			EndpointCache: c.endpointCache,
+			Params: map[string]*string{
+				"op": aws.String(req.Operation.Name),
+			},
+			Client: c,
+		}
+
+		for k, v := range de.Params {
+			if v == nil {
+				delete(de.Params, k)
+			}
+		}
+
+		req.Handlers.Build.PushFrontNamed(request.NamedHandler{
+			Name: "crr.endpointdiscovery",
+			Fn:   de.Handler,
+		})
+	}
+	return
+}
+
+// UpdateDatabase API operation for Amazon Timestream Write.
+//
+// Modifies the KMS key for an existing database. While updating the database,
+// you must specify the database name and the identifier of the new KMS key
+// to be used (KmsKeyId). If there are any concurrent UpdateDatabase requests,
+// first writer wins.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Timestream Write's
+// API operation UpdateDatabase for usage and error information.
+//
+// Returned Error Types:
+//   * ValidationException
+//   Invalid or malformed request.
+//
+//   * AccessDeniedException
+//   You are not authorized to perform this action.
+//
+//   * ResourceNotFoundException
+//   The operation tried to access a nonexistent resource. The resource might
+//   not be specified correctly, or its status might not be ACTIVE.
+//
+//   * ServiceQuotaExceededException
+//   Instance quota of resource exceeded for this account.
+//
+//   * ThrottlingException
+//   Too many requests were made by a user exceeding service quotas. The request
+//   was throttled.
+//
+//   * InternalServerException
+//   Timestream was unable to fully process this request because of an internal
+//   server error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/timestream-write-2018-11-01/UpdateDatabase
+func (c *TimestreamWrite) UpdateDatabase(input *UpdateDatabaseInput) (*UpdateDatabaseOutput, error) {
+	req, out := c.UpdateDatabaseRequest(input)
+	return out, req.Send()
+}
+
+// UpdateDatabaseWithContext is the same as UpdateDatabase with the addition of
+// the ability to pass a context and additional request options.
+//
+// See UpdateDatabase for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *TimestreamWrite) UpdateDatabaseWithContext(ctx aws.Context, input *UpdateDatabaseInput, opts ...request.Option) (*UpdateDatabaseOutput, error) {
+	req, out := c.UpdateDatabaseRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opUpdateTable = "UpdateTable"
 
 // UpdateTableRequest generates a "aws/request.Request" representing the
@@ -1613,9 +1736,9 @@ func (c *TimestreamWrite) UpdateTableRequest(input *UpdateTableInput) (req *requ
 
 	output = &UpdateTableOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1742,9 +1865,9 @@ func (c *TimestreamWrite) WriteRecordsRequest(input *WriteRecordsInput) (req *re
 	output = &WriteRecordsOutput{}
 	req = c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Swap(jsonrpc.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -1970,7 +2093,7 @@ type CreateDatabaseInput struct {
 	// will be encrypted with a Timestream managed KMS key located in your account.
 	// Refer to AWS managed KMS keys (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
 	// for more info.
-	KmsKeyId *string `type:"string"`
+	KmsKeyId *string `min:"1" type:"string"`
 
 	// A list of key-value pairs to label the table.
 	Tags []*Tag `type:"list"`
@@ -1994,6 +2117,9 @@ func (s *CreateDatabaseInput) Validate() error {
 	}
 	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
 		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
+	}
+	if s.KmsKeyId != nil && len(*s.KmsKeyId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("KmsKeyId", 1))
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
@@ -2184,7 +2310,10 @@ type Database struct {
 	DatabaseName *string `min:"3" type:"string"`
 
 	// The identifier of the KMS key used to encrypt the data stored in the database.
-	KmsKeyId *string `type:"string"`
+	KmsKeyId *string `min:"1" type:"string"`
+
+	// The last time that this database was updated.
+	LastUpdatedTime *time.Time `type:"timestamp"`
 
 	// The total number of tables found within a Timestream database.
 	TableCount *int64 `type:"long"`
@@ -2221,6 +2350,12 @@ func (s *Database) SetDatabaseName(v string) *Database {
 // SetKmsKeyId sets the KmsKeyId field's value.
 func (s *Database) SetKmsKeyId(v string) *Database {
 	s.KmsKeyId = &v
+	return s
+}
+
+// SetLastUpdatedTime sets the LastUpdatedTime field's value.
+func (s *Database) SetLastUpdatedTime(v time.Time) *Database {
+	s.LastUpdatedTime = &v
 	return s
 }
 
@@ -2273,11 +2408,6 @@ func (s *DeleteDatabaseInput) SetDatabaseName(v string) *DeleteDatabaseInput {
 
 type DeleteDatabaseOutput struct {
 	_ struct{} `type:"structure"`
-
-	// The Timestream database to be deleted.
-	//
-	// DatabaseName is a required field
-	DatabaseName *string `min:"3" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -2288,12 +2418,6 @@ func (s DeleteDatabaseOutput) String() string {
 // GoString returns the string representation
 func (s DeleteDatabaseOutput) GoString() string {
 	return s.String()
-}
-
-// SetDatabaseName sets the DatabaseName field's value.
-func (s *DeleteDatabaseOutput) SetDatabaseName(v string) *DeleteDatabaseOutput {
-	s.DatabaseName = &v
-	return s
 }
 
 type DeleteTableInput struct {
@@ -2796,9 +2920,7 @@ type ListTablesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The name of the Timestream database.
-	//
-	// DatabaseName is a required field
-	DatabaseName *string `min:"3" type:"string" required:"true"`
+	DatabaseName *string `min:"3" type:"string"`
 
 	// The total number of items to return in the output. If the total number of
 	// items available is more than the value specified, a NextToken is provided
@@ -2824,9 +2946,6 @@ func (s ListTablesInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *ListTablesInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "ListTablesInput"}
-	if s.DatabaseName == nil {
-		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
-	}
 	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
 		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
 	}
@@ -2982,11 +3101,11 @@ type Record struct {
 	MeasureValueType *string `type:"string" enum:"MeasureValueType"`
 
 	// Contains the time at which the measure value for the data point was collected.
-	Timestamp *string `min:"1" type:"string"`
+	Time *string `min:"1" type:"string"`
 
 	// The granularity of the timestamp unit. It indicates if the time value is
 	// in seconds, milliseconds, nanoseconds or other supported values.
-	TimestampUnit *string `type:"string" enum:"TimestampUnit"`
+	TimeUnit *string `type:"string" enum:"TimeUnit"`
 }
 
 // String returns the string representation
@@ -3008,8 +3127,8 @@ func (s *Record) Validate() error {
 	if s.MeasureValue != nil && len(*s.MeasureValue) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("MeasureValue", 1))
 	}
-	if s.Timestamp != nil && len(*s.Timestamp) < 1 {
-		invalidParams.Add(request.NewErrParamMinLen("Timestamp", 1))
+	if s.Time != nil && len(*s.Time) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Time", 1))
 	}
 	if s.Dimensions != nil {
 		for i, v := range s.Dimensions {
@@ -3052,15 +3171,15 @@ func (s *Record) SetMeasureValueType(v string) *Record {
 	return s
 }
 
-// SetTimestamp sets the Timestamp field's value.
-func (s *Record) SetTimestamp(v string) *Record {
-	s.Timestamp = &v
+// SetTime sets the Time field's value.
+func (s *Record) SetTime(v string) *Record {
+	s.Time = &v
 	return s
 }
 
-// SetTimestampUnit sets the TimestampUnit field's value.
-func (s *Record) SetTimestampUnit(v string) *Record {
-	s.TimestampUnit = &v
+// SetTimeUnit sets the TimeUnit field's value.
+func (s *Record) SetTimeUnit(v string) *Record {
+	s.TimeUnit = &v
 	return s
 }
 
@@ -3705,6 +3824,101 @@ func (s UntagResourceOutput) GoString() string {
 	return s.String()
 }
 
+type UpdateDatabaseInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the database.
+	//
+	// DatabaseName is a required field
+	DatabaseName *string `min:"3" type:"string" required:"true"`
+
+	// The identifier of the new KMS key (KmsKeyId) to be used to encrypt the data
+	// stored in the database. If the KmsKeyId currently registered with the database
+	// is the same as the KmsKeyId in the request, there will not be any update.
+	//
+	// You can specify the KmsKeyId using any of the following:
+	//
+	//    * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+	//
+	//    * Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+	//
+	//    * Alias name: alias/ExampleAlias
+	//
+	//    * Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
+	//
+	// KmsKeyId is a required field
+	KmsKeyId *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateDatabaseInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateDatabaseInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateDatabaseInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "UpdateDatabaseInput"}
+	if s.DatabaseName == nil {
+		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
+	}
+	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
+		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
+	}
+	if s.KmsKeyId == nil {
+		invalidParams.Add(request.NewErrParamRequired("KmsKeyId"))
+	}
+	if s.KmsKeyId != nil && len(*s.KmsKeyId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("KmsKeyId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDatabaseName sets the DatabaseName field's value.
+func (s *UpdateDatabaseInput) SetDatabaseName(v string) *UpdateDatabaseInput {
+	s.DatabaseName = &v
+	return s
+}
+
+// SetKmsKeyId sets the KmsKeyId field's value.
+func (s *UpdateDatabaseInput) SetKmsKeyId(v string) *UpdateDatabaseInput {
+	s.KmsKeyId = &v
+	return s
+}
+
+type UpdateDatabaseOutput struct {
+	_ struct{} `type:"structure"`
+
+	// A top level container for a table. Databases and tables are the fundamental
+	// management concepts in Amazon Timestream. All tables in a database are encrypted
+	// with the same KMS key.
+	Database *Database `type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateDatabaseOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateDatabaseOutput) GoString() string {
+	return s.String()
+}
+
+// SetDatabase sets the Database field's value.
+func (s *UpdateDatabaseOutput) SetDatabase(v *Database) *UpdateDatabaseOutput {
+	s.Database = v
+	return s
+}
+
 type UpdateTableInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3873,7 +4087,7 @@ type WriteRecordsInput struct {
 	// The name of the Timestream database.
 	//
 	// DatabaseName is a required field
-	DatabaseName *string `type:"string" required:"true"`
+	DatabaseName *string `min:"3" type:"string" required:"true"`
 
 	// An array of records containing the unique dimension and measure attributes
 	// for each time series data point.
@@ -3884,7 +4098,7 @@ type WriteRecordsInput struct {
 	// The name of the Timesream table.
 	//
 	// TableName is a required field
-	TableName *string `type:"string" required:"true"`
+	TableName *string `min:"3" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -3903,6 +4117,9 @@ func (s *WriteRecordsInput) Validate() error {
 	if s.DatabaseName == nil {
 		invalidParams.Add(request.NewErrParamRequired("DatabaseName"))
 	}
+	if s.DatabaseName != nil && len(*s.DatabaseName) < 3 {
+		invalidParams.Add(request.NewErrParamMinLen("DatabaseName", 3))
+	}
 	if s.Records == nil {
 		invalidParams.Add(request.NewErrParamRequired("Records"))
 	}
@@ -3911,6 +4128,9 @@ func (s *WriteRecordsInput) Validate() error {
 	}
 	if s.TableName == nil {
 		invalidParams.Add(request.NewErrParamRequired("TableName"))
+	}
+	if s.TableName != nil && len(*s.TableName) < 3 {
+		invalidParams.Add(request.NewErrParamMinLen("TableName", 3))
 	}
 	if s.CommonAttributes != nil {
 		if err := s.CommonAttributes.Validate(); err != nil {
@@ -3973,8 +4193,8 @@ func (s WriteRecordsOutput) GoString() string {
 }
 
 const (
-	// DimensionValueTypeString is a DimensionValueType enum value
-	DimensionValueTypeString = "STRING"
+	// DimensionValueTypeVarchar is a DimensionValueType enum value
+	DimensionValueTypeVarchar = "VARCHAR"
 )
 
 const (
@@ -4000,15 +4220,15 @@ const (
 )
 
 const (
-	// TimestampUnitMilliseconds is a TimestampUnit enum value
-	TimestampUnitMilliseconds = "MILLISECONDS"
+	// TimeUnitMilliseconds is a TimeUnit enum value
+	TimeUnitMilliseconds = "MILLISECONDS"
 
-	// TimestampUnitSeconds is a TimestampUnit enum value
-	TimestampUnitSeconds = "SECONDS"
+	// TimeUnitSeconds is a TimeUnit enum value
+	TimeUnitSeconds = "SECONDS"
 
-	// TimestampUnitMicroseconds is a TimestampUnit enum value
-	TimestampUnitMicroseconds = "MICROSECONDS"
+	// TimeUnitMicroseconds is a TimeUnit enum value
+	TimeUnitMicroseconds = "MICROSECONDS"
 
-	// TimestampUnitNanoseconds is a TimestampUnit enum value
-	TimestampUnitNanoseconds = "NANOSECONDS"
+	// TimeUnitNanoseconds is a TimeUnit enum value
+	TimeUnitNanoseconds = "NANOSECONDS"
 )

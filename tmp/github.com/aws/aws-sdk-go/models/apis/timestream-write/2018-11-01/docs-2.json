@@ -14,6 +14,7 @@
     "ListTagsForResource": "<p> List all tags on a Timestream resource. </p>",
     "TagResource": "<p> Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. </p>",
     "UntagResource": "<p> Removes the association of tags from a Timestream resource. </p>",
+    "UpdateDatabase": "<p> Modifies the KMS key for an existing database. While updating the database, you must specify the database name and the identifier of the new KMS key to be used (<code>KmsKeyId</code>). If there are any concurrent <code>UpdateDatabase</code> requests, first writer wins. </p>",
     "UpdateTable": "<p>Modifies attributes such as the retention duration of the memory store and magnetic store for your Timestream table. Note that if you are using UpdateTable to upgrade the retention period of the memory or magnetic store, the retention change takes effective from that point onwards. For example, if the retention period of the memory store was set to 2 hours and then changed to 24 hours through this API, the memory store will be capable of holding 24 hours of data, but will be populated with 24 hours of data 22 hours after this change was made. Timestream does not retrieve data from the magnetic store to populate the memory store. </p> <p>Service quotas apply. For more information, see <a>ts-limits</a> in the Timestream Developer Guide.</p>",
     "WriteRecords": "<p>The WriteRecords operation enables you to write your time series data into Timestream. You can specify a single data point or a batch of data points to be inserted into the system. Timestream offers you with a flexible schema that auto detects the column names and data types for your Timestream tables based on the dimension names and data types of the data points you specify when invoking writes into the database. Timestream support eventual consistency read semantics. This means that when you query data immediately after writing a batch of data into Timestream, the query results might not reflect the results of a recently completed write operation. The results may also include some stale data. If you repeat the query request after a short time, the results should return the latest data. Service quotas apply. For more information, see <a>ts-limits</a> in the Timestream Developer Guide. </p>"
   },
@@ -61,13 +62,8 @@
       "refs": {
         "CreateDatabaseResponse$Database": "<p>The newly created Timestream database.</p>",
         "DatabaseList$member": null,
-        "DescribeDatabaseResponse$Database": "<p>The name of the Timestream table.</p>"
-      }
-    },
-    "DatabaseARN": {
-      "base": null,
-      "refs": {
-        "Database$Arn": "<p>The Amazon Resource Name that uniquely identifies this database.</p>"
+        "DescribeDatabaseResponse$Database": "<p>The name of the Timestream table.</p>",
+        "UpdateDatabaseResponse$Database": null
       }
     },
     "DatabaseList": {
@@ -80,6 +76,7 @@
       "base": null,
       "refs": {
         "Database$CreationTime": "<p>The time when the database was created, calculated from the Unix epoch time.</p>",
+        "Database$LastUpdatedTime": "<p> The last time that this database was updated. </p>",
         "Table$CreationTime": "<p>The time when the Timestream table was created. </p>",
         "Table$LastUpdatedTime": "<p>The time when the Timestream table was last updated.</p>"
       }
@@ -89,17 +86,7 @@
       "refs": {
       }
     },
-    "DeleteDatabaseResponse": {
-      "base": null,
-      "refs": {
-      }
-    },
     "DeleteTableRequest": {
-      "base": null,
-      "refs": {
-      }
-    },
-    "DeleteTableResponse": {
       "base": null,
       "refs": {
       }
@@ -183,13 +170,6 @@
       "refs": {
       }
     },
-    "KmsKeyId": {
-      "base": null,
-      "refs": {
-        "CreateDatabaseRequest$KmsKeyId": "<p>The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk\">AWS managed KMS keys</a> for more info.</p>",
-        "Database$KmsKeyId": "<p>The identifier of the KMS key used to encrypt the data stored in the database.</p>"
-      }
-    },
     "ListDatabasesRequest": {
       "base": null,
       "refs": {
@@ -233,12 +213,6 @@
         "RetentionProperties$MagneticStoreRetentionPeriodInDays": "<p>The duration for which data must be stored in the magnetic store. </p>"
       }
     },
-    "MeasureValue": {
-      "base": null,
-      "refs": {
-        "Record$MeasureValue": "<p> Contains the measure value for the time series data point. </p>"
-      }
-    },
     "MeasureValueType": {
       "base": null,
       "refs": {
@@ -249,13 +223,6 @@
       "base": null,
       "refs": {
         "RetentionProperties$MemoryStoreRetentionPeriodInHours": "<p>The duration for which data must be stored in the memory store. </p>"
-      }
-    },
-    "Name": {
-      "base": null,
-      "refs": {
-        "WriteRecordsRequest$DatabaseName": "<p>The name of the Timestream database.</p>",
-        "WriteRecordsRequest$TableName": "<p>The name of the Timesream table.</p>"
       }
     },
     "PaginationLimit": {
@@ -309,7 +276,6 @@
         "CreateTableRequest$TableName": "<p>The name of the Timestream table.</p>",
         "Database$DatabaseName": "<p>The name of the Timestream database.</p>",
         "DeleteDatabaseRequest$DatabaseName": "<p>The name of the Timestream database to be deleted.</p>",
-        "DeleteDatabaseResponse$DatabaseName": "<p>The Timestream database to be deleted.</p>",
         "DeleteTableRequest$DatabaseName": "<p>The name of the database where the Timestream database is to be deleted.</p>",
         "DeleteTableRequest$TableName": "<p>The name of the Timestream table to be deleted.</p>",
         "DescribeDatabaseRequest$DatabaseName": "<p>The name of the Timestream database.</p>",
@@ -318,8 +284,11 @@
         "ListTablesRequest$DatabaseName": "<p>The name of the Timestream database.</p>",
         "Table$TableName": "<p>The name of the Timestream table.</p>",
         "Table$DatabaseName": "<p>The name of the Timestream database that contains this table.</p>",
+        "UpdateDatabaseRequest$DatabaseName": "<p> The name of the database. </p>",
         "UpdateTableRequest$DatabaseName": "<p>The name of the Timestream database.</p>",
-        "UpdateTableRequest$TableName": "<p>The name of the Timesream table.</p>"
+        "UpdateTableRequest$TableName": "<p>The name of the Timesream table.</p>",
+        "WriteRecordsRequest$DatabaseName": "<p>The name of the Timestream database.</p>",
+        "WriteRecordsRequest$TableName": "<p>The name of the Timesream table.</p>"
       }
     },
     "ResourceNotFoundException": {
@@ -343,20 +312,31 @@
     "String": {
       "base": null,
       "refs": {
+        "Database$Arn": "<p>The Amazon Resource Name that uniquely identifies this database.</p>",
         "Endpoint$Address": null,
         "ListDatabasesRequest$NextToken": "<p>The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.</p>",
         "ListDatabasesResponse$NextToken": "<p>The pagination token. This parameter is returned when the response is truncated.</p>",
         "ListTablesRequest$NextToken": "<p>The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.</p>",
-        "ListTablesResponse$NextToken": "<p>A token to specify where to start paginating. This is the NextToken from a previously truncated response.</p>"
+        "ListTablesResponse$NextToken": "<p>A token to specify where to start paginating. This is the NextToken from a previously truncated response.</p>",
+        "Table$Arn": "<p>The Amazon Resource Name that uniquely identifies this table.</p>"
       }
     },
-    "StringValue": {
+    "StringValue2048": {
+      "base": null,
+      "refs": {
+        "CreateDatabaseRequest$KmsKeyId": "<p>The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk\">AWS managed KMS keys</a> for more info.</p>",
+        "Database$KmsKeyId": "<p>The identifier of the KMS key used to encrypt the data stored in the database.</p>",
+        "Record$MeasureValue": "<p> Contains the measure value for the time series data point. </p>",
+        "UpdateDatabaseRequest$KmsKeyId": "<p> The identifier of the new KMS key (<code>KmsKeyId</code>) to be used to encrypt the data stored in the database. If the <code>KmsKeyId</code> currently registered with the database is the same as the <code>KmsKeyId</code> in the request, there will not be any update. </p> <p>You can specify the <code>KmsKeyId</code> using any of the following:</p> <ul> <li> <p>Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code> </p> </li> <li> <p>Key ARN: <code>arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code> </p> </li> <li> <p>Alias name: <code>alias/ExampleAlias</code> </p> </li> <li> <p>Alias ARN: <code>arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias</code> </p> </li> </ul>"
+      }
+    },
+    "StringValue256": {
       "base": null,
       "refs": {
         "Dimension$Name": "<p> Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions. </p>",
         "Dimension$Value": "<p>The value of the dimension.</p>",
         "Record$MeasureName": "<p>Measure represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures. </p>",
-        "Record$Timestamp": "<p> Contains the time at which the measure value for the data point was collected. </p>"
+        "Record$Time": "<p> Contains the time at which the measure value for the data point was collected. </p>"
       }
     },
     "Table": {
@@ -366,12 +346,6 @@
         "DescribeTableResponse$Table": "<p>The Timestream table.</p>",
         "TableList$member": null,
         "UpdateTableResponse$Table": "<p>The updated Timestream table.</p>"
-      }
-    },
-    "TableARN": {
-      "base": null,
-      "refs": {
-        "Table$Arn": "<p>The Amazon Resource Name that uniquely identifies this table.</p>"
       }
     },
     "TableList": {
@@ -435,10 +409,10 @@
       "refs": {
       }
     },
-    "TimestampUnit": {
+    "TimeUnit": {
       "base": null,
       "refs": {
-        "Record$TimestampUnit": "<p> The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values. </p>"
+        "Record$TimeUnit": "<p> The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values. </p>"
       }
     },
     "UntagResourceRequest": {
@@ -447,6 +421,16 @@
       }
     },
     "UntagResourceResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UpdateDatabaseRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "UpdateDatabaseResponse": {
       "base": null,
       "refs": {
       }

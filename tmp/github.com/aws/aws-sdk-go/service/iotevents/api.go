@@ -1597,6 +1597,10 @@ type ActionData struct {
 	// instance and the event that triggered the action.
 	IotEvents *Action `locationName:"iotEvents" type:"structure"`
 
+	// Sends information about the detector model instance and the event that triggered
+	// the action to an asset property in AWS IoT SiteWise .
+	IotSiteWise *IotSiteWiseAction `locationName:"iotSiteWise" type:"structure"`
+
 	// Publishes an MQTT message with the given topic to the AWS IoT message broker.
 	IotTopicPublish *IotTopicPublishAction `locationName:"iotTopicPublish" type:"structure"`
 
@@ -1657,6 +1661,11 @@ func (s *ActionData) Validate() error {
 	if s.IotEvents != nil {
 		if err := s.IotEvents.Validate(); err != nil {
 			invalidParams.AddNested("IotEvents", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.IotSiteWise != nil {
+		if err := s.IotSiteWise.Validate(); err != nil {
+			invalidParams.AddNested("IotSiteWise", err.(request.ErrInvalidParams))
 		}
 	}
 	if s.IotTopicPublish != nil {
@@ -1731,6 +1740,12 @@ func (s *ActionData) SetIotEvents(v *Action) *ActionData {
 	return s
 }
 
+// SetIotSiteWise sets the IotSiteWise field's value.
+func (s *ActionData) SetIotSiteWise(v *IotSiteWiseAction) *ActionData {
+	s.IotSiteWise = v
+	return s
+}
+
 // SetIotTopicPublish sets the IotTopicPublish field's value.
 func (s *ActionData) SetIotTopicPublish(v *IotTopicPublishAction) *ActionData {
 	s.IotTopicPublish = v
@@ -1770,6 +1785,211 @@ func (s *ActionData) SetSns(v *SNSTopicPublishAction) *ActionData {
 // SetSqs sets the Sqs field's value.
 func (s *ActionData) SetSqs(v *SqsAction) *ActionData {
 	s.Sqs = v
+	return s
+}
+
+// A structure that contains timestamp information. For more information, see
+// TimeInNanos (https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_TimeInNanos.html)
+// in the AWS IoT SiteWise API Reference.
+//
+// For parameters that are string data type, you can specify the following options:
+//
+//    * Use a string. For example, the timeInSeconds value can be '1586400675'.
+//
+//    * Use an expression. For example, the timeInSeconds value can be '${$input.TemperatureInput.sensorData.timestamp/1000}'.
+//    For more information, see Expressions (https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html)
+//    in the AWS IoT Events Developer Guide.
+type AssetPropertyTimestamp struct {
+	_ struct{} `type:"structure"`
+
+	// The nanosecond offset converted from timeInSeconds. The valid range is between
+	// 0-999999999. You can also specify an expression.
+	OffsetInNanos *string `locationName:"offsetInNanos" type:"string"`
+
+	// The timestamp, in seconds, in the Unix epoch format. The valid range is between
+	// 1-31556889864403199. You can also specify an expression.
+	//
+	// TimeInSeconds is a required field
+	TimeInSeconds *string `locationName:"timeInSeconds" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AssetPropertyTimestamp) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssetPropertyTimestamp) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AssetPropertyTimestamp) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AssetPropertyTimestamp"}
+	if s.TimeInSeconds == nil {
+		invalidParams.Add(request.NewErrParamRequired("TimeInSeconds"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetOffsetInNanos sets the OffsetInNanos field's value.
+func (s *AssetPropertyTimestamp) SetOffsetInNanos(v string) *AssetPropertyTimestamp {
+	s.OffsetInNanos = &v
+	return s
+}
+
+// SetTimeInSeconds sets the TimeInSeconds field's value.
+func (s *AssetPropertyTimestamp) SetTimeInSeconds(v string) *AssetPropertyTimestamp {
+	s.TimeInSeconds = &v
+	return s
+}
+
+// A structure that contains value information. For more information, see AssetPropertyValue
+// (https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_AssetPropertyValue.html)
+// in the AWS IoT SiteWise API Reference.
+//
+// For parameters that are string data type, you can specify the following options:
+//
+//    * Use a string. For example, the quality value can be 'GOOD'.
+//
+//    * Use an expression. For example, the quality value can be $input.TemperatureInput.sensorData.quality
+//    . For more information, see Expressions (https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html)
+//    in the AWS IoT Events Developer Guide.
+type AssetPropertyValue struct {
+	_ struct{} `type:"structure"`
+
+	// The quality of the asset property value. The value must be GOOD, BAD, or
+	// UNCERTAIN. You can also specify an expression.
+	Quality *string `locationName:"quality" type:"string"`
+
+	// The timestamp associated with the asset property value. The default is the
+	// current event time.
+	Timestamp *AssetPropertyTimestamp `locationName:"timestamp" type:"structure"`
+
+	// The value to send to an asset property.
+	//
+	// Value is a required field
+	Value *AssetPropertyVariant `locationName:"value" type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s AssetPropertyValue) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssetPropertyValue) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AssetPropertyValue) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AssetPropertyValue"}
+	if s.Value == nil {
+		invalidParams.Add(request.NewErrParamRequired("Value"))
+	}
+	if s.Timestamp != nil {
+		if err := s.Timestamp.Validate(); err != nil {
+			invalidParams.AddNested("Timestamp", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetQuality sets the Quality field's value.
+func (s *AssetPropertyValue) SetQuality(v string) *AssetPropertyValue {
+	s.Quality = &v
+	return s
+}
+
+// SetTimestamp sets the Timestamp field's value.
+func (s *AssetPropertyValue) SetTimestamp(v *AssetPropertyTimestamp) *AssetPropertyValue {
+	s.Timestamp = v
+	return s
+}
+
+// SetValue sets the Value field's value.
+func (s *AssetPropertyValue) SetValue(v *AssetPropertyVariant) *AssetPropertyValue {
+	s.Value = v
+	return s
+}
+
+// A structure that contains an asset property value. For more information,
+// see Variant (https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_Variant.html)
+// in the AWS IoT SiteWise API Reference.
+//
+// You must specify one of the following value types, depending on the dataType
+// of the specified asset property. For more information, see AssetProperty
+// (https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_AssetProperty.html)
+// in the AWS IoT SiteWise API Reference.
+//
+// For parameters that are string data type, you can specify the following options:
+//
+//    * Use a string. For example, the doubleValue value can be '47.9'.
+//
+//    * Use an expression. For example, the doubleValue value can be $input.TemperatureInput.sensorData.temperature.
+//    For more information, see Expressions (https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html)
+//    in the AWS IoT Events Developer Guide.
+type AssetPropertyVariant struct {
+	_ struct{} `type:"structure"`
+
+	// The asset property value is a Boolean value that must be TRUE or FALSE. You
+	// can also specify an expression. If you use an expression, the evaluated result
+	// should be a Boolean value.
+	BooleanValue *string `locationName:"booleanValue" type:"string"`
+
+	// The asset property value is a double. You can also specify an expression.
+	// If you use an expression, the evaluated result should be a double.
+	DoubleValue *string `locationName:"doubleValue" type:"string"`
+
+	// The asset property value is an integer. You can also specify an expression.
+	// If you use an expression, the evaluated result should be an integer.
+	IntegerValue *string `locationName:"integerValue" type:"string"`
+
+	// The asset property value is a string. You can also specify an expression.
+	// If you use an expression, the evaluated result should be a string.
+	StringValue *string `locationName:"stringValue" type:"string"`
+}
+
+// String returns the string representation
+func (s AssetPropertyVariant) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssetPropertyVariant) GoString() string {
+	return s.String()
+}
+
+// SetBooleanValue sets the BooleanValue field's value.
+func (s *AssetPropertyVariant) SetBooleanValue(v string) *AssetPropertyVariant {
+	s.BooleanValue = &v
+	return s
+}
+
+// SetDoubleValue sets the DoubleValue field's value.
+func (s *AssetPropertyVariant) SetDoubleValue(v string) *AssetPropertyVariant {
+	s.DoubleValue = &v
+	return s
+}
+
+// SetIntegerValue sets the IntegerValue field's value.
+func (s *AssetPropertyVariant) SetIntegerValue(v string) *AssetPropertyVariant {
+	s.IntegerValue = &v
+	return s
+}
+
+// SetStringValue sets the StringValue field's value.
+func (s *AssetPropertyVariant) SetStringValue(v string) *AssetPropertyVariant {
+	s.StringValue = &v
 	return s
 }
 
@@ -3570,6 +3790,101 @@ func (s *InvalidRequestException) StatusCode() int {
 // RequestID returns the service's response RequestID for request.
 func (s *InvalidRequestException) RequestID() string {
 	return s.RespMetadata.RequestID
+}
+
+// Sends information about the detector model instance and the event that triggered
+// the action to a specified asset property in AWS IoT SiteWise.
+//
+// You must specify either propertyAlias or both assetId and propertyId to identify
+// the target asset property in AWS IoT SiteWise.
+//
+// For parameters that are string data type, you can specify the following options:
+//
+//    * Use a string. For example, the propertyAlias value can be '/company/windfarm/3/turbine/7/temperature'.
+//
+//    * Use an expression. For example, the propertyAlias value can be 'company/windfarm/${$input.TemperatureInput.sensorData.windfarmID}/turbine/${$input.TemperatureInput.sensorData.turbineID}/temperature'.
+//    For more information, see Expressions (https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html)
+//    in the AWS IoT Events Developer Guide.
+type IotSiteWiseAction struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the asset that has the specified property. You can specify an expression.
+	AssetId *string `locationName:"assetId" type:"string"`
+
+	// A unique identifier for this entry. You can use the entry ID to track which
+	// data entry causes an error in case of failure. The default is a new unique
+	// identifier. You can also specify an expression.
+	EntryId *string `locationName:"entryId" type:"string"`
+
+	// The alias of the asset property. You can also specify an expression.
+	PropertyAlias *string `locationName:"propertyAlias" type:"string"`
+
+	// The ID of the asset property. You can specify an expression.
+	PropertyId *string `locationName:"propertyId" type:"string"`
+
+	// The value to send to the asset property. This value contains timestamp, quality,
+	// and value (TQV) information.
+	//
+	// PropertyValue is a required field
+	PropertyValue *AssetPropertyValue `locationName:"propertyValue" type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s IotSiteWiseAction) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s IotSiteWiseAction) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *IotSiteWiseAction) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "IotSiteWiseAction"}
+	if s.PropertyValue == nil {
+		invalidParams.Add(request.NewErrParamRequired("PropertyValue"))
+	}
+	if s.PropertyValue != nil {
+		if err := s.PropertyValue.Validate(); err != nil {
+			invalidParams.AddNested("PropertyValue", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAssetId sets the AssetId field's value.
+func (s *IotSiteWiseAction) SetAssetId(v string) *IotSiteWiseAction {
+	s.AssetId = &v
+	return s
+}
+
+// SetEntryId sets the EntryId field's value.
+func (s *IotSiteWiseAction) SetEntryId(v string) *IotSiteWiseAction {
+	s.EntryId = &v
+	return s
+}
+
+// SetPropertyAlias sets the PropertyAlias field's value.
+func (s *IotSiteWiseAction) SetPropertyAlias(v string) *IotSiteWiseAction {
+	s.PropertyAlias = &v
+	return s
+}
+
+// SetPropertyId sets the PropertyId field's value.
+func (s *IotSiteWiseAction) SetPropertyId(v string) *IotSiteWiseAction {
+	s.PropertyId = &v
+	return s
+}
+
+// SetPropertyValue sets the PropertyValue field's value.
+func (s *IotSiteWiseAction) SetPropertyValue(v *AssetPropertyValue) *IotSiteWiseAction {
+	s.PropertyValue = v
+	return s
 }
 
 // Information required to publish the MQTT message through the AWS IoT message

@@ -2,8 +2,13 @@
   "pagination": {
     "Query": {
       "input_token": "NextToken",
+      "limit_key": "MaxRows",
+      "non_aggregate_keys": [
+        "ColumnInfo",
+        "QueryId"
+      ],
       "output_token": "NextToken",
-      "limit_key": "MaxRows"
+      "result_key": "Rows"
     }
   }
 }

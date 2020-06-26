@@ -114,6 +114,10 @@ type TimestreamWriteAPI interface {
 	UntagResourceWithContext(aws.Context, *timestreamwrite.UntagResourceInput, ...request.Option) (*timestreamwrite.UntagResourceOutput, error)
 	UntagResourceRequest(*timestreamwrite.UntagResourceInput) (*request.Request, *timestreamwrite.UntagResourceOutput)
 
+	UpdateDatabase(*timestreamwrite.UpdateDatabaseInput) (*timestreamwrite.UpdateDatabaseOutput, error)
+	UpdateDatabaseWithContext(aws.Context, *timestreamwrite.UpdateDatabaseInput, ...request.Option) (*timestreamwrite.UpdateDatabaseOutput, error)
+	UpdateDatabaseRequest(*timestreamwrite.UpdateDatabaseInput) (*request.Request, *timestreamwrite.UpdateDatabaseOutput)
+
 	UpdateTable(*timestreamwrite.UpdateTableInput) (*timestreamwrite.UpdateTableOutput, error)
 	UpdateTableWithContext(aws.Context, *timestreamwrite.UpdateTableInput, ...request.Option) (*timestreamwrite.UpdateTableOutput, error)
 	UpdateTableRequest(*timestreamwrite.UpdateTableInput) (*request.Request, *timestreamwrite.UpdateTableOutput)

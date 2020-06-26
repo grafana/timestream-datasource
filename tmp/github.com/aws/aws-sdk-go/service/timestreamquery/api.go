@@ -54,9 +54,9 @@ func (c *TimestreamQuery) CancelQueryRequest(input *CancelQueryInput) (req *requ
 
 	output = &CancelQueryOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -81,6 +81,12 @@ func (c *TimestreamQuery) CancelQueryRequest(input *CancelQueryInput) (req *requ
 }
 
 // CancelQuery API operation for Amazon Timestream Query.
+//
+// Cancels a query that has been issued. Cancellation is guaranteed only if
+// the query has not completed execution before the cancellation request was
+// issued. Because cancellation is an idempotent operation, subsequent cancellation
+// requests will return a CancellationMessage, indicating that the query has
+// already been canceled.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -324,9 +330,9 @@ func (c *TimestreamQuery) QueryRequest(input *QueryInput) (req *request.Request,
 
 	output = &QueryOutput{}
 	req = c.newRequest(op, input, output)
-	// if a custom endpoint is provided for the request,
-	// we skip endpoint discovery workflow
-	if req.Config.Endpoint == nil {
+	// if custom endpoint for the request is set to a non empty string,
+	// we skip the endpoint discovery workflow.
+	if req.Config.Endpoint == nil || *req.Config.Endpoint == "" {
 		de := discovererDescribeEndpoints{
 			Required:      true,
 			EndpointCache: c.endpointCache,
@@ -355,8 +361,7 @@ func (c *TimestreamQuery) QueryRequest(input *QueryInput) (req *request.Request,
 // Query is a synchronous operation that enables you to execute a query. Query
 // will timeout after 60 seconds. You must update the default timeout in the
 // SDK to support a timeout of 60 seconds. The result set will be truncated
-// to 1MB. To receive truncated results, you must set AllowResultTruncation
-// to true. Service quotas apply. For more information, see Quotas in the Timestream
+// to 1MB. Service quotas apply. For more information, see Quotas in the Timestream
 // Developer Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -370,9 +375,15 @@ func (c *TimestreamQuery) QueryRequest(input *QueryInput) (req *request.Request,
 //   * AccessDeniedException
 //   You are not authorized to perform this action.
 //
+//   * ConflictException
+//   Unable to poll results for a cancelled query.
+//
 //   * InternalServerException
 //   Timestream was unable to fully process this request because of an internal
 //   server error.
+//
+//   * QueryExecutionException
+//   Timestream was unable to run the query successfully.
 //
 //   * ThrottlingException
 //   Too many requests were made by a user exceeding service quotas. The request
@@ -514,8 +525,11 @@ func (s *AccessDeniedException) RequestID() string {
 type CancelQueryInput struct {
 	_ struct{} `type:"structure"`
 
+	// The id of the query that needs to be cancelled. QueryID is returned as part
+	// of QueryResult.
+	//
 	// QueryId is a required field
-	QueryId *string `type:"string" required:"true"`
+	QueryId *string `min:"1" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -534,6 +548,9 @@ func (s *CancelQueryInput) Validate() error {
 	if s.QueryId == nil {
 		invalidParams.Add(request.NewErrParamRequired("QueryId"))
 	}
+	if s.QueryId != nil && len(*s.QueryId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("QueryId", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -550,6 +567,8 @@ func (s *CancelQueryInput) SetQueryId(v string) *CancelQueryInput {
 type CancelQueryOutput struct {
 	_ struct{} `type:"structure"`
 
+	// A CancellationMessage is returned when a CancelQuery request for the query
+	// specified by QueryId has already been issued.
 	CancellationMessage *string `type:"string"`
 }
 
@@ -606,6 +625,62 @@ func (s *ColumnInfo) SetName(v string) *ColumnInfo {
 func (s *ColumnInfo) SetType(v *Type) *ColumnInfo {
 	s.Type = v
 	return s
+}
+
+// Unable to poll results for a cancelled query.
+type ConflictException struct {
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
+
+	Message_ *string `locationName:"Message" type:"string"`
+}
+
+// String returns the string representation
+func (s ConflictException) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ConflictException) GoString() string {
+	return s.String()
+}
+
+func newErrorConflictException(v protocol.ResponseMetadata) error {
+	return &ConflictException{
+		RespMetadata: v,
+	}
+}
+
+// Code returns the exception type name.
+func (s *ConflictException) Code() string {
+	return "ConflictException"
+}
+
+// Message returns the exception's message.
+func (s *ConflictException) Message() string {
+	if s.Message_ != nil {
+		return *s.Message_
+	}
+	return ""
+}
+
+// OrigErr always returns nil, satisfies awserr.Error interface.
+func (s *ConflictException) OrigErr() error {
+	return nil
+}
+
+func (s *ConflictException) Error() string {
+	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
+}
+
+// Status code returns the HTTP status code for the request's response error.
+func (s *ConflictException) StatusCode() int {
+	return s.RespMetadata.StatusCode
+}
+
+// RequestID returns the service's response RequestID for request.
+func (s *ConflictException) RequestID() string {
+	return s.RespMetadata.RequestID
 }
 
 // Datum represents a single data point in a query result.
@@ -795,21 +870,95 @@ func (s *InternalServerException) RequestID() string {
 	return s.RespMetadata.RequestID
 }
 
+// Timestream was unable to run the query successfully.
+type QueryExecutionException struct {
+	_            struct{}                  `type:"structure"`
+	RespMetadata protocol.ResponseMetadata `json:"-" xml:"-"`
+
+	Message_ *string `locationName:"Message" type:"string"`
+}
+
+// String returns the string representation
+func (s QueryExecutionException) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s QueryExecutionException) GoString() string {
+	return s.String()
+}
+
+func newErrorQueryExecutionException(v protocol.ResponseMetadata) error {
+	return &QueryExecutionException{
+		RespMetadata: v,
+	}
+}
+
+// Code returns the exception type name.
+func (s *QueryExecutionException) Code() string {
+	return "QueryExecutionException"
+}
+
+// Message returns the exception's message.
+func (s *QueryExecutionException) Message() string {
+	if s.Message_ != nil {
+		return *s.Message_
+	}
+	return ""
+}
+
+// OrigErr always returns nil, satisfies awserr.Error interface.
+func (s *QueryExecutionException) OrigErr() error {
+	return nil
+}
+
+func (s *QueryExecutionException) Error() string {
+	return fmt.Sprintf("%s: %s", s.Code(), s.Message())
+}
+
+// Status code returns the HTTP status code for the request's response error.
+func (s *QueryExecutionException) StatusCode() int {
+	return s.RespMetadata.StatusCode
+}
+
+// RequestID returns the service's response RequestID for request.
+func (s *QueryExecutionException) RequestID() string {
+	return s.RespMetadata.RequestID
+}
+
 type QueryInput struct {
 	_ struct{} `type:"structure"`
 
-	ClientToken *string `min:"32" type:"string" idempotencyToken:"true"`
+	// Unique, case-sensitive string of up to 64 ASCII characters that you specify
+	// when you make a Query request. Providing a ClientToken makes the call to
+	// Query idempotent, meaning that multiple identical calls have the same effect
+	// as one single call.
+	//
+	// Your query request will fail in the following cases:
+	//
+	//    * If you submit a request with the same client token outside the 5-minute
+	//    idepotency window.
+	//
+	//    * If you submit a request with the same client token but a change in other
+	//    parameters within the 5-minute idempotency window.
+	//
+	// After 4 hours, any request with the same client token is treated as a new
+	// request.
+	ClientToken *string `min:"32" type:"string" idempotencyToken:"true" sensitive:"true"`
 
+	// The total number of rows to return in the output. If the total number of
+	// rows available is more than the value specified, a NextToken is provided
+	// in the command's output. To resume pagination, provide the NextToken value
+	// in the starting-token argument of a subsequent command.
 	MaxRows *int64 `min:"1" type:"integer"`
 
+	// A pagination token passed to get a set of results.
 	NextToken *string `type:"string"`
-
-	QueryDescription *string `type:"string"`
 
 	// The query to be executed by Timestream.
 	//
 	// QueryString is a required field
-	QueryString *string `type:"string" required:"true"`
+	QueryString *string `type:"string" required:"true" sensitive:"true"`
 }
 
 // String returns the string representation
@@ -859,12 +1008,6 @@ func (s *QueryInput) SetNextToken(v string) *QueryInput {
 	return s
 }
 
-// SetQueryDescription sets the QueryDescription field's value.
-func (s *QueryInput) SetQueryDescription(v string) *QueryInput {
-	s.QueryDescription = &v
-	return s
-}
-
 // SetQueryString sets the QueryString field's value.
 func (s *QueryInput) SetQueryString(v string) *QueryInput {
 	s.QueryString = &v
@@ -879,10 +1022,14 @@ type QueryOutput struct {
 	// ColumnInfo is a required field
 	ColumnInfo []*ColumnInfo `type:"list" required:"true"`
 
+	// A pagination token that can be used again on a Query call to get the next
+	// set of results.
 	NextToken *string `type:"string"`
 
+	// A unique ID for the given query.
+	//
 	// QueryId is a required field
-	QueryId *string `type:"string" required:"true"`
+	QueryId *string `min:"1" type:"string" required:"true"`
 
 	// The result set rows returned by the query.
 	//
@@ -1188,4 +1335,7 @@ const (
 
 	// ScalarTypeUnknown is a ScalarType enum value
 	ScalarTypeUnknown = "UNKNOWN"
+
+	// ScalarTypeInteger is a ScalarType enum value
+	ScalarTypeInteger = "INTEGER"
 )

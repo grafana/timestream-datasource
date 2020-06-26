@@ -55,11 +55,14 @@
       "output":{"shape":"QueryResponse"},
       "errors":[
         {"shape":"AccessDeniedException"},
+        {"shape":"ConflictException"},
         {"shape":"InternalServerException"},
+        {"shape":"QueryExecutionException"},
         {"shape":"ThrottlingException"},
         {"shape":"ValidationException"}
       ],
-      "endpointdiscovery":{"required":true}
+      "endpointdiscovery":{"required":true},
+      "idempotent":true
     }
   },
   "shapes":{
@@ -76,7 +79,7 @@
       "type":"structure",
       "required":["QueryId"],
       "members":{
-        "QueryId":{"shape":"String"}
+        "QueryId":{"shape":"QueryId"}
       }
     },
     "CancelQueryResponse":{
@@ -88,7 +91,8 @@
     "ClientRequestToken":{
       "type":"string",
       "max":128,
-      "min":32
+      "min":32,
+      "sensitive":true
     },
     "ColumnInfo":{
       "type":"structure",
@@ -101,6 +105,13 @@
     "ColumnInfoList":{
       "type":"list",
       "member":{"shape":"ColumnInfo"}
+    },
+    "ConflictException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      },
+      "exception":true
     },
     "Datum":{
       "type":"structure",
@@ -162,16 +173,28 @@
       "type":"boolean",
       "box":true
     },
+    "QueryExecutionException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"ErrorMessage"}
+      },
+      "exception":true
+    },
+    "QueryId":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"[a-zA-Z0-9]+"
+    },
     "QueryRequest":{
       "type":"structure",
       "required":["QueryString"],
       "members":{
-        "QueryString":{"shape":"String"},
+        "QueryString":{"shape":"QueryString"},
         "ClientToken":{
           "shape":"ClientRequestToken",
           "idempotencyToken":true
         },
-        "QueryDescription":{"shape":"String"},
         "NextToken":{"shape":"String"},
         "MaxRows":{"shape":"MaxQueryResults"}
       }
@@ -184,11 +207,15 @@
         "ColumnInfo"
       ],
       "members":{
-        "QueryId":{"shape":"String"},
+        "QueryId":{"shape":"QueryId"},
         "NextToken":{"shape":"String"},
         "Rows":{"shape":"RowList"},
         "ColumnInfo":{"shape":"ColumnInfoList"}
       }
+    },
+    "QueryString":{
+      "type":"string",
+      "sensitive":true
     },
     "Row":{
       "type":"structure",
@@ -213,7 +240,8 @@
         "TIME",
         "INTERVAL_DAY_TO_SECOND",
         "INTERVAL_YEAR_TO_MONTH",
-        "UNKNOWN"
+        "UNKNOWN",
+        "INTEGER"
       ]
     },
     "ScalarValue":{"type":"string"},

@@ -185,8 +185,8 @@
           }
         },
         "description": "The following example creates a function with a deployment package in Amazon S3 and enables X-Ray tracing and environment variable encryption.",
-        "id": "to-update-an-asynchronous-invocation-configuration-1586492061186",
-        "title": "To update an asynchronous invocation configuration"
+        "id": "to-create-a-function-1586492061186",
+        "title": "To create a function"
       }
     ],
     "DeleteAlias": [
@@ -649,9 +649,9 @@
           "output": {
           }
         },
-        "description": "The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
-        "id": "to-get-a-provisioned-concurrency-configuration-1586490192690",
-        "title": "To get a provisioned concurrency configuration"
+        "description": "The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
+        "id": "to-view-a-provisioned-concurrency-configuration-1586490192690",
+        "title": "To view a provisioned concurrency configuration"
       },
       {
         "input": {
@@ -671,9 +671,9 @@
           "output": {
           }
         },
-        "description": "The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
-        "id": "to-view-a-provisioned-concurrency-configuration-1586490192690",
-        "title": "To view a provisioned concurrency configuration"
+        "description": "The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified function.",
+        "id": "to-get-a-provisioned-concurrency-configuration-1586490192690",
+        "title": "To get a provisioned concurrency configuration"
       }
     ],
     "Invoke": [

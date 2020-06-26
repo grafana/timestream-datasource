@@ -1499,8 +1499,10 @@ func (c *Chime) CreateMeetingRequest(input *CreateMeetingInput) (req *request.Re
 // CreateMeeting API operation for Amazon Chime.
 //
 // Creates a new Amazon Chime SDK meeting in the specified media Region with
-// no initial attendees. For more information about the Amazon Chime SDK, see
-// Using the Amazon Chime SDK (https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+// no initial attendees. For more information about specifying media Regions,
+// see Amazon Chime SDK Media Regions (https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
+// in the Amazon Chime Developer Guide. For more information about the Amazon
+// Chime SDK, see Using the Amazon Chime SDK (https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 // in the Amazon Chime Developer Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -1550,6 +1552,109 @@ func (c *Chime) CreateMeeting(input *CreateMeetingInput) (*CreateMeetingOutput, 
 // for more information on using Contexts.
 func (c *Chime) CreateMeetingWithContext(ctx aws.Context, input *CreateMeetingInput, opts ...request.Option) (*CreateMeetingOutput, error) {
 	req, out := c.CreateMeetingRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateMeetingWithAttendees = "CreateMeetingWithAttendees"
+
+// CreateMeetingWithAttendeesRequest generates a "aws/request.Request" representing the
+// client's request for the CreateMeetingWithAttendees operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateMeetingWithAttendees for more information on using the CreateMeetingWithAttendees
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateMeetingWithAttendeesRequest method.
+//    req, resp := client.CreateMeetingWithAttendeesRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/CreateMeetingWithAttendees
+func (c *Chime) CreateMeetingWithAttendeesRequest(input *CreateMeetingWithAttendeesInput) (req *request.Request, output *CreateMeetingWithAttendeesOutput) {
+	op := &request.Operation{
+		Name:       opCreateMeetingWithAttendees,
+		HTTPMethod: "POST",
+		HTTPPath:   "/meetings?operation=create-attendees",
+	}
+
+	if input == nil {
+		input = &CreateMeetingWithAttendeesInput{}
+	}
+
+	output = &CreateMeetingWithAttendeesOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateMeetingWithAttendees API operation for Amazon Chime.
+//
+// Creates a new Amazon Chime SDK meeting in the specified media Region, with
+// attendees. For more information about specifying media Regions, see Amazon
+// Chime SDK Media Regions (https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
+// in the Amazon Chime Developer Guide. For more information about the Amazon
+// Chime SDK, see Using the Amazon Chime SDK (https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+// in the Amazon Chime Developer Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation CreateMeetingWithAttendees for usage and error information.
+//
+// Returned Error Types:
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * ResourceLimitExceededException
+//   The request exceeds the resource limit.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/CreateMeetingWithAttendees
+func (c *Chime) CreateMeetingWithAttendees(input *CreateMeetingWithAttendeesInput) (*CreateMeetingWithAttendeesOutput, error) {
+	req, out := c.CreateMeetingWithAttendeesRequest(input)
+	return out, req.Send()
+}
+
+// CreateMeetingWithAttendeesWithContext is the same as CreateMeetingWithAttendees with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateMeetingWithAttendees for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) CreateMeetingWithAttendeesWithContext(ctx aws.Context, input *CreateMeetingWithAttendeesInput, opts ...request.Option) (*CreateMeetingWithAttendeesOutput, error) {
+	req, out := c.CreateMeetingWithAttendeesRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -5295,6 +5400,107 @@ func (c *Chime) GetProxySessionWithContext(ctx aws.Context, input *GetProxySessi
 	return out, req.Send()
 }
 
+const opGetRetentionSettings = "GetRetentionSettings"
+
+// GetRetentionSettingsRequest generates a "aws/request.Request" representing the
+// client's request for the GetRetentionSettings operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetRetentionSettings for more information on using the GetRetentionSettings
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetRetentionSettingsRequest method.
+//    req, resp := client.GetRetentionSettingsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetRetentionSettings
+func (c *Chime) GetRetentionSettingsRequest(input *GetRetentionSettingsInput) (req *request.Request, output *GetRetentionSettingsOutput) {
+	op := &request.Operation{
+		Name:       opGetRetentionSettings,
+		HTTPMethod: "GET",
+		HTTPPath:   "/accounts/{accountId}/retention-settings",
+	}
+
+	if input == nil {
+		input = &GetRetentionSettingsInput{}
+	}
+
+	output = &GetRetentionSettingsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetRetentionSettings API operation for Amazon Chime.
+//
+// Gets the retention settings for the specified Amazon Chime Enterprise account.
+// For more information about retention settings, see Managing Chat Retention
+// Policies (https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html)
+// in the Amazon Chime Administration Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation GetRetentionSettings for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/GetRetentionSettings
+func (c *Chime) GetRetentionSettings(input *GetRetentionSettingsInput) (*GetRetentionSettingsOutput, error) {
+	req, out := c.GetRetentionSettingsRequest(input)
+	return out, req.Send()
+}
+
+// GetRetentionSettingsWithContext is the same as GetRetentionSettings with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetRetentionSettings for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) GetRetentionSettingsWithContext(ctx aws.Context, input *GetRetentionSettingsInput, opts ...request.Option) (*GetRetentionSettingsOutput, error) {
+	req, out := c.GetRetentionSettingsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetRoom = "GetRoom"
 
 // GetRoomRequest generates a "aws/request.Request" representing the
@@ -8951,6 +9157,118 @@ func (c *Chime) PutEventsConfigurationWithContext(ctx aws.Context, input *PutEve
 	return out, req.Send()
 }
 
+const opPutRetentionSettings = "PutRetentionSettings"
+
+// PutRetentionSettingsRequest generates a "aws/request.Request" representing the
+// client's request for the PutRetentionSettings operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See PutRetentionSettings for more information on using the PutRetentionSettings
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the PutRetentionSettingsRequest method.
+//    req, resp := client.PutRetentionSettingsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/PutRetentionSettings
+func (c *Chime) PutRetentionSettingsRequest(input *PutRetentionSettingsInput) (req *request.Request, output *PutRetentionSettingsOutput) {
+	op := &request.Operation{
+		Name:       opPutRetentionSettings,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/accounts/{accountId}/retention-settings",
+	}
+
+	if input == nil {
+		input = &PutRetentionSettingsInput{}
+	}
+
+	output = &PutRetentionSettingsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// PutRetentionSettings API operation for Amazon Chime.
+//
+// Puts retention settings for the specified Amazon Chime Enterprise account.
+// We recommend using AWS CloudTrail to monitor usage of this API for your account.
+// For more information, see Logging Amazon Chime API Calls with AWS CloudTrail
+// (https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon
+// Chime Administration Guide.
+//
+// To turn off existing retention settings, remove the number of days from the
+// corresponding RetentionDays field in the RetentionSettings object. For more
+// information about retention settings, see Managing Chat Retention Policies
+// (https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the
+// Amazon Chime Administration Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation PutRetentionSettings for usage and error information.
+//
+// Returned Error Types:
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * ConflictException
+//   The request could not be processed because of conflict in the current state
+//   of the resource.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/PutRetentionSettings
+func (c *Chime) PutRetentionSettings(input *PutRetentionSettingsInput) (*PutRetentionSettingsOutput, error) {
+	req, out := c.PutRetentionSettingsRequest(input)
+	return out, req.Send()
+}
+
+// PutRetentionSettingsWithContext is the same as PutRetentionSettings with the addition of
+// the ability to pass a context and additional request options.
+//
+// See PutRetentionSettings for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) PutRetentionSettingsWithContext(ctx aws.Context, input *PutRetentionSettingsInput, opts ...request.Option) (*PutRetentionSettingsOutput, error) {
+	req, out := c.PutRetentionSettingsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opPutVoiceConnectorLoggingConfiguration = "PutVoiceConnectorLoggingConfiguration"
 
 // PutVoiceConnectorLoggingConfigurationRequest generates a "aws/request.Request" representing the
@@ -9547,6 +9865,204 @@ func (c *Chime) PutVoiceConnectorTerminationCredentials(input *PutVoiceConnector
 // for more information on using Contexts.
 func (c *Chime) PutVoiceConnectorTerminationCredentialsWithContext(ctx aws.Context, input *PutVoiceConnectorTerminationCredentialsInput, opts ...request.Option) (*PutVoiceConnectorTerminationCredentialsOutput, error) {
 	req, out := c.PutVoiceConnectorTerminationCredentialsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opRedactConversationMessage = "RedactConversationMessage"
+
+// RedactConversationMessageRequest generates a "aws/request.Request" representing the
+// client's request for the RedactConversationMessage operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See RedactConversationMessage for more information on using the RedactConversationMessage
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the RedactConversationMessageRequest method.
+//    req, resp := client.RedactConversationMessageRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/RedactConversationMessage
+func (c *Chime) RedactConversationMessageRequest(input *RedactConversationMessageInput) (req *request.Request, output *RedactConversationMessageOutput) {
+	op := &request.Operation{
+		Name:       opRedactConversationMessage,
+		HTTPMethod: "POST",
+		HTTPPath:   "/accounts/{accountId}/conversations/{conversationId}/messages/{messageId}?operation=redact",
+	}
+
+	if input == nil {
+		input = &RedactConversationMessageInput{}
+	}
+
+	output = &RedactConversationMessageOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// RedactConversationMessage API operation for Amazon Chime.
+//
+// Redacts the specified message from the specified Amazon Chime conversation.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation RedactConversationMessage for usage and error information.
+//
+// Returned Error Types:
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/RedactConversationMessage
+func (c *Chime) RedactConversationMessage(input *RedactConversationMessageInput) (*RedactConversationMessageOutput, error) {
+	req, out := c.RedactConversationMessageRequest(input)
+	return out, req.Send()
+}
+
+// RedactConversationMessageWithContext is the same as RedactConversationMessage with the addition of
+// the ability to pass a context and additional request options.
+//
+// See RedactConversationMessage for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) RedactConversationMessageWithContext(ctx aws.Context, input *RedactConversationMessageInput, opts ...request.Option) (*RedactConversationMessageOutput, error) {
+	req, out := c.RedactConversationMessageRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opRedactRoomMessage = "RedactRoomMessage"
+
+// RedactRoomMessageRequest generates a "aws/request.Request" representing the
+// client's request for the RedactRoomMessage operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See RedactRoomMessage for more information on using the RedactRoomMessage
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the RedactRoomMessageRequest method.
+//    req, resp := client.RedactRoomMessageRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/RedactRoomMessage
+func (c *Chime) RedactRoomMessageRequest(input *RedactRoomMessageInput) (req *request.Request, output *RedactRoomMessageOutput) {
+	op := &request.Operation{
+		Name:       opRedactRoomMessage,
+		HTTPMethod: "POST",
+		HTTPPath:   "/accounts/{accountId}/rooms/{roomId}/messages/{messageId}?operation=redact",
+	}
+
+	if input == nil {
+		input = &RedactRoomMessageInput{}
+	}
+
+	output = &RedactRoomMessageOutput{}
+	req = c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Swap(restjson.UnmarshalHandler.Name, protocol.UnmarshalDiscardBodyHandler)
+	return
+}
+
+// RedactRoomMessage API operation for Amazon Chime.
+//
+// Redacts the specified message from the specified Amazon Chime chat room.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Chime's
+// API operation RedactRoomMessage for usage and error information.
+//
+// Returned Error Types:
+//   * NotFoundException
+//   One or more of the resources in the request does not exist in the system.
+//
+//   * ForbiddenException
+//   The client is permanently forbidden from making the request. For example,
+//   when a user tries to create an account from an unsupported Region.
+//
+//   * UnauthorizedClientException
+//   The client is not currently authorized to make the request.
+//
+//   * ThrottledClientException
+//   The client exceeded its request rate limit.
+//
+//   * BadRequestException
+//   The input parameters don't match the service's restrictions.
+//
+//   * ServiceUnavailableException
+//   The service is currently unavailable.
+//
+//   * ServiceFailureException
+//   The service encountered an unexpected error.
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/chime-2018-05-01/RedactRoomMessage
+func (c *Chime) RedactRoomMessage(input *RedactRoomMessageInput) (*RedactRoomMessageOutput, error) {
+	req, out := c.RedactRoomMessageRequest(input)
+	return out, req.Send()
+}
+
+// RedactRoomMessageWithContext is the same as RedactRoomMessage with the addition of
+// the ability to pass a context and additional request options.
+//
+// See RedactRoomMessage for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Chime) RedactRoomMessageWithContext(ctx aws.Context, input *RedactRoomMessageInput, opts ...request.Option) (*RedactRoomMessageOutput, error) {
+	req, out := c.RedactRoomMessageRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -13276,6 +13792,44 @@ func (s *ConflictException) RequestID() string {
 	return s.RespMetadata.RequestID
 }
 
+// The retention settings that determine how long to retain chat conversation
+// messages for an Amazon Chime Enterprise account.
+type ConversationRetentionSettings struct {
+	_ struct{} `type:"structure"`
+
+	// The number of days for which to retain chat conversation messages.
+	RetentionDays *int64 `min:"1" type:"integer"`
+}
+
+// String returns the string representation
+func (s ConversationRetentionSettings) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ConversationRetentionSettings) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ConversationRetentionSettings) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ConversationRetentionSettings"}
+	if s.RetentionDays != nil && *s.RetentionDays < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("RetentionDays", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetRetentionDays sets the RetentionDays field's value.
+func (s *ConversationRetentionSettings) SetRetentionDays(v int64) *ConversationRetentionSettings {
+	s.RetentionDays = &v
+	return s
+}
+
 type CreateAccountInput struct {
 	_ struct{} `type:"structure"`
 
@@ -13652,9 +14206,11 @@ type CreateMeetingInput struct {
 	// The external meeting ID.
 	ExternalMeetingId *string `min:"2" type:"string" sensitive:"true"`
 
-	// The Region in which to create the meeting. Available values: ap-northeast-1,
-	// ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1,
-	// eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+	// The Region in which to create the meeting. Default: us-east-1.
+	//
+	// Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1,
+	// eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1,
+	// us-east-2, us-west-1, us-west-2.
 	MediaRegion *string `type:"string"`
 
 	// Reserved.
@@ -13770,6 +14326,182 @@ func (s CreateMeetingOutput) GoString() string {
 
 // SetMeeting sets the Meeting field's value.
 func (s *CreateMeetingOutput) SetMeeting(v *Meeting) *CreateMeetingOutput {
+	s.Meeting = v
+	return s
+}
+
+type CreateMeetingWithAttendeesInput struct {
+	_ struct{} `type:"structure"`
+
+	// The request containing the attendees to create.
+	Attendees []*CreateAttendeeRequestItem `min:"1" type:"list"`
+
+	// The unique identifier for the client request. Use a different token for different
+	// meetings.
+	ClientRequestToken *string `min:"2" type:"string" idempotencyToken:"true" sensitive:"true"`
+
+	// The external meeting ID.
+	ExternalMeetingId *string `min:"2" type:"string" sensitive:"true"`
+
+	// The Region in which to create the meeting. Default: us-east-1.
+	//
+	// Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1,
+	// eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1,
+	// us-east-2, us-west-1, us-west-2.
+	MediaRegion *string `type:"string"`
+
+	// Reserved.
+	MeetingHostId *string `min:"2" type:"string" sensitive:"true"`
+
+	// The configuration for resource targets to receive notifications when Amazon
+	// Chime SDK meeting and attendee events occur. The Amazon Chime SDK supports
+	// resource targets located in the US East (N. Virginia) AWS Region (us-east-1).
+	NotificationsConfiguration *MeetingNotificationConfiguration `type:"structure"`
+
+	// The tag key-value pairs.
+	Tags []*Tag `min:"1" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateMeetingWithAttendeesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateMeetingWithAttendeesInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateMeetingWithAttendeesInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateMeetingWithAttendeesInput"}
+	if s.Attendees != nil && len(s.Attendees) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Attendees", 1))
+	}
+	if s.ClientRequestToken != nil && len(*s.ClientRequestToken) < 2 {
+		invalidParams.Add(request.NewErrParamMinLen("ClientRequestToken", 2))
+	}
+	if s.ExternalMeetingId != nil && len(*s.ExternalMeetingId) < 2 {
+		invalidParams.Add(request.NewErrParamMinLen("ExternalMeetingId", 2))
+	}
+	if s.MeetingHostId != nil && len(*s.MeetingHostId) < 2 {
+		invalidParams.Add(request.NewErrParamMinLen("MeetingHostId", 2))
+	}
+	if s.Tags != nil && len(s.Tags) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Tags", 1))
+	}
+	if s.Attendees != nil {
+		for i, v := range s.Attendees {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attendees", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+	if s.NotificationsConfiguration != nil {
+		if err := s.NotificationsConfiguration.Validate(); err != nil {
+			invalidParams.AddNested("NotificationsConfiguration", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.Tags != nil {
+		for i, v := range s.Tags {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAttendees sets the Attendees field's value.
+func (s *CreateMeetingWithAttendeesInput) SetAttendees(v []*CreateAttendeeRequestItem) *CreateMeetingWithAttendeesInput {
+	s.Attendees = v
+	return s
+}
+
+// SetClientRequestToken sets the ClientRequestToken field's value.
+func (s *CreateMeetingWithAttendeesInput) SetClientRequestToken(v string) *CreateMeetingWithAttendeesInput {
+	s.ClientRequestToken = &v
+	return s
+}
+
+// SetExternalMeetingId sets the ExternalMeetingId field's value.
+func (s *CreateMeetingWithAttendeesInput) SetExternalMeetingId(v string) *CreateMeetingWithAttendeesInput {
+	s.ExternalMeetingId = &v
+	return s
+}
+
+// SetMediaRegion sets the MediaRegion field's value.
+func (s *CreateMeetingWithAttendeesInput) SetMediaRegion(v string) *CreateMeetingWithAttendeesInput {
+	s.MediaRegion = &v
+	return s
+}
+
+// SetMeetingHostId sets the MeetingHostId field's value.
+func (s *CreateMeetingWithAttendeesInput) SetMeetingHostId(v string) *CreateMeetingWithAttendeesInput {
+	s.MeetingHostId = &v
+	return s
+}
+
+// SetNotificationsConfiguration sets the NotificationsConfiguration field's value.
+func (s *CreateMeetingWithAttendeesInput) SetNotificationsConfiguration(v *MeetingNotificationConfiguration) *CreateMeetingWithAttendeesInput {
+	s.NotificationsConfiguration = v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *CreateMeetingWithAttendeesInput) SetTags(v []*Tag) *CreateMeetingWithAttendeesInput {
+	s.Tags = v
+	return s
+}
+
+type CreateMeetingWithAttendeesOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The attendee information, including attendees IDs and join tokens.
+	Attendees []*Attendee `type:"list"`
+
+	// If the action fails for one or more of the attendees in the request, a list
+	// of the attendees is returned, along with error codes and error messages.
+	Errors []*CreateAttendeeError `type:"list"`
+
+	// A meeting created using the Amazon Chime SDK.
+	Meeting *Meeting `type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateMeetingWithAttendeesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateMeetingWithAttendeesOutput) GoString() string {
+	return s.String()
+}
+
+// SetAttendees sets the Attendees field's value.
+func (s *CreateMeetingWithAttendeesOutput) SetAttendees(v []*Attendee) *CreateMeetingWithAttendeesOutput {
+	s.Attendees = v
+	return s
+}
+
+// SetErrors sets the Errors field's value.
+func (s *CreateMeetingWithAttendeesOutput) SetErrors(v []*CreateAttendeeError) *CreateMeetingWithAttendeesOutput {
+	s.Errors = v
+	return s
+}
+
+// SetMeeting sets the Meeting field's value.
+func (s *CreateMeetingWithAttendeesOutput) SetMeeting(v *Meeting) *CreateMeetingWithAttendeesOutput {
 	s.Meeting = v
 	return s
 }
@@ -16613,6 +17345,80 @@ func (s *GetProxySessionOutput) SetProxySession(v *ProxySession) *GetProxySessio
 	return s
 }
 
+type GetRetentionSettingsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime account ID.
+	//
+	// AccountId is a required field
+	AccountId *string `location:"uri" locationName:"accountId" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetRetentionSettingsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetRetentionSettingsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetRetentionSettingsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetRetentionSettingsInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *GetRetentionSettingsInput) SetAccountId(v string) *GetRetentionSettingsInput {
+	s.AccountId = &v
+	return s
+}
+
+type GetRetentionSettingsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The timestamp representing the time at which the specified items are permanently
+	// deleted, in ISO 8601 format.
+	InitiateDeletionTimestamp *time.Time `type:"timestamp" timestampFormat:"iso8601"`
+
+	// The retention settings.
+	RetentionSettings *RetentionSettings `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetRetentionSettingsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetRetentionSettingsOutput) GoString() string {
+	return s.String()
+}
+
+// SetInitiateDeletionTimestamp sets the InitiateDeletionTimestamp field's value.
+func (s *GetRetentionSettingsOutput) SetInitiateDeletionTimestamp(v time.Time) *GetRetentionSettingsOutput {
+	s.InitiateDeletionTimestamp = &v
+	return s
+}
+
+// SetRetentionSettings sets the RetentionSettings field's value.
+func (s *GetRetentionSettingsOutput) SetRetentionSettings(v *RetentionSettings) *GetRetentionSettingsOutput {
+	s.RetentionSettings = v
+	return s
+}
+
 type GetRoomInput struct {
 	_ struct{} `type:"structure"`
 
@@ -19148,7 +19954,8 @@ func (s *Meeting) SetMeetingId(v string) *Meeting {
 }
 
 // The configuration for resource targets to receive notifications when Amazon
-// Chime SDK meeting and attendee events occur.
+// Chime SDK meeting and attendee events occur. The Amazon Chime SDK supports
+// resource targets located in the US East (N. Virginia) AWS Region (us-east-1).
 type MeetingNotificationConfiguration struct {
 	_ struct{} `type:"structure"`
 
@@ -20233,6 +21040,99 @@ func (s *PutEventsConfigurationOutput) SetEventsConfiguration(v *EventsConfigura
 	return s
 }
 
+type PutRetentionSettingsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime account ID.
+	//
+	// AccountId is a required field
+	AccountId *string `location:"uri" locationName:"accountId" type:"string" required:"true"`
+
+	// The retention settings.
+	//
+	// RetentionSettings is a required field
+	RetentionSettings *RetentionSettings `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s PutRetentionSettingsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutRetentionSettingsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutRetentionSettingsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "PutRetentionSettingsInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 1))
+	}
+	if s.RetentionSettings == nil {
+		invalidParams.Add(request.NewErrParamRequired("RetentionSettings"))
+	}
+	if s.RetentionSettings != nil {
+		if err := s.RetentionSettings.Validate(); err != nil {
+			invalidParams.AddNested("RetentionSettings", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *PutRetentionSettingsInput) SetAccountId(v string) *PutRetentionSettingsInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetRetentionSettings sets the RetentionSettings field's value.
+func (s *PutRetentionSettingsInput) SetRetentionSettings(v *RetentionSettings) *PutRetentionSettingsInput {
+	s.RetentionSettings = v
+	return s
+}
+
+type PutRetentionSettingsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The timestamp representing the time at which the specified items are permanently
+	// deleted, in ISO 8601 format.
+	InitiateDeletionTimestamp *time.Time `type:"timestamp" timestampFormat:"iso8601"`
+
+	// The retention settings.
+	RetentionSettings *RetentionSettings `type:"structure"`
+}
+
+// String returns the string representation
+func (s PutRetentionSettingsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutRetentionSettingsOutput) GoString() string {
+	return s.String()
+}
+
+// SetInitiateDeletionTimestamp sets the InitiateDeletionTimestamp field's value.
+func (s *PutRetentionSettingsOutput) SetInitiateDeletionTimestamp(v time.Time) *PutRetentionSettingsOutput {
+	s.InitiateDeletionTimestamp = &v
+	return s
+}
+
+// SetRetentionSettings sets the RetentionSettings field's value.
+func (s *PutRetentionSettingsOutput) SetRetentionSettings(v *RetentionSettings) *PutRetentionSettingsOutput {
+	s.RetentionSettings = v
+	return s
+}
+
 type PutVoiceConnectorLoggingConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -20738,6 +21638,184 @@ func (s *PutVoiceConnectorTerminationOutput) SetTermination(v *Termination) *Put
 	return s
 }
 
+type RedactConversationMessageInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime account ID.
+	//
+	// AccountId is a required field
+	AccountId *string `location:"uri" locationName:"accountId" type:"string" required:"true"`
+
+	// The conversation ID.
+	//
+	// ConversationId is a required field
+	ConversationId *string `location:"uri" locationName:"conversationId" type:"string" required:"true"`
+
+	// The message ID.
+	//
+	// MessageId is a required field
+	MessageId *string `location:"uri" locationName:"messageId" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s RedactConversationMessageInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RedactConversationMessageInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RedactConversationMessageInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "RedactConversationMessageInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 1))
+	}
+	if s.ConversationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ConversationId"))
+	}
+	if s.ConversationId != nil && len(*s.ConversationId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("ConversationId", 1))
+	}
+	if s.MessageId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MessageId"))
+	}
+	if s.MessageId != nil && len(*s.MessageId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MessageId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *RedactConversationMessageInput) SetAccountId(v string) *RedactConversationMessageInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetConversationId sets the ConversationId field's value.
+func (s *RedactConversationMessageInput) SetConversationId(v string) *RedactConversationMessageInput {
+	s.ConversationId = &v
+	return s
+}
+
+// SetMessageId sets the MessageId field's value.
+func (s *RedactConversationMessageInput) SetMessageId(v string) *RedactConversationMessageInput {
+	s.MessageId = &v
+	return s
+}
+
+type RedactConversationMessageOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s RedactConversationMessageOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RedactConversationMessageOutput) GoString() string {
+	return s.String()
+}
+
+type RedactRoomMessageInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Chime account ID.
+	//
+	// AccountId is a required field
+	AccountId *string `location:"uri" locationName:"accountId" type:"string" required:"true"`
+
+	// The message ID.
+	//
+	// MessageId is a required field
+	MessageId *string `location:"uri" locationName:"messageId" type:"string" required:"true"`
+
+	// The room ID.
+	//
+	// RoomId is a required field
+	RoomId *string `location:"uri" locationName:"roomId" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s RedactRoomMessageInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RedactRoomMessageInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RedactRoomMessageInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "RedactRoomMessageInput"}
+	if s.AccountId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AccountId"))
+	}
+	if s.AccountId != nil && len(*s.AccountId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AccountId", 1))
+	}
+	if s.MessageId == nil {
+		invalidParams.Add(request.NewErrParamRequired("MessageId"))
+	}
+	if s.MessageId != nil && len(*s.MessageId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("MessageId", 1))
+	}
+	if s.RoomId == nil {
+		invalidParams.Add(request.NewErrParamRequired("RoomId"))
+	}
+	if s.RoomId != nil && len(*s.RoomId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("RoomId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAccountId sets the AccountId field's value.
+func (s *RedactRoomMessageInput) SetAccountId(v string) *RedactRoomMessageInput {
+	s.AccountId = &v
+	return s
+}
+
+// SetMessageId sets the MessageId field's value.
+func (s *RedactRoomMessageInput) SetMessageId(v string) *RedactRoomMessageInput {
+	s.MessageId = &v
+	return s
+}
+
+// SetRoomId sets the RoomId field's value.
+func (s *RedactRoomMessageInput) SetRoomId(v string) *RedactRoomMessageInput {
+	s.RoomId = &v
+	return s
+}
+
+type RedactRoomMessageOutput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s RedactRoomMessageOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RedactRoomMessageOutput) GoString() string {
+	return s.String()
+}
+
 type RegenerateSecurityTokenInput struct {
 	_ struct{} `type:"structure"`
 
@@ -21023,6 +22101,61 @@ func (s *RestorePhoneNumberOutput) SetPhoneNumber(v *PhoneNumber) *RestorePhoneN
 	return s
 }
 
+// The retention settings for an Amazon Chime Enterprise account that determine
+// how long to retain items such as chat room messages and chat conversation
+// messages.
+type RetentionSettings struct {
+	_ struct{} `type:"structure"`
+
+	// The chat conversation retention settings.
+	ConversationRetentionSettings *ConversationRetentionSettings `type:"structure"`
+
+	// The chat room retention settings.
+	RoomRetentionSettings *RoomRetentionSettings `type:"structure"`
+}
+
+// String returns the string representation
+func (s RetentionSettings) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RetentionSettings) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RetentionSettings) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "RetentionSettings"}
+	if s.ConversationRetentionSettings != nil {
+		if err := s.ConversationRetentionSettings.Validate(); err != nil {
+			invalidParams.AddNested("ConversationRetentionSettings", err.(request.ErrInvalidParams))
+		}
+	}
+	if s.RoomRetentionSettings != nil {
+		if err := s.RoomRetentionSettings.Validate(); err != nil {
+			invalidParams.AddNested("RoomRetentionSettings", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetConversationRetentionSettings sets the ConversationRetentionSettings field's value.
+func (s *RetentionSettings) SetConversationRetentionSettings(v *ConversationRetentionSettings) *RetentionSettings {
+	s.ConversationRetentionSettings = v
+	return s
+}
+
+// SetRoomRetentionSettings sets the RoomRetentionSettings field's value.
+func (s *RetentionSettings) SetRoomRetentionSettings(v *RoomRetentionSettings) *RetentionSettings {
+	s.RoomRetentionSettings = v
+	return s
+}
+
 // The Amazon Chime chat room details.
 type Room struct {
 	_ struct{} `type:"structure"`
@@ -21149,6 +22282,44 @@ func (s *RoomMembership) SetRoomId(v string) *RoomMembership {
 // SetUpdatedTimestamp sets the UpdatedTimestamp field's value.
 func (s *RoomMembership) SetUpdatedTimestamp(v time.Time) *RoomMembership {
 	s.UpdatedTimestamp = &v
+	return s
+}
+
+// The retention settings that determine how long to retain chat room messages
+// for an Amazon Chime Enterprise account.
+type RoomRetentionSettings struct {
+	_ struct{} `type:"structure"`
+
+	// The number of days for which to retain chat room messages.
+	RetentionDays *int64 `min:"1" type:"integer"`
+}
+
+// String returns the string representation
+func (s RoomRetentionSettings) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RoomRetentionSettings) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RoomRetentionSettings) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "RoomRetentionSettings"}
+	if s.RetentionDays != nil && *s.RetentionDays < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("RetentionDays", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetRetentionDays sets the RetentionDays field's value.
+func (s *RoomRetentionSettings) SetRetentionDays(v int64) *RoomRetentionSettings {
+	s.RetentionDays = &v
 	return s
 }
 
@@ -21422,6 +22593,9 @@ type StreamingConfiguration struct {
 
 	// When true, media streaming to Amazon Kinesis is turned off.
 	Disabled *bool `type:"boolean"`
+
+	// The streaming notification targets.
+	StreamingNotificationTargets []*StreamingNotificationTarget `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -21440,6 +22614,19 @@ func (s *StreamingConfiguration) Validate() error {
 	if s.DataRetentionInHours == nil {
 		invalidParams.Add(request.NewErrParamRequired("DataRetentionInHours"))
 	}
+	if s.StreamingNotificationTargets != nil && len(s.StreamingNotificationTargets) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("StreamingNotificationTargets", 1))
+	}
+	if s.StreamingNotificationTargets != nil {
+		for i, v := range s.StreamingNotificationTargets {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "StreamingNotificationTargets", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -21456,6 +22643,51 @@ func (s *StreamingConfiguration) SetDataRetentionInHours(v int64) *StreamingConf
 // SetDisabled sets the Disabled field's value.
 func (s *StreamingConfiguration) SetDisabled(v bool) *StreamingConfiguration {
 	s.Disabled = &v
+	return s
+}
+
+// SetStreamingNotificationTargets sets the StreamingNotificationTargets field's value.
+func (s *StreamingConfiguration) SetStreamingNotificationTargets(v []*StreamingNotificationTarget) *StreamingConfiguration {
+	s.StreamingNotificationTargets = v
+	return s
+}
+
+// The targeted recipient for a streaming configuration notification.
+type StreamingNotificationTarget struct {
+	_ struct{} `type:"structure"`
+
+	// The streaming notification target.
+	//
+	// NotificationTarget is a required field
+	NotificationTarget *string `type:"string" required:"true" enum:"NotificationTarget"`
+}
+
+// String returns the string representation
+func (s StreamingNotificationTarget) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s StreamingNotificationTarget) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *StreamingNotificationTarget) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "StreamingNotificationTarget"}
+	if s.NotificationTarget == nil {
+		invalidParams.Add(request.NewErrParamRequired("NotificationTarget"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetNotificationTarget sets the NotificationTarget field's value.
+func (s *StreamingNotificationTarget) SetNotificationTarget(v string) *StreamingNotificationTarget {
+	s.NotificationTarget = &v
 	return s
 }
 
@@ -24219,6 +25451,17 @@ const (
 
 	// MemberTypeWebhook is a MemberType enum value
 	MemberTypeWebhook = "Webhook"
+)
+
+const (
+	// NotificationTargetEventBridge is a NotificationTarget enum value
+	NotificationTargetEventBridge = "EventBridge"
+
+	// NotificationTargetSns is a NotificationTarget enum value
+	NotificationTargetSns = "SNS"
+
+	// NotificationTargetSqs is a NotificationTarget enum value
+	NotificationTargetSqs = "SQS"
 )
 
 const (

@@ -14,12 +14,24 @@ const (
 	// You are not authorized to perform this action.
 	ErrCodeAccessDeniedException = "AccessDeniedException"
 
+	// ErrCodeConflictException for service response error code
+	// "ConflictException".
+	//
+	// Unable to poll results for a cancelled query.
+	ErrCodeConflictException = "ConflictException"
+
 	// ErrCodeInternalServerException for service response error code
 	// "InternalServerException".
 	//
 	// Timestream was unable to fully process this request because of an internal
 	// server error.
 	ErrCodeInternalServerException = "InternalServerException"
+
+	// ErrCodeQueryExecutionException for service response error code
+	// "QueryExecutionException".
+	//
+	// Timestream was unable to run the query successfully.
+	ErrCodeQueryExecutionException = "QueryExecutionException"
 
 	// ErrCodeThrottlingException for service response error code
 	// "ThrottlingException".
@@ -37,7 +49,9 @@ const (
 
 var exceptionFromCode = map[string]func(protocol.ResponseMetadata) error{
 	"AccessDeniedException":   newErrorAccessDeniedException,
+	"ConflictException":       newErrorConflictException,
 	"InternalServerException": newErrorInternalServerException,
+	"QueryExecutionException": newErrorQueryExecutionException,
 	"ThrottlingException":     newErrorThrottlingException,
 	"ValidationException":     newErrorValidationException,
 }

@@ -2,9 +2,9 @@
   "version": "2.0",
   "service": "<p> </p>",
   "operations": {
-    "CancelQuery": null,
-    "DescribeEndpoints": "<p> </p>",
-    "Query": "<p> Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. To receive truncated results, you must set AllowResultTruncation to true. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide. </p>"
+    "CancelQuery": "<p> Cancels a query that has been issued. Cancellation is guaranteed only if the query has not completed execution before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a <code>CancellationMessage</code>, indicating that the query has already been canceled. </p>",
+    "DescribeEndpoints": null,
+    "Query": "<p> Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide. </p>"
   },
   "shapes": {
     "AccessDeniedException": {
@@ -31,7 +31,7 @@
     "ClientRequestToken": {
       "base": null,
       "refs": {
-        "QueryRequest$ClientToken": null
+        "QueryRequest$ClientToken": "<p> Unique, case-sensitive string of up to 64 ASCII characters that you specify when you make a Query request. Providing a <code>ClientToken</code> makes the call to <code>Query</code> idempotent, meaning that multiple identical calls have the same effect as one single call. </p> <p>Your query request will fail in the following cases:</p> <ul> <li> <p> If you submit a request with the same client token outside the 5-minute idepotency window. </p> </li> <li> <p> If you submit a request with the same client token but a change in other parameters within the 5-minute idempotency window. </p> </li> </ul> <p> After 4 hours, any request with the same client token is treated as a new request. </p>"
       }
     },
     "ColumnInfo": {
@@ -47,6 +47,11 @@
       "refs": {
         "QueryResponse$ColumnInfo": "<p> The column data types of the returned result set. </p>",
         "Type$RowColumnInfo": "<p>Indicates if the column is a row.</p>"
+      }
+    },
+    "ConflictException": {
+      "base": "<p> Unable to poll results for a cancelled query. </p>",
+      "refs": {
       }
     },
     "Datum": {
@@ -74,7 +79,7 @@
       }
     },
     "Endpoint": {
-      "base": "<p> </p>",
+      "base": null,
       "refs": {
         "Endpoints$member": null
       }
@@ -82,13 +87,15 @@
     "Endpoints": {
       "base": null,
       "refs": {
-        "DescribeEndpointsResponse$Endpoints": "<p> </p>"
+        "DescribeEndpointsResponse$Endpoints": null
       }
     },
     "ErrorMessage": {
       "base": null,
       "refs": {
+        "ConflictException$Message": null,
         "InternalServerException$Message": null,
+        "QueryExecutionException$Message": null,
         "ValidationException$Message": null
       }
     },
@@ -100,19 +107,31 @@
     "Long": {
       "base": null,
       "refs": {
-        "Endpoint$CachePeriodInMinutes": "<p> </p>"
+        "Endpoint$CachePeriodInMinutes": null
       }
     },
     "MaxQueryResults": {
       "base": null,
       "refs": {
-        "QueryRequest$MaxRows": null
+        "QueryRequest$MaxRows": "<p> The total number of rows to return in the output. If the total number of rows available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. </p>"
       }
     },
     "NullableBoolean": {
       "base": null,
       "refs": {
         "Datum$NullValue": "<p> Indicates if the data point is null. </p>"
+      }
+    },
+    "QueryExecutionException": {
+      "base": "<p> Timestream was unable to run the query successfully. </p>",
+      "refs": {
+      }
+    },
+    "QueryId": {
+      "base": null,
+      "refs": {
+        "CancelQueryRequest$QueryId": "<p> The id of the query that needs to be cancelled. <code>QueryID</code> is returned as part of QueryResult. </p>",
+        "QueryResponse$QueryId": "<p> A unique ID for the given query. </p>"
       }
     },
     "QueryRequest": {
@@ -123,6 +142,12 @@
     "QueryResponse": {
       "base": null,
       "refs": {
+      }
+    },
+    "QueryString": {
+      "base": null,
+      "refs": {
+        "QueryRequest$QueryString": "<p> The query to be executed by Timestream. </p>"
       }
     },
     "Row": {
@@ -159,15 +184,11 @@
     "String": {
       "base": null,
       "refs": {
-        "CancelQueryRequest$QueryId": null,
-        "CancelQueryResponse$CancellationMessage": null,
+        "CancelQueryResponse$CancellationMessage": "<p> A <code>CancellationMessage</code> is returned when a <code>CancelQuery</code> request for the query specified by <code>QueryId</code> has already been issued. </p>",
         "ColumnInfo$Name": "<p> The name of the result set column. The name of the result set is available for columns of all data types except for arrays. </p>",
-        "Endpoint$Address": "<p> </p>",
-        "QueryRequest$QueryString": "<p> The query to be executed by Timestream. </p>",
-        "QueryRequest$QueryDescription": null,
-        "QueryRequest$NextToken": null,
-        "QueryResponse$QueryId": null,
-        "QueryResponse$NextToken": null
+        "Endpoint$Address": null,
+        "QueryRequest$NextToken": "<p> A pagination token passed to get a set of results. </p>",
+        "QueryResponse$NextToken": "<p> A pagination token that can be used again on a <code>Query</code> call to get the next set of results. </p>"
       }
     },
     "ThrottlingException": {
