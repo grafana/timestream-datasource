@@ -1,7 +1,4 @@
 Frame[0] {
-    "custom": {
-        "queryId": "{CHANGES}"
-    },
     "stats": []
 }
 Name: 

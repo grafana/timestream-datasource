@@ -27,9 +27,7 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 		for idx, frame := range dr.Frames {
 			metaString := ""
 			if frame.Meta != nil {
-				if frame.Meta.Custom != nil {
-					frame.Meta.Custom["queryId"] = "{CHANGES}"
-				}
+				frame.Meta.Custom = nil
 				if frame.Meta.Stats != nil {
 					frame.Meta.Stats = make([]string, 0) // avoid timing changes
 				}
