@@ -1,0 +1,24 @@
+Frame[0] {
+    "stats": []
+}
+Name: 
+Dimensions: 3 Fields by 24 Rows
++--------------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name: measure_name | Name: data_type | Name: dimensions                                                                                                                                                                                              |
+| Labels:            | Labels:         | Labels:                                                                                                                                                                                                       |
+| Type: []*string    | Type: []*string | Type: []string                                                                                                                                                                                                |
++--------------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| cpu_hi             | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_idle           | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_iowait         | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_nice           | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_si             | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_steal          | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_system         | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| cpu_user           | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| disk_free          | double          | [["availability_zone","varchar"],["microservice_name","varchar"],["instance_name","varchar"],["os_version","varchar"],["cell","varchar"],["region","varchar"],["silo","varchar"],["instance_type","varchar"]] |
+| ...                | ...             | ...                                                                                                                                                                                                           |
++--------------------+-----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+
