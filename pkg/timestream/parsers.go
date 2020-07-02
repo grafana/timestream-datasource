@@ -16,6 +16,7 @@ type fieldBuilder struct {
 	columnIdx  int
 	fieldType  data.FieldType
 	parser     datumParser
+	asJSON     bool // if true, the results will be marshaled to json first
 	timeseries bool
 }
 
@@ -48,7 +49,7 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 				parser:    datumParserInt64,
 			}, nil
 
-		case "INTEGER": // timestreamquery.ScalarTypeBigint:
+		case timestreamquery.ScalarTypeInteger:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableInt32,
 				parser:    datumParserInt32,
@@ -68,8 +69,74 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 		return builder, nil
 	}
 
+	if t.RowColumnInfo != nil {
+		return getRowBuilder(t.RowColumnInfo)
+	}
+
+	if t.ArrayColumnInfo != nil {
+		return getArrayBuilder(t.ArrayColumnInfo)
+	}
+
 	return nil, fmt.Errorf("Unsupported column: %s", t.GoString())
 }
+
+func getArrayBuilder(column *timestreamquery.ColumnInfo) (*fieldBuilder, error) {
+	elem, err := getFieldBuilder(column.Type)
+	if err != nil {
+		return nil, err
+	}
+
+	parser := func(datum *timestreamquery.Datum) (interface{}, error) {
+		count := len(datum.ArrayValue)
+		vals := make([]interface{}, count)
+		for i, d := range datum.ArrayValue {
+			v, err := elem.parser(d)
+			if err != nil {
+				return nil, err
+			}
+			vals[i] = v
+		}
+		return vals, nil
+	}
+
+	return &fieldBuilder{
+		fieldType: data.FieldTypeString,
+		parser:    parser,
+		asJSON:    true,
+	}, nil
+}
+
+func getRowBuilder(columns []*timestreamquery.ColumnInfo) (*fieldBuilder, error) {
+	count := len(columns)
+	cols := make([]*fieldBuilder, count)
+	for i := 0; i < len(columns); i++ {
+		elem, err := getFieldBuilder(columns[i].Type)
+		if err != nil {
+			return nil, err
+		}
+		cols[i] = elem
+	}
+
+	parser := func(datum *timestreamquery.Datum) (interface{}, error) {
+		vals := make([]interface{}, count)
+		for i, d := range datum.RowValue.Data {
+			v, err := cols[i].parser(d)
+			if err != nil {
+				return nil, err
+			}
+			vals[i] = v
+		}
+		return vals, nil
+	}
+
+	return &fieldBuilder{
+		fieldType: data.FieldTypeString,
+		parser:    parser,
+		asJSON:    true,
+	}, nil
+}
+
+//---------------------------------------------------
 
 func datumParserBool(datum *timestreamquery.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {

@@ -65,6 +65,7 @@ func TestSavedConversions(t *testing.T) {
 	runTest(t, "select-star")
 	runTest(t, "single-timeseries")
 	runTest(t, "some-timeseries")
+	runTest(t, "show-measures")
 }
 
 func TestGenerateTestData(t *testing.T) {
@@ -80,6 +81,10 @@ func TestGenerateTestData(t *testing.T) {
 
 	m["describe-table.json"] = models.QueryModel{
 		RawQuery: "DESCRIBE grafanaDB.grafanaTable",
+	}
+
+	m["show-measures.json"] = models.QueryModel{
+		RawQuery: "SHOW MEASURES FROM grafanaDB.grafanaTable",
 	}
 
 	m["select-star.json"] = models.QueryModel{

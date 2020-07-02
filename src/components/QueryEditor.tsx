@@ -1,12 +1,18 @@
 import React, { PureComponent } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import Editor from '@monaco-editor/react';
 import { DataSource } from '../DataSource';
 import { TimestreamQuery, TimestreamOptions, QueryType, MeasureInfo } from '../types';
-import { config, getTemplateSrv } from '@grafana/runtime';
+import { getTemplateSrv } from '@grafana/runtime';
 import { QueryField } from './Forms';
 
-import { Segment, SegmentAsync, InlineFormLabel } from '@grafana/ui';
+import {
+  Segment,
+  SegmentAsync,
+  InlineFormLabel,
+  CodeEditor,
+  CodeEditorSuggestionItem,
+  CodeEditorSuggestionItemKind,
+} from '@grafana/ui';
 import { sampleQueries, queryTypes } from './samples';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
@@ -15,29 +21,57 @@ interface State {
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
-  getEditorValue: any | undefined;
-
   state: State = {};
 
   //-----------------------------------------------------
   //-----------------------------------------------------
 
-  onRawQueryChange = () => {
-    const rawQuery = this.getEditorValue();
-    if (this.props.query.rawQuery === rawQuery) {
-      return; // no change
-    }
+  getSuggestions = (): CodeEditorSuggestionItem[] => {
+    return [
+      ...getTemplateSrv()
+        .getVariables()
+        .map(variable => {
+          const label = '${' + variable.name + '}';
+          return {
+            label,
+            kind: CodeEditorSuggestionItemKind.Text,
+            //origin: VariableOrigin.Template,
+            detail: 'Template Variable',
+          };
+        }),
+      {
+        label: '$__timeFilter',
+        kind: CodeEditorSuggestionItemKind.Method,
+        detail: 'Macro',
+      },
+      // {
+      //   label: 'hostxxxxx',
+      //   kind: CodeEditorSuggestionItemKind.Field,
+      //   detail: 'Dimension',
+      // },
+      // {
+      //   label: 'zzzttt',
+      //   kind: CodeEditorSuggestionItemKind.Field,
+      //   detail: 'Measurement',
+      // },
+      // {
+      //   label: 'zzzttt',
+      //   kind: CodeEditorSuggestionItemKind.Field,
+      //   detail: 'Measurement',
+      // },
+    ];
+  };
 
+  //-----------------------------------------------------
+  //-----------------------------------------------------
+
+  onQueryChange = (rawQuery: string) => {
     this.props.onChange({
       ...this.props.query,
       rawQuery,
       queryType: QueryType.Raw,
     });
     this.props.onRunQuery();
-  };
-
-  onEditorDidMount = (getEditorValue: any) => {
-    this.getEditorValue = getEditorValue;
   };
 
   getCurrentVars() {
@@ -226,27 +260,16 @@ export class QueryEditor extends PureComponent<Props, State> {
           </div>
         </div>
         {queryType.value !== QueryType.Builder && (
-          <div onBlur={this.onRawQueryChange}>
-            <Editor
-              height={'250px'}
-              language="sql"
-              value={query.rawQuery}
-              editorDidMount={this.onEditorDidMount}
-              theme={config.theme.isDark ? 'dark' : 'light'}
-              options={{
-                wordWrap: 'off',
-                codeLens: false, // too small to bother
-                minimap: {
-                  enabled: false,
-                  renderCharacters: false,
-                },
-                lineNumbersMinChars: 4,
-                lineDecorationsWidth: 0,
-                overviewRulerBorder: false,
-                automaticLayout: true,
-              }}
-            />
-          </div>
+          <CodeEditor
+            height={'250px'}
+            language="sql"
+            value={query.rawQuery || ''}
+            onBlur={this.onQueryChange}
+            onSave={this.onQueryChange}
+            showMiniMap={false}
+            showLineNumbers={true}
+            getSuggestions={this.getSuggestions}
+          />
         )}
       </>
     );

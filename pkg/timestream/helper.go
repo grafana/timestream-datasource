@@ -1,6 +1,7 @@
 package timestream
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -92,6 +93,15 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 					}
 					cellParsingError = true
 				} else if v != nil {
+					// Convert json values to strings
+					if builder.asJSON {
+						bytes, err := json.Marshal(v)
+						if err != nil {
+							v = fmt.Sprintf("ERROR: %s", err.Error())
+						} else {
+							v = string(bytes)
+						}
+					}
 					field.Set(i, v)
 				}
 			}

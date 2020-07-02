@@ -9,7 +9,7 @@
   "alerting": true,
 
   "info": {
-    "description": "Amazons managed time series database",
+    "description": "Managed time series database in AWS",
     "author": {
       "name": "Grafana Labs",
       "url": "https://grafana.com"
