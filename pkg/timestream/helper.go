@@ -78,6 +78,9 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		for _, builder := range builders {
 			field := data.NewFieldFromFieldType(builder.fieldType, length)
 			field.Name = builder.name
+			if builder.config != nil {
+				field.Config = builder.config
+			}
 			for i := 0; i < length; i++ {
 				row := res.Rows[i]
 				if row == nil {

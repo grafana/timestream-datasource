@@ -15,6 +15,7 @@ type fieldBuilder struct {
 	name       string
 	columnIdx  int
 	fieldType  data.FieldType
+	config     *data.FieldConfig
 	parser     datumParser
 	asJSON     bool // if true, the results will be marshaled to json first
 	timeseries bool
@@ -99,10 +100,15 @@ func getArrayBuilder(column *timestreamquery.ColumnInfo) (*fieldBuilder, error) 
 		return vals, nil
 	}
 
+	tableProps := make(map[string]interface{})
+	tableProps["displayMode"] = "json-view"
 	return &fieldBuilder{
 		fieldType: data.FieldTypeString,
 		parser:    parser,
 		asJSON:    true,
+		config: &data.FieldConfig{
+			Custom: tableProps,
+		},
 	}, nil
 }
 
@@ -118,21 +124,25 @@ func getRowBuilder(columns []*timestreamquery.ColumnInfo) (*fieldBuilder, error)
 	}
 
 	parser := func(datum *timestreamquery.Datum) (interface{}, error) {
-		vals := make([]interface{}, count)
+		vals := make(map[string]interface{})
 		for i, d := range datum.RowValue.Data {
 			v, err := cols[i].parser(d)
 			if err != nil {
 				return nil, err
 			}
-			vals[i] = v
+			vals[*columns[i].Name] = v
 		}
 		return vals, nil
 	}
 
+	tableProps := make(map[string]interface{})
 	return &fieldBuilder{
 		fieldType: data.FieldTypeString,
 		parser:    parser,
 		asJSON:    true,
+		config: &data.FieldConfig{
+			Custom: tableProps,
+		},
 	}, nil
 }
 
