@@ -1,6 +1,5 @@
 import {
   DataSourceInstanceSettings,
-  ScopedVars,
   DataQueryResponse,
   DataFrame,
   LoadingState,
@@ -13,8 +12,12 @@ import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, 
 import { keepChecking } from 'looper';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
+  // Easy access for QueryEditor
+  options: TimestreamOptions;
+
   constructor(instanceSettings: DataSourceInstanceSettings<TimestreamOptions>) {
     super(instanceSettings);
+    this.options = instanceSettings.jsonData;
   }
 
   getQueryDisplayText(query: TimestreamQuery): string {
@@ -26,13 +29,13 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return query;
     }
 
-    const local: ScopedVars = {};
-    maybeSetVariable(local, 'database', query);
-    maybeSetVariable(local, 'table', query);
-    maybeSetVariable(local, 'measure', query);
+    const templateSrv = getTemplateSrv();
     return {
       ...query,
-      rawQuery: getTemplateSrv().replace(query.rawQuery, local),
+      database: templateSrv.replace(query.database || ''),
+      table: templateSrv.replace(query.table || ''),
+      measure: templateSrv.replace(query.measure || ''),
+      rawQuery: templateSrv.replace(query.rawQuery),
     };
   }
 
@@ -138,13 +141,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         }
         return rsp;
       });
-  }
-}
-
-function maybeSetVariable(vars: ScopedVars, key: string, obj: any) {
-  const value = obj[key];
-  if (value && !value.startsWith('$')) {
-    vars[key] = { text: key, value: value };
   }
 }
 

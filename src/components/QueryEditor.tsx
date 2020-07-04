@@ -1,65 +1,33 @@
 import React, { PureComponent } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { DataSource } from '../DataSource';
-import { TimestreamQuery, TimestreamOptions, QueryType, MeasureInfo } from '../types';
+import { TimestreamQuery, TimestreamOptions, QueryType } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
 import { QueryField } from './Forms';
 
-import {
-  Segment,
-  SegmentAsync,
-  InlineFormLabel,
-  CodeEditor,
-  CodeEditorSuggestionItem,
-  CodeEditorSuggestionItemKind,
-} from '@grafana/ui';
+import { Segment, SegmentAsync, InlineFormLabel, CodeEditor } from '@grafana/ui';
 import { sampleQueries, queryTypes } from './samples';
+import { SchemaInfo } from 'SchemaInfo';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 interface State {
-  measures?: Array<SelectableValue<MeasureInfo>>;
+  schema?: SchemaInfo;
+
+  schemaState?: Partial<TimestreamQuery>;
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
   state: State = {};
 
-  //-----------------------------------------------------
-  //-----------------------------------------------------
+  componentDidMount = () => {
+    const { datasource, query } = this.props;
 
-  getSuggestions = (): CodeEditorSuggestionItem[] => {
-    return [
-      ...getTemplateSrv()
-        .getVariables()
-        .map(variable => {
-          const label = '${' + variable.name + '}';
-          return {
-            label,
-            kind: CodeEditorSuggestionItemKind.Text,
-            //origin: VariableOrigin.Template,
-            detail: 'Template Variable',
-          };
-        }),
-      {
-        label: '$__timeFilter',
-        kind: CodeEditorSuggestionItemKind.Method,
-        detail: 'Macro',
-      },
-      // {
-      //   label: 'hostxxxxx',
-      //   kind: CodeEditorSuggestionItemKind.Field,
-      //   detail: 'Dimension',
-      // },
-      // {
-      //   label: 'zzzttt',
-      //   kind: CodeEditorSuggestionItemKind.Field,
-      //   detail: 'Measurement',
-      // },
-      // {
-      //   label: 'zzzttt',
-      //   kind: CodeEditorSuggestionItemKind.Field,
-      //   detail: 'Measurement',
-      // },
-    ];
+    const schema = new SchemaInfo(datasource, query, getTemplateSrv());
+    this.setState({ schema: schema, schemaState: schema.state });
+
+    schema.preload().then(v => {
+      console.log('Loaded schema');
+    });
   };
 
   //-----------------------------------------------------
@@ -74,63 +42,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.props.onRunQuery();
   };
 
-  getCurrentVars() {
-    let { database, table } = this.props.query;
-    const templateSrv = getTemplateSrv();
-
-    if (isVar(database)) {
-      database = templateSrv.replace(database!);
-    } else if (!database) {
-      database = templateSrv.replace('${database}');
-    }
-
-    if (isVar(table)) {
-      table = templateSrv.replace(table!);
-    } else if (!table) {
-      table = templateSrv.replace('${table}');
-    }
-
-    return {
-      database,
-      table,
-    };
-  }
-
-  getDatabaseOptions = async (q?: string) => {
-    const vals = await this.props.datasource.getDatabases();
-    const opts = vals.map(v => {
-      return { value: v, label: v };
-    });
-    if (this.props.query.database) {
-      opts.push({ value: '', label: '-- remove --' });
-    }
-    return opts;
-  };
-
-  getTablesOptions = async (q?: string) => {
-    const vars = this.getCurrentVars();
-    const vals = await this.props.datasource.getTables(vars.database);
-    const opts = vals.map(v => {
-      return { value: v, label: v };
-    });
-    if (this.props.query.table) {
-      opts.push({ value: '', label: '-- remove --' });
-    }
-    return opts;
-  };
-
-  getMeasureOptions = async (q?: string) => {
-    const vars = this.getCurrentVars();
-    const vals = await this.props.datasource.getMeasures(vars.database, vars.table);
-    const opts = vals.map(v => {
-      return { value: v, label: v };
-    });
-    if (this.props.query.table) {
-      opts.push({ value: '', label: '-- remove --' });
-    }
-    return opts;
-  };
-
   onDbChanged = (value: SelectableValue<string>) => {
     const query = {
       ...this.props.query,
@@ -140,13 +51,14 @@ export class QueryEditor extends PureComponent<Props, State> {
       delete query.database;
     }
 
-    // Remove the table when Db changes
-    if (!isVar(query.table)) {
-      delete query.table;
-    }
-
+    const { schema } = this.state;
+    const schemaState = schema!.updateState(query);
+    this.setState({ schemaState });
     this.props.onChange(query);
-    this.props.onRunQuery();
+
+    if (schemaState.table) {
+      this.props.onRunQuery();
+    }
   };
 
   onTableChanged = (value: SelectableValue<string>) => {
@@ -157,9 +69,12 @@ export class QueryEditor extends PureComponent<Props, State> {
     if (!query.table) {
       delete query.table;
     }
+    const { schema } = this.state;
+    const schemaState = schema!.updateState(query);
+    this.setState({ schemaState });
 
     this.props.onChange(query);
-    console.log('Table Changed!', query);
+    this.props.onRunQuery();
   };
 
   onMeasureChanged = (value: SelectableValue<string>) => {
@@ -172,7 +87,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     }
 
     this.props.onChange(query);
-    console.log('Measure Changed!', query);
+
+    const { schema } = this.state;
+    const schemaState = schema!.updateState(query);
+    this.setState({ schemaState });
   };
 
   onQueryTypeChange = (value: SelectableValue<QueryType>) => {
@@ -190,15 +108,74 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.props.onRunQuery();
   };
 
+  renderDatabaseMacro = (schema: SchemaInfo, query?: string, value?: string) => {
+    let placehoder = '';
+    let current = '$__database = ';
+    if (query) {
+      current += query;
+    } else {
+      placehoder = current + (value ?? '?');
+      current = '';
+    }
+
+    return (
+      <SegmentAsync
+        value={current}
+        loadOptions={schema.getDatabases}
+        placeholder={placehoder}
+        onChange={this.onDbChanged}
+        allowCustomValue
+      />
+    );
+  };
+
+  renderTableMacro = (schema: SchemaInfo, query?: string, value?: string) => {
+    let placehoder = '';
+    let current = '$__table = ';
+    if (query) {
+      current += query;
+    } else {
+      placehoder = current + (value ?? '?');
+      current = '';
+    }
+
+    return (
+      <SegmentAsync
+        value={current}
+        loadOptions={schema.getTables}
+        placeholder={placehoder}
+        onChange={this.onTableChanged}
+        allowCustomValue
+      />
+    );
+  };
+
+  renderMeasureMacro = (schema: SchemaInfo, query?: string, value?: string) => {
+    let placehoder = '';
+    let current = '$__measure = ';
+    if (query) {
+      current += query;
+    } else {
+      placehoder = current + (value ?? '?');
+      current = '';
+    }
+
+    return (
+      <SegmentAsync
+        value={current}
+        loadOptions={schema.getMeasures}
+        placeholder={placehoder}
+        onChange={this.onMeasureChanged}
+        allowCustomValue
+      />
+    );
+  };
+
   render() {
     const { query } = this.props;
-    const queryType = queryTypes.find(v => v.value === query.queryType) || queryTypes[1]; // Samples
+    const { schema, schemaState } = this.state;
 
-    const vars = {
-      database: '${database}',
-      table: '${table}',
-      measure: '${measure}',
-    };
+    const queryType = queryTypes.find(v => v.value === query.queryType) || queryTypes[1]; // Samples
 
     return (
       <>
@@ -215,43 +192,13 @@ export class QueryEditor extends PureComponent<Props, State> {
         </div>
         <div className={'gf-form-inline'}>
           <InlineFormLabel width={8} className="query-keyword">
-            Variables
+            Macros
           </InlineFormLabel>
-          <InlineFormLabel className="keyword" width={6}>
-            {vars.database}
-          </InlineFormLabel>
-          <SegmentAsync
-            value={query.database || '+'}
-            loadOptions={this.getDatabaseOptions}
-            onChange={this.onDbChanged}
-            allowCustomValue
-          />
-
-          {query.database && (
+          {schema && schemaState && (
             <>
-              <InlineFormLabel className="keyword" width={5}>
-                {vars.table}
-              </InlineFormLabel>
-              <SegmentAsync
-                value={query.table || '+'}
-                loadOptions={this.getTablesOptions}
-                onChange={this.onTableChanged}
-                allowCustomValue
-              />
-            </>
-          )}
-
-          {query.table && (
-            <>
-              <InlineFormLabel className="keyword" width={5}>
-                {vars.measure}
-              </InlineFormLabel>
-              <SegmentAsync
-                value={query.measure || '+'}
-                loadOptions={this.getMeasureOptions}
-                onChange={this.onMeasureChanged}
-                allowCustomValue
-              />
+              {this.renderDatabaseMacro(schema, query.database, schemaState.database)}
+              {this.renderTableMacro(schema, query.table, schemaState.table)}
+              {this.renderMeasureMacro(schema, query.measure, schemaState.measure)}
             </>
           )}
 
@@ -259,7 +206,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             <div className="gf-form-label gf-form-label--grow" />
           </div>
         </div>
-        {queryType.value !== QueryType.Builder && (
+        {queryType.value !== QueryType.Builder && schema && (
           <CodeEditor
             height={'250px'}
             language="sql"
@@ -268,14 +215,10 @@ export class QueryEditor extends PureComponent<Props, State> {
             onSave={this.onQueryChange}
             showMiniMap={false}
             showLineNumbers={true}
-            getSuggestions={this.getSuggestions}
+            getSuggestions={schema.getSuggestions}
           />
         )}
       </>
     );
   }
-}
-
-function isVar(txt?: string): boolean {
-  return !!txt && txt.startsWith('${');
 }
