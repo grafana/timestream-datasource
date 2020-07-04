@@ -1,6 +1,6 @@
 import { TimestreamQuery } from './types';
 import { DataSource } from './DataSource';
-import { SelectableValue } from '@grafana/data';
+import { SelectableValue, KeyValue } from '@grafana/data';
 import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { TemplateSrv } from '@grafana/runtime';
 
@@ -10,6 +10,7 @@ export class SchemaInfo {
   databases?: Array<SelectableValue<string>>;
   tables?: Array<SelectableValue<string>>;
   measures?: Array<SelectableValue<string>>;
+  dimensions?: KeyValue<string[]>;
 
   constructor(private ds: DataSource, q: Partial<TimestreamQuery>, private templateSrv?: TemplateSrv) {
     this.state = { ...q };
@@ -24,10 +25,12 @@ export class SchemaInfo {
       this.databases = undefined;
       this.tables = undefined;
       this.measures = undefined;
+      this.dimensions = undefined;
     } else if (state.table) {
       this.measures = undefined;
+      this.dimensions = undefined;
     } else if (state.measure) {
-      // nothing right now?
+      this.dimensions = undefined;
     }
 
     const merged = { ...this.state, ...state };
@@ -63,7 +66,7 @@ export class SchemaInfo {
   }
 
   getSuggestions = (): CodeEditorSuggestionItem[] => {
-    const always = [
+    const sugs: CodeEditorSuggestionItem[] = [
       {
         label: '$__timeFilter',
         kind: CodeEditorSuggestionItemKind.Method,
@@ -79,27 +82,86 @@ export class SchemaInfo {
         kind: CodeEditorSuggestionItemKind.Method,
         detail: `(Macro) ${this.state.database}`,
       },
+      {
+        label: '$__table',
+        kind: CodeEditorSuggestionItemKind.Method,
+        detail: `(Macro) ${this.state.table}`,
+      },
+      {
+        label: '$__measure',
+        kind: CodeEditorSuggestionItemKind.Method,
+        detail: `(Macro) ${this.state.measure}`,
+      },
     ];
-    if (!this.templateSrv) {
-      return always;
-    }
 
-    return [
-      ...this.templateSrv.getVariables().map(variable => {
+    if (this.templateSrv) {
+      this.templateSrv.getVariables().forEach(variable => {
         const label = '${' + variable.name + '}';
         let val = this.templateSrv!.replace(label);
         if (val === label) {
           val = '';
         }
-        return {
+        sugs.push({
           label,
           kind: CodeEditorSuggestionItemKind.Text,
           //origin: VariableOrigin.Template,
           detail: `(Template Variable) ${val}`,
-        };
-      }),
-      ...always,
-    ];
+        });
+      });
+    }
+
+    if (this.databases) {
+      for (const v of this.databases) {
+        const label = getValidSuggestion(v);
+        if (label) {
+          sugs.push({
+            label,
+            kind: CodeEditorSuggestionItemKind.Property,
+            detail: `(Database)`,
+          });
+        }
+      }
+    }
+
+    if (this.tables) {
+      for (const v of this.tables) {
+        const label = getValidSuggestion(v);
+        if (label) {
+          sugs.push({
+            label,
+            kind: CodeEditorSuggestionItemKind.Property,
+            detail: `(Table)`,
+          });
+        }
+      }
+    }
+
+    if (this.measures) {
+      for (const v of this.measures) {
+        const label = getValidSuggestion(v);
+        if (label) {
+          sugs.push({
+            label: `'${label}'`, // measure names are quoted
+            kind: CodeEditorSuggestionItemKind.Property,
+            detail: `(Measure)`,
+          });
+        }
+      }
+    }
+
+    if (this.dimensions && this.state.measure) {
+      const dims = this.dimensions[this.state.measure];
+      if (dims) {
+        for (const v of dims) {
+          sugs.push({
+            label: `'${v}'`, // measure names are quoted
+            kind: CodeEditorSuggestionItemKind.Property,
+            detail: `(Dimension)`,
+          });
+        }
+      }
+    }
+    return sugs;
   };
 
   andTemplates(): Array<SelectableValue<string>> {
@@ -179,9 +241,12 @@ export class SchemaInfo {
       return Promise.resolve([{ label: 'table not configured', value: '' }]);
     }
     return this.ds.getMeasureInfo(database, table).then(info => {
+      const dims: KeyValue<string[]> = {};
       this.measures = info.map(v => {
+        dims[v.name] = v.dimensions;
         return { label: `${v.name} (${v.type})`, value: v.name };
       });
+      this.dimensions = dims;
       if (this.templateSrv) {
         this.measures.push(...this.andTemplates());
         this.measures.push({
@@ -192,4 +257,15 @@ export class SchemaInfo {
       return this.filterMeasures(query);
     });
   };
+}
+
+function getValidSuggestion(v: SelectableValue<string>): string | undefined {
+  if (!v || !v.value) {
+    return undefined;
+  }
+  const txt = v.value;
+  if (txt.startsWith('$') || txt.startsWith('-')) {
+    return undefined;
+  }
+  return txt;
 }
