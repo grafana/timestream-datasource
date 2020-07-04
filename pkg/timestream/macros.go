@@ -21,6 +21,10 @@ func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (stri
 
 	txt := query.RawQuery
 
+	if strings.Contains(txt, "$__intervalStr") {
+		return txt, fmt.Errorf("$__intervalStr removed... use $__interval_ms")
+	}
+
 	// Simple Macros
 	txt = replaceOrDefault(txt, "$__database", query.Database, settings.DefaultDatabase)
 	txt = replaceOrDefault(txt, "$__table", query.Table, settings.DefaultTable)
