@@ -27,22 +27,22 @@ export const sampleQueries: Array<SelectableValue<string>> = [
   },
   {
     label: 'Show tables',
-    value: 'SHOW TABLES FROM ${database}',
+    value: 'SHOW TABLES FROM $__database',
     description: 'List the tables within a database',
   },
   {
     label: 'Describe table',
-    value: 'DESCRIBE ${database}.${table}',
+    value: 'DESCRIBE $__database.$__table',
     description: 'describe a table in a database',
   },
   {
     label: 'Show measurements',
-    value: 'SHOW MEASURES FROM ${database}.${table}',
+    value: 'SHOW MEASURES FROM $__database.$__table',
     description: 'Show measurements in the selected table',
   },
   {
     label: 'First 10 rows',
-    value: 'SELECT * FROM ${database}.${table} LIMIT 10',
+    value: 'SELECT * FROM $__database.$__table LIMIT 10',
     description: 'Select the first 10 rows of the table',
   },
 ];

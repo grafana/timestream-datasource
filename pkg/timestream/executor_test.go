@@ -7,6 +7,8 @@ import (
 	"os"
 	"testing"
 
+	gaws "github.com/grafana/timestream-datasource/pkg/common/aws"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/google/go-cmp/cmp"
@@ -16,7 +18,7 @@ import (
 
 func runTest(t *testing.T, name string) *backend.DataResponse {
 	mockClient := &MockClient{testFileName: name}
-	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient)
+	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, gaws.DatasourceSettings{})
 
 	str := ""
 	if dr.Error != nil {
@@ -60,11 +62,11 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 }
 
 func TestSavedConversions(t *testing.T) {
-	// runTest(t, "select-consts")
-	// runTest(t, "describe-table")
-	// runTest(t, "select-star")
-	// runTest(t, "single-timeseries")
-	// runTest(t, "some-timeseries")
+	runTest(t, "select-consts")
+	runTest(t, "describe-table")
+	runTest(t, "select-star")
+	runTest(t, "single-timeseries")
+	runTest(t, "some-timeseries")
 	runTest(t, "show-measures")
 }
 
@@ -153,7 +155,7 @@ func writeTestData(filename string, query models.QueryModel, t *testing.T) {
 	}
 	runner := inst.(*instanceSettings).Runner
 
-	raw, _ := Interpolate(query)
+	raw, _ := Interpolate(query, gaws.DatasourceSettings{})
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String(raw),
 	}

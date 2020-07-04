@@ -1,4 +1,4 @@
-import { DataQuery, KeyValue } from '@grafana/data';
+import { DataQuery } from '@grafana/data';
 import { AwsDataSourceJsonData, AwsDataSourceSecureJsonData } from 'common/types';
 
 export interface ColumnInfo {
@@ -26,14 +26,19 @@ export enum QueryType {
 export enum DataType {
   varchar = 'varchar',
   double = 'double',
-  bigint = 'bigint',
   timestamp = 'timestamp',
 }
 
 export interface MeasureInfo {
   name: string;
   type: DataType;
-  dimensions: KeyValue<DataType>;
+  dimensions: string[]; // only the strings for now
+}
+
+export interface SchemaInfo {
+  databases?: string[];
+  tables?: string[];
+  measures?: MeasureInfo[];
 }
 
 export interface TimestreamCustomMeta {
@@ -43,10 +48,10 @@ export interface TimestreamCustomMeta {
 }
 
 export interface TimestreamQuery extends DataQuery {
-  // Standard templates
+  // When specified, use this rather than the default for macros
   database?: string;
   table?: string;
-  measure?: string; // single measure
+  measure?: string;
 
   // The rendered query
   rawQuery?: string;
@@ -56,7 +61,9 @@ export interface TimestreamQuery extends DataQuery {
 }
 
 export interface TimestreamOptions extends AwsDataSourceJsonData {
-  // nothing for now
+  defaultDatabase?: string;
+  defaultTable?: string;
+  defaultMeasure?: string;
 }
 
 export interface TimestreamSecureJsonData extends AwsDataSourceSecureJsonData {

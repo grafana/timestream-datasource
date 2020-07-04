@@ -5,25 +5,26 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
 const timeFilter = `\$__timeFilter`
-const intervalStr = `\$__intervalStr`
+const intervalStr = `\$__interval_ms`
 
 // WHERE time > from_unixtime(unixtime)
 // WHERE time > from_iso8601_timestamp(iso_8601_string_format)
 // WHERE time > from_milliseconds(epoch_millis)
 
 // Interpolate processes macros
-func Interpolate(query models.QueryModel) (string, error) {
+func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (string, error) {
 
 	txt := query.RawQuery
 
 	// Simple Macros
-	txt = replaceIfNotVar(txt, "${database}", query.Database)
-	txt = replaceIfNotVar(txt, "${table}", query.Table)
-	txt = replaceIfNotVar(txt, "${measure}", query.Measure)
+	txt = replaceOrDefault(txt, "$__database", query.Database, settings.DefaultDatabase)
+	txt = replaceOrDefault(txt, "$__table", query.Table, settings.DefaultTable)
+	txt = replaceOrDefault(txt, "$__measure", query.Measure, settings.DefaultMeasure)
 
 	timeFilterExp, err := regexp.Compile(timeFilter)
 	if err != nil {
@@ -44,16 +45,20 @@ func Interpolate(query models.QueryModel) (string, error) {
 	}
 
 	if intervalStrExp.MatchString(txt) {
-		replacement := query.Interval.String()
+		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
 		txt = intervalStrExp.ReplaceAllString(txt, replacement)
 	}
 
 	return txt, err
 }
 
-func replaceIfNotVar(txt string, key string, val string) string {
-	if val == "" || strings.HasPrefix(val, "$") {
-		return txt // unchanged
+func replaceOrDefault(txt string, key string, v1 string, v2 string) string {
+	val := v1
+	if val == "" || strings.HasPrefix(val, "${") {
+		val = v2
+	}
+	if val == "" {
+		return txt // no change
 	}
 	return strings.ReplaceAll(txt, key, val)
 }

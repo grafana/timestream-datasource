@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	gaws "github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -21,11 +22,11 @@ type QueryResultMetaStat struct {
 }
 
 // ExecuteQuery -- run a query
-func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner) (dr backend.DataResponse) {
+func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings gaws.DatasourceSettings) (dr backend.DataResponse) {
 	start := time.Now()
 	dr = backend.DataResponse{}
 
-	raw, err := Interpolate(query)
+	raw, err := Interpolate(query, settings)
 	if err != nil {
 		dr.Error = err
 		return

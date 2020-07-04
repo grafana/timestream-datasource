@@ -8,16 +8,18 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
-	"github.com/grafana/timestream-datasource/pkg/common/aws"
+	gaws "github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 )
 
 type instanceSettings struct {
-	Runner queryRunner
+	Runner   queryRunner
+	Settings gaws.DatasourceSettings
 }
 
 // This is an interface to help testing
@@ -34,14 +36,14 @@ func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.
 }
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	settings, err := aws.LoadSettings(s)
+	settings, err := gaws.LoadSettings(s)
 	if err != nil {
 		return nil, fmt.Errorf("error reading settings: %s", err.Error())
 	}
 	backend.Logger.Info("new instance", "settings", settings)
 
 	// setup the query client
-	cfg, err := aws.GetAwsConfig(settings)
+	cfg, err := gaws.GetAwsConfig(settings)
 	if err != nil {
 		return nil, err
 	}
@@ -59,6 +61,7 @@ func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.I
 	})
 
 	return &instanceSettings{
+		Settings: settings,
 		Runner: &timestreamRunner{
 			querySvc: querySvc,
 		},
@@ -105,11 +108,35 @@ func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealt
 			Message: err.Error(),
 		}, nil
 	}
-	backend.Logger.Info("check health", "settings", s)
+
+	// Connection is OK
+	input := &timestreamquery.QueryInput{
+		QueryString: aws.String("SELECT 1"),
+	}
+	output, err := s.Runner.runQuery(ctx, input)
+	if err != nil {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: err.Error(),
+		}, nil
+	}
+	val := output.Rows[0].Data[0].ScalarValue
+	if val == nil {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: "missing response",
+		}, nil
+	}
+	if *val != "1" {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: "should be one",
+		}, nil
+	}
 
 	return &backend.CheckHealthResult{
 		Status:  backend.HealthStatusOk,
-		Message: fmt.Sprintf("OK!"),
+		Message: "Conneciton success",
 	}, nil
 }
 
@@ -128,7 +155,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(context.Background(), *query, s.Runner)
+			res.Responses[q.RefID] = ExecuteQuery(context.Background(), *query, s.Runner, s.Settings)
 		}
 	}
 	return res, nil

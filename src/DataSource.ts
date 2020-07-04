@@ -9,7 +9,7 @@ import {
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
 
-import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta } from './types';
+import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
 import { keepChecking } from 'looper';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -71,6 +71,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   //----------------------------------------------
   // SCHEMA Style Functions
   //----------------------------------------------
+
   private async getStrings(rawQuery: string): Promise<string[]> {
     return this.query(({
       targets: [
@@ -95,18 +96,48 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return this.getStrings('SHOW DATABASES');
   }
 
-  async getTables(db: string, like?: string): Promise<string[]> {
+  async getTables(db: string): Promise<string[]> {
     if (!db) {
       return [];
     }
     return this.getStrings(`SHOW TABLES FROM ${db}`);
   }
 
-  async getMeasures(db: string, table: string): Promise<string[]> {
+  async getMeasureInfo(db: string, table: string): Promise<MeasureInfo[]> {
     if (!db || !table) {
       return [];
     }
-    return this.getStrings(`SHOW MEASURES FROM ${db}.${table}`);
+    return this.query(({
+      targets: [
+        {
+          refId: 'X',
+          rawQuery: `SHOW MEASURES FROM ${db}.${table}`,
+        },
+      ],
+    } as unknown) as DataQueryRequest)
+      .toPromise()
+      .then(res => {
+        const rsp: MeasureInfo[] = [];
+        const first = res.data[0] as DataFrame;
+        if (!first || !first.length) {
+          return rsp;
+        }
+        const name = first.fields[0]?.values;
+        const type = first.fields[1]?.values;
+        const dims = first.fields[2]?.values;
+
+        for (let i = 0; i < first.length; i++) {
+          const dimensions = (JSON.parse(dims.get(i)) as any[]).map(row => {
+            return row.dimension_name;
+          });
+          rsp.push({
+            name: name.get(i) as string,
+            type: type.get(i) as DataType,
+            dimensions,
+          });
+        }
+        return rsp;
+      });
   }
 }
 
