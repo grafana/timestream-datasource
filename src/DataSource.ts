@@ -4,9 +4,11 @@ import {
   DataFrame,
   LoadingState,
   DataQueryRequest,
+  MetricFindValue,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
 import { keepChecking } from 'looper';
@@ -18,6 +20,21 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   constructor(instanceSettings: DataSourceInstanceSettings<TimestreamOptions>) {
     super(instanceSettings);
     this.options = instanceSettings.jsonData;
+  }
+
+  async metricFindQuery(query: any, options?: any): Promise<MetricFindValue[]> {
+    if (!query) {
+      return Promise.resolve([]);
+    }
+    const q = getTemplateSrv().replace(query as string);
+    console.log('metricFindQuery', q);
+    return this.getStrings(q)
+      .toPromise()
+      .then(strings => {
+        return strings.map(s => ({
+          text: s,
+        }));
+      });
   }
 
   getQueryDisplayText(query: TimestreamQuery): string {
@@ -75,7 +92,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   // SCHEMA Style Functions
   //----------------------------------------------
 
-  private async getStrings(rawQuery: string): Promise<string[]> {
+  private getStrings(rawQuery: string): Observable<string[]> {
     return this.query(({
       targets: [
         {
@@ -83,27 +100,27 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           rawQuery,
         },
       ],
-    } as unknown) as DataQueryRequest)
-      .toPromise()
-      .then(res => {
+    } as unknown) as DataQueryRequest).pipe(
+      map(res => {
         const first = res.data[0] as DataFrame;
         const vals = first.fields[0]?.values;
         if (vals) {
           return vals.toArray(); //
         }
         return [];
-      });
+      })
+    );
   }
 
   async getDatabases(like?: string): Promise<string[]> {
-    return this.getStrings('SHOW DATABASES');
+    return this.getStrings('SHOW DATABASES').toPromise();
   }
 
   async getTables(db: string): Promise<string[]> {
     if (!db) {
       return [];
     }
-    return this.getStrings(`SHOW TABLES FROM ${db}`);
+    return this.getStrings(`SHOW TABLES FROM ${db}`).toPromise();
   }
 
   async getMeasureInfo(db: string, table: string): Promise<MeasureInfo[]> {
