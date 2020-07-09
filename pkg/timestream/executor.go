@@ -12,15 +12,6 @@ import (
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
-// QueryResultMetaStat from https://github.com/grafana/grafana/blob/277aee864269753d45a2a2e725998aac59f592e9/packages/grafana-data/src/types/data.ts#L48
-type QueryResultMetaStat struct {
-	DisplayName string `json:"displayName"`
-
-	Value float64 `json:"value"`
-
-	Unit string `json:"unit"`
-}
-
 // ExecuteQuery -- run a query
 func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings gaws.DatasourceSettings) (dr backend.DataResponse) {
 	start := time.Now()
@@ -56,12 +47,15 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		frame.Meta = &data.FrameMeta{}
 	}
 	frame.Meta.ExecutedQueryString = raw
-	stats := make([]QueryResultMetaStat, 1)
-	stats[0] = QueryResultMetaStat{
-		DisplayName: "Execution time",
-		Value:       float64(time.Since(start).Milliseconds()),
-		Unit:        "ms",
+	stats := make([]data.QueryStat, 1)
+	stats[0] = data.QueryStat{
+		//DisplayName: "Execution time",
+		Value: float64(time.Since(start).Milliseconds()),
+		//	Unit:        "ms",
 	}
+	stats[0].DisplayName = "Execution time"
+	stats[0].Unit = "ms"
+
 	frame.Meta.Stats = stats
 	return
 }

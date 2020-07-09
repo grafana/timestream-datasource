@@ -11,8 +11,9 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
-	"github.com/google/go-cmp/cmp"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -20,44 +21,21 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 	mockClient := &MockClient{testFileName: name}
 	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, gaws.DatasourceSettings{})
 
-	str := ""
-	if dr.Error != nil {
-		str = fmt.Sprintf("%+v", dr.Error)
-	}
-
-	if dr.Frames != nil {
-		for idx, frame := range dr.Frames {
-			metaString := ""
-			if frame.Meta != nil {
-				frame.Meta.Custom = nil
-				if frame.Meta.Stats != nil {
-					frame.Meta.Stats = make([]string, 0) // avoid timing changes
-				}
-
-				meta, _ := json.MarshalIndent(frame.Meta, "", "    ")
-				metaString = string(meta)
+	// Remove changable fields
+	for _, frame := range dr.Frames {
+		if frame.Meta != nil {
+			frame.Meta.Custom = nil
+			if frame.Meta.Stats != nil {
+				frame.Meta.Stats = make([]data.QueryStat, 0) // avoid timing changes
 			}
-
-			str += fmt.Sprintf("Frame[%d] %s\n", idx, string(metaString))
-
-			table, _ := frame.StringTable(100, 10)
-			str += table
-			str += "\n\n\n"
 		}
 	}
 
-	saved, err := mockClient.readText()
+	err := experimental.CheckGoldenDataResponse("./testdata/"+name+".golden.txt", &dr, true)
 	if err != nil {
-		//t.Error("Error reading saved value... recreating")
-		err = mockClient.saveText(str)
-		if err != nil {
-			t.Error(err)
-		}
+		t.Errorf(err.Error())
 	}
 
-	if diff := cmp.Diff(saved, str); diff != "" {
-		t.Fatalf("mismatch %s (-want +got):\n%s", name, diff)
-	}
 	return &dr
 }
 
