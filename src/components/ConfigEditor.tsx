@@ -17,24 +17,30 @@ interface State {
 export class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-
     this.state = {};
-
-    getDataSourceSrv()
-      .get(this.props.options.name)
-      .then(d => {
-        const { options } = this.props;
-        const ds = d as DataSource;
-        const query = {
-          refId: 'X',
-          database: options.jsonData.defaultDatabase,
-          table: options.jsonData.defaultTable,
-          measure: options.jsonData.defaultMeasure,
-        };
-        console.log('DS', ds);
-        this.setState({ schema: new SchemaInfo(ds, query) });
-      });
   }
+
+  componentDidMount = async () => {
+    console.log('componentDidMountX', this.props);
+    const d = await getDataSourceSrv().get(this.props.options.name);
+    const { options } = this.props;
+    const ds = d as DataSource;
+    const query = {
+      refId: 'X',
+      database: options.jsonData.defaultDatabase,
+      table: options.jsonData.defaultTable,
+      measure: options.jsonData.defaultMeasure,
+    };
+    this.setState({ schema: new SchemaInfo(ds, query) });
+  };
+
+  // Try harder to get the state
+  componentDidUpdate = async () => {
+    if (!this.state.schema) {
+      console.log('no state... try again');
+      this.componentDidMount();
+    }
+  };
 
   onDatabaseChange = (value: SelectableValue<string>) => {
     const { options } = this.props;
