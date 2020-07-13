@@ -8,6 +8,10 @@
   "metrics": true,
   "alerting": true,
 
+  "includes": [
+    { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" }
+  ],
+  
   "info": {
     "description": "Managed time series database in AWS",
     "author": {
@@ -24,9 +28,6 @@
         "name": "Website",
         "url": "https://github.com/grafana/timestream-datasource"
       }
-    ],
-    "includes": [
-      { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" }
     ],
     "screenshots": [],
     "version": "%VERSION%",

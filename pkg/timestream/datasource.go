@@ -32,7 +32,7 @@ type timestreamRunner struct {
 }
 
 func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	return r.querySvc.Query(input)
+	return r.querySvc.QueryWithContext(ctx, input)
 }
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
