@@ -26,16 +26,3 @@ func (c *MockClient) runQuery(ctx context.Context, input *timestreamquery.QueryI
 	}
 	return r, nil
 }
-
-func (c *MockClient) readText() (string, error) {
-	bs, err := ioutil.ReadFile("./testdata/" + c.testFileName + ".txt")
-	if err != nil {
-		return "", err
-	}
-	txt := string(bs)
-	return txt, nil
-}
-
-func (c *MockClient) saveText(text string) error {
-	return ioutil.WriteFile("./testdata/"+c.testFileName+".txt", []byte(text), 0644)
-}
