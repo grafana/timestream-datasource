@@ -5,6 +5,7 @@ import {
   LoadingState,
   DataQueryRequest,
   MetricFindValue,
+  ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
@@ -41,7 +42,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return query.rawQuery ?? '';
   }
 
-  applyTemplateVariables(query: TimestreamQuery): TimestreamQuery {
+  applyTemplateVariables(query: TimestreamQuery, scopedVars: ScopedVars): TimestreamQuery {
     if (!query.rawQuery) {
       return query;
     }
@@ -49,41 +50,42 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     const templateSrv = getTemplateSrv();
     return {
       ...query,
-      database: templateSrv.replace(query.database || ''),
-      table: templateSrv.replace(query.table || ''),
-      measure: templateSrv.replace(query.measure || ''),
-      rawQuery: templateSrv.replace(query.rawQuery),
+      database: templateSrv.replace(query.database || '', scopedVars),
+      table: templateSrv.replace(query.table || '', scopedVars),
+      measure: templateSrv.replace(query.measure || '', scopedVars),
+      rawQuery: templateSrv.replace(query.rawQuery), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
     };
   }
 
   query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
+    let queryId: string | undefined;
+    let obs: Observable<DataQueryResponse> | undefined;
     return new Observable<DataQueryResponse>(subscriber => {
-      super
-        .query(request)
-        .toPromise()
-        .then(rsp => {
-          const meta = getNextTokenMeta(rsp);
-          if (meta) {
-            rsp.state = LoadingState.Loading; // streaming?
-            if (!meta.hasSeries) {
-              rsp.key = meta.queryId;
-            }
-            keepChecking({
-              subscriber,
-              req: request,
-              rsp,
-              count: 1,
-              ds: this,
-            });
+      obs = super.query(request);
+      obs.toPromise().then(rsp => {
+        const meta = getNextTokenMeta(rsp);
+        if (meta) {
+          queryId = meta.queryId;
+          rsp.state = LoadingState.Loading; // streaming?
+          if (!meta.hasSeries) {
+            rsp.key = meta.queryId;
           }
-          subscriber.next(rsp);
-          if (!meta) {
-            subscriber.complete(); // done
-          }
-        });
+          keepChecking({
+            subscriber,
+            req: request,
+            rsp,
+            count: 1,
+            ds: this,
+          });
+        }
+        subscriber.next(rsp);
+        if (!meta) {
+          subscriber.complete(); // done
+        }
+      });
 
       return () => {
-        console.log('unsubscribe.. timestream cancel?', this);
+        console.log('unsubscribe.. timestream cancel? ', queryId);
       };
     });
   }

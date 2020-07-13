@@ -10,7 +10,7 @@ import (
 )
 
 const timeFilter = `\$__timeFilter`
-const intervalStr = `\$__interval_ms`
+const intervalStr = `$__interval_ms`
 
 // WHERE time > from_unixtime(unixtime)
 // WHERE time > from_iso8601_timestamp(iso_8601_string_format)
@@ -34,10 +34,6 @@ func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (stri
 	if err != nil {
 		return txt, err
 	}
-	intervalStrExp, err := regexp.Compile(intervalStr)
-	if err != nil {
-		return txt, err
-	}
 
 	if timeFilterExp.MatchString(txt) {
 		timeRange := query.TimeRange
@@ -48,9 +44,9 @@ func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (stri
 		txt = timeFilterExp.ReplaceAllString(txt, replacement)
 	}
 
-	if intervalStrExp.MatchString(txt) {
+	if strings.Index(txt, intervalStr) >= 0 {
 		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
-		txt = intervalStrExp.ReplaceAllString(txt, replacement)
+		txt = strings.ReplaceAll(txt, intervalStr, replacement)
 	}
 
 	return txt, err
