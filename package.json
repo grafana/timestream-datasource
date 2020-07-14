@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "0.9.0-preview",
+  "version": "0.9.1-preview",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "grafana-toolkit plugin:build",

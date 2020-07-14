@@ -134,12 +134,9 @@
         "steppedLine": false,
         "targets": [
           {
-            "database": "grafanaDB",
-            "measure": "gc_pause",
             "queryType": "raw",
             "rawQuery": "SELECT \n\tsilo, microservice_name, instance_name, \n\tCREATE_TIME_SERIES(time, measure_value::double) AS gc_pause\nFROM $__database.$__table\nWHERE $__timeFilter\n\tAND measure_name = '$__measure'\n\tAND region = 'ap-northeast-1' \n\tAND cell = 'ap-northeast-1-cell-5' \n\tAND silo = 'ap-northeast-1-cell-5-silo-2'\n\tAND availability_zone = 'ap-northeast-1-3' \n\tAND microservice_name = 'zeus'\nGROUP BY region, \n\tcell, \n\tsilo, \n\tavailability_zone, \n\tmicroservice_name,\n\tinstance_name, \n\tprocess_name, \n\tjdk_version\t\t\nORDER BY AVG(measure_value::double) DESC\nLIMIT 3",
-            "refId": "A",
-            "table": "grafanaTable"
+            "refId": "A"
           }
         ],
         "thresholds": [
