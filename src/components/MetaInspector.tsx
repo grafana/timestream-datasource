@@ -8,17 +8,14 @@ export type Props = MetadataInspectorProps<DataSource, TimestreamQuery, Timestre
 export class MetaInspector extends PureComponent<Props> {
   state = { index: 0 };
 
-  renderInfo = (frame: DataFrame) => {
+  renderInfo = (frame: DataFrame, idx: number) => {
     const custom = frame.meta?.custom;
     if (!custom) {
       return null;
     }
 
-    // meta["queryId"] = output.QueryId
-    // meta["nextToken"] = output.NextToken
-
     return (
-      <div>
+      <div key={idx}>
         <h3>Query ID</h3>
         <pre>{custom.queryId}</pre>
         {custom.nextToken && (
@@ -28,8 +25,8 @@ export class MetaInspector extends PureComponent<Props> {
           </>
         )}
 
-        <h3>Executed Query</h3>
-        <pre>{(frame.meta as any).executedQueryString}</pre>
+        <h3>Details</h3>
+        <pre>{JSON.stringify(custom, null, 2)}</pre>
       </div>
     );
   };
@@ -41,8 +38,8 @@ export class MetaInspector extends PureComponent<Props> {
     }
     return (
       <div>
-        {data.map(frame => {
-          return this.renderInfo(frame);
+        {data.map((frame, idx) => {
+          return this.renderInfo(frame, idx);
         })}
       </div>
     );

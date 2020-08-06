@@ -46,6 +46,9 @@ func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (stri
 
 	if strings.Contains(txt, intervalStr) {
 		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
+		if replacement == "0ms" {
+			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
+		}
 		txt = strings.ReplaceAll(txt, intervalStr, replacement)
 	}
 

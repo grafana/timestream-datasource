@@ -45,6 +45,11 @@ export interface TimestreamCustomMeta {
   queryId: string;
   nextToken?: string;
   hasSeries?: boolean;
+  executionStartTime?: number; // The backend clock
+  executionFinishTime?: number; // The backend clock
+
+  // when multiple queries exist we keep track of each request
+  subs?: TimestreamCustomMeta[];
 }
 
 export interface TimestreamQuery extends DataQuery {

@@ -12,7 +12,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
@@ -24,10 +23,18 @@ func runTest(t *testing.T, name string) *backend.DataResponse {
 	// Remove changable fields
 	for _, frame := range dr.Frames {
 		if frame.Meta != nil {
-			frame.Meta.Custom = nil
-			if frame.Meta.Stats != nil {
-				frame.Meta.Stats = make([]data.QueryStat, 0) // avoid timing changes
+			meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+			meta.StartTime = 1111
+			meta.FinishTime = 2222
+			if meta.QueryID != "" {
+				meta.QueryID = "$queryId$"
 			}
+			if meta.NextToken != "" {
+				meta.NextToken = "$nextToken$"
+			}
+
+			// TODO: fix: https://github.com/grafana/grafana-plugin-sdk-go/issues/213
+			frame.Meta.Custom = nil
 		}
 	}
 
