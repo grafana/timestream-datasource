@@ -12,9 +12,26 @@ import (
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
+// func main() {
+//     ctx, cancel := context.WithCancel(context.Background())
+//     defer cancel() // defer cancel here just in case :)
+//     done := make(chan bool)
+//     go func(ctx context.Context) {
+//         if err := doSomethingSlow(ctx); err != nil {
+//             panic(err)
+//         }
+//         done <- true
+//     }(ctx)
+//     select {
+//         case <- ctx.Done():
+//             log.Println("context was cancelled")
+//         case <- done:
+//             log.Println("function finished running
+//     }
+// }
+
 // ExecuteQuery -- run a query
 func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings gaws.DatasourceSettings) (dr backend.DataResponse) {
-	start := time.Now()
 	dr = backend.DataResponse{}
 
 	raw, err := Interpolate(query, settings)
@@ -31,31 +48,37 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		backend.Logger.Info("running continue query", "token", query.NextToken)
 	}
 
+	start := time.Now().UnixNano() / 1000000
 	output, err := runner.runQuery(ctx, input)
+	finish := time.Now().UnixNano() / 1000000
 	if err == nil {
 		dr = QueryResultToDataFrame(output)
 	} else {
 		dr.Error = err
 	}
 
+	// Needs a frame for the metadata... even if just error
 	if len(dr.Frames) < 1 {
 		dr.Frames = append(dr.Frames, data.NewFrame(""))
 	}
 	frame := dr.Frames[0]
-
 	if frame.Meta == nil {
-		frame.Meta = &data.FrameMeta{}
+		frame.SetMeta(&data.FrameMeta{})
 	}
 	frame.Meta.ExecutedQueryString = raw
-	stats := make([]data.QueryStat, 1)
-	stats[0] = data.QueryStat{
-		//DisplayName: "Execution time",
-		Value: float64(time.Since(start).Milliseconds()),
-		//	Unit:        "ms",
-	}
-	stats[0].DisplayName = "Execution time"
-	stats[0].Unit = "ms"
 
-	frame.Meta.Stats = stats
+	if frame.Meta.Custom == nil {
+		frame.Meta.Custom = &models.TimestreamCustomMeta{}
+	}
+
+	// Apply the timing info
+	meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+	if meta.NextToken == "" {
+		meta.FinishTime = finish
+	}
+	if input.NextToken == nil {
+		meta.StartTime = start
+	}
+
 	return
 }

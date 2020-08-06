@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
 // QueryResultToDataFrame creates a DataFrame from query results
@@ -117,13 +119,10 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		dr.Frames = append(dr.Frames, frame)
 	}
 
-	meta := make(map[string]interface{})
-	meta["queryId"] = res.QueryId
-	if res.NextToken != nil {
-		meta["nextToken"] = res.NextToken
-	}
-	if timeseriesColumn != nil {
-		meta["hasSeries"] = true
+	meta := &models.TimestreamCustomMeta{
+		QueryID:   aws.StringValue(res.QueryId),
+		NextToken: aws.StringValue(res.NextToken),
+		HasSeries: timeseriesColumn != nil,
 	}
 
 	// At least one empty result

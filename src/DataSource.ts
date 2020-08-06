@@ -6,13 +6,19 @@ import {
   DataQueryRequest,
   MetricFindValue,
   ScopedVars,
+  QueryResultMetaStat,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, partition, merge } from 'rxjs';
+import { map, tap, mergeMap } from 'rxjs/operators';
 
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
-import { keepChecking } from 'looper';
+
+interface TimestreamRequestTracker extends TimestreamCustomMeta {
+  isRunning: boolean;
+  requestStartTime: number;
+  killed?: boolean;
+}
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
   // Easy access for QueryEditor
@@ -58,37 +64,113 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   }
 
   query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
-    let queryId: string | undefined;
-    let obs: Observable<DataQueryResponse> | undefined;
+    return this.getNextRequest(request, {
+      requestStartTime: Date.now(),
+    } as TimestreamRequestTracker);
+  }
+
+  private getNextRequest = (
+    request: DataQueryRequest<TimestreamQuery>,
+    tracker: TimestreamRequestTracker
+  ): Observable<DataQueryResponse> => {
     return new Observable<DataQueryResponse>(subscriber => {
-      obs = super.query(request);
-      obs.toPromise().then(rsp => {
-        const meta = getNextTokenMeta(rsp);
-        if (meta) {
-          queryId = meta.queryId;
-          rsp.state = LoadingState.Loading; // streaming?
-          if (!meta.hasSeries) {
-            rsp.key = meta.queryId;
-          }
-          keepChecking({
-            subscriber,
-            req: request,
-            rsp,
-            count: 1,
-            ds: this,
-          });
-        }
-        subscriber.next(rsp);
-        if (!meta) {
-          subscriber.complete(); // done
-        }
-      });
+      tracker.isRunning = true;
+      const responseStream = super
+        .query(request)
+        .pipe(map(response => ({ response, meta: getNextTokenMeta(response) })));
+
+      const [continueStream, completeStream] = partition(responseStream, ({ meta }) => meta !== undefined);
+      const result = merge(
+        completeStream.pipe(
+          map(({ response }) => {
+            tracker.isRunning = false;
+
+            // Mutate the first frame with custom results
+            if (response.data?.length) {
+              const first = response.data[0] as DataFrame;
+              const custom = first.meta?.custom as TimestreamCustomMeta;
+              if (custom) {
+                if (!tracker.subs) {
+                  tracker = {
+                    ...tracker,
+                    ...custom,
+                  };
+                } else {
+                  tracker.subs.push(custom);
+                  tracker.executionFinishTime = custom.executionFinishTime;
+                  tracker.hasSeries = custom.hasSeries;
+                  tracker.nextToken = undefined;
+                }
+
+                // Add stats
+                if (tracker.executionStartTime && tracker.executionFinishTime) {
+                  const diff = tracker.executionFinishTime - tracker.executionStartTime;
+                  if (diff > 0) {
+                    const stats: QueryResultMetaStat[] = [];
+                    if (tracker.subs && tracker.subs.length) {
+                      stats.push({
+                        displayName: 'HTTP request count',
+                        value: tracker.subs.length,
+                        unit: 'none',
+                      });
+                    }
+
+                    stats.push({ displayName: 'Timestream execution time', value: diff, unit: 'ms', decimals: 2 });
+
+                    if (tracker.requestStartTime) {
+                      stats.push({
+                        displayName: 'Datasource execution time',
+                        value: Date.now() - tracker.requestStartTime,
+                        unit: 'ms',
+                        decimals: 2,
+                      });
+                    }
+
+                    first.meta!.stats = stats;
+                    first.meta!.custom = tracker;
+                  }
+                }
+              }
+            }
+            return { ...response, state: LoadingState.Done };
+          })
+        ),
+        continueStream.pipe(
+          tap(({ response }) => subscriber.next({ ...response, state: LoadingState.Loading })),
+          mergeMap(({ response }) => {
+            const frame = response.data[0] as DataFrame;
+            const refId = frame.refId;
+            const rawQuery = frame.meta?.executedQueryString;
+            const meta = frame.meta?.custom as TimestreamCustomMeta;
+            const nextToken = meta.nextToken!; // this stream exists because we know it is valid
+            const newRequest = {
+              ...request,
+              targets: [{ refId, rawQuery, nextToken } as TimestreamQuery],
+            };
+
+            // Another request
+            if (!tracker.subs) {
+              tracker.queryId = meta.queryId;
+              tracker.executionStartTime = meta.executionStartTime;
+              tracker.subs = [];
+            }
+            tracker.subs.push(meta);
+            frame.meta!.custom = tracker;
+
+            return this.getNextRequest(newRequest, tracker);
+          })
+        )
+      ).subscribe(subscriber);
 
       return () => {
-        console.log('unsubscribe.. timestream cancel? ', queryId);
+        if (tracker.isRunning && tracker.queryId && !tracker.killed) {
+          console.log('Kill???', tracker.queryId);
+          tracker.killed = true;
+        }
+        result.unsubscribe();
       };
     });
-  }
+  };
 
   //----------------------------------------------
   // SCHEMA Style Functions
@@ -98,7 +180,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return this.query(({
       targets: [
         {
-          refId: 'X',
+          refId: 'GetStrings',
           rawQuery,
         },
       ],
