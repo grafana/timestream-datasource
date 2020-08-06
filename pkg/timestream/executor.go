@@ -12,6 +12,24 @@ import (
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
+// func main() {
+//     ctx, cancel := context.WithCancel(context.Background())
+//     defer cancel() // defer cancel here just in case :)
+//     done := make(chan bool)
+//     go func(ctx context.Context) {
+//         if err := doSomethingSlow(ctx); err != nil {
+//             panic(err)
+//         }
+//         done <- true
+//     }(ctx)
+//     select {
+//         case <- ctx.Done():
+//             log.Println("context was cancelled")
+//         case <- done:
+//             log.Println("function finished running
+//     }
+// }
+
 // ExecuteQuery -- run a query
 func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings gaws.DatasourceSettings) (dr backend.DataResponse) {
 	dr = backend.DataResponse{}
