@@ -56,7 +56,7 @@ func TestSavedConversions(t *testing.T) {
 }
 
 func TestGenerateTestData(t *testing.T) {
-	t.Skip("Integration Test") // comment line to run this
+	// t.Skip("Integration Test") // comment line to run this
 
 	m := make(map[string]models.QueryModel)
 	m["select-consts.json"] = models.QueryModel{
@@ -149,6 +149,9 @@ func writeTestData(filename string, query models.QueryModel, t *testing.T) {
 	if err != nil {
 		fmt.Println("execute failed", err.Error())
 	}
+
+	// This changes with every request, so make it the same
+	res.QueryId = aws.String("#QueryId#")
 
 	json, err := json.MarshalIndent(res, "", "    ")
 	if err != nil {

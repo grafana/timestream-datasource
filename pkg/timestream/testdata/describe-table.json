@@ -19,7 +19,7 @@
             }
         },
         {
-            "Name": "Column Category",
+            "Name": "Timestream attribute type",
             "Type": {
                 "ArrayColumnInfo": null,
                 "RowColumnInfo": null,
@@ -29,7 +29,7 @@
         }
     ],
     "NextToken": null,
-    "QueryId": "AHMCS32XVZX3M5ALKVG4O7K2JJRAO6OHMH4ILUEXLOZKC5O5C5Q24",
+    "QueryId": "#QueryId#",
     "Rows": [
         {
             "Data": [
