@@ -15,7 +15,8 @@ import { map, tap, mergeMap } from 'rxjs/operators';
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
 
 interface TimestreamRequestTracker extends TimestreamCustomMeta {
-  isRunning: boolean;
+  isDone?: boolean;
+  isRunning?: boolean;
   requestStartTime: number;
   killed?: boolean;
 }
@@ -34,7 +35,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return Promise.resolve([]);
     }
     const q = getTemplateSrv().replace(query as string);
-    console.log('metricFindQuery', q);
     return this.getStrings(q)
       .toPromise()
       .then(strings => {
@@ -73,8 +73,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     request: DataQueryRequest<TimestreamQuery>,
     tracker: TimestreamRequestTracker
   ): Observable<DataQueryResponse> => {
+    tracker.isRunning = true;
     return new Observable<DataQueryResponse>(subscriber => {
-      tracker.isRunning = true;
+      // console.log('getNextRequest', request);
       const responseStream = super
         .query(request)
         .pipe(map(response => ({ response, meta: getNextTokenMeta(response) })));
@@ -83,7 +84,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       const result = merge(
         completeStream.pipe(
           map(({ response }) => {
+            tracker.isDone = true;
             tracker.isRunning = false;
+            // console.log('completeStream', response);
 
             // Mutate the first frame with custom results
             if (response.data?.length) {
@@ -138,6 +141,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         continueStream.pipe(
           tap(({ response }) => subscriber.next({ ...response, state: LoadingState.Loading })),
           mergeMap(({ response }) => {
+            tracker.isRunning = false;
+            // console.log('continueStream', response);
+
             const frame = response.data[0] as DataFrame;
             const refId = frame.refId;
             const rawQuery = frame.meta?.executedQueryString;
@@ -163,8 +169,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       ).subscribe(subscriber);
 
       return () => {
-        if (tracker.isRunning && tracker.queryId && !tracker.killed) {
-          console.log('Kill???', tracker.queryId);
+        if (tracker.queryId && !tracker.isDone && !tracker.killed) {
+          console.log('TODO, kill', tracker.queryId);
           tracker.killed = true;
         }
         result.unsubscribe();

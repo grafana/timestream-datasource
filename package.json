@@ -6,7 +6,7 @@
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "test:e2e": "grafana-e2e run",
-    "dev": "grafana-toolkit plugin:dev",
+    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
   "repository": "github:grafana/timestream-datasource",

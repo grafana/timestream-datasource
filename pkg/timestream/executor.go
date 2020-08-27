@@ -79,6 +79,5 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	if input.NextToken == nil {
 		meta.StartTime = start
 	}
-
 	return
 }

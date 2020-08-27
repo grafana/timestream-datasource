@@ -158,372 +158,262 @@
                     "ScalarValue": null,
                     "TimeSeriesValue": [
                         {
-                            "Time": "2020-08-20 21:31:18.000000000",
+                            "Time": "2020-08-27 15:09:27.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "99.45151776944134",
+                                "ScalarValue": "68.11868749038354",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:34:41.000000000",
+                            "Time": "2020-08-27 15:13:41.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "63.351232308040025",
+                                "ScalarValue": "79.27975929378977",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:38:04.000000000",
+                            "Time": "2020-08-27 15:17:45.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "80.87701379376135",
+                                "ScalarValue": "85.99469252288485",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:41:25.000000000",
+                            "Time": "2020-08-27 15:21:58.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "11.433718482140609",
+                                "ScalarValue": "25.826528663062486",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:44:48.000000000",
+                            "Time": "2020-08-27 15:26:09.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "50.91424854459535",
+                                "ScalarValue": "44.034053691200484",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:48:15.000000000",
+                            "Time": "2020-08-27 15:30:23.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "74.06796865135388",
+                                "ScalarValue": "22.19614040213814",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:51:41.000000000",
+                            "Time": "2020-08-27 15:34:37.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "48.800300503120106",
+                                "ScalarValue": "65.73055973434877",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:55:07.000000000",
+                            "Time": "2020-08-27 15:38:54.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "95.88258548308211",
+                                "ScalarValue": "11.636319293712727",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 21:58:33.000000000",
+                            "Time": "2020-08-27 15:43:02.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "9.585793416959621",
+                                "ScalarValue": "6.952319429301202",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:02:00.000000000",
+                            "Time": "2020-08-27 15:47:20.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "51.28941845830609",
+                                "ScalarValue": "51.090158108550284",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:05:26.000000000",
+                            "Time": "2020-08-27 15:51:40.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "47.04617229244753",
+                                "ScalarValue": "31.364705221330613",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:08:51.000000000",
+                            "Time": "2020-08-27 15:55:57.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "21.81747242060963",
+                                "ScalarValue": "43.93216210516789",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:12:17.000000000",
+                            "Time": "2020-08-27 16:00:04.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "58.27729852682339",
+                                "ScalarValue": "23.522370881749133",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:15:47.000000000",
+                            "Time": "2020-08-27 16:04:23.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "9.72475521954138",
+                                "ScalarValue": "47.57745897011495",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:19:16.000000000",
+                            "Time": "2020-08-27 16:08:31.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "61.83377906091083",
+                                "ScalarValue": "45.28008085322918",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:22:41.000000000",
+                            "Time": "2020-08-27 16:12:51.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "37.58059705439627",
+                                "ScalarValue": "84.0582541954146",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:25:52.000000000",
+                            "Time": "2020-08-27 16:17:13.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "11.997284953211562",
+                                "ScalarValue": "77.15655186955061",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:29:04.000000000",
+                            "Time": "2020-08-27 16:21:34.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "42.22641777489885",
+                                "ScalarValue": "13.7079617339666",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:32:17.000000000",
+                            "Time": "2020-08-27 16:25:54.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "2.722492507358776",
+                                "ScalarValue": "32.95895451503446",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:35:30.000000000",
+                            "Time": "2020-08-27 16:30:16.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "86.24076392157414",
+                                "ScalarValue": "45.195109067860365",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:38:44.000000000",
+                            "Time": "2020-08-27 16:34:59.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "81.42162184752405",
+                                "ScalarValue": "78.77669026675206",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:42:03.000000000",
+                            "Time": "2020-08-27 16:40:04.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "98.11275131328703",
+                                "ScalarValue": "93.49262995022848",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:46:28.000000000",
+                            "Time": "2020-08-27 16:45:09.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "40.99461156340832",
+                                "ScalarValue": "59.98831570154902",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:49:22.000000000",
+                            "Time": "2020-08-27 16:50:13.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "91.72618576627222",
+                                "ScalarValue": "21.834046626056804",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:52:15.000000000",
+                            "Time": "2020-08-27 16:55:13.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "52.41397322170659",
+                                "ScalarValue": "90.59765116867563",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2020-08-20 22:55:07.000000000",
+                            "Time": "2020-08-27 17:00:16.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "55.478198466465635",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 22:58:00.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "21.91462915061515",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:00:53.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "87.30016945532378",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:03:45.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "86.65370722452221",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:06:39.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "97.93780275397435",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:09:32.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "31.027125724662042",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:12:26.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "38.87760832447908",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:15:21.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "75.24858076058761",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:18:15.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "66.96363134954842",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:21:09.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "46.916193735129056",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:24:03.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "0.7487980431854391",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2020-08-20 23:26:57.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "83.05828218549377",
+                                "ScalarValue": "43.00633219507514",
                                 "TimeSeriesValue": null
                             }
                         }

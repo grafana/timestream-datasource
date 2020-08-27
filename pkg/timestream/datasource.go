@@ -155,7 +155,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(context.Background(), *query, s.Runner, s.Settings)
+			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, s.Runner, s.Settings)
 		}
 	}
 	return res, nil
