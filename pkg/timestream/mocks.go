@@ -26,3 +26,8 @@ func (c *MockClient) runQuery(ctx context.Context, input *timestreamquery.QueryI
 	}
 	return r, nil
 }
+
+func (c *MockClient) cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
+	r := &timestreamquery.CancelQueryOutput{}
+	return r, nil
+}
