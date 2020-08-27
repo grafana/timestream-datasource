@@ -74,6 +74,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     tracker: TimestreamRequestTracker
   ): Observable<DataQueryResponse> => {
     tracker.isRunning = true;
+    const fetchStartTime = Date.now();
     return new Observable<DataQueryResponse>(subscriber => {
       // console.log('getNextRequest', request);
       const responseStream = super
@@ -86,12 +87,15 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           map(({ response }) => {
             tracker.isDone = true;
             tracker.isRunning = false;
-            // console.log('completeStream', response);
 
             // Mutate the first frame with custom results
             if (response.data?.length) {
               const first = response.data[0] as DataFrame;
               const custom = first.meta?.custom as TimestreamCustomMeta;
+              custom.fetchStartTime = fetchStartTime;
+              custom.fetchEndTime = Date.now();
+              custom.fetchTime = custom.fetchEndTime - custom.fetchStartTime;
+
               if (custom) {
                 if (!tracker.subs) {
                   tracker = {
@@ -142,13 +146,16 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           tap(({ response }) => subscriber.next({ ...response, state: LoadingState.Loading })),
           mergeMap(({ response }) => {
             tracker.isRunning = false;
-            // console.log('continueStream', response);
 
             const frame = response.data[0] as DataFrame;
             const refId = frame.refId;
             const rawQuery = frame.meta?.executedQueryString;
             const meta = frame.meta?.custom as TimestreamCustomMeta;
             const nextToken = meta.nextToken!; // this stream exists because we know it is valid
+            meta.fetchStartTime = fetchStartTime;
+            meta.fetchEndTime = Date.now();
+            meta.fetchTime = meta.fetchEndTime - meta.fetchStartTime;
+
             const newRequest = {
               ...request,
               targets: [{ refId, rawQuery, nextToken } as TimestreamQuery],
@@ -163,15 +170,33 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
             tracker.subs.push(meta);
             frame.meta!.custom = tracker;
 
+            // Cleanup the history a bit
+            (meta as any).requestNumber = tracker.subs.length;
+            delete meta.nextToken; // not useful in the response
+            delete meta.queryId;
+
             return this.getNextRequest(newRequest, tracker);
           })
         )
       ).subscribe(subscriber);
 
       return () => {
-        if (tracker.queryId && !tracker.isDone && !tracker.killed) {
-          console.log('TODO, kill', tracker.queryId);
+        if (!tracker.isDone && !tracker.killed) {
           tracker.killed = true;
+          if (tracker.queryId) {
+            this.postResource(`cancel`, {
+              queryId: tracker.queryId,
+            })
+              .then(v => {
+                console.log('Timestream query Canceled:', v);
+              })
+              .catch(err => {
+                err.isHandled = true; // avoid the popup
+                console.log('error killing', err);
+              });
+          } else {
+            console.log('Unable to kill query without a queryId', tracker);
+          }
         }
         result.unsubscribe();
       };

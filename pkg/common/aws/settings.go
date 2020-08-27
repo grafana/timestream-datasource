@@ -16,12 +16,15 @@ type DatasourceSettings struct {
 	AssumeRoleArn string `json:"assumeRoleArn"`
 	Namespace     string `json:"namespace"`
 
-	// Timestream specific
+	// Timestream
+	Endpoint string `json:"endpoint"`
+
+	// Default query
 	DefaultDatabase string `json:"defaultDatabase,omitempty"`
 	DefaultTable    string `json:"defaultTable,omitempty"`
 	DefaultMeasure  string `json:"defaultMeasure,omitempty"`
 
-	// Loaded from
+	// Loaded from DecryptedSecureJSONData (not the json object)
 	AccessKey string `json:"-"`
 	SecretKey string `json:"-"`
 }

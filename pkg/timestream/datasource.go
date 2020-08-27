@@ -2,6 +2,7 @@ package timestream
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -25,6 +26,7 @@ type instanceSettings struct {
 // This is an interface to help testing
 type queryRunner interface {
 	runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error)
+	cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error)
 }
 
 type timestreamRunner struct {
@@ -33,6 +35,10 @@ type timestreamRunner struct {
 
 func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
 	return r.querySvc.QueryWithContext(ctx, input)
+}
+
+func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
+	return r.querySvc.CancelQueryWithContext(ctx, input)
 }
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
@@ -53,7 +59,11 @@ func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.I
 		return nil, err
 	}
 
-	querySvc := timestreamquery.New(sess)
+	tcfg := &aws.Config{}
+	if settings.Endpoint != "" {
+		tcfg.Endpoint = aws.String(settings.Endpoint)
+	}
+	querySvc := timestreamquery.New(sess, tcfg)
 
 	// Add the user agent version
 	querySvc.Handlers.Send.PushFront(func(r *request.Request) {
@@ -162,10 +172,33 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 }
 
 // CallResource HTTP style resource
-func (ds *timestreamDS) CallResource(tx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+	s, err := ds.getInstance(req.PluginContext)
+	if err != nil {
+		return err
+	}
+
 	if req.Path == "hello" {
 		return resource.SendPlainText(sender, "world")
 	}
+	if req.Path == "cancel" {
+		if req.Method != "POST" {
+			return fmt.Errorf("Cancel requires a post command")
+		}
+		cancel := &models.CancelRequest{}
 
+		err := json.Unmarshal(req.Body, &cancel)
+		if err != nil {
+			return fmt.Errorf("error reading cancel request: %s", err.Error())
+		}
+		cancelQueryInput := &timestreamquery.CancelQueryInput{
+			QueryId: aws.String(cancel.QueryID),
+		}
+		v, err := s.Runner.cancelQuery(ctx, cancelQueryInput)
+		if err != nil {
+			return fmt.Errorf("error canceling: %s", err.Error())
+		}
+		return resource.SendPlainText(sender, *v.CancellationMessage)
+	}
 	return fmt.Errorf("unknown resource")
 }

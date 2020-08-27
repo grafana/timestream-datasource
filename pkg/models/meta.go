@@ -7,5 +7,6 @@ type TimestreamCustomMeta struct {
 
 	NextToken string `json:"nextToken,omitempty"`
 	QueryID   string `json:"queryId,omitempty"`
+	RequestID string `json:"requestId,omitempty"`
 	HasSeries bool   `json:"hasSeries,omitempty"`
 }

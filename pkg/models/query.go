@@ -39,3 +39,8 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	model.MaxDataPoints = query.MaxDataPoints
 	return model, nil
 }
+
+// CancelRequest will cancel a running query
+type CancelRequest struct {
+	QueryID string `json:"queryId,omitempty"`
+}

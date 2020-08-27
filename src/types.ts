@@ -45,8 +45,13 @@ export interface TimestreamCustomMeta {
   queryId: string;
   nextToken?: string;
   hasSeries?: boolean;
+
   executionStartTime?: number; // The backend clock
   executionFinishTime?: number; // The backend clock
+
+  fetchStartTime?: number; // The frontend clock
+  fetchEndTime?: number; // The frontend clock
+  fetchTime?: number; // The frontend clock
 
   // when multiple queries exist we keep track of each request
   subs?: TimestreamCustomMeta[];

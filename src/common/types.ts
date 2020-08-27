@@ -11,6 +11,7 @@ export interface AwsDataSourceJsonData extends DataSourceJsonData {
   assumeRoleArn?: string;
   profile?: string; // Credentials profile name, as specified in ~/.aws/credentials
   defaultRegion?: string; // region if it is not defined by your credentials file
+  endpoint?: string;
 }
 
 export interface AwsDataSourceSecureJsonData {

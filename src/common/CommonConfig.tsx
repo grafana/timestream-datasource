@@ -199,6 +199,22 @@ export default class CommonConfig extends PureComponent<Props, State> {
             />
           </div>
         </div>
+
+        <div className="gf-form-inline">
+          <div className="gf-form">
+            <InlineFormLabel className={widthKey} tooltip="Override the default service endpoint">
+              Endpoint (optional)
+            </InlineFormLabel>
+            <div className={widthVal}>
+              <Input
+                className={widthVal}
+                placeholder="https://{cell}.timestream.{region}.amazonaws.com"
+                value={jsonData.endpoint}
+                onChange={onUpdateDatasourceJsonDataOption(this.props, 'endpoint')}
+              />
+            </div>
+          </div>
+        </div>
       </>
     );
   }
