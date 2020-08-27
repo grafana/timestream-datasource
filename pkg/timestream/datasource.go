@@ -194,11 +194,14 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		cancelQueryInput := &timestreamquery.CancelQueryInput{
 			QueryId: aws.String(cancel.QueryID),
 		}
+		msg := "cancel: " + cancel.QueryID
 		v, err := s.Runner.cancelQuery(ctx, cancelQueryInput)
-		if err != nil {
-			return fmt.Errorf("error canceling: %s", err.Error())
+		if v != nil && v.CancellationMessage != nil {
+			msg = *v.CancellationMessage
+		} else if err != nil {
+			msg = err.Error()
 		}
-		return resource.SendPlainText(sender, *v.CancellationMessage)
+		return resource.SendPlainText(sender, msg)
 	}
 	return fmt.Errorf("unknown resource")
 }

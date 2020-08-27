@@ -16,8 +16,6 @@ import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, 
 
 interface TimestreamRequestTracker extends TimestreamCustomMeta {
   isDone?: boolean;
-  isRunning?: boolean;
-  requestStartTime: number;
   killed?: boolean;
 }
 
@@ -65,7 +63,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
 
   query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
     return this.getNextRequest(request, {
-      requestStartTime: Date.now(),
+      fetchStartTime: Date.now(),
     } as TimestreamRequestTracker);
   }
 
@@ -73,7 +71,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     request: DataQueryRequest<TimestreamQuery>,
     tracker: TimestreamRequestTracker
   ): Observable<DataQueryResponse> => {
-    tracker.isRunning = true;
     const fetchStartTime = Date.now();
     return new Observable<DataQueryResponse>(subscriber => {
       // console.log('getNextRequest', request);
@@ -86,7 +83,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         completeStream.pipe(
           map(({ response }) => {
             tracker.isDone = true;
-            tracker.isRunning = false;
 
             // Mutate the first frame with custom results
             if (response.data?.length) {
@@ -97,22 +93,23 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
               custom.fetchTime = custom.fetchEndTime - custom.fetchStartTime;
 
               if (custom) {
-                if (!tracker.subs) {
+                if (tracker.subs) {
+                  tracker.subs.push(custom);
+                  tracker.executionFinishTime = custom.executionFinishTime;
+                  tracker.hasSeries = custom.hasSeries;
+                } else {
                   tracker = {
                     ...tracker,
                     ...custom,
                   };
-                } else {
-                  tracker.subs.push(custom);
-                  tracker.executionFinishTime = custom.executionFinishTime;
-                  tracker.hasSeries = custom.hasSeries;
-                  tracker.nextToken = undefined;
                 }
+                delete tracker.nextToken;
+                delete tracker.isDone;
 
                 // Add stats
                 if (tracker.executionStartTime && tracker.executionFinishTime) {
-                  const diff = tracker.executionFinishTime - tracker.executionStartTime;
-                  if (diff > 0) {
+                  const tsTime = tracker.executionFinishTime - tracker.executionStartTime;
+                  if (tsTime > 0) {
                     const stats: QueryResultMetaStat[] = [];
                     if (tracker.subs && tracker.subs.length) {
                       stats.push({
@@ -122,15 +119,31 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                       });
                     }
 
-                    stats.push({ displayName: 'Timestream execution time', value: diff, unit: 'ms', decimals: 2 });
+                    stats.push({
+                      displayName: 'Execution time (Grafana server ⇆ Timestream)',
+                      value: tsTime,
+                      unit: 'ms',
+                      decimals: 2,
+                    });
 
-                    if (tracker.requestStartTime) {
-                      stats.push({
-                        displayName: 'Datasource execution time',
-                        value: Date.now() - tracker.requestStartTime,
-                        unit: 'ms',
-                        decimals: 2,
-                      });
+                    if (tracker.fetchStartTime) {
+                      tracker.fetchEndTime = Date.now();
+                      const dsTime = tracker.fetchEndTime - tracker.fetchStartTime;
+                      tracker.fetchTime = dsTime - tsTime;
+                      if (dsTime > tsTime) {
+                        stats.push({
+                          displayName: 'Fetch time (Browser ⇆ Grafana server w/o Timestream)',
+                          value: tracker.fetchTime,
+                          unit: 'ms',
+                          decimals: 2,
+                        });
+                        stats.push({
+                          displayName: 'Fetch overhead',
+                          value: tracker.fetchTime / dsTime,
+                          unit: 'percent',
+                          decimals: 2,
+                        });
+                      }
                     }
 
                     first.meta!.stats = stats;
@@ -145,8 +158,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         continueStream.pipe(
           tap(({ response }) => subscriber.next({ ...response, state: LoadingState.Loading })),
           mergeMap(({ response }) => {
-            tracker.isRunning = false;
-
             const frame = response.data[0] as DataFrame;
             const refId = frame.refId;
             const rawQuery = frame.meta?.executedQueryString;
@@ -182,8 +193,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
 
       return () => {
         if (!tracker.isDone && !tracker.killed) {
-          tracker.killed = true;
           if (tracker.queryId) {
+            // tracker.killed = true;
             this.postResource(`cancel`, {
               queryId: tracker.queryId,
             })
