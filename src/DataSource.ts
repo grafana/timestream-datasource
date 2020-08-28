@@ -139,7 +139,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                         });
                         stats.push({
                           displayName: 'Fetch overhead',
-                          value: (tracker.fetchTime / dsTime)*100,
+                          value: (tracker.fetchTime / dsTime) * 100,
                           unit: 'percent', // 0 - 100
                         });
                       }
