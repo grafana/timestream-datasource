@@ -9,8 +9,8 @@ import {
   QueryResultMetaStat,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { Observable, partition, merge } from 'rxjs';
-import { map, tap, mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, concatMap, mergeMap } from 'rxjs/operators';
 
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
 
@@ -73,123 +73,107 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   ): Observable<DataQueryResponse> => {
     const fetchStartTime = Date.now();
     return new Observable<DataQueryResponse>(subscriber => {
-      // console.log('getNextRequest', request);
-      const responseStream = super
+      const result = super
         .query(request)
-        .pipe(map(response => ({ response, meta: getNextTokenMeta(response) })));
-
-      const [continueStream, completeStream] = partition(responseStream, ({ meta }) => meta !== undefined);
-      const result = merge(
-        completeStream.pipe(
-          map(({ response }) => {
-            tracker.isDone = true;
-
-            // Mutate the first frame with custom results
-            if (response.data?.length) {
-              const first = response.data[0] as DataFrame;
-              const custom = first.meta?.custom as TimestreamCustomMeta;
-              custom.fetchStartTime = fetchStartTime;
-              custom.fetchEndTime = Date.now();
-              custom.fetchTime = custom.fetchEndTime - custom.fetchStartTime;
-
-              if (custom) {
-                if (tracker.subs) {
-                  tracker.subs.push(custom);
-                  tracker.executionFinishTime = custom.executionFinishTime;
-                  tracker.hasSeries = custom.hasSeries;
-                } else {
-                  tracker = {
-                    ...tracker,
-                    ...custom,
-                  };
-                }
-                delete tracker.nextToken;
-                delete tracker.isDone;
-
-                // Add stats
-                if (tracker.executionStartTime && tracker.executionFinishTime) {
-                  const tsTime = tracker.executionFinishTime - tracker.executionStartTime;
-                  if (tsTime > 0) {
-                    const stats: QueryResultMetaStat[] = [];
-                    if (tracker.subs && tracker.subs.length) {
-                      stats.push({
-                        displayName: 'HTTP request count',
-                        value: tracker.subs.length,
-                        unit: 'none',
-                      });
-                    }
-
-                    stats.push({
-                      displayName: 'Execution time (Grafana server ⇆ Timestream)',
-                      value: tsTime,
-                      unit: 'ms',
-                      decimals: 2,
-                    });
-
-                    if (tracker.fetchStartTime) {
-                      tracker.fetchEndTime = Date.now();
-                      const dsTime = tracker.fetchEndTime - tracker.fetchStartTime;
-                      tracker.fetchTime = dsTime - tsTime;
-                      if (dsTime > tsTime) {
+        .pipe(
+          map(response => ({ response, meta: getNextTokenMeta(response) })),
+          concatMap(({ meta, response }) => {
+            if (meta === undefined) {
+              tracker.isDone = true;
+              // Mutate the first frame with custom results
+              if (response.data?.length) {
+                const first = response.data[0] as DataFrame;
+                const custom = first.meta?.custom as TimestreamCustomMeta;
+                custom.fetchStartTime = fetchStartTime;
+                custom.fetchEndTime = Date.now();
+                custom.fetchTime = custom.fetchEndTime - custom.fetchStartTime;
+                if (custom) {
+                  if (tracker.subs) {
+                    tracker.subs.push(custom);
+                    tracker.executionFinishTime = custom.executionFinishTime;
+                    tracker.hasSeries = custom.hasSeries;
+                  } else {
+                    tracker = {
+                      ...tracker,
+                      ...custom,
+                    };
+                  }
+                  delete tracker.nextToken;
+                  delete tracker.isDone;
+                  // Add stats
+                  if (tracker.executionStartTime && tracker.executionFinishTime) {
+                    const tsTime = tracker.executionFinishTime - tracker.executionStartTime;
+                    if (tsTime > 0) {
+                      const stats: QueryResultMetaStat[] = [];
+                      if (tracker.subs && tracker.subs.length) {
                         stats.push({
-                          displayName: 'Fetch time (Browser ⇆ Grafana server w/o Timestream)',
-                          value: tracker.fetchTime,
-                          unit: 'ms',
-                          decimals: 2,
-                        });
-                        stats.push({
-                          displayName: 'Fetch overhead',
-                          value: (tracker.fetchTime / dsTime) * 100,
-                          unit: 'percent', // 0 - 100
+                          displayName: 'HTTP request count',
+                          value: tracker.subs.length,
+                          unit: 'none',
                         });
                       }
+                      stats.push({
+                        displayName: 'Execution time (Grafana server ⇆ Timestream)',
+                        value: tsTime,
+                        unit: 'ms',
+                        decimals: 2,
+                      });
+                      if (tracker.fetchStartTime) {
+                        tracker.fetchEndTime = Date.now();
+                        const dsTime = tracker.fetchEndTime - tracker.fetchStartTime;
+                        tracker.fetchTime = dsTime - tsTime;
+                        if (dsTime > tsTime) {
+                          stats.push({
+                            displayName: 'Fetch time (Browser ⇆ Grafana server w/o Timestream)',
+                            value: tracker.fetchTime,
+                            unit: 'ms',
+                            decimals: 2,
+                          });
+                          stats.push({
+                            displayName: 'Fetch overhead',
+                            value: (tracker.fetchTime / dsTime) * 100,
+                            unit: 'percent', // 0 - 100
+                          });
+                        }
+                      }
+                      first.meta!.stats = stats;
+                      first.meta!.custom = tracker;
                     }
-
-                    first.meta!.stats = stats;
-                    first.meta!.custom = tracker;
                   }
                 }
               }
+              return [of({ ...response, state: LoadingState.Done })];
+            } else {
+              const frame = response.data[0] as DataFrame;
+              const refId = frame.refId;
+              const rawQuery = frame.meta?.executedQueryString;
+              const meta = frame.meta?.custom as TimestreamCustomMeta;
+              const nextToken = meta.nextToken!; // this stream exists because we know it is valid
+              meta.fetchStartTime = fetchStartTime;
+              meta.fetchEndTime = Date.now();
+              meta.fetchTime = meta.fetchEndTime - meta.fetchStartTime;
+              const newRequest = {
+                ...request,
+                targets: [{ refId, rawQuery, nextToken } as TimestreamQuery],
+              };
+              // Another request
+              if (!tracker.subs) {
+                tracker.queryId = meta.queryId;
+                tracker.executionStartTime = meta.executionStartTime;
+                tracker.subs = [];
+              }
+              tracker.subs.push(meta);
+              frame.meta!.custom = tracker;
+              // Cleanup the history a bit
+              (meta as any).requestNumber = tracker.subs.length;
+              delete meta.nextToken; // not useful in the response
+              delete meta.queryId;
+              return [of({ ...response, state: LoadingState.Loading }), this.getNextRequest(newRequest, tracker)];
             }
-            return { ...response, state: LoadingState.Done };
-          })
-        ),
-        continueStream.pipe(
-          tap(({ response }) => subscriber.next({ ...response, state: LoadingState.Loading })),
-          mergeMap(({ response }) => {
-            const frame = response.data[0] as DataFrame;
-            const refId = frame.refId;
-            const rawQuery = frame.meta?.executedQueryString;
-            const meta = frame.meta?.custom as TimestreamCustomMeta;
-            const nextToken = meta.nextToken!; // this stream exists because we know it is valid
-            meta.fetchStartTime = fetchStartTime;
-            meta.fetchEndTime = Date.now();
-            meta.fetchTime = meta.fetchEndTime - meta.fetchStartTime;
-
-            const newRequest = {
-              ...request,
-              targets: [{ refId, rawQuery, nextToken } as TimestreamQuery],
-            };
-
-            // Another request
-            if (!tracker.subs) {
-              tracker.queryId = meta.queryId;
-              tracker.executionStartTime = meta.executionStartTime;
-              tracker.subs = [];
-            }
-            tracker.subs.push(meta);
-            frame.meta!.custom = tracker;
-
-            // Cleanup the history a bit
-            (meta as any).requestNumber = tracker.subs.length;
-            delete meta.nextToken; // not useful in the response
-            delete meta.queryId;
-
-            return this.getNextRequest(newRequest, tracker);
-          })
+          }),
+          mergeMap(obs => obs)
         )
-      ).subscribe(subscriber);
-
+        .subscribe(subscriber);
       return () => {
         if (!tracker.isDone && !tracker.killed) {
           if (tracker.queryId) {
