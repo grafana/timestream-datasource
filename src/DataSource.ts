@@ -2,17 +2,17 @@ import {
   DataSourceInstanceSettings,
   DataQueryResponse,
   DataFrame,
-  LoadingState,
   DataQueryRequest,
   MetricFindValue,
   ScopedVars,
   QueryResultMetaStat,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
+import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
   // Easy access for QueryEditor
@@ -57,133 +57,79 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   }
 
   query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
-    return new Observable<DataQueryResponse>(subscriber => {
-      let nextRequest: DataQueryRequest<TimestreamQuery> | undefined = undefined;
-      let subscription: Subscription | undefined = undefined;
+    let tracker: TimestreamCustomMeta | undefined = undefined;
+    let queryId: string | undefined = undefined;
+    return getRequestLooper(request, {
+      // Check for a "nextToken" in the response
+      getNextQuery: (rsp: DataQueryResponse) => {
+        if (rsp.data?.length) {
+          const first = rsp.data[0] as DataFrame;
+          const meta = first.meta?.custom as TimestreamCustomMeta;
+          if (meta && meta.nextToken) {
+            queryId = meta.queryId;
 
-      let count = 1;
-      const tracker = {
-        fetchStartTime: Date.now(),
-      } as TimestreamCustomMeta;
-
-      // Single observer gets reused
-      const observer = {
-        next: (rsp: DataQueryResponse) => {
-          nextRequest = undefined;
-          const meta = getNextTokenMeta(rsp);
-          if (meta) {
-            const nextQuery = this.updateLoadingFrameStatsAndGetNextQuery(rsp, tracker);
-            nextRequest = {
-              ...request,
-              requestId: `${request.requestId}.${++count}`,
-              startTime: Date.now(),
-              targets: [nextQuery],
-            };
-
-            // The whole response is included in the results
-            subscriber.next({ ...rsp, state: LoadingState.Loading });
-          } else {
-            tracker.fetchEndTime = Date.now();
-            this.updateFinalFrameStats(rsp, tracker);
-            let state = rsp.state;
-            if (state !== LoadingState.Error) {
-              state = LoadingState.Done;
-            }
-            subscriber.next({ ...rsp, state });
+            return {
+              refId: first.refId,
+              rawQuery: first.meta?.executedQueryString,
+              nextToken: meta.nextToken,
+            } as TimestreamQuery;
           }
-        },
-        error: (err: any) => {
-          subscriber.error(err);
-        },
-        complete: () => {
-          if (subscription) {
-            subscription.unsubscribe();
-            subscription = undefined;
-          }
-
-          // Let the previous request finish first
-          if (nextRequest) {
-            subscription = super.query(nextRequest).subscribe(observer);
-            nextRequest = undefined;
-          }
-        },
-      };
-
-      // First request
-      subscription = super.query(request).subscribe(observer);
-
-      return () => {
-        observer.complete();
-        console.log('UNSUBSCRIBE', request.requestId);
-
-        if (!tracker.fetchEndTime && tracker.queryId) {
-          const elapsed = Date.now() - tracker.fetchStartTime!;
-          console.log('Cancelling running timestream query', elapsed);
-
-          // tracker.killed = true;
-          this.postResource(`cancel`, {
-            queryId: tracker.queryId,
-          })
-            .then(v => {
-              console.log('Timestream query Canceled:', v);
-            })
-            .catch(err => {
-              err.isHandled = true; // avoid the popup
-              console.log('error killing', err);
-            });
         }
-      };
-    });
-  }
+        return undefined;
+      },
 
-  private updateLoadingFrameStatsAndGetNextQuery = (response: DataQueryResponse, tracker: TimestreamCustomMeta) => {
-    const frame = response.data[0] as DataFrame;
-    const refId = frame.refId;
-    const rawQuery = frame.meta?.executedQueryString;
-    const meta = frame.meta?.custom as TimestreamCustomMeta;
-    const nextToken = meta.nextToken!; // this stream exists because we know it is valid
-    meta.fetchStartTime = tracker.fetchStartTime;
-    meta.fetchEndTime = Date.now();
-    meta.fetchTime = meta.fetchEndTime - tracker.fetchStartTime!;
-    // Another request
-    if (!tracker.subs) {
-      tracker.queryId = meta.queryId;
-      tracker.executionStartTime = meta.executionStartTime;
-      tracker.subs = [];
-    }
-    tracker.subs.push(meta);
-    frame.meta!.custom = tracker;
+      /**
+       * The original request
+       */
+      query: (request: DataQueryRequest<TimestreamQuery>) => {
+        return super.query(request);
+      },
 
-    // Cleanup the history a bit
-    (meta as any).requestNumber = tracker.subs.length;
-    delete meta.nextToken; // not useful in the response
-    delete meta.queryId;
+      /**
+       * Process the results
+       */
+      process: (t: MultiRequestTracker, data: DataFrame[], isLast: boolean) => {
+        const meta = data[0]?.meta?.custom as TimestreamCustomMeta;
+        if (!meta) {
+          return data; // NOOP
+        }
+        // Single request
+        meta.fetchStartTime = t.fetchStartTime;
+        meta.fetchEndTime = t.fetchEndTime;
+        meta.fetchTime = t.fetchEndTime! - t.fetchStartTime!;
 
-    return { refId, rawQuery, nextToken } as TimestreamQuery;
-  };
+        if (tracker) {
+          // Additional request
+          if (!tracker.subs?.length) {
+            const { subs, nextToken, queryId, ...rest } = tracker;
+            (rest as any).requestNumber = 1;
+            tracker.subs?.push(rest as TimestreamCustomMeta);
+          }
+          for (const m of tracker.subs!) {
+            delete m.nextToken; // not useful in the
+          }
+          delete meta.queryId;
+          (meta as any).requestNumber = tracker.subs!.length + 1;
 
-  private updateFinalFrameStats = (response: DataQueryResponse, tracker: TimestreamCustomMeta) => {
-    if (response.data?.length) {
-      const first = response.data[0] as DataFrame;
-      const custom = first.meta?.custom as TimestreamCustomMeta;
-      custom.fetchStartTime = tracker.fetchStartTime;
-      custom.fetchEndTime = Date.now();
-      custom.fetchTime = custom.fetchEndTime - custom.fetchStartTime!;
-      if (custom) {
-        if (tracker.subs) {
-          tracker.subs.push(custom);
-          tracker.executionFinishTime = custom.executionFinishTime;
-          tracker.hasSeries = custom.hasSeries;
+          tracker.subs!.push(meta);
+          tracker.fetchEndTime = t.fetchEndTime;
+          tracker.fetchTime = t.fetchEndTime! - tracker.fetchStartTime!;
+          tracker.executionFinishTime = meta.executionFinishTime;
+
+          data[0].meta!.custom = tracker;
         } else {
+          // First request
           tracker = {
-            ...tracker,
-            ...custom,
-          };
+            ...t,
+            ...meta,
+            subs: [],
+          } as TimestreamCustomMeta;
         }
-        delete tracker.nextToken;
 
-        // Add stats
-        if (tracker.executionStartTime && tracker.executionFinishTime) {
+        // Calculate stats
+        if (isLast && tracker.executionStartTime && tracker.executionFinishTime) {
+          delete tracker.nextToken;
+
           const tsTime = tracker.executionFinishTime - tracker.executionStartTime;
           if (tsTime > 0) {
             const stats: QueryResultMetaStat[] = [];
@@ -218,13 +164,34 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                 });
               }
             }
-            first.meta!.stats = stats;
-            first.meta!.custom = tracker;
+            data[0].meta!.stats = stats;
           }
         }
-      }
-    }
-  };
+        return data;
+      },
+
+      /**
+       * Callback that gets executed when unsubscribed
+       */
+      onCancel: (tracker: MultiRequestTracker) => {
+        if (queryId) {
+          console.log('Cancelling running timestream query');
+
+          // tracker.killed = true;
+          this.postResource(`cancel`, {
+            queryId,
+          })
+            .then(v => {
+              console.log('Timestream query Canceled:', v);
+            })
+            .catch(err => {
+              err.isHandled = true; // avoid the popup
+              console.log('error killing', err);
+            });
+        }
+      },
+    });
+  }
 
   //----------------------------------------------
   // SCHEMA Style Functions
