@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "0.9.3-preview",
+  "version": "0.9.4-preview",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
@@ -13,11 +13,11 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "next",
-    "@grafana/e2e": "next",
-    "@grafana/runtime": "next",
-    "@grafana/toolkit": "next",
-    "@grafana/ui": "next",
+    "@grafana/data": "latest",
+    "@grafana/e2e": "latest",
+    "@grafana/runtime": "latest",
+    "@grafana/toolkit": "latest",
+    "@grafana/ui": "latest",
     "@types/lodash": "latest"
   }
 }
