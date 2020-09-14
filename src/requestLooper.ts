@@ -28,6 +28,9 @@ export interface RequestLoopOptions<TQuery extends DataQuery = DataQuery> {
   onCancel: (tracker: MultiRequestTracker) => void;
 }
 
+/**
+ * Continue executing requests as long as `getNextQuery` returns a query
+ */
 export function getRequestLooper<T extends DataQuery = DataQuery>(
   req: DataQueryRequest<T>,
   options: RequestLoopOptions<T>
@@ -87,9 +90,9 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
     subscription = options.query(req).subscribe(observer);
 
     return () => {
+      nextQuery = undefined;
       observer.complete();
       if (!tracker.fetchEndTime) {
-        console.log('CANCEL', req.requestId);
         options.onCancel(tracker);
       }
     };
