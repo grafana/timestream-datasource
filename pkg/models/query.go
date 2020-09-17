@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/timestream-datasource/pkg/common"
 )
 
 // QueryModel represents a spreadsheet query.
@@ -34,9 +35,21 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	}
 
 	// Copy directly from the well typed query
-	model.Interval = query.Interval
 	model.TimeRange = query.TimeRange
+	model.Interval = query.Interval
 	model.MaxDataPoints = query.MaxDataPoints
+
+	// In 7.1 alerting queries send empty values for MaxDataPoints
+	if model.MaxDataPoints == 0 {
+		model.MaxDataPoints = 1024
+	}
+
+	// In 7.1 alerting queries send empty values for interval
+	if model.Interval.Milliseconds() == 0 && model.MaxDataPoints > 0 {
+		millis := model.TimeRange.Duration().Milliseconds() / model.MaxDataPoints
+		model.Interval = time.Millisecond * time.Duration(common.RoundInterval(millis))
+	}
+
 	return model, nil
 }
 
