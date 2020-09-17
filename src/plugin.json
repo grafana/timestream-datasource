@@ -9,8 +9,7 @@
   "alerting": true,
 
   "includes": [
-    { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" },
-    { "type": "dashboard", "name": "Sample with alert", "path": "dashboards/alert.json" }
+    { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" }
   ],
   
   "info": {
