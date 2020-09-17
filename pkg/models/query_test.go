@@ -25,6 +25,6 @@ func TestAutomaticInterval(t *testing.T) {
 		t.Fatalf("invalid data points: %d", model.MaxDataPoints)
 	}
 	if model.Interval.Milliseconds() != 10 {
-		t.Fatalf("15 millisecond for interval: %d", model.Interval.Milliseconds())
+		t.Fatalf("invalid interval: %d", model.Interval.Milliseconds())
 	}
 }
