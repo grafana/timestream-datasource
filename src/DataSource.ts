@@ -23,6 +23,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     this.options = instanceSettings.jsonData;
   }
 
+  // This will support annotation queries for 7.2+
+  annotations = {};
+
   async metricFindQuery(query: any, options?: any): Promise<MetricFindValue[]> {
     if (!query) {
       return Promise.resolve([]);
@@ -35,6 +38,13 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           text: s,
         }));
       });
+  }
+
+  /**
+   * Do not execute queries that do not exist yet
+   */
+  filterQuery(query: TimestreamQuery): boolean {
+    return !!query.rawQuery;
   }
 
   getQueryDisplayText(query: TimestreamQuery): string {
@@ -108,7 +118,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           for (const m of tracker.subs!) {
             delete m.nextToken; // not useful in the
           }
-          delete meta.queryId;
+          delete (meta as any).queryId;
           (meta as any).requestNumber = tracker.subs!.length + 1;
 
           tracker.subs!.push(meta);

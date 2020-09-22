@@ -7,6 +7,7 @@
   "executable": "gpx_timestream",
   "metrics": true,
   "alerting": true,
+  "annotations": true,
 
   "includes": [
     { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" }
