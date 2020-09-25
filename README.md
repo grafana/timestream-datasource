@@ -1,5 +1,8 @@
 # Timestream Datasource
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/83d15708b78d5fc1634a/maintainability)](https://codeclimate.com/repos/5f6e2d8ba6d60a01b600924b/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/83d15708b78d5fc1634a/test_coverage)](https://codeclimate.com/repos/5f6e2d8ba6d60a01b600924b/test_coverage)
+
 The Timestream datasource plugin provides a support for [Amazon Timestream](https://aws.amazon.com/timestream/). Add it as a data source, then you are ready to build dashboards using timestream query results
 
 ## Add the data source
@@ -7,7 +10,6 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 1. In the side menu under the **Configuration** link, click on **Data Sources**.
 1. Click the **Add data source** button.
 1. Select **Timestream** in the **Time series databases** section.
-
 
 | Name                     | Description                                                                                                             |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
@@ -17,8 +19,6 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 | Credentials profile name | Specify the name of the profile to use (if you use `~/.aws/credentials` file), leave blank for default.                 |
 | Assume Role Arn          | Specify the ARN of the role to assume.                                                                                  |
 | Endpoint (optional)      | If you need to specify an alternate service endpoint                                                                    |
-
-
 
 ## Authentication
 
@@ -51,12 +51,7 @@ aws_secret_access_key = <your access key>
 region = us-west-2
 ```
 
-
-Once authentication is configured, click "Save and Test" to verify the service is working.
-
-Then you can specify default values for the 
-
-
+Once authentication is configured, click "Save and Test" to verify the service is working. Once this is configured, you can specify default values for the configuration.
 
 ## Query editor
 
@@ -65,7 +60,6 @@ The query editor accepts timestream syntax in addition to the macros listed abov
 ![query-editor](https://storage.googleapis.com/plugins-ci/plugins/timestream/timestream-query.png)
 
 Type `ctrl+space` to open open the IntelliSense suggestions
-
 
 ## Macros
 
@@ -79,12 +73,9 @@ Macro example | Description
 *$__timeFilter* | Will be replaced by an expression that limits the time to the dashboard range
 *$__interval_ms* | Will be replaced by a number that represents the amount of time a single pixel in the graph should cover
 
-
-
 ### Alerting
 
 See the [Alerting](https://grafana.com/docs/grafana/latest/alerting/alerts-overview/) documentation for more on Grafana alerts.
-
 
 ## Configure the data source with provisioning
 
