@@ -1,7 +1,8 @@
 {
   "type": "datasource",
-  "name": "AWS Timestream",
+  "name": "Amazon Timestream",
   "id": "grafana-timestream-datasource",
+  "category": "tsdb",
 
   "backend": true,
   "executable": "gpx_timestream",
@@ -14,7 +15,7 @@
   ],
   
   "info": {
-    "description": "Managed time series database in AWS",
+    "description": "Managed timeseries database from amazon",
     "author": {
       "name": "Grafana Labs",
       "url": "https://grafana.com"
