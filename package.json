@@ -12,10 +12,10 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "latest",
-    "@grafana/runtime": "latest",
+    "@grafana/data": "7.1.5",
+    "@grafana/runtime": "7.1.5",
     "@grafana/toolkit": "latest",
-    "@grafana/ui": "latest",
+    "@grafana/ui": "7.1.5",
     "@types/lodash": "latest"
   }
 }
