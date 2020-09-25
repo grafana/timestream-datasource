@@ -57,10 +57,17 @@ Once authentication is configured, click "Save and Test" to verify the service i
 Then you can specify default values for the 
 
 
+
+## Query editor
+
+The query editor accepts timestream syntax in addition to the macros listed above and any dashboard template variables.
+
+![query-editor](https://storage.googleapis.com/plugins-ci/plugins/timestream/timestream-query.png)
+
+Type `ctrl+space` to open open the IntelliSense suggestions
+
+
 ## Macros
-
-
-### Macros
 
 To simplify syntax and to allow for dynamic parts, like date range filters, the query can contain macros.
 
@@ -72,14 +79,6 @@ Macro example | Description
 *$__timeFilter* | Will be replaced by an expression that limits the time to the dashboard range
 *$__interval_ms* | Will be replaced by a number that represents the amount of time a single pixel in the graph should cover
 
-
-## Query editor
-
-The query editor accepts timestream syntax in addition to the macros listed above and any dashboard template variables.
-
-![query-editor](https://user-images.githubusercontent.com/13729989/93520935-8f3adc80-f92f-11ea-9399-e88f67f6aa07.png)
-
-Type `ctrl+space` to open open the IntelliSense suggestions
 
 
 ### Alerting
