@@ -1,8 +1,5 @@
 # Timestream Datasource
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/83d15708b78d5fc1634a/maintainability)](https://codeclimate.com/repos/5f6e2d8ba6d60a01b600924b/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/83d15708b78d5fc1634a/test_coverage)](https://codeclimate.com/repos/5f6e2d8ba6d60a01b600924b/test_coverage)
-
 The Timestream datasource plugin provides a support for [Amazon Timestream](https://aws.amazon.com/timestream/). Add it as a data source, then you are ready to build dashboards using timestream query results
 
 ## Add the data source
