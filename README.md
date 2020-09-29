@@ -19,7 +19,7 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 
 ## Authentication
 
-In this section we will go through the different type of authentication you can use for X-Ray data source.
+In this section we will go through the different type of authentication you can use for Timestream data source.
 
 ### Example AWS credentials
 
