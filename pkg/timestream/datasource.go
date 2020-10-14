@@ -146,7 +146,7 @@ func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealt
 
 	return &backend.CheckHealthResult{
 		Status:  backend.HealthStatusOk,
-		Message: "Conneciton success",
+		Message: "Connection success",
 	}, nil
 }
 
