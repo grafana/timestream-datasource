@@ -235,7 +235,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     if (!db) {
       return [];
     }
-    return this.getStrings(`SHOW TABLES FROM ${db}`).toPromise();
+    return this.getStrings(`SHOW TABLES FROM "${db}"`).toPromise();
   }
 
   async getMeasureInfo(db: string, table: string): Promise<MeasureInfo[]> {
@@ -246,7 +246,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       targets: [
         {
           refId: 'X',
-          rawQuery: `SHOW MEASURES FROM ${db}.${table}`,
+          rawQuery: `SHOW MEASURES FROM "${db}"."${table}"`,
         },
       ],
     } as unknown) as DataQueryRequest)
