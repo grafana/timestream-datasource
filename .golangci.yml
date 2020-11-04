@@ -1,0 +1,4 @@
+run:
+  skip-files:
+    - pkg/timestream/executor_test.go
+
