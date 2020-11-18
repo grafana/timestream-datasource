@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -17,7 +16,7 @@ const intervalStr = `$__interval_ms`
 // WHERE time > from_milliseconds(epoch_millis)
 
 // Interpolate processes macros
-func Interpolate(query models.QueryModel, settings aws.DatasourceSettings) (string, error) {
+func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (string, error) {
 
 	txt := query.RawQuery
 

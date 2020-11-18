@@ -7,8 +7,6 @@ import (
 	"os"
 	"testing"
 
-	gaws "github.com/grafana/timestream-datasource/pkg/common/aws"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -18,7 +16,7 @@ import (
 
 func runTest(t *testing.T, name string) *backend.DataResponse {
 	mockClient := &MockClient{testFileName: name}
-	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, gaws.DatasourceSettings{})
+	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, models.DatasourceSettings{})
 
 	// Remove changable fields
 	for _, frame := range dr.Frames {
@@ -140,7 +138,7 @@ func writeTestData(filename string, query models.QueryModel, t *testing.T) {
 	}
 	runner := inst.(*instanceSettings).Runner
 
-	raw, _ := Interpolate(query, gaws.DatasourceSettings{})
+	raw, _ := Interpolate(query, models.DatasourceSettings{})
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String(raw),
 	}
