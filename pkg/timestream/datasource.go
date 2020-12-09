@@ -52,9 +52,6 @@ func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamque
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	settings := models.DatasourceSettings{}
-
-	vvv, _ := json.MarshalIndent(s, "", "  ")
-	backend.Logger.Info("BEFORE", "sss", string(vvv))
 	err := settings.Load(s)
 	if err != nil {
 		return nil, fmt.Errorf("error reading settings: %s", err.Error())
