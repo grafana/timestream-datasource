@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { InlineFormLabel, AsyncSelect } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { TimestreamOptions, TimestreamSecureJsonData, TimestreamQuery } from '../types';
-import CommonConfig from '../common/CommonConfig';
+import ConnectionConfig from '../common/ConnectionConfig';
 import { SchemaInfo } from 'SchemaInfo';
 import { getDataSourceSrv } from '@grafana/runtime';
 import { DataSource } from '../DataSource';
@@ -97,7 +97,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
   };
 
   renderDefaultChoices(schema: SchemaInfo) {
-    const widthKey = 'width-12';
+    const widthKey = 'width-14';
     const widthVal = 'width-30';
 
     const { options } = this.props;
@@ -176,7 +176,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     return (
       <>
         <div>
-          <CommonConfig {...this.props} />
+          <ConnectionConfig {...this.props} defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com" />
         </div>
 
         {schema && this.renderDefaultChoices(schema)}

@@ -5,22 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
-	gaws "github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 )
 
+type clientGetterFunc func(region string) (client *timestreamquery.TimestreamQuery, err error)
+
 type instanceSettings struct {
 	Runner   queryRunner
-	Settings gaws.DatasourceSettings
+	Settings models.DatasourceSettings
 }
 
 // This is an interface to help testing
@@ -30,50 +31,54 @@ type queryRunner interface {
 }
 
 type timestreamRunner struct {
-	querySvc *timestreamquery.TimestreamQuery
+	querySvc clientGetterFunc
 }
 
 func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	return r.querySvc.QueryWithContext(ctx, input)
+	svc, err := r.querySvc("")
+	if err != nil {
+		return nil, err
+	}
+	return svc.QueryWithContext(ctx, input)
 }
 
 func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
-	return r.querySvc.CancelQueryWithContext(ctx, input)
+	svc, err := r.querySvc("")
+	if err != nil {
+		return nil, err
+	}
+	return svc.CancelQueryWithContext(ctx, input)
 }
 
 func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	settings, err := gaws.LoadSettings(s)
+	settings := models.DatasourceSettings{}
+	err := settings.Load(s)
 	if err != nil {
 		return nil, fmt.Errorf("error reading settings: %s", err.Error())
 	}
 	backend.Logger.Info("new instance", "settings", settings)
-
-	// setup the query client
-	cfg, err := gaws.GetAwsConfig(settings)
-	if err != nil {
-		return nil, err
-	}
-
-	sess, err := session.NewSession(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	tcfg := &aws.Config{}
-	if settings.Endpoint != "" {
-		tcfg.Endpoint = aws.String(settings.Endpoint)
-	}
-	querySvc := timestreamquery.New(sess, tcfg)
-
-	// Add the user agent version
-	querySvc.Handlers.Send.PushFront(func(r *request.Request) {
-		r.HTTPRequest.Header.Set("User-Agent", fmt.Sprintf("GrafanaTimestream/%s", "alpha"))
-	})
+	sessions := awsds.NewSessionCache()
 
 	return &instanceSettings{
 		Settings: settings,
 		Runner: &timestreamRunner{
-			querySvc: querySvc,
+			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
+				sess, err := sessions.GetSession(region, settings.AWSDatasourceSettings)
+				if err != nil {
+					return nil, err
+				}
+				tcfg := &aws.Config{}
+				if settings.Endpoint != "" {
+					tcfg.Endpoint = aws.String(settings.Endpoint)
+				}
+				querySvc := timestreamquery.New(sess, tcfg)
+
+				// Add the user agent version
+				querySvc.Handlers.Send.PushFront(func(r *request.Request) {
+					r.HTTPRequest.Header.Set("User-Agent", fmt.Sprintf("GrafanaTimestream/%s", "1.0.0"))
+				})
+				return querySvc, nil
+			},
 		},
 	}, nil
 }

@@ -6,7 +6,6 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/timestream-datasource/pkg/common/aws"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -27,7 +26,7 @@ func TestInterpolate(t *testing.T) {
 			TimeRange: timeRange,
 			RawQuery:  sqltxt,
 		}
-		text, _ := Interpolate(query, aws.DatasourceSettings{})
+		text, _ := Interpolate(query, models.DatasourceSettings{})
 		if diff := cmp.Diff(text, expect); diff != "" {
 			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
 		}
@@ -42,7 +41,7 @@ func TestInterpolate(t *testing.T) {
 			RawQuery:  sqltxt,
 			Interval:  time.Minute,
 		}
-		text, _ := Interpolate(query, aws.DatasourceSettings{})
+		text, _ := Interpolate(query, models.DatasourceSettings{})
 		if diff := cmp.Diff(text, expect); diff != "" {
 			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
 		}
@@ -59,7 +58,7 @@ func TestInterpolate(t *testing.T) {
 			Database:  "${ddd}", // should use default
 			Table:     "table",
 		}
-		text, _ := Interpolate(query, aws.DatasourceSettings{
+		text, _ := Interpolate(query, models.DatasourceSettings{
 			DefaultDatabase: "ddb",
 			DefaultTable:    "dtb",
 			DefaultMeasure:  "measure",
