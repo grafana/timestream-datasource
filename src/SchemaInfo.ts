@@ -141,7 +141,7 @@ export class SchemaInfo {
         const label = getValidSuggestion(v);
         if (label) {
           sugs.push({
-            label: `'${label}'`, // measure names are quoted
+            label: label,
             kind: CodeEditorSuggestionItemKind.Property,
             detail: `(Measure)`,
           });
@@ -154,7 +154,7 @@ export class SchemaInfo {
       if (dims) {
         for (const v of dims) {
           sugs.push({
-            label: `'${v}'`, // measure names are quoted
+            label: `"${v}"`, // dimensions are quoted
             kind: CodeEditorSuggestionItemKind.Property,
             detail: `(Dimension)`,
           });
@@ -180,7 +180,7 @@ export class SchemaInfo {
     }
     const vals = await this.ds.getDatabases();
     this.databases = vals.map(name => {
-      return { label: name, value: name };
+      return { label: name, value: `"${name}"` };
     });
     if (this.templateSrv) {
       this.databases.push(...this.andTemplates());
@@ -201,7 +201,7 @@ export class SchemaInfo {
     }
     return this.ds.getTables(this.state.database).then(vals => {
       this.tables = vals.map(name => {
-        return { label: name, value: name };
+        return { label: name, value: `"${name}"` };
       });
       if (this.templateSrv) {
         this.tables.push(...this.andTemplates());
@@ -244,7 +244,7 @@ export class SchemaInfo {
       const dims: KeyValue<string[]> = {};
       this.measures = info.map(v => {
         dims[v.name] = v.dimensions;
-        return { label: `${v.name} (${v.type})`, value: v.name };
+        return { label: `${v.name} (${v.type})`, value: `"${v.name}"` };
       });
       this.dimensions = dims;
       if (this.templateSrv) {
