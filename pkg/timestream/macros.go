@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -23,6 +24,8 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 	if strings.Contains(txt, "$__intervalStr") {
 		return txt, fmt.Errorf("$__intervalStr removed... use $__interval_ms")
 	}
+
+	backend.Logger.Info("interpolate", "settings", settings)
 
 	// Simple Macros
 	txt = replaceOrDefault(txt, "$__database", query.Database, settings.DefaultDatabase)
