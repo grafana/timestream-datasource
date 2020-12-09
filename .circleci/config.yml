@@ -27,19 +27,9 @@ workflows:
       - build_frontend:
           requires:
             - yarn_install
-      - code_coverage_frontend:
-          requires:
-            - build_frontend
       - build_backend:
           requires:
             - yarn_install
-      - code_coverage_backend:
-          requires:
-            - build_backend
-      - upload_coverage:
-          requires:
-            - code_coverage_frontend
-            - code_coverage_backend
       - package:
           requires:
             - build_frontend
@@ -55,7 +45,6 @@ workflows:
           type: approval
           requires:
             - report
-            - upload_coverage
           filters: *filter-only-release
       - publish_github_release:
           requires:
@@ -182,77 +171,6 @@ jobs:
           root: .
           paths:
             - ci/jobs/build_backend
-
-  code_coverage_frontend:
-    executor: default_exec
-    steps:
-    - checkout
-    - attach_workspace:
-        at: .
-    - restore_cache:
-        name: restore node_modules
-        keys:
-          - build-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
-    - run:
-        name: Run coverage report
-        command: |
-          /usr/local/bin/cc-test-reporter format-coverage -t lcov -o out/codeclimate.frontend.json ci/jobs/build_frontend/coverage/lcov.info
-    - run:
-        name: Install jest and jest-junit
-        command: yarn global add jest jest-junit
-    - run:
-        name: Run tests with JUnit as reporter
-        command: jest --ci --runInBand --reporters=default --reporters=jest-junit
-        environment:
-          JEST_JUNIT_OUTPUT_DIR: "test-results/jest/results.xml"
-    - persist_to_workspace:
-        root: .
-        paths:
-        - out
-        - ci/jobs/code_coverage_frontend
-    - store_test_results:
-        path: test-results
-
-  code_coverage_backend:
-    executor: e2e_exec
-    working_directory: /go/src/github.com/grafana/timestream-datasource
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build backend
-          command: mage -v buildAll
-      - run:
-          name: Run coverage report
-          command: |
-            export GOPATH=/go
-            mage -v coverage || true
-            /usr/local/bin/cc-test-reporter format-coverage -t gocov -o out/codeclimate.backend.json coverage/backend.out || true
-      - persist_to_workspace:
-          root: .
-          paths:
-            - out
-            - ci/jobs/code_coverage_backend
-      - store_artifacts:
-          path: out
-      - store_artifacts:
-          path: ci/jobs/code_coverage_backend
-      - store_test_results:
-          path: out
-
-  upload_coverage:
-    executor: default_exec
-    #  environment:
-    #    CC_TEST_REPORTER_ID: add_this_to_circleci_config
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            /usr/local/bin/cc-test-reporter sum-coverage out/codeclimate.*.json -d -p 2 -o out/codeclimate.total.json
-            /usr/local/bin/cc-test-reporter upload-coverage -i out/codeclimate.total.json
 
   package:
     executor: e2e_exec
