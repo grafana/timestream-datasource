@@ -55,7 +55,7 @@ apiVersion: 1
 
 datasources:
   - name: Timestream
-    type: datasource
+    type: grafana-timestream-datasource
     jsonData:
       authType: credentials
       defaultRegion: us-east-1
@@ -68,7 +68,7 @@ apiVersion: 1
 
 datasources:
   - name: Timestream
-    type: datasource
+    type: grafana-timestream-datasource
     jsonData:
       authType: keys
       defaultRegion: us-east-1
