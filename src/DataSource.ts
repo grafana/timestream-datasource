@@ -56,13 +56,16 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return query;
     }
 
+    // create a copy of scopedVars without $__interval_ms for using with rawQuery
+    const { __interval_ms, __interval, ...queryScopedVars } = scopedVars;
+
     const templateSrv = getTemplateSrv();
     return {
       ...query,
       database: templateSrv.replace(query.database || '', scopedVars),
       table: templateSrv.replace(query.table || '', scopedVars),
       measure: templateSrv.replace(query.measure || '', scopedVars),
-      rawQuery: templateSrv.replace(query.rawQuery), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
+      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
     };
   }
 
