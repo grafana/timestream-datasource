@@ -57,6 +57,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     }
 
     // create a copy of scopedVars without $__interval_ms for using with rawQuery
+    // ${__interval*} should be escaped by the server, not the frontend
     const { __interval_ms, __interval, ...queryScopedVars } = scopedVars;
 
     const templateSrv = getTemplateSrv();
@@ -65,7 +66,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       database: templateSrv.replace(query.database || '', scopedVars),
       table: templateSrv.replace(query.table || '', scopedVars),
       measure: templateSrv.replace(query.measure || '', scopedVars),
-      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
+      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars),
     };
   }
 
