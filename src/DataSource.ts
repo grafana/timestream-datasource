@@ -65,7 +65,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       database: templateSrv.replace(query.database || '', scopedVars),
       table: templateSrv.replace(query.table || '', scopedVars),
       measure: templateSrv.replace(query.measure || '', scopedVars),
-      rawQuery: templateSrv.replace(query.rawQuery, scopedVarsWithoutTimestamp), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
+      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars), // DO NOT include scopedVars! it uses $__interval_ms!!!!!
     };
   }
 
