@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.1.1
+- Avoid double escaping
+- support template variables in query
+
 ## v1.1.0
 
 - Updated authentication to match builtin cloudwatch authentication
