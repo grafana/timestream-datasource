@@ -57,8 +57,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     }
 
     // create a copy of scopedVars without $__interval_ms for using with rawQuery
-    var scopedVarsWithoutTimestamp = Object.assign({}, scopedVars);
-    delete scopedVars.__interval_ms;
+    const {__interval_ms, __interval, ...queryScopedVars} = scopedVars;
 
     const templateSrv = getTemplateSrv();
     return {
