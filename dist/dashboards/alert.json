@@ -1,0 +1,237 @@
+{
+    "__inputs": [
+      {
+        "name": "DS_AWS_TIMESTREAM",
+        "label": "AWS Timestream",
+        "description": "",
+        "type": "datasource",
+        "pluginId": "grafana-timestream-datasource",
+        "pluginName": "AWS Timestream"
+      }
+    ],
+    "__requires": [
+      {
+        "type": "panel",
+        "id": "alertlist",
+        "name": "Alert list",
+        "version": ""
+      },
+      {
+        "type": "grafana",
+        "id": "grafana",
+        "name": "Grafana",
+        "version": "7.1.0-beta3"
+      },
+      {
+        "type": "datasource",
+        "id": "grafana-timestream-datasource",
+        "name": "AWS Timestream",
+        "version": "0.9.0-preview"
+      },
+      {
+        "type": "panel",
+        "id": "graph",
+        "name": "Graph",
+        "version": ""
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "panels": [
+      {
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [
+                  70
+                ],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": [
+                  "A",
+                  "5m",
+                  "now"
+                ]
+              },
+              "reducer": {
+                "params": [],
+                "type": "max"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "0",
+          "frequency": "10s",
+          "handler": 1,
+          "name": "Hosts with High GC Pause alert",
+          "noDataState": "no_data",
+          "notifications": []
+        },
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 16,
+          "w": 17,
+          "x": 0,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 2,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "percentage": false,
+        "pluginVersion": "7.1.0-beta3",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "SELECT \n\tsilo, microservice_name, instance_name, \n\tCREATE_TIME_SERIES(time, measure_value::double) AS gc_pause\nFROM $__database.$__table\nWHERE $__timeFilter\n\tAND measure_name = '$__measure'\n\tAND region = 'ap-northeast-1' \n\tAND cell = 'ap-northeast-1-cell-5' \n\tAND silo = 'ap-northeast-1-cell-5-silo-2'\n\tAND availability_zone = 'ap-northeast-1-3' \n\tAND microservice_name = 'zeus'\nGROUP BY region, \n\tcell, \n\tsilo, \n\tavailability_zone, \n\tmicroservice_name,\n\tinstance_name, \n\tprocess_name, \n\tjdk_version\t\t\nORDER BY AVG(measure_value::double) DESC\nLIMIT 3",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [
+          {
+            "colorMode": "critical",
+            "fill": true,
+            "line": true,
+            "op": "gt",
+            "value": 70
+          }
+        ],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Hosts with High GC Pause",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "dashboardFilter": "",
+        "dashboardTags": [],
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 16,
+          "w": 7,
+          "x": 17,
+          "y": 0
+        },
+        "id": 4,
+        "limit": 10,
+        "nameFilter": "",
+        "onlyAlertsOnDashboard": true,
+        "pluginVersion": "7.1.0-beta3",
+        "show": "current",
+        "sortOrder": 1,
+        "stateFilter": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Timestream alerts",
+        "type": "alertlist"
+      }
+    ],
+    "schemaVersion": 26,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Timestream query with alert",
+    "uid": "RNTi_InMk",
+    "version": 2
+  }
+  

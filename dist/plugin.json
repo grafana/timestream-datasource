@@ -1,0 +1,56 @@
+{
+  "type": "datasource",
+  "name": "Amazon Timestream",
+  "id": "grafana-timestream-datasource",
+  "category": "tsdb",
+  "backend": true,
+  "executable": "gpx_timestream",
+  "metrics": true,
+  "alerting": true,
+  "annotations": true,
+  "includes": [
+    {
+      "type": "dashboard",
+      "name": "Sample Application",
+      "path": "dashboards/sample.json"
+    }
+  ],
+  "info": {
+    "description": "Managed timeseries database from amazon",
+    "author": {
+      "name": "Grafana Labs",
+      "url": "https://grafana.com"
+    },
+    "keywords": [
+      "datasource",
+      "timestream",
+      "aws"
+    ],
+    "logos": {
+      "small": "img/timestream.svg",
+      "large": "img/timestream.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/timestream-datasource"
+      }
+    ],
+    "screenshots": [],
+    "version": "1.1.1",
+    "updated": "2020-12-23",
+    "build": {
+      "time": 1608695278561,
+      "repo": "git@github.com:grafana/timestream-datasource.git",
+      "branch": "v1.1.x",
+      "hash": "10c4acd5af5800526c11295837cd8f8e64cf903f",
+      "pr": 34,
+      "number": 475
+    }
+  },
+  "dependencies": {
+    "grafanaVersion": "7.1.0",
+    "grafanaDependency": ">=7.1.0",
+    "plugins": []
+  }
+}
