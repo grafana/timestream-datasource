@@ -58,9 +58,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
 
     // create a copy of scopedVars without $__interval_ms for using with rawQuery
     // ${__interval*} should be escaped by the server, not the frontend
-    const queryScopedVars = { ...scopedVars };
-    delete queryScopedVars.__interval_ms;
-    delete queryScopedVars.__interval;
+    const { __interval_ms, __interval, ...queryScopedVars } = scopedVars;
 
     const templateSrv = getTemplateSrv();
     return {
@@ -241,7 +239,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     if (!db) {
       return [];
     }
-    return this.getStrings(`SHOW TABLES FROM ${quoted(db)}`).toPromise();
+    return this.getStrings(`SHOW TABLES FROM "${db}"`).toPromise();
   }
 
   async getMeasureInfo(db: string, table: string): Promise<MeasureInfo[]> {
@@ -252,7 +250,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       targets: [
         {
           refId: 'X',
-          rawQuery: `SHOW MEASURES FROM ${quoted(db)}.${quoted(table)}`,
+          rawQuery: `SHOW MEASURES FROM "${db}"."${table}"`,
         },
       ],
     } as unknown) as DataQueryRequest)
@@ -280,19 +278,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         return rsp;
       });
   }
-}
-
-function quoted(v: string) {
-  if (!v) {
-    return ''; // ??
-  }
-  if (!v.startsWith('"')) {
-    v = '"' + v;
-  }
-  if (!v.endsWith('"')) {
-    v = v + '"';
-  }
-  return v;
 }
 
 export function getNextTokenMeta(rsp: DataQueryResponse): TimestreamCustomMeta | undefined {
