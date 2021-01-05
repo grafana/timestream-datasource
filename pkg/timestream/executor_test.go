@@ -55,8 +55,19 @@ func TestSavedConversions(t *testing.T) {
 
 func TestGenerateTestData(t *testing.T) {
 	t.Skip("Integration Test") // comment line to run this
+	db := "SampleDB"
+	tableName := "DevOps"
+	table := db + "." + tableName
 
 	m := make(map[string]models.QueryModel)
+	m["show-databases.json"] = models.QueryModel{
+		RawQuery: "SHOW DATABASES",
+	}
+
+	m["show-tables.json"] = models.QueryModel{
+		RawQuery: "SHOW TABLES FROM " + db,
+	}
+
 	m["select-consts.json"] = models.QueryModel{
 		RawQuery: `SELECT 
 		  1     as t_int32, 
@@ -65,22 +76,22 @@ func TestGenerateTestData(t *testing.T) {
 	}
 
 	m["describe-table.json"] = models.QueryModel{
-		RawQuery: "DESCRIBE grafanaDB.grafanaTable",
+		RawQuery: "DESCRIBE " + table,
 	}
 
 	m["show-measures.json"] = models.QueryModel{
-		RawQuery: "SHOW MEASURES FROM grafanaDB.grafanaTable",
+		RawQuery: "SHOW MEASURES FROM " + table,
 	}
 
 	m["select-star.json"] = models.QueryModel{
-		RawQuery: `SELECT * FROM grafanaDB.grafanaTable LIMIT 10`,
+		RawQuery: `SELECT * FROM ` + table + ` LIMIT 10`,
 	}
 
 	m["single-timeseries.json"] = models.QueryModel{
 		RawQuery: `SELECT region, cell, silo, availability_zone, microservice_name,
 		instance_name, process_name, jdk_version,
 		CREATE_TIME_SERIES(time, measure_value::double) AS gc_reclaimed
-	FROM grafanaDB.grafanaTable
+	FROM ` + table + `
 	WHERE time > ago(2h)
 		AND measure_name = 'gc_reclaimed'
 		AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND silo = 'ap-northeast-1-cell-5-silo-2'
@@ -101,7 +112,7 @@ func TestGenerateTestData(t *testing.T) {
 			process_name, 
 			jdk_version,
 			CREATE_TIME_SERIES(time, measure_value::double) AS gc_reclaimed
-		FROM grafanaDB.grafanaTable
+		FROM ` + table + `
 		WHERE time > ago(1h)
 			AND measure_name = 'gc_reclaimed'
 			AND region = 'ap-northeast-1' 

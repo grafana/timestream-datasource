@@ -162,6 +162,8 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 		return nil, err
 	}
 
+	backend.Logger.Info("QueryData QueryData !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
 	res := backend.NewQueryDataResponse()
 	for _, q := range req.Queries {
 		query, err := models.GetQueryModel(q)
