@@ -813,7 +813,7 @@
         "targets": [
           {
             "queryType": "raw",
-            "rawQuery": "SELECT region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nFROM ${dbName}.${tableName}\nWHERE $__timeFilter\n    AND region = 'us-east-1'\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nORDER BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name",
+            "rawQuery": "SELECT region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND region = 'us-east-1'\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nORDER BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name",
             "refId": "A"
           }
         ],
@@ -886,7 +886,7 @@
         "targets": [
           {
             "queryType": "raw",
-            "rawQuery": "SHOW MEASURES FROM ${dbName}.${tableName}",
+            "rawQuery": "SHOW MEASURES FROM $__database.$__table",
             "refId": "A"
           }
         ],
@@ -934,7 +934,7 @@
         "targets": [
           {
             "queryType": "raw",
-            "rawQuery": "SELECT region, cell, silo, availability_zone,\n    approx_distinct(microservice_name || instance_name) AS num_instances\nFROM ${dbName}.${tableName}\nWHERE $__timeFilter\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone\nORDER BY region, cell, silo, availability_zone",
+            "rawQuery": "SELECT region, cell, silo, availability_zone,\n    approx_distinct(microservice_name || instance_name) AS num_instances\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone\nORDER BY region, cell, silo, availability_zone",
             "refId": "A"
           }
         ],
@@ -947,99 +947,6 @@
     "refresh": "5m",
     "schemaVersion": 26,
     "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "grafanaDB",
-            "value": "grafanaDB"
-          },
-          "hide": 2,
-          "label": "Database Name",
-          "name": "dbName",
-          "options": [
-            {
-              "selected": true,
-              "text": "grafanaDB",
-              "value": "grafanaDB"
-            }
-          ],
-          "query": "grafanaDB",
-          "skipUrlSync": false,
-          "type": "textbox"
-        },
-        {
-          "current": {
-            "selected": false,
-            "text": "grafanaTable",
-            "value": "grafanaTable"
-          },
-          "hide": 2,
-          "label": "Table name",
-          "name": "tableName",
-          "options": [
-            {
-              "selected": true,
-              "text": "grafanaTable",
-              "value": "grafanaTable"
-            }
-          ],
-          "query": "grafanaTable",
-          "skipUrlSync": false,
-          "type": "textbox"
-        },
-        {
-          "allValue": null,
-          "current": {
-            "selected": false,
-            "text": "us-east1",
-            "value": "us-east1"
-          },
-          "hide": 2,
-          "includeAll": false,
-          "label": "Region",
-          "multi": false,
-          "name": "region",
-          "options": [
-            {
-              "selected": true,
-              "text": "us-east1",
-              "value": "us-east1"
-            },
-            {
-              "selected": false,
-              "text": "us-east-2",
-              "value": "us-east-2"
-            },
-            {
-              "selected": false,
-              "text": "us-west-1",
-              "value": "us-west-1"
-            },
-            {
-              "selected": false,
-              "text": "us-west-2",
-              "value": "us-west-2"
-            },
-            {
-              "selected": false,
-              "text": "eu-west-1",
-              "value": "eu-west-1"
-            },
-            {
-              "selected": false,
-              "text": "ap-northeast-1",
-              "value": "ap-northeast-1"
-            }
-          ],
-          "query": "us-east1,us-east-2,us-west-1,us-west-2,eu-west-1,ap-northeast-1",
-          "skipUrlSync": false,
-          "type": "custom"
-        }
-      ]
-    },
     "time": {
       "from": "now-6h",
       "to": "now"
@@ -1058,7 +965,7 @@
       ]
     },
     "timezone": "utc",
-    "title": "Sample Application Dashboard",
-    "uid": "eg1btqkgk",
+    "title": "Sample (DevOps)",
+    "uid": "G1btqkgkK",
     "version": 1
   }

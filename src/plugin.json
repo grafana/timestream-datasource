@@ -10,7 +10,7 @@
   "alerting": true,
   "annotations": true,
   "includes": [
-    { "type": "dashboard", "name": "Sample Application", "path": "dashboards/sample.json" }
+    { "type": "dashboard", "name": "Sample (DevOps)", "path": "dashboards/sample.json" }
   ],
   "info": {
     "description": "Managed timeseries database from amazon",
