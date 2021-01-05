@@ -43,13 +43,13 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
     const { regions } = this.state;
     const { options } = this.props;
     const secureJsonData = (options.secureJsonData || {}) as AwsDataSourceSecureJsonData;
-    const {jsonData} = options;
+    const { jsonData } = options;
     let profile = jsonData.profile;
     if (profile === undefined) {
       profile = options.database;
     }
     let region = regions.find(v => v.value === jsonData.defaultRegion);
-    if(!region && jsonData.defaultRegion) {
+    if (!region && jsonData.defaultRegion) {
       region = { value: jsonData.defaultRegion, label: jsonData.defaultRegion };
     }
 
