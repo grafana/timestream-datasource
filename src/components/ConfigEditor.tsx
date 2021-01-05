@@ -21,6 +21,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
   }
 
   componentDidMount = async () => {
+    console.log('componentDidMountX', this.props);
     const d = await getDataSourceSrv().get(this.props.options.name);
     const { options } = this.props;
     const ds = d as DataSource;
@@ -34,16 +35,10 @@ export class ConfigEditor extends PureComponent<Props, State> {
   };
 
   // Try harder to get the state
-  componentDidUpdate = async (oldProps: Props) => {
+  componentDidUpdate = async () => {
     if (!this.state.schema) {
       console.log('no state... try again');
       this.componentDidMount();
-    } else {
-      const oldData = oldProps.options.jsonData;
-      const { jsonData } = this.props.options;
-      if (jsonData.authType !== oldData.authType || jsonData.defaultRegion !== jsonData.defaultRegion) {
-        this.componentDidMount(); // update
-      }
     }
   };
 
@@ -120,9 +115,8 @@ export class ConfigEditor extends PureComponent<Props, State> {
       ? { label: defaultMeasure, value: defaultMeasure }
       : { label: 'Select measure', value: '' };
 
-    // Reload the dropdowns when config changes
     return (
-      <div key={hashCode(JSON.stringify(this.props.options.jsonData))}>
+      <div>
         <br />
         <h3>Default Query Macros</h3>
         <div className="gf-form-inline">
@@ -130,14 +124,12 @@ export class ConfigEditor extends PureComponent<Props, State> {
             <InlineFormLabel className={widthKey}>$__database</InlineFormLabel>
             <AsyncSelect
               className={widthVal}
-              cacheOptions={false}
               loadOptions={schema.getDatabases}
               value={currentDatabase}
               onChange={this.onDatabaseChange}
               defaultOptions
               loadingMessage="..."
               allowCustomValue={true}
-              formatCreateLabel={t => `DB: ${t}`}
             />
           </div>
         </div>
@@ -147,14 +139,12 @@ export class ConfigEditor extends PureComponent<Props, State> {
               <InlineFormLabel className={widthKey}>$__table</InlineFormLabel>
               <AsyncSelect
                 className={widthVal}
-                cacheOptions={false}
                 loadOptions={schema.getTables}
                 value={currentTable}
                 onChange={this.onTableChange}
                 defaultOptions
                 loadingMessage="..."
                 allowCustomValue={true}
-                formatCreateLabel={t => `Table: ${t}`}
               />
             </div>
           </div>
@@ -165,7 +155,6 @@ export class ConfigEditor extends PureComponent<Props, State> {
               <InlineFormLabel className={widthKey}>$__measure</InlineFormLabel>
               <AsyncSelect
                 className={widthVal}
-                cacheOptions={false}
                 loadOptions={schema.getMeasures}
                 value={currentMeasure}
                 onChange={this.onMeasureChange}
@@ -194,11 +183,4 @@ export class ConfigEditor extends PureComponent<Props, State> {
       </>
     );
   }
-}
-
-function hashCode(s: string) {
-  return s.split('').reduce((a, b) => {
-    a = (a << 5) - a + b.charCodeAt(0);
-    return a & a;
-  }, 0);
 }
