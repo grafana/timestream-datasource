@@ -43,14 +43,9 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
     const { regions } = this.state;
     const { options } = this.props;
     const secureJsonData = (options.secureJsonData || {}) as AwsDataSourceSecureJsonData;
-    const {jsonData} = options;
-    let profile = jsonData.profile;
+    let profile = options.jsonData.profile;
     if (profile === undefined) {
       profile = options.database;
-    }
-    let region = regions.find(v => v.value === jsonData.defaultRegion);
-    if(!region && jsonData.defaultRegion) {
-      region = { value: jsonData.defaultRegion, label: jsonData.defaultRegion };
     }
 
     return (
@@ -214,12 +209,10 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
               </InlineFormLabel>
               <Select
                 className="width-30"
-                value={region}
+                value={regions.find(region => region.value === options.jsonData.defaultRegion)}
                 options={regions}
                 defaultValue={options.jsonData.defaultRegion}
                 onChange={onUpdateDatasourceJsonDataOptionSelect(this.props, 'defaultRegion')}
-                allowCustomValue={true}
-                formatCreateLabel={t => `Region: ${t}`}
               />
             </div>
           </div>
