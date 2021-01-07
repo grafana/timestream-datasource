@@ -76,3 +76,15 @@ datasources:
       accessKey: '<your access key>'
       secretKey: '<your secret key>'
 ```
+
+## How to build this datasource
+You will need to install [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/), [Go](https://golang.org/), and [Mage](https://magefile.org/) first.
+1. `yarn install --frozen-lockfile`
+1. `rm -rf node_modules/@grafana/data/node_modules`
+1. `npm run build`
+1. (Optional) `mage -v buildAll` This is optional if you need backend plugins for other platforms.
+1. [Sign the plugin](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/), or configure Grafana to [load the unsigned plugin](https://grafana.com/docs/grafana/latest/plugins/plugin-signatures/#allow-unsigned-plugins).
+1. The compiled plugin should be in `dist/` directory.
+1. You can install by following the [install Grafana plugins docs page](https://grafana.com/docs/grafana/latest/plugins/installation/).
+
+For more information, please consult the [build a plugin docs page](https://grafana.com/docs/grafana/latest/developers/plugins/).
