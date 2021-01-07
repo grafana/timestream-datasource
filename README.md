@@ -80,7 +80,8 @@ datasources:
 ## How to build this datasource
 You will need to install [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/), [Go](https://golang.org/), and [Mage](https://magefile.org/) first.
 1. `yarn install --frozen-lockfile`
-1. `yarn dev`
+1. `yarn dev` will build your frontend changes
+1. `mage build:backend` -- will build the backend changes
 1. (Optional) `mage -v buildAll` This is optional if you need backend plugins for other platforms.
 1. [Sign the plugin](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/), or configure Grafana to [load the unsigned plugin](https://grafana.com/docs/grafana/latest/plugins/plugin-signatures/#allow-unsigned-plugins).
 1. The compiled plugin should be in `dist/` directory.
