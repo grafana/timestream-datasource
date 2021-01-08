@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "1.2.0-dev",
+  "version": "1.1.1",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "rm -rf dist && grafana-toolkit plugin:build && mage build:backend",
