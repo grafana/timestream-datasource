@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.1.2
+- Fix template variable queries
+- Only show valid regions
+
 ## v1.1.1
 - Avoid double escaping
 - support template variables in query
