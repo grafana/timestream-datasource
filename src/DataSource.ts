@@ -224,6 +224,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     } as unknown) as DataQueryRequest).pipe(
       map(res => {
         const first = res.data[0] as DataFrame;
+        if (!first || !first.length) {
+          return [];
+        }
         const vals = first.fields[0]?.values;
         if (vals) {
           return vals.toArray(); //
