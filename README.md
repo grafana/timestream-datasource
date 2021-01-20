@@ -83,8 +83,8 @@ You will need to install [Node.js](https://nodejs.org/en/), [Yarn](https://yarnp
 1. `yarn dev` — will build the frontend changes
 1. `mage build:backend` — will build the backend changes
 1. (Optional) `mage -v buildAll` — this is optional if you need backend plugins for other platforms
-1. Run Grafana in [development](https://grafana.com/docs/grafana/latest/administration/configuration/#app_mode) mode, or configure Grafana to [load the unsigned plugin](https://grafana.com/docs/grafana/latest/plugins/plugin-signatures/#allow-unsigned-plugins).
 1. The compiled plugin should be in `dist/` directory.
+1. Run Grafana in [development](https://grafana.com/docs/grafana/latest/administration/configuration/#app_mode) mode, or configure Grafana to [load the unsigned plugin](https://grafana.com/docs/grafana/latest/plugins/plugin-signatures/#allow-unsigned-plugins).
 1. You can install by following the [install Grafana plugins docs page](https://grafana.com/docs/grafana/latest/plugins/installation/).
 
 For more information, please consult the [build a plugin docs page](https://grafana.com/docs/grafana/latest/developers/plugins/).
