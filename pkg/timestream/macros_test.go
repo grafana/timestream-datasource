@@ -48,8 +48,8 @@ func TestInterpolate(t *testing.T) {
 	})
 
 	t.Run("using templates", func(t *testing.T) {
-		sqltxt := `SELECT $__measure FROM $__database.$__table LIMIT 10`
-		expect := `SELECT measure FROM ddb.table LIMIT 10`
+		sqltxt := `SELECT '$__measure' FROM $__database.$__table LIMIT 10`
+		expect := `SELECT 'measure' FROM ddb.table LIMIT 10`
 
 		query := models.QueryModel{
 			TimeRange: timeRange,
