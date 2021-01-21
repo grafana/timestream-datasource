@@ -244,7 +244,7 @@ export class SchemaInfo {
       const dims: KeyValue<string[]> = {};
       this.measures = info.map(v => {
         dims[v.name] = v.dimensions;
-        return { label: `${v.name} (${v.type})`, value: `"${v.name}"` };
+        return { label: `${v.name} (${v.type})`, value: `${v.name}` };
       });
       this.dimensions = dims;
       if (this.templateSrv) {
