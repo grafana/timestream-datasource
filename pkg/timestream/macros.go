@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
 const timeFilter = `\$__timeFilter`
 const intervalStr = `$__interval_ms`
+const nowStr = `$__now_ms`
 
 // WHERE time > from_unixtime(unixtime)
 // WHERE time > from_iso8601_timestamp(iso_8601_string_format)
@@ -49,6 +51,12 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
 		}
 		txt = strings.ReplaceAll(txt, intervalStr, replacement)
+	}
+
+	if strings.Contains(txt, nowStr) {
+		now := int(time.Now().UnixNano() / int64(time.Millisecond))
+		replacement := fmt.Sprintf("%d", now)
+		txt = strings.ReplaceAll(txt, nowStr, replacement)
 	}
 
 	return txt, err
