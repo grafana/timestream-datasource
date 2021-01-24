@@ -36,8 +36,8 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 
 	if timeFilterExp.MatchString(txt) {
 		timeRange := query.TimeRange
-		from := int(timeRange.From.UnixNano() / 1e6)
-		to := int(timeRange.To.UnixNano() / 1e6)
+		from := int64(timeRange.From.UnixNano() / 1e6)
+		to := int64(timeRange.To.UnixNano() / 1e6)
 
 		replacement := fmt.Sprintf("time BETWEEN from_milliseconds(%d) AND from_milliseconds(%d)", from, to)
 		txt = timeFilterExp.ReplaceAllString(txt, replacement)
