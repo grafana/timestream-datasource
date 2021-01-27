@@ -78,6 +78,11 @@ export class SchemaInfo {
         detail: '(Macro)',
       },
       {
+        label: '$__now_ms',
+        kind: CodeEditorSuggestionItemKind.Method,
+        detail: '(Macro)',
+      },
+      {
         label: '$__database',
         kind: CodeEditorSuggestionItemKind.Method,
         detail: `(Macro) ${this.state.database}`,
