@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.2.0 (not released)
+- Support $__timefilter on armhf (#52, @mg-arne)
+- Add $__now_ms macro (#49, @squalou)
+- Improve region picker
+
 ## v1.1.2
 - Fix template variable queries
 - Only show valid regions
