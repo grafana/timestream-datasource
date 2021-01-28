@@ -8,27 +8,10 @@ The production plugins can be downloaded from [the Timestream plugin page](https
 
 For configuration options, see: [src/README.md](src/README.md)
 
-## Development builds
-
-To get the latest build artifacts for a branch:
-1. find the green checkbox after a build
-2. click link to the "package" details link
-3. open the "Artifacts" tab
-4. Pick the appropriate download for your platform
-
-<table>
-  <tr>
-    <td><img src="https://raw.githubusercontent.com/grafana/iot-sitewise-datasource/main/docs/package.png" /></td>
-    <td><img src="https://raw.githubusercontent.com/grafana/iot-sitewise-datasource/main/docs/artifacts.png" /></td>
-  </tr>
-</table>
-
 
 ## Developer Guide
 
 
-
-## How to build this datasource
 You will need to install [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/), [Go](https://golang.org/), and [Mage](https://magefile.org/) first.
 1. `yarn install --frozen-lockfile`
 1. `yarn dev` — will build the frontend changes

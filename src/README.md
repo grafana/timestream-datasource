@@ -36,6 +36,20 @@ Macro example | Description
 *$__timeFilter* | Will be replaced by an expression that limits the time to the dashboard range
 *$__interval_ms* | Will be replaced by a number that represents the amount of time a single pixel in the graph should cover
 
+
+## Using Variables in Queries
+
+Grafana template variables can be used in query Timestream query.  See the grafana documentaiton on [template variables](https://grafana.com/docs/grafana/latest/variables/) for more information on how to setup and use variables.
+
+### Disabling quoting for multi-value variables
+
+Grafana automatically creates a quoted, comma-separated string for multi-value variables. For example: if `server01` and `server02` are selected then it will be formatted as: `'server01', 'server02'`. To disable quoting, use the csv formatting option for variables:
+
+`${servers:csv}`
+
+Read more about variable formatting options in the [Variables](https://grafana.com/docs/grafana/latest/variables/advanced-variable-format-options/) documentation.
+
+
 ### Alerting
 
 See the [Alerting](https://grafana.com/docs/grafana/latest/alerting/alerts-overview/) documentation for more on Grafana alerts.
