@@ -1,6 +1,7 @@
 package timestream
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -65,6 +66,31 @@ func TestInterpolate(t *testing.T) {
 		})
 		if diff := cmp.Diff(text, expect); diff != "" {
 			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
+		}
+	})
+
+	t.Run("using now", func(t *testing.T) {
+		sqltxt := `$__now_ms`
+		query := models.QueryModel{
+			RawQuery: sqltxt,
+		}
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+		expect := int(time.Now().UnixNano() / int64(time.Millisecond))
+
+		precision := 10
+		opt := cmp.Comparer(func(x, y int) bool {
+			return x-y <= precision || y-x < precision
+		})
+
+		var numtext int
+		_, e := fmt.Sscan(text, &numtext)
+
+		if e != nil {
+			t.Fatalf(e.Error())
+		}
+
+		if !cmp.Equal(numtext, expect, opt) {
+			t.Fatalf("Result above tolerated precision %d : %d, %d", precision, numtext, expect)
 		}
 	})
 }
