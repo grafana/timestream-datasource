@@ -6,6 +6,7 @@ import {
   MetricFindValue,
   ScopedVars,
   QueryResultMetaStat,
+  TimeRange,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
@@ -31,7 +32,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return Promise.resolve([]);
     }
     const q = getTemplateSrv().replace(query as string);
-    return this.getStrings(q)
+    return this.getStrings(q, options.range)
       .toPromise()
       .then(strings => {
         return strings.map(s => ({
@@ -213,7 +214,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   // SCHEMA Style Functions
   //----------------------------------------------
 
-  private getStrings(rawQuery: string): Observable<string[]> {
+  private getStrings(rawQuery: string, range?: TimeRange): Observable<string[]> {
     return this.query(({
       targets: [
         {
@@ -221,6 +222,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           rawQuery,
         },
       ],
+      range,
     } as unknown) as DataQueryRequest).pipe(
       map(res => {
         const first = res.data[0] as DataFrame;
