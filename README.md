@@ -22,5 +22,3 @@ You will need to install [Node.js](https://nodejs.org/en/), [Yarn](https://yarnp
 1. You can install by following the [install Grafana plugins docs page](https://grafana.com/docs/grafana/latest/plugins/installation/).
 
 For more information, please consult the [build a plugin docs page](https://grafana.com/docs/grafana/latest/developers/plugins/).
-
-
