@@ -69,9 +69,14 @@ func TestGenerateTestData(t *testing.T) {
 	}
 
 	m["select-consts.json"] = models.QueryModel{
-		RawQuery: `SELECT 
-		  1     as t_int32, 
-		  'two' as t_varchar
+		RawQuery: `SELECT
+		  1     as t_int32,
+		  'two' as t_varchar,
+		  timestamp '2020-08-08 01:00' as timestamp,
+		  interval '2' day - interval '3' hour as interval_day_to_second,
+		  interval '3' year - interval '5' month as interval_year_to_month,
+		  time '01:00' as time,
+		  date '2020-08-08' as date
 		`,
 	}
 
