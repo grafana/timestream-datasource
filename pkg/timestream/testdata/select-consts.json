@@ -17,10 +17,60 @@
                 "ScalarType": "VARCHAR",
                 "TimeSeriesMeasureValueColumnInfo": null
             }
+        },
+        {
+            "Name": "timestamp",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "TIMESTAMP",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        },
+        {
+            "Name": "interval_day_to_second",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "INTERVAL_DAY_TO_SECOND",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        },
+        {
+            "Name": "interval_year_to_month",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "INTERVAL_YEAR_TO_MONTH",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        },
+        {
+            "Name": "time",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "TIME",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        },
+        {
+            "Name": "date",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "DATE",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
         }
     ],
     "NextToken": null,
     "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 10000000,
+        "CumulativeBytesScanned": 0,
+        "ProgressPercentage": 100
+    },
     "Rows": [
         {
             "Data": [
@@ -36,6 +86,41 @@
                     "NullValue": null,
                     "RowValue": null,
                     "ScalarValue": "two",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2020-08-08 01:00:00.000000000",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "1 21:00:00.000000000",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2-7",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "01:00:00.000000000",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2020-08-08",
                     "TimeSeriesValue": null
                 }
             ]

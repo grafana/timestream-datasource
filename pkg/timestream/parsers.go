@@ -27,7 +27,7 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 		case timestreamquery.ScalarTypeTimestamp:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeTime,
-				parser:    datumParserTime,
+				parser:    datumParserTimestamp,
 			}, nil
 		case timestreamquery.ScalarTypeBoolean:
 			return &fieldBuilder{
@@ -54,6 +54,30 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableInt32,
 				parser:    datumParserInt32,
+			}, nil
+
+		case timestreamquery.ScalarTypeIntervalDayToSecond:
+			return &fieldBuilder{
+				fieldType: data.FieldTypeNullableString,
+				parser:    datumParserInterval,
+			}, nil
+
+		case timestreamquery.ScalarTypeIntervalYearToMonth:
+			return &fieldBuilder{
+				fieldType: data.FieldTypeNullableString,
+				parser:    datumParserInterval,
+			}, nil
+
+		case timestreamquery.ScalarTypeDate:
+			return &fieldBuilder{
+				fieldType: data.FieldTypeNullableTime,
+				parser:    datumParserDate,
+			}, nil
+
+		case timestreamquery.ScalarTypeTime:
+			return &fieldBuilder{
+				fieldType: data.FieldTypeNullableTime,
+				parser:    datumParserTime,
 			}, nil
 
 		default:
@@ -184,12 +208,42 @@ func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserTime(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserTimestamp(datum *timestreamquery.Datum) (interface{}, error) {
 	// 2020-03-18 17:26:30.00000000
 	// 2006-01-02 15:04:05.99999999
 	return time.Parse("2006-01-02 15:04:05.99999999", *datum.ScalarValue)
 }
 
+func datumParserDate(datum *timestreamquery.Datum) (interface{}, error) {
+	if datum.ScalarValue == nil {
+		return nil, nil
+	}
+	v, err := time.Parse("2006-01-02", *datum.ScalarValue)
+	return &v, err
+}
+
+func datumParserTime(datum *timestreamquery.Datum) (interface{}, error) {
+	if datum.ScalarValue == nil {
+		return nil, nil
+	}
+	v, err := time.Parse("15:04:05.99999999", *datum.ScalarValue)
+	if err != nil {
+		return nil, err
+	}
+	// the default is that parse will use year 0 which will not display properly
+	properTime := v.AddDate(1970, 0, 0)
+	return &properTime, nil
+}
+
 func datumParserString(datum *timestreamquery.Datum) (interface{}, error) {
+	return datum.ScalarValue, nil
+}
+
+func datumParserInterval(datum *timestreamquery.Datum) (interface{}, error) {
+	if datum.ScalarValue == nil {
+		return nil, nil
+	}
+	// TODO: parse into a better datatype, maybe an integer for millisecond?
+	// Right now this string is consistent with Timestream console
 	return datum.ScalarValue, nil
 }
