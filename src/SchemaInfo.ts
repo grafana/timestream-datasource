@@ -100,7 +100,7 @@ export class SchemaInfo {
     ];
 
     if (this.templateSrv) {
-      this.templateSrv.getVariables().forEach(variable => {
+      this.templateSrv.getVariables().forEach((variable) => {
         const label = '${' + variable.name + '}';
         let val = this.templateSrv!.replace(label);
         if (val === label) {
@@ -171,7 +171,7 @@ export class SchemaInfo {
 
   andTemplates(): Array<SelectableValue<string>> {
     if (this.templateSrv) {
-      return this.templateSrv.getVariables().map(v => {
+      return this.templateSrv.getVariables().map((v) => {
         const template = '${' + v.name + '}';
         return { label: template, value: template };
       });
@@ -184,7 +184,7 @@ export class SchemaInfo {
       return Promise.resolve(this.databases);
     }
     const vals = await this.ds.getDatabases();
-    this.databases = vals.map(name => {
+    this.databases = vals.map((name) => {
       return { label: name, value: `"${name}"` };
     });
     if (this.templateSrv) {
@@ -204,8 +204,8 @@ export class SchemaInfo {
     if (!this.state.database) {
       return Promise.resolve([{ label: 'database not configured', value: '' }]);
     }
-    return this.ds.getTables(this.state.database).then(vals => {
-      this.tables = vals.map(name => {
+    return this.ds.getTables(this.state.database).then((vals) => {
+      this.tables = vals.map((name) => {
         return { label: name, value: `"${name}"` };
       });
       if (this.templateSrv) {
@@ -226,7 +226,7 @@ export class SchemaInfo {
     if (!query) {
       return this.measures;
     }
-    return this.measures.filter(f => {
+    return this.measures.filter((f) => {
       if (!f.value) {
         return;
       }
@@ -245,9 +245,9 @@ export class SchemaInfo {
     if (!table) {
       return Promise.resolve([{ label: 'table not configured', value: '' }]);
     }
-    return this.ds.getMeasureInfo(database, table).then(info => {
+    return this.ds.getMeasureInfo(database, table).then((info) => {
       const dims: KeyValue<string[]> = {};
-      this.measures = info.map(v => {
+      this.measures = info.map((v) => {
         dims[v.name] = v.dimensions;
         return { label: `${v.name} (${v.type})`, value: `${v.name}` };
       });

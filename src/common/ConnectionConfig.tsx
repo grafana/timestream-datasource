@@ -48,7 +48,7 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
     if (profile === undefined) {
       profile = options.database;
     }
-    let region = regions.find(v => v.value === jsonData.defaultRegion);
+    let region = regions.find((v) => v.value === jsonData.defaultRegion);
     if (!region && jsonData.defaultRegion) {
       region = { value: jsonData.defaultRegion, label: jsonData.defaultRegion };
     }
@@ -68,11 +68,11 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
               <Select
                 className="width-30"
                 value={
-                  awsAuthProviderOptions.find(p => p.value === options.jsonData.authType) || awsAuthProviderOptions[0]
+                  awsAuthProviderOptions.find((p) => p.value === options.jsonData.authType) || awsAuthProviderOptions[0]
                 }
                 options={awsAuthProviderOptions}
                 defaultValue={options.jsonData.authType}
-                onChange={option => {
+                onChange={(option) => {
                   onUpdateDatasourceJsonDataOptionSelect(this.props, 'authType')(option);
                 }}
               />
@@ -219,7 +219,7 @@ export default class ConnectionConfig extends PureComponent<Props, State> {
                 defaultValue={options.jsonData.defaultRegion}
                 onChange={onUpdateDatasourceJsonDataOptionSelect(this.props, 'defaultRegion')}
                 allowCustomValue={true}
-                formatCreateLabel={t => `Region: ${t}`}
+                formatCreateLabel={(t) => `Region: ${t}`}
               />
             </div>
           </div>
