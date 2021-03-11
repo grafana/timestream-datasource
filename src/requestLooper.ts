@@ -35,7 +35,7 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
   req: DataQueryRequest<T>,
   options: RequestLoopOptions<T>
 ): Observable<DataQueryResponse> {
-  return new Observable<DataQueryResponse>(subscriber => {
+  return new Observable<DataQueryResponse>((subscriber) => {
     let nextQuery: T | undefined = undefined;
     let subscription: Subscription | undefined = undefined;
     const tracker: MultiRequestTracker = {

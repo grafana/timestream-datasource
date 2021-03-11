@@ -25,7 +25,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const schema = new SchemaInfo(datasource, query, getTemplateSrv());
     this.setState({ schema: schema, schemaState: schema.state });
 
-    schema.preload().then(v => {
+    schema.preload().then((v) => {
       console.log('Loaded schema');
     });
   };
@@ -175,7 +175,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const { query } = this.props;
     const { schema, schemaState } = this.state;
 
-    const queryType = queryTypes.find(v => v.value === query.queryType) || queryTypes[1]; // Samples
+    const queryType = queryTypes.find((v) => v.value === query.queryType) || queryTypes[1]; // Samples
 
     return (
       <>

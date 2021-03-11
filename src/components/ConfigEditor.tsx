@@ -137,7 +137,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
               defaultOptions
               loadingMessage="..."
               allowCustomValue={true}
-              formatCreateLabel={t => `DB: ${t}`}
+              formatCreateLabel={(t) => `DB: ${t}`}
             />
           </div>
         </div>
@@ -154,7 +154,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
                 defaultOptions
                 loadingMessage="..."
                 allowCustomValue={true}
-                formatCreateLabel={t => `Table: ${t}`}
+                formatCreateLabel={(t) => `Table: ${t}`}
               />
             </div>
           </div>
@@ -172,7 +172,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
                 defaultOptions
                 loadingMessage="..."
                 allowCustomValue={true}
-                formatCreateLabel={v => `Use unknown measure: ${v}`}
+                formatCreateLabel={(v) => `Use unknown measure: ${v}`}
               />
             </div>
           </div>
