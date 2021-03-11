@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.3.0 (not yet released)
+- Use new authentication methods
+- bump minimum grafana runtime to 7.4
+
 ## v1.2.0
 - Support $__timefilter on armhf (#52, @mg-arne)
 - Add $__now_ms macro (#49, @squalou)

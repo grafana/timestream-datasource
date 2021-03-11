@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "1.2.0-dev",
+  "version": "1.3.0-dev",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "rm -rf dist && grafana-toolkit plugin:build && mage build:backend",
@@ -11,9 +11,10 @@
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "@grafana/data": "7.2.0",
-    "@grafana/runtime": "7.2.0",
+  "devDependencies": {    
+    "@grafana/aws-sdk": "latest",
+    "@grafana/data": "7.4.0",
+    "@grafana/runtime": "7.4.0",
     "@grafana/toolkit": "latest",
     "@grafana/ui": "7.2.0",
     "@types/lodash": "latest"

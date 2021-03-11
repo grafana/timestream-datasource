@@ -34,8 +34,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     const q = getTemplateSrv().replace(query as string);
     return this.getStrings(q, options.range)
       .toPromise()
-      .then(strings => {
-        return strings.map(s => ({
+      .then((strings) => {
+        return strings.map((s) => ({
           text: s,
         }));
       });
@@ -198,10 +198,10 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           this.postResource(`cancel`, {
             queryId,
           })
-            .then(v => {
+            .then((v) => {
               console.log('Timestream query Canceled:', v);
             })
-            .catch(err => {
+            .catch((err) => {
               err.isHandled = true; // avoid the popup
               console.log('error killing', err);
             });
@@ -224,7 +224,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       ],
       range,
     } as unknown) as DataQueryRequest).pipe(
-      map(res => {
+      map((res) => {
         const first = res.data[0] as DataFrame;
         if (!first || !first.length) {
           return [];
@@ -262,7 +262,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       ],
     } as unknown) as DataQueryRequest)
       .toPromise()
-      .then(res => {
+      .then((res) => {
         const rsp: MeasureInfo[] = [];
         const first = res.data[0] as DataFrame;
         if (!first || !first.length) {
@@ -273,7 +273,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         const dims = first.fields[2]?.values;
 
         for (let i = 0; i < first.length; i++) {
-          const dimensions = (JSON.parse(dims.get(i)) as any[]).map(row => {
+          const dimensions = (JSON.parse(dims.get(i)) as any[]).map((row) => {
             return row.dimension_name;
           });
           rsp.push({
