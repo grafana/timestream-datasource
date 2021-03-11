@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.2.1
+- Pass `range` for variable queries (#67, @tiratatp)
+- Support all current Timestream datatypes (#68, @tiratatp)
+
 ## v1.2.0
 - Support $__timefilter on armhf (#52, @mg-arne)
 - Add $__now_ms macro (#49, @squalou)
