@@ -90,3 +90,7 @@ datasources:
       accessKey: '<your access key>'
       secretKey: '<your secret key>'
 ```
+
+### Sample Dashboards
+
+This plugin contains two sample dashboards. Please consult the [Sample Application section](https://docs.aws.amazon.com/timestream/latest/developerguide/Grafana.html#Grafana.sample-app) in the official Timestream doc to set them up.

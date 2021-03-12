@@ -4,7 +4,7 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 
 Please add feedback to the [issues](https://github.com/grafana/timestream-datasource/issues) folder, and we will follow up shortly.  Be sure to include version information for both grafana and the installed plugin.
 
-The production plugins can be downloaded from [the Timestream plugin page](https://grafana.com/grafana/plugins/grafana-timestream-datasource/installation).
+The production plugins can be downloaded from [the Timestream plugin page](https://grafana.com/grafana/plugins/grafana-timestream-datasource/).
 
 For configuration options, see: [src/README.md](src/README.md)
 
