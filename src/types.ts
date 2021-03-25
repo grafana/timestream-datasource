@@ -1,5 +1,5 @@
 import { DataQuery } from '@grafana/data';
-import { AwsDataSourceJsonData, AwsDataSourceSecureJsonData } from 'common/types';
+import { AwsAuthDataSourceJsonData, AwsAuthDataSourceSecureJsonData } from '@grafana/aws-sdk';
 
 export interface ColumnInfo {
   column: string;
@@ -70,12 +70,12 @@ export interface TimestreamQuery extends DataQuery {
   // nextToken?: string;
 }
 
-export interface TimestreamOptions extends AwsDataSourceJsonData {
+export interface TimestreamOptions extends AwsAuthDataSourceJsonData {
   defaultDatabase?: string;
   defaultTable?: string;
   defaultMeasure?: string;
 }
 
-export interface TimestreamSecureJsonData extends AwsDataSourceSecureJsonData {
+export interface TimestreamSecureJsonData extends AwsAuthDataSourceSecureJsonData {
   // nothing for now
 }

@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { InlineFormLabel, AsyncSelect } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { TimestreamOptions, TimestreamSecureJsonData, TimestreamQuery } from '../types';
-import ConnectionConfig from '../common/ConnectionConfig';
 import { SchemaInfo } from 'SchemaInfo';
 import { getDataSourceSrv } from '@grafana/runtime';
 import { DataSource } from '../DataSource';
+import { ConnectionConfig } from '@grafana/aws-sdk';
+import { standardRegions } from 'regions';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
@@ -187,7 +188,11 @@ export class ConfigEditor extends PureComponent<Props, State> {
     return (
       <>
         <div>
-          <ConnectionConfig {...this.props} defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com" />
+          <ConnectionConfig
+            {...this.props}
+            standardRegions={standardRegions}
+            defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com"
+          />
         </div>
 
         {schema && this.renderDefaultChoices(schema)}

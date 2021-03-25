@@ -12,6 +12,7 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {    
+    "@grafana/aws-sdk": "latest",
     "@grafana/data": "7.4.0",
     "@grafana/runtime": "7.4.0",
     "@grafana/toolkit": "latest",
