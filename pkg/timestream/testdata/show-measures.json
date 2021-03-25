@@ -57,6 +57,11 @@
     ],
     "NextToken": null,
     "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 0,
+        "CumulativeBytesScanned": 0,
+        "ProgressPercentage": 100
+    },
     "Rows": [
         {
             "Data": [
@@ -181,7 +186,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -205,7 +210,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -399,7 +404,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -423,7 +428,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -617,7 +622,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -641,7 +646,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -835,7 +840,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -859,7 +864,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1053,7 +1058,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1077,7 +1082,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1271,7 +1276,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1295,7 +1300,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1489,7 +1494,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1513,7 +1518,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1707,7 +1712,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1731,7 +1736,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1780,6 +1785,104 @@
                                         "NullValue": null,
                                         "RowValue": null,
                                         "ScalarValue": "instance_type",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        }
+                    ],
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "cpu_utilization",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "double",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": [
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "hostname",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "az",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1925,7 +2028,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -1949,7 +2052,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2143,7 +2246,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2167,7 +2270,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2361,7 +2464,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2385,7 +2488,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2579,7 +2682,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2603,7 +2706,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2797,7 +2900,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -2821,7 +2924,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3039,7 +3142,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3063,7 +3166,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3257,7 +3360,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3281,7 +3384,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3451,7 +3554,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3475,7 +3578,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3669,7 +3772,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3693,7 +3796,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3887,7 +3990,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -3911,7 +4014,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4081,6 +4184,30 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
+                                        "ScalarValue": "process_name",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
                                         "ScalarValue": "os_version",
                                         "TimeSeriesValue": null
                                     },
@@ -4105,7 +4232,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "jdk_version",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4130,6 +4257,30 @@
                                         "NullValue": null,
                                         "RowValue": null,
                                         "ScalarValue": "region",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4323,7 +4474,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4347,7 +4498,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4396,6 +4547,104 @@
                                         "NullValue": null,
                                         "RowValue": null,
                                         "ScalarValue": "instance_type",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        }
+                    ],
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "memory_utilization",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "double",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": [
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "hostname",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "az",
+                                        "TimeSeriesValue": null
+                                    },
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "varchar",
+                                        "TimeSeriesValue": null
+                                    }
+                                ]
+                            },
+                            "ScalarValue": null,
+                            "TimeSeriesValue": null
+                        },
+                        {
+                            "ArrayValue": null,
+                            "NullValue": null,
+                            "RowValue": {
+                                "Data": [
+                                    {
+                                        "ArrayValue": null,
+                                        "NullValue": null,
+                                        "RowValue": null,
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4541,7 +4790,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4565,7 +4814,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4759,7 +5008,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -4783,7 +5032,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -5001,7 +5250,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -5025,7 +5274,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -5219,7 +5468,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "cell",
+                                        "ScalarValue": "region",
                                         "TimeSeriesValue": null
                                     },
                                     {
@@ -5243,7 +5492,7 @@
                                         "ArrayValue": null,
                                         "NullValue": null,
                                         "RowValue": null,
-                                        "ScalarValue": "region",
+                                        "ScalarValue": "cell",
                                         "TimeSeriesValue": null
                                     },
                                     {

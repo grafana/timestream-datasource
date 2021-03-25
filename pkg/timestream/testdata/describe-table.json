@@ -30,6 +30,11 @@
     ],
     "NextToken": null,
     "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 0,
+        "CumulativeBytesScanned": 0,
+        "ProgressPercentage": 100
+    },
     "Rows": [
         {
             "Data": [
@@ -63,6 +68,31 @@
                     "NullValue": null,
                     "RowValue": null,
                     "ScalarValue": "microservice_name",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "varchar",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "DIMENSION",
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "hostname",
                     "TimeSeriesValue": null
                 },
                 {
@@ -162,6 +192,31 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
+                    "ScalarValue": "az",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "varchar",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "DIMENSION",
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
                     "ScalarValue": "jdk_version",
                     "TimeSeriesValue": null
                 },
@@ -187,7 +242,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "cell",
+                    "ScalarValue": "region",
                     "TimeSeriesValue": null
                 },
                 {
@@ -212,7 +267,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "region",
+                    "ScalarValue": "cell",
                     "TimeSeriesValue": null
                 },
                 {
