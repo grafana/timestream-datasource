@@ -48,14 +48,16 @@ func TestSavedConversions(t *testing.T) {
 	runTest(t, "select-consts")
 	runTest(t, "describe-table")
 	runTest(t, "select-star")
-	runTest(t, "single-timeseries")
+	runTest(t, "complex-timeseries")
 	runTest(t, "some-timeseries")
 	runTest(t, "show-measures")
+	runTest(t, "show-databases")
+	runTest(t, "show-tables")
 }
 
 func TestGenerateTestData(t *testing.T) {
 	t.Skip("Integration Test") // comment line to run this
-	db := "SampleDB"
+	db := "grafanaDB"
 	tableName := "DevOps"
 	table := db + "." + tableName
 
@@ -92,18 +94,19 @@ func TestGenerateTestData(t *testing.T) {
 		RawQuery: `SELECT * FROM ` + table + ` LIMIT 10`,
 	}
 
-	m["single-timeseries.json"] = models.QueryModel{
-		RawQuery: `SELECT region, cell, silo, availability_zone, microservice_name,
-		instance_name, process_name, jdk_version,
-		CREATE_TIME_SERIES(time, measure_value::double) AS gc_reclaimed
-	FROM ` + table + `
-	WHERE time > ago(2h)
-		AND measure_name = 'gc_reclaimed'
-		AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND silo = 'ap-northeast-1-cell-5-silo-2'
-		AND availability_zone = 'ap-northeast-1-3' AND microservice_name = 'zeus'
-		AND instance_name = 'i-zaZswmJk-zeus-0002.amazonaws.com' AND process_name = 'server' AND jdk_version = 'JDK_11'
-	GROUP BY region, cell, silo, availability_zone, microservice_name,
-		instance_name, process_name, jdk_version`,
+	m["complex-timeseries.json"] = models.QueryModel{
+		RawQuery: `select measure_name, availability_zone, region, cell, silo, instance_type, instance_name, create_time_series(time, measure_value::double)
+		from ` + table + `
+		where time > ago(30m)
+			AND (measure_name = 'cpu_user' or measure_name = 'cpu_system')
+			and availability_zone ='us-east-1-1' 
+			and microservice_name = 'hercules'
+			and region = 'us-east-1' 
+			and cell = 'us-east-1-cell-1' 
+			and silo = 'us-east-1-cell-1-silo-1'
+			and instance_type = 'r5.4xlarge'
+			group by measure_name, availability_zone, region, cell, silo, instance_type, instance_name
+		`,
 	}
 
 	m["some-timeseries.json"] = models.QueryModel{
@@ -146,7 +149,7 @@ func TestGenerateTestData(t *testing.T) {
 func writeTestData(filename string, query models.QueryModel, t *testing.T) {
 
 	inst, err := newDataSourceInstance(backend.DataSourceInstanceSettings{
-		JSONData: []byte(`{"region": "us-east-1"}`),
+		JSONData: []byte(`{"region": "us-west-2"}`),
 	})
 	if err != nil {
 		t.Error(err)

@@ -1,0 +1,33 @@
+{
+    "ColumnInfo": [
+        {
+            "Name": "Database",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "VARCHAR",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
+        }
+    ],
+    "NextToken": null,
+    "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 0,
+        "CumulativeBytesScanned": 0,
+        "ProgressPercentage": 100
+    },
+    "Rows": [
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "grafanaDB",
+                    "TimeSeriesValue": null
+                }
+            ]
+        }
+    ]
+}

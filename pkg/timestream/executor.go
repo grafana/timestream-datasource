@@ -51,7 +51,7 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	if frame.Meta.Custom == nil {
 		frame.Meta.Custom = &models.TimestreamCustomMeta{}
 	}
-	if output.QueryStatus != nil {
+	if output != nil && output.QueryStatus != nil {
 		c := frame.Meta.Custom.(*models.TimestreamCustomMeta)
 		c.Status = output.QueryStatus
 	}
