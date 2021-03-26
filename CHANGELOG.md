@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## v1.3.0
-- Use new authentication methods
+- fix bug with supporting multi-page timeseries results
+- Use a shared authentication library and UI component
 - Bump minimum grafana runtime to 7.4
 
 ## v1.2.0
