@@ -50,12 +50,27 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
       next: (rsp: DataQueryResponse) => {
         tracker.fetchEndTime = Date.now();
         loadingState = rsp.state;
+        let checkstate = false;
         if (loadingState !== LoadingState.Error) {
           nextQuery = options.getNextQuery(rsp);
-          loadingState = nextQuery ? LoadingState.Loading : LoadingState.Done;
+          checkstate = true;
         }
 
         const data = options.process(tracker, rsp.data, !!!nextQuery);
+
+        // Show the spinner or streaming (streaming will show data)
+        if (checkstate) {
+          if (nextQuery) {
+            if (data.length && data[0].length) {
+              loadingState = LoadingState.Streaming;
+            } else {
+              loadingState = LoadingState.Loading;
+            }
+          } else {
+            loadingState = LoadingState.Done;
+          }
+          // console.log("CHECK STATE", data.length, loadingState);
+        }
         subscriber.next({ ...rsp, data, state: loadingState });
       },
       error: (err: any) => {

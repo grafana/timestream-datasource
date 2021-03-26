@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 
 import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
 import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
+import { appendMatchingFrames } from 'appendFrames';
 
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
   // Easy access for QueryEditor
@@ -76,6 +77,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   query(request: DataQueryRequest<TimestreamQuery>): Observable<DataQueryResponse> {
     let tracker: TimestreamCustomMeta | undefined = undefined;
     let queryId: string | undefined = undefined;
+    let allData: DataFrame[] = [];
     return getRequestLooper(request, {
       // Check for a "nextToken" in the response
       getNextQuery: (rsp: DataQueryResponse) => {
@@ -108,12 +110,34 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       process: (t: MultiRequestTracker, data: DataFrame[], isLast: boolean) => {
         const meta = data[0]?.meta?.custom as TimestreamCustomMeta;
         if (!meta) {
-          return data; // NOOP
+          return allData.length ? allData : data; // NOOP
         }
+
         // Single request
         meta.fetchStartTime = t.fetchStartTime;
         meta.fetchEndTime = t.fetchEndTime;
         meta.fetchTime = t.fetchEndTime! - t.fetchStartTime!;
+
+        if (meta.hasSeries || !allData.length) {
+          for (const frame of data) {
+            if (frame.fields.length > 0) {
+              allData.push(frame);
+            }
+          }
+        } else {
+          if (data.length > 1) {
+            console.log('non timeseries should have a single frame', data);
+          }
+          const append = data[0];
+          if (append.length > 0) {
+            allData = appendMatchingFrames(allData, data);
+          }
+        }
+
+        // Empty results
+        if (!allData[0]?.meta) {
+          return data;
+        }
 
         if (tracker) {
           // Additional request
@@ -133,7 +157,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           tracker.fetchTime = t.fetchEndTime! - tracker.fetchStartTime!;
           tracker.executionFinishTime = meta.executionFinishTime;
 
-          data[0].meta!.custom = tracker;
+          allData[0].meta!.custom = tracker;
         } else {
           // First request
           tracker = {
@@ -181,10 +205,10 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                 });
               }
             }
-            data[0].meta!.stats = stats;
+            allData[0].meta!.stats = stats;
           }
         }
-        return data;
+        return allData;
       },
 
       /**
