@@ -58,12 +58,13 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
 
         const data = options.process(tracker, rsp.data, !!!nextQuery);
 
+        // Show the spinner or streaming (streaming will show data)
         if (checkstate) {
           if (nextQuery) {
-            if (!data.length || data[0].length < 1) {
-              loadingState = LoadingState.Loading;
-            } else {
+            if (data.length && data[0].length) {
               loadingState = LoadingState.Streaming;
+            } else {
+              loadingState = LoadingState.Loading;
             }
           } else {
             loadingState = LoadingState.Done;
