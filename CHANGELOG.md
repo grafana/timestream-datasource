@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.3.1
+- Execute each query in its own request, this will support multiple queries that 
+  require multiple pages to complete
+- Upgrade shared authenticaiton library
+- Bump minimum grafana runtime to 7.5
+
 ## v1.3.0
 - fix bug with supporting multi-page timeseries results
 - Use a shared authentication library and UI component

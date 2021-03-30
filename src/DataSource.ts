@@ -82,7 +82,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     }
     const all: Array<Observable<DataQueryResponse>> = [];
     for (let target of targets) {
-      if(target.hide) {
+      if (target.hide) {
         continue;
       }
       all.push(this.doSingle(target, request));
