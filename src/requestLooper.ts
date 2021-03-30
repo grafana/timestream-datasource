@@ -71,7 +71,7 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
           }
           // console.log("CHECK STATE", data.length, loadingState);
         }
-        subscriber.next({ ...rsp, data, state: loadingState });
+        subscriber.next({ ...rsp, data, state: loadingState, key: req.requestId });
       },
       error: (err: any) => {
         subscriber.error(err);
