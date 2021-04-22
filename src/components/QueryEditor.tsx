@@ -4,6 +4,7 @@ import { DataSource } from '../DataSource';
 import { TimestreamQuery, TimestreamOptions, QueryType } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
 import { QueryField } from './Forms';
+import { selectors } from './selectors';
 
 import { Segment, SegmentAsync, InlineFormLabel, CodeEditor } from '@grafana/ui';
 import { sampleQueries, queryTypes } from './samples';
@@ -207,16 +208,18 @@ export class QueryEditor extends PureComponent<Props, State> {
           </div>
         </div>
         {queryType.value !== QueryType.Builder && schema && (
-          <CodeEditor
-            height={'250px'}
-            language="sql"
-            value={query.rawQuery || ''}
-            onBlur={this.onQueryChange}
-            onSave={this.onQueryChange}
-            showMiniMap={false}
-            showLineNumbers={true}
-            getSuggestions={schema.getSuggestions}
-          />
+          <div aria-label={selectors.components.QueryEditor.CodeEditor.container}>
+            <CodeEditor
+              height={'250px'}
+              language="sql"
+              value={query.rawQuery || ''}
+              onBlur={this.onQueryChange}
+              onSave={this.onQueryChange}
+              showMiniMap={false}
+              showLineNumbers={true}
+              getSuggestions={schema.getSuggestions}
+            />
+          </div>
         )}
       </>
     );

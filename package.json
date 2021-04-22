@@ -6,17 +6,21 @@
     "build": "rm -rf dist && grafana-toolkit plugin:build && mage build:backend",
     "test": "grafana-toolkit plugin:test",
     "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
-    "watch": "grafana-toolkit plugin:dev --watch"
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "e2e": "rm -rf node_modules/@grafana/data/node_modules/rxjs; grafana-e2e run",
+    "e2e:update": "grafana-e2e run --update-screenshots",
+    "e2e:dev": "grafana-e2e open"
   },
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/aws-sdk": "0.0.3",
+    "@grafana/aws-sdk": "0.0.31",
     "@grafana/data": "7.4.0",
     "@grafana/runtime": "7.4.0",
     "@grafana/toolkit": "latest",
     "@grafana/ui": "7.2.0",
+    "@grafana/e2e": "latest",
     "@types/lodash": "latest"
   }
 }
