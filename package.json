@@ -7,9 +7,9 @@
     "test": "grafana-toolkit plugin:test",
     "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "e2e": "rm -rf node_modules/@grafana/data/node_modules/rxjs; grafana-e2e run",
-    "e2e:update": "grafana-e2e run --update-screenshots",
-    "e2e:dev": "grafana-e2e open"
+    "e2e": "grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
+    "e2e:update": "grafana-e2e run --update-screenshots"
   },
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
