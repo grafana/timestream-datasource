@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
     "test": "npx grafana-toolkit plugin:test",
-    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
+    "dev": "rm -rf node_modules/@grafana/data/node_modules; npx grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "e2e": "grafana-e2e run",
     "e2e:open": "grafana-e2e open",
