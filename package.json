@@ -3,20 +3,26 @@
   "version": "1.3.1-dev",
   "description": "Load data timestream in grafana",
   "scripts": {
-    "build": "rm -rf dist && grafana-toolkit plugin:build && mage build:backend",
-    "test": "grafana-toolkit plugin:test",
-    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
-    "watch": "grafana-toolkit plugin:dev --watch"
+    "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
+    "ci-build": "rm -rf node_modules/@grafana/data/node_modules; npx grafana-toolkit plugin:ci-build",
+    "test": "npx grafana-toolkit plugin:test",
+    "dev": "rm -rf node_modules/@grafana/data/node_modules; npx grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "e2e": "grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
+    "e2e:update": "grafana-e2e run --update-screenshots"
   },
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/aws-sdk": "0.0.3",
+    "@grafana/aws-sdk": "0.0.31",
     "@grafana/data": "7.4.0",
     "@grafana/runtime": "7.4.0",
-    "@grafana/toolkit": "latest",
+    "@grafana/toolkit": "7.4.3",
     "@grafana/ui": "7.2.0",
-    "@types/lodash": "latest"
+    "@grafana/e2e": "7.5.1",
+    "@types/lodash": "latest",
+    "cypress": "6.4.0"
   }
 }
