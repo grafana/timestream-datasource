@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## v1.3.2
 - Adding eu-central-1 region
 - renamed "master" branch to "main"
+- build with Golang 1.6
 
 ## v1.3.1
 - Execute each query in its own request, this will support multiple queries that 
