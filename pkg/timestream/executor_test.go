@@ -147,15 +147,14 @@ func TestGenerateTestData(t *testing.T) {
 
 // This will write the results to local json file
 func writeTestData(filename string, query models.QueryModel, t *testing.T) {
-
-	inst, err := newDataSourceInstance(backend.DataSourceInstanceSettings{
+	inst, err := NewServerInstance(backend.DataSourceInstanceSettings{
 		JSONData: []byte(`{"region": "us-west-2"}`),
 	})
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
-	runner := inst.(*instanceSettings).Runner
+	runner := inst.(*timestreamDS).Runner
 
 	raw, _ := Interpolate(query, models.DatasourceSettings{})
 	input := &timestreamquery.QueryInput{

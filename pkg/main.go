@@ -9,12 +9,8 @@ import (
 )
 
 func main() {
-	backend.SetupPluginEnvironment("timestream-datasource")
 
-	err := datasource.Serve(timestream.NewDatasource())
-
-	// Log any error if we could start the plugin.
-	if err != nil {
+	if err := datasource.Manage("timestream-datasource", timestream.NewServerInstance, datasource.ManageOpts{}); err != nil {
 		backend.Logger.Error(err.Error())
 		os.Exit(1)
 	}
