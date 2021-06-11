@@ -261,7 +261,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   //----------------------------------------------
 
   private getStrings(rawQuery: string, range?: TimeRange): Observable<string[]> {
-    return this.query(({
+    return this.query({
       targets: [
         {
           refId: 'GetStrings',
@@ -269,7 +269,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         },
       ],
       range,
-    } as unknown) as DataQueryRequest).pipe(
+    } as unknown as DataQueryRequest).pipe(
       map((res) => {
         const first = res.data[0] as DataFrame;
         if (!first || !first.length) {
@@ -299,14 +299,14 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     if (!db || !table) {
       return [];
     }
-    return this.query(({
+    return this.query({
       targets: [
         {
           refId: 'X',
           rawQuery: `SHOW MEASURES FROM ${quoted(db)}.${quoted(table)}`,
         },
       ],
-    } as unknown) as DataQueryRequest)
+    } as unknown as DataQueryRequest)
       .toPromise()
       .then((res) => {
         const rsp: MeasureInfo[] = [];

@@ -19,10 +19,11 @@
     "@grafana/aws-sdk": "0.0.31",
     "@grafana/data": "7.4.0",
     "@grafana/runtime": "7.4.0",
-    "@grafana/toolkit": "7.4.3",
+    "@grafana/toolkit": "8.0.0",
     "@grafana/ui": "7.2.0",
     "@grafana/e2e": "7.5.1",
     "@types/lodash": "latest",
+    "tslib": "2.2.0",
     "cypress": "6.4.0"
   }
 }

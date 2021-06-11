@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	if err := datasource.Manage("timestream-datasource", timestream.NewServerInstance, datasource.ManageOpts{}); err != nil {
 		backend.Logger.Error(err.Error())
 		os.Exit(1)
