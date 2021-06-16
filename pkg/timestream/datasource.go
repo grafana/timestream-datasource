@@ -7,7 +7,6 @@ import (
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
 	"github.com/grafana/timestream-datasource/pkg/models"
@@ -18,11 +17,6 @@ import (
 )
 
 type clientGetterFunc func(region string) (client *timestreamquery.TimestreamQuery, err error)
-
-type instanceSettings struct {
-	Runner   queryRunner
-	Settings models.DatasourceSettings
-}
 
 // This is an interface to help testing
 type queryRunner interface {
@@ -50,7 +44,7 @@ func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamque
 	return svc.CancelQueryWithContext(ctx, input)
 }
 
-func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	settings := models.DatasourceSettings{}
 	err := settings.Load(s)
 	if err != nil {
@@ -59,7 +53,7 @@ func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.I
 	backend.Logger.Info("new instance", "settings", settings)
 	sessions := awsds.NewSessionCache()
 
-	return &instanceSettings{
+	return &timestreamDS{
 		Settings: settings,
 		Runner: &timestreamRunner{
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
@@ -83,52 +77,29 @@ func newDataSourceInstance(s backend.DataSourceInstanceSettings) (instancemgmt.I
 	}, nil
 }
 
-func (s *instanceSettings) Dispose() {
+func (s *timestreamDS) Dispose() {
 	// Called before creatinga a new instance to allow plugin authors
 	// to cleanup.
 }
 
 type timestreamDS struct {
-	im instancemgmt.InstanceManager
+	Runner   queryRunner
+	Settings models.DatasourceSettings
 }
 
-// NewDatasource creates a new datasource server
-func NewDatasource() datasource.ServeOpts {
-	im := datasource.NewInstanceManager(newDataSourceInstance)
-	ds := &timestreamDS{
-		im: im,
-	}
-
-	return datasource.ServeOpts{
-		QueryDataHandler:    ds,
-		CheckHealthHandler:  ds,
-		CallResourceHandler: ds,
-	}
-}
-
-func (ds *timestreamDS) getInstance(ctx backend.PluginContext) (*instanceSettings, error) {
-	s, err := ds.im.Get(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return s.(*instanceSettings), nil
-}
+var (
+	_ backend.QueryDataHandler      = (*timestreamDS)(nil)
+	_ backend.CheckHealthHandler    = (*timestreamDS)(nil)
+	_ instancemgmt.InstanceDisposer = (*timestreamDS)(nil)
+)
 
 // CheckHealth will check the currently configured settings
 func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	s, err := ds.getInstance(req.PluginContext)
-	if err != nil {
-		return &backend.CheckHealthResult{
-			Status:  backend.HealthStatusError,
-			Message: err.Error(),
-		}, nil
-	}
-
 	// Connection is OK
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String("SELECT 1"),
 	}
-	output, err := s.Runner.runQuery(ctx, input)
+	output, err := ds.Runner.runQuery(ctx, input)
 	if err != nil {
 		return &backend.CheckHealthResult{
 			Status:  backend.HealthStatusError,
@@ -157,11 +128,6 @@ func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealt
 
 // QueryData - Primary method called by grafana-server
 func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
-	s, err := ds.getInstance(req.PluginContext)
-	if err != nil {
-		return nil, err
-	}
-
 	res := backend.NewQueryDataResponse()
 	for _, q := range req.Queries {
 		query, err := models.GetQueryModel(q)
@@ -170,7 +136,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, s.Runner, s.Settings)
+			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
 		}
 	}
 	return res, nil
@@ -178,11 +144,6 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 
 // CallResource HTTP style resource
 func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
-	s, err := ds.getInstance(req.PluginContext)
-	if err != nil {
-		return err
-	}
-
 	if req.Path == "hello" {
 		return resource.SendPlainText(sender, "world")
 	}
@@ -200,7 +161,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			QueryId: aws.String(cancel.QueryID),
 		}
 		msg := "cancel: " + cancel.QueryID
-		v, err := s.Runner.cancelQuery(ctx, cancelQueryInput)
+		v, err := ds.Runner.cancelQuery(ctx, cancelQueryInput)
 		if v != nil && v.CancellationMessage != nil {
 			msg = *v.CancellationMessage
 		} else if err != nil {
