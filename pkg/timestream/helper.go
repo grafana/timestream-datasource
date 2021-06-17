@@ -14,12 +14,13 @@ import (
 
 // QueryResultToDataFrame creates a DataFrame from query results
 func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataResponse) {
-	var timeseriesColumn *fieldBuilder
 	dr = backend.DataResponse{}
 	notices := []data.Notice{}
-	builders := []fieldBuilder{}
+	builders := []*fieldBuilder{}
+	timeseriesColumns := []*fieldBuilder{}
 	cellParsingError := false
 	length := len(res.Rows)
+	hasTimeseries := false
 
 	// Inspect the column structure
 	for index, columnMeta := range res.ColumnInfo {
@@ -34,46 +35,46 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		b.columnIdx = index
 		b.name = *columnMeta.Name
 		if b.timeseries {
-			if timeseriesColumn != nil {
-				dr.Error = fmt.Errorf("Multiple timeseries columns are not supported")
-				return
-			}
-			timeseriesColumn = b
+			timeseriesColumns = append(timeseriesColumns, b)
+			hasTimeseries = true
+		} else {
+			builders = append(builders, b)
 		}
-		builders = append(builders, *b)
 	}
 
-	// Each row is a new series
-	if timeseriesColumn != nil {
-		for _, series := range res.Rows {
-			tv := series.Data[timeseriesColumn.columnIdx].TimeSeriesValue
-			if tv == nil {
-				dr.Error = fmt.Errorf("Expecting timeseries colum at: %d", timeseriesColumn.columnIdx)
-				return
-			}
-
-			length := len(tv)
-			tf := data.NewFieldFromFieldType(data.FieldTypeTime, length)
-			vf := data.NewFieldFromFieldType(timeseriesColumn.fieldType, length)
-			tf.Name = "time"
-			vf.Name = timeseriesColumn.name
-			vf.Labels = data.Labels{}
-			for _, builder := range builders {
-				val := series.Data[builder.columnIdx].ScalarValue
-				if !builder.timeseries && val != nil {
-					vf.Labels[builder.name] = *val
+	if hasTimeseries {
+		// Each row is a new series
+		for _, timeseriesColumn := range timeseriesColumns {
+			for _, series := range res.Rows {
+				tv := series.Data[timeseriesColumn.columnIdx].TimeSeriesValue
+				if tv == nil {
+					dr.Error = fmt.Errorf("Expecting timeseries colum at: %d", timeseriesColumn.columnIdx)
+					return
 				}
-			}
 
-			for i := 0; i < length; i++ {
-				t, _ := time.Parse("2006-01-02 15:04:05.99999999", *tv[i].Time)
-				v, _ := timeseriesColumn.parser(tv[i].Value)
-				tf.Set(i, t)
-				vf.Set(i, v)
-			}
+				length := len(tv)
+				tf := data.NewFieldFromFieldType(data.FieldTypeTime, length)
+				vf := data.NewFieldFromFieldType(timeseriesColumn.fieldType, length)
+				tf.Name = "time"
+				vf.Name = timeseriesColumn.name
+				vf.Labels = data.Labels{}
+				for _, builder := range builders {
+					val := series.Data[builder.columnIdx].ScalarValue
+					if !builder.timeseries && val != nil {
+						vf.Labels[builder.name] = *val
+					}
+				}
 
-			// Add the series as a frame
-			dr.Frames = append(dr.Frames, data.NewFrame("", tf, vf))
+				for i := 0; i < length; i++ {
+					t, _ := time.Parse("2006-01-02 15:04:05.99999999", *tv[i].Time)
+					v, _ := timeseriesColumn.parser(tv[i].Value)
+					tf.Set(i, t)
+					vf.Set(i, v)
+				}
+
+				// Add the series as a frame
+				dr.Frames = append(dr.Frames, data.NewFrame("", tf, vf))
+			}
 		}
 	} else {
 		fields := []*data.Field{}
@@ -122,7 +123,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 	meta := &models.TimestreamCustomMeta{
 		QueryID:   aws.StringValue(res.QueryId),
 		NextToken: aws.StringValue(res.NextToken),
-		HasSeries: timeseriesColumn != nil,
+		HasSeries: hasTimeseries,
 	}
 
 	// At least one empty result
