@@ -1,0 +1,971 @@
+{
+    "__inputs": [
+      {
+        "name": "DS_AWS_TIMESTREAM",
+        "label": "AWS Timestream",
+        "description": "",
+        "type": "datasource",
+        "pluginId": "grafana-timestream-datasource",
+        "pluginName": "AWS Timestream"
+      }
+    ],
+    "__requires": [
+      {
+        "type": "panel",
+        "id": "bargauge",
+        "name": "Bar gauge",
+        "version": ""
+      },
+      {
+        "type": "panel",
+        "id": "gauge",
+        "name": "Gauge",
+        "version": ""
+      },
+      {
+        "type": "grafana",
+        "id": "grafana",
+        "name": "Grafana",
+        "version": "7.2.0-07d90a2bpre"
+      },
+      {
+        "type": "datasource",
+        "id": "grafana-timestream-datasource",
+        "name": "AWS Timestream",
+        "version": "0.0.1-dev"
+      },
+      {
+        "type": "panel",
+        "id": "graph",
+        "name": "Graph",
+        "version": ""
+      },
+      {
+        "type": "panel",
+        "id": "heatmap",
+        "name": "Heatmap",
+        "version": ""
+      },
+      {
+        "type": "panel",
+        "id": "stat",
+        "name": "Stat",
+        "version": ""
+      },
+      {
+        "type": "panel",
+        "id": "table",
+        "name": "Table",
+        "version": ""
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "A sample dashboard for the sample DevOps application",
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": null,
+    "iteration": 1594254543911,
+    "links": [],
+    "panels": [
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "Count the number of hosts per micro-service in a specific region.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 28,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "measure": "cpu_user",
+            "queryType": "raw",
+            "rawQuery": "SELECT CASE WHEN microservice_name = 'apollo' THEN num_instances ELSE NULL END AS apollo,\n    CASE WHEN microservice_name = 'athena' THEN num_instances ELSE NULL END AS athena,\n    CASE WHEN microservice_name = 'demeter' THEN num_instances ELSE NULL END AS demeter,\n    CASE WHEN microservice_name = 'hercules' THEN num_instances ELSE NULL END AS hercules,\n    CASE WHEN microservice_name = 'zeus' THEN num_instances ELSE NULL END AS zeus\nFROM (\n    SELECT microservice_name, SUM(num_instances) AS num_instances\n    FROM (\n        SELECT microservice_name, COUNT(DISTINCT instance_name) as num_instances\n        FROM $__database.$__table\n        WHERE $__timeFilter\n            AND measure_name = '$__measure'\n            AND region = 'us-east-1'\n        GROUP BY region, cell, silo, availability_zone, microservice_name\n    )\n    GROUP BY microservice_name\n)",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Host count by micro-service",
+        "transformations": [],
+        "type": "stat"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "purple",
+                  "value": 20
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "measure": "cpu_user",
+            "queryType": "raw",
+            "rawQuery": "SELECT ROUND(COUNT(IF(p90Cpu > 80, 1, NULL)) * 100 / CAST(COUNT(*) AS DOUBLE)) AS PercentageHigh\nFROM\n    (\n        SELECT instance_name, approx_percentile(measure_value::double, 0.9) as p90Cpu\n        FROM $__database.$__table\n        WHERE $__timeFilter\n            AND measure_name = '$__measure'\n            AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND microservice_name = 'zeus'\n        GROUP BY region, cell, silo, availability_zone, microservice_name, instance_name\n    )",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Percentage hosts with high CPU utilization in Micro-service Zeus",
+        "type": "stat"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "Find the distribution of GC pauses for the hosts with high memory utilization. In this query, we first find the micro-service with the highest memory used, and then find the top-10 hosts for the micro-service in each silo based on the 95th percentile memory utilization. For these hosts, we report the distribution of gc_pause metric.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "id": 26,
+        "options": {
+          "displayMode": "gradient",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "WITH per_instance_memory_used AS (\n    SELECT region, cell, silo, availability_zone, microservice_name, instance_name, BIN(time, 5m) AS time_bin,\n        MAX(measure_value::double) AS max_memory\n    FROM $__database.$__table\n    WHERE $__timeFilter\n        AND measure_name = 'memory_used'\n        AND region = 'us-east-1' AND cell = 'us-east-1-cell-1'\n    GROUP BY region, cell, silo, availability_zone, \n        microservice_name, instance_name, BIN(time, 5m)\n), per_microservice_memory AS (\n    SELECT region, cell, silo, microservice_name,\n        APPROX_PERCENTILE(max_memory, 0.95) AS p95_max_memory\n    FROM per_instance_memory_used\n    GROUP BY region, cell, silo, microservice_name\n), per_silo_ranked AS (\n    SELECT region, cell, silo, microservice_name,\n        DENSE_RANK() OVER (PARTITION BY region, cell, silo ORDER BY p95_max_memory DESC) AS rank\n    FROM per_microservice_memory\n), instances_with_high_memory AS (\n    SELECT r.region, r.cell, r.silo, r.microservice_name, m.instance_name,\n        APPROX_PERCENTILE(max_memory, 0.95) AS p95_max_memory\n    FROM per_silo_ranked r INNER JOIN per_instance_memory_used m\n        ON r.region = m.region AND r.cell = m.cell AND r.silo = m.silo AND r.microservice_name = m.microservice_name\n    WHERE r.rank = 1\n    GROUP BY r.region, r.cell, r.silo, r.microservice_name, m.instance_name\n), ranked_instances AS (\n    SELECT region, cell, silo, microservice_name, instance_name,\n        DENSE_RANK() OVER (PARTITION BY region, cell, silo, microservice_name ORDER BY p95_max_memory DESC) AS rank\n    FROM instances_with_high_memory\n)\nSELECT t.region, t.cell, t.silo, t.microservice_name, t.instance_name, t.process_name, t.jdk_version,\n    MIN(measure_value::double) AS min_gc_pause,\n    ROUND(AVG(measure_value::double), 2) AS avg_gc_pause,\n    ROUND(STDDEV(measure_value::double), 2) AS stddev_gc_pause,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.5), 2) AS p50_gc_pause,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.9), 2) AS p90_gc_pause,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.99), 2) AS p99_gc_pause\nFROM ranked_instances r INNER JOIN $__database.$__table t ON\n    r.region = t.region AND r.cell = t.cell AND r.silo = t.silo AND \n    r.microservice_name = t.microservice_name AND r.instance_name = t.instance_name\nWHERE $__timeFilter\n    AND measure_name = 'gc_pause'\n    AND rank = 1\nGROUP BY t.region, t.cell, t.silo, t.microservice_name, t.instance_name, t.process_name, t.jdk_version",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "GC Pause distribution for high memory utilization hosts",
+        "type": "bargauge"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        },
+        "id": 20,
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "measure": "memory_used",
+            "queryType": "raw",
+            "rawQuery": "SELECT region, cell, microservice_name, BIN(time, 1h) AS hour, \n    COUNT(DISTINCT instance_name) AS num_hosts,\n    ROUND(AVG(measure_value::double), 2) AS avg_value,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.9), 2) AS p90_value,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.95), 2) AS p95_value,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.99), 2) AS p99_value\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = '$__measure'\n    AND microservice_name = 'zeus'\nGROUP BY region, cell, microservice_name, BIN(time, 1h)\nORDER BY p99_value DESC",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Memory used distribution for a Micro-service",
+        "transformations": [
+          {
+            "id": "seriesToColumns",
+            "options": {
+              "byField": "microservice_name"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "microservice_name",
+                  "hour",
+                  "avg_value",
+                  "p90_value",
+                  "p95_value",
+                  "p99_value"
+                ]
+              }
+            }
+          }
+        ],
+        "type": "gauge"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        },
+        "id": 24,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "repeat": null,
+        "repeatDirection": "v",
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "SELECT BIN(time, 1m) AS time_bin,\n    AVG(CASE WHEN measure_name = 'cpu_user' THEN measure_value::double ELSE NULL END) AS avg_cpu_user,\n    AVG(CASE WHEN measure_name = 'cpu_system' THEN measure_value::double ELSE NULL END) AS avg_cpu_system,\n    AVG(CASE WHEN measure_name = 'cpu_idle' THEN measure_value::double ELSE NULL END) AS avg_cpu_idle,\n    AVG(CASE WHEN measure_name = 'cpu_iowait' THEN measure_value::double ELSE NULL END) AS avg_cpu_iowait,\n    AVG(CASE WHEN measure_name = 'cpu_steal' THEN measure_value::double ELSE NULL END) AS avg_cpu_steal,\n    AVG(CASE WHEN measure_name = 'cpu_nice' THEN measure_value::double ELSE NULL END) AS avg_cpu_nice,\n    AVG(CASE WHEN measure_name = 'cpu_si' THEN measure_value::double ELSE NULL END) AS avg_cpu_si,\n    AVG(CASE WHEN measure_name = 'cpu_hi' THEN measure_value::double ELSE NULL END) AS avg_cpu_hi\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name IN (\n        'cpu_user', 'cpu_system', 'cpu_idle', 'cpu_iowait',\n        'cpu_steal', 'cpu_nice', 'cpu_si', 'cpu_hi'\n    )\n    AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND silo = 'ap-northeast-1-cell-5-silo-2'\n    AND availability_zone = 'ap-northeast-1-3' AND microservice_name = 'zeus'\n    AND instance_type = 'm5.4xlarge' AND os_version = 'AL2'\nGROUP BY BIN(time, 1m)\nORDER BY time_bin desc",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "CPU Usage for a micro-service within a Silo",
+        "type": "stat"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        },
+        "id": 14,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "measure": "cpu_user",
+            "queryType": "raw",
+            "rawQuery": "SELECT COUNT(*) AS NumLowUtilizationHosts FROM (\n    SELECT region, cell, silo, availability_zone, microservice_name, instance_name\n    FROM $__database.$__table\n    WHERE $__timeFilter\n        AND measure_name = '$__measure'\n        AND microservice_name = 'apollo'\n    GROUP BY region, cell, silo, availability_zone, microservice_name, instance_name\n    HAVING approx_percentile(measure_value::double, 0.9) < 20\n)",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Hosts with Low CPU Utilization in Microservice Apollo",
+        "type": "stat"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 24
+        },
+        "id": 22,
+        "options": {
+          "frameIndex": 0,
+          "showHeader": true
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "measure": "task_end_state",
+            "queryType": "raw",
+            "rawQuery": "SELECT measure_value::varchar AS task_end_state, COUNT(*) AS num_tasks\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = 'task_end_state'\n    AND region = 'ap-northeast-1'\n    AND cell = 'ap-northeast-1-cell-1'\n    AND microservice_name = 'apollo'\nGROUP BY measure_value::varchar\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Task End State Distribution",
+        "transformations": [],
+        "type": "table"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        },
+        "hiddenSeries": false,
+        "id": 8,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "percentage": false,
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "measure": "gc_pause",
+            "queryType": "raw",
+            "rawQuery": "SELECT \n\tsilo, microservice_name, instance_name, \n\tCREATE_TIME_SERIES(time, measure_value::double) AS gc_pause\nFROM $__database.$__table\nWHERE $__timeFilter\n\tAND measure_name = '$__measure'\n\tAND region = 'ap-northeast-1' \n\tAND cell = 'ap-northeast-1-cell-5' \n\tAND silo = 'ap-northeast-1-cell-5-silo-2'\n\tAND availability_zone = 'ap-northeast-1-3' \n\tAND microservice_name = 'zeus'\nGROUP BY region, \n\tcell, \n\tsilo, \n\tavailability_zone, \n\tmicroservice_name,\n\tinstance_name, \n\tprocess_name, \n\tjdk_version\t\t\nORDER BY AVG(measure_value::double) DESC\nLIMIT 3",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Hosts with High GC Pause",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 32
+        },
+        "hiddenSeries": false,
+        "id": 10,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "percentage": false,
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "measure": "disk_io_reads",
+            "queryType": "raw",
+            "rawQuery": "SELECT BIN(time, $__interval_ms) AS time_bin,\n    ROUND(AVG(measure_value::bigint), 2) AS avg_value,\n    ROUND(APPROX_PERCENTILE(measure_value::double, 0.9), 2) AS p90_value\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = '$__measure'\n    AND region = 'ap-northeast-1' AND cell = 'ap-northeast-1-cell-5' AND silo = 'ap-northeast-1-cell-5-silo-2'\n    AND availability_zone = 'ap-northeast-1-3' AND microservice_name = 'zeus'\n    AND instance_type = 'm5.4xlarge' AND os_version = 'AL2' AND instance_name = 'i-zaZswmJk-zeus-0002.amazonaws.com'\nGROUP BY BIN(time, $__interval_ms)\nORDER BY time_bin desc",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Disk IO Reads for a host",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "cards": {
+          "cardPadding": null,
+          "cardRound": null
+        },
+        "color": {
+          "cardColor": "#b4ff00",
+          "colorScale": "sqrt",
+          "colorScheme": "interpolateCool",
+          "exponent": 0.5,
+          "mode": "spectrum"
+        },
+        "dataFormat": "timeseries",
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 32
+        },
+        "heatmap": {},
+        "hideZeroBuckets": false,
+        "highlightCards": true,
+        "id": 2,
+        "legend": {
+          "show": false
+        },
+        "pluginVersion": "7.1.0-523bbe4dpre",
+        "reverseYBuckets": false,
+        "targets": [
+          {
+            "measure": "cpu_user",
+            "queryType": "raw",
+            "rawQuery": "SELECT region, cell, silo, microservice_name,\n    BIN(time, $__interval_ms) AS time_bin,\n    ROUND(AVG(measure_value::double), 2) AS avg_value\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = '$__measure'\n    AND region = 'us-east-1' AND cell = 'us-east-1-cell-1' AND microservice_name = 'apollo'\nGROUP BY region, cell, silo, microservice_name, BIN(time, $__interval_ms)\nORDER BY time_bin DESC",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Per Cell Avg CPU Utilization for Microservice Apollo",
+        "tooltip": {
+          "show": true,
+          "showHistogram": false
+        },
+        "transparent": true,
+        "type": "heatmap",
+        "xAxis": {
+          "show": true
+        },
+        "xBucketNumber": null,
+        "xBucketSize": null,
+        "yAxis": {
+          "decimals": null,
+          "format": "short",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true,
+          "splitFactor": null
+        },
+        "yBucketBound": "auto",
+        "yBucketNumber": null,
+        "yBucketSize": null
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 24,
+          "x": 0,
+          "y": 42
+        },
+        "id": 16,
+        "options": {
+          "showHeader": true
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "SELECT region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND region = 'us-east-1'\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name\nORDER BY region, cell, silo, availability_zone, microservice_name,\n    instance_type, os_version, instance_name",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Hosts",
+        "type": "table"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "data_type"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 180
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "measure_name"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 167
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 51
+        },
+        "id": 12,
+        "options": {
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "SHOW MEASURES FROM $__database.$__table",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Measure Names",
+        "type": "table"
+      },
+      {
+        "datasource": "${DS_AWS_TIMESTREAM}",
+        "description": "The region distribution of the service",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": null
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 51
+        },
+        "id": 18,
+        "options": {
+          "showHeader": true
+        },
+        "pluginVersion": "7.2.0-07d90a2bpre",
+        "targets": [
+          {
+            "queryType": "raw",
+            "rawQuery": "SELECT region, cell, silo, availability_zone,\n    approx_distinct(microservice_name || instance_name) AS num_instances\nFROM $__database.$__table\nWHERE $__timeFilter\n    AND measure_name = 'cpu_user'\nGROUP BY region, cell, silo, availability_zone\nORDER BY region, cell, silo, availability_zone",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Regional service distribution",
+        "type": "table"
+      }
+    ],
+    "refresh": "5m",
+    "schemaVersion": 26,
+    "style": "dark",
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "utc",
+    "title": "Sample (DevOps)",
+    "uid": "G1btqkgkK",
+    "version": 1
+  }
