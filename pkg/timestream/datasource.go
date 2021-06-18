@@ -52,18 +52,21 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 	}
 	backend.Logger.Info("new instance", "settings", settings)
 	sessions := awsds.NewSessionCache()
+	endpoint := settings.Endpoint
+	settings.Endpoint = "" // do not use this in the initial session configuration
 
 	return &timestreamDS{
 		Settings: settings,
 		Runner: &timestreamRunner{
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
+
 				sess, err := sessions.GetSession(region, settings.AWSDatasourceSettings)
 				if err != nil {
 					return nil, err
 				}
 				tcfg := &aws.Config{}
-				if settings.Endpoint != "" {
-					tcfg.Endpoint = aws.String(settings.Endpoint)
+				if endpoint != "" {
+					tcfg.Endpoint = aws.String(endpoint)
 				}
 				querySvc := timestreamquery.New(sess, tcfg)
 
