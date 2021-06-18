@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.3.3
+- Support for multiple timeseries columns
+- Improved support for custom endpoint
+
 ## v1.3.2
 - Adding eu-central-1 region
 - renamed "master" branch to "main"
