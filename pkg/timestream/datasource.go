@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"sync"
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -56,7 +57,9 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 	settings.Endpoint = "" // do not use this in the initial session configuration
 
 	return &timestreamDS{
-		Settings: settings,
+		Settings:      settings,
+		streams:       make(map[string]*openQuery),
+		channelPrefix: fmt.Sprintf("ds/%s/", s.UID),
 		Runner: &timestreamRunner{
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
 
@@ -88,11 +91,16 @@ func (s *timestreamDS) Dispose() {
 type timestreamDS struct {
 	Runner   queryRunner
 	Settings models.DatasourceSettings
+
+	mu            sync.RWMutex
+	streams       map[string]*openQuery
+	channelPrefix string
 }
 
 var (
 	_ backend.QueryDataHandler      = (*timestreamDS)(nil)
 	_ backend.CheckHealthHandler    = (*timestreamDS)(nil)
+	_ backend.StreamHandler         = (*timestreamDS)(nil)
 	_ instancemgmt.InstanceDisposer = (*timestreamDS)(nil)
 )
 
@@ -139,7 +147,25 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+			dr := ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+
+			// If the query has a nextToken, register a stream to keep check pages
+			if len(dr.Frames) > 0 && dr.Frames[0].Meta != nil {
+				firstFrame := dr.Frames[0]
+				c := firstFrame.Meta.Custom.(*models.TimestreamCustomMeta)
+				if c.NextToken != "" {
+					ds.mu.RLock()
+					defer ds.mu.RUnlock()
+
+					ds.streams[c.QueryID] = &openQuery{
+						nextToken: c.NextToken,
+						query:     *query,
+						runner:    ds.Runner,
+					}
+					firstFrame.Meta.Channel = ds.channelPrefix + c.QueryID
+				}
+			}
+			res.Responses[q.RefID] = dr
 		}
 	}
 	return res, nil
@@ -173,4 +199,46 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		return resource.SendPlainText(sender, msg)
 	}
 	return fmt.Errorf("unknown resource")
+}
+
+func (ds *timestreamDS) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
+	rsp := &backend.SubscribeStreamResponse{
+		Status: backend.SubscribeStreamStatusNotFound,
+	}
+
+	ds.mu.RLock()
+	defer ds.mu.RUnlock()
+
+	s, ok := ds.streams[req.Path]
+	if s != nil && ok {
+		rsp.Status = backend.SubscribeStreamStatusOK
+	}
+	return rsp, nil
+}
+
+func (ds *timestreamDS) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
+	ds.mu.RLock()
+	s, ok := ds.streams[req.Path]
+	if s == nil || !ok {
+		ds.mu.RUnlock()
+		// Return nil to stop RunStream till next subscriber. Any error here
+		// will result into RunStream re-establishment.
+		return nil
+	}
+	ds.mu.RUnlock()
+
+	// When the stream is done, remove it.
+	defer func() {
+		ds.mu.Lock()
+		defer ds.mu.Unlock()
+		delete(ds.streams, req.Path)
+	}()
+
+	return s.doStream(ctx, sender)
+}
+
+func (ds *timestreamDS) PublishStream(_ context.Context, _ *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+	return &backend.PublishStreamResponse{
+		Status: backend.PublishStreamStatusPermissionDenied,
+	}, nil
 }
