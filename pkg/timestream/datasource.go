@@ -10,6 +10,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -147,23 +148,12 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			dr := ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+			dr, nextToken := ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
 
 			// If the query has a nextToken, register a stream to keep check pages
-			if len(dr.Frames) > 0 && dr.Frames[0].Meta != nil {
+			if nextToken != "" {
 				firstFrame := dr.Frames[0]
-				c := firstFrame.Meta.Custom.(*models.TimestreamCustomMeta)
-				if c.NextToken != "" {
-					ds.mu.RLock()
-					defer ds.mu.RUnlock()
-
-					ds.streams[c.QueryID] = &openQuery{
-						nextToken: c.NextToken,
-						query:     *query,
-						runner:    ds.Runner,
-					}
-					firstFrame.Meta.Channel = ds.channelPrefix + c.QueryID
-				}
+				firstFrame.Meta.Channel = ds.registerPagingQuery(firstFrame, query)
 			}
 			res.Responses[q.RefID] = dr
 		}
@@ -199,6 +189,24 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		return resource.SendPlainText(sender, msg)
 	}
 	return fmt.Errorf("unknown resource")
+}
+
+func (ds *timestreamDS) registerPagingQuery(frame *data.Frame, query *models.QueryModel) string {
+	meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+	if meta.NextToken == "" {
+		return "" // no channel
+	}
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	// add stream query
+	query.NextToken = meta.NextToken
+	ds.streams[meta.QueryID] = &openQuery{
+		queryId: meta.QueryID,
+		query:   query,
+		ds:      ds,
+	}
+	return ds.channelPrefix + meta.QueryID
 }
 
 func (ds *timestreamDS) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {

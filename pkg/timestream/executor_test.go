@@ -16,7 +16,7 @@ import (
 
 func runTest(t *testing.T, name string) *backend.DataResponse {
 	mockClient := &MockClient{testFileName: name}
-	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, models.DatasourceSettings{})
+	dr, _ := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, models.DatasourceSettings{})
 
 	// Remove changable fields
 	for _, frame := range dr.Frames {
