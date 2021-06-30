@@ -4,11 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"sync"
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -56,7 +58,9 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 	settings.Endpoint = "" // do not use this in the initial session configuration
 
 	return &timestreamDS{
-		Settings: settings,
+		Settings:      settings,
+		streams:       make(map[string]*openQuery),
+		channelPrefix: fmt.Sprintf("ds/%s/", s.UID),
 		Runner: &timestreamRunner{
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
 
@@ -88,11 +92,16 @@ func (s *timestreamDS) Dispose() {
 type timestreamDS struct {
 	Runner   queryRunner
 	Settings models.DatasourceSettings
+
+	mu            sync.RWMutex
+	streams       map[string]*openQuery
+	channelPrefix string
 }
 
 var (
 	_ backend.QueryDataHandler      = (*timestreamDS)(nil)
 	_ backend.CheckHealthHandler    = (*timestreamDS)(nil)
+	_ backend.StreamHandler         = (*timestreamDS)(nil)
 	_ instancemgmt.InstanceDisposer = (*timestreamDS)(nil)
 )
 
@@ -139,7 +148,14 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 				Error: err,
 			}
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+			dr, nextToken := ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+
+			// If the query has a nextToken, register a stream to keep check pages
+			if nextToken != "" {
+				firstFrame := dr.Frames[0]
+				firstFrame.Meta.Channel = ds.registerPagingQuery(firstFrame, query)
+			}
+			res.Responses[q.RefID] = dr
 		}
 	}
 	return res, nil
@@ -173,4 +189,64 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		return resource.SendPlainText(sender, msg)
 	}
 	return fmt.Errorf("unknown resource")
+}
+
+func (ds *timestreamDS) registerPagingQuery(frame *data.Frame, query *models.QueryModel) string {
+	meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+	if meta.NextToken == "" {
+		return "" // no channel
+	}
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	// add stream query
+	query.NextToken = meta.NextToken
+	ds.streams[meta.QueryID] = &openQuery{
+		queryId: meta.QueryID,
+		query:   query,
+		ds:      ds,
+	}
+	return ds.channelPrefix + meta.QueryID
+}
+
+func (ds *timestreamDS) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
+	rsp := &backend.SubscribeStreamResponse{
+		Status: backend.SubscribeStreamStatusNotFound,
+	}
+
+	ds.mu.RLock()
+	defer ds.mu.RUnlock()
+
+	s, ok := ds.streams[req.Path]
+	if s != nil && ok {
+		rsp.Status = backend.SubscribeStreamStatusOK
+	}
+	return rsp, nil
+}
+
+func (ds *timestreamDS) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
+	ds.mu.RLock()
+	s, ok := ds.streams[req.Path]
+	if s == nil || !ok {
+		ds.mu.RUnlock()
+		// Return nil to stop RunStream till next subscriber. Any error here
+		// will result into RunStream re-establishment.
+		return nil
+	}
+	ds.mu.RUnlock()
+
+	// When the stream is done, remove it.
+	defer func() {
+		ds.mu.Lock()
+		defer ds.mu.Unlock()
+		delete(ds.streams, req.Path)
+	}()
+
+	return s.doStream(ctx, sender)
+}
+
+func (ds *timestreamDS) PublishStream(_ context.Context, _ *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+	return &backend.PublishStreamResponse{
+		Status: backend.PublishStreamStatusPermissionDenied,
+	}, nil
 }

@@ -108,11 +108,11 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
             if (meta && meta.nextToken) {
               queryId = meta.queryId;
 
-              return {
-                refId: first.refId,
-                rawQuery: first.meta?.executedQueryString,
-                nextToken: meta.nextToken,
-              } as TimestreamQuery;
+              // return {
+              //   refId: first.refId,
+              //   rawQuery: first.meta?.executedQueryString,
+              //   nextToken: meta.nextToken,
+              // } as TimestreamQuery;
             }
           }
           return undefined;
