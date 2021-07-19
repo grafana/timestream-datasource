@@ -93,4 +93,69 @@ func TestInterpolate(t *testing.T) {
 			t.Fatalf("Result above tolerated precision %d : %d, %d", precision, numtext, expect)
 		}
 	})
+
+	t.Run("using timeFrom", func(t *testing.T) {
+		sqltxt := `$__time_from_raw_ms`
+		query := models.QueryModel{
+			TimeRange: timeRange,
+			RawQuery:  sqltxt,
+		}
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+		expect := int64(1500376552001)
+
+		var numtext int64
+		_, e := fmt.Sscan(text, &numtext)
+
+		if e != nil {
+			t.Fatalf(e.Error())
+		}
+
+		if !cmp.Equal(numtext, expect) {
+			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		}
+	})
+
+	t.Run("using timeTo", func(t *testing.T) {
+		sqltxt := `$__time_to_raw_ms`
+		query := models.QueryModel{
+			TimeRange: timeRange,
+			RawQuery:  sqltxt,
+		}
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+		expect := int64(1500376552002)
+
+		var numtext int64
+		_, e := fmt.Sscan(text, &numtext)
+
+		if e != nil {
+			t.Fatalf(e.Error())
+		}
+
+		if !cmp.Equal(numtext, expect) {
+			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		}
+	})
+
+	t.Run("using raw interval", func(t *testing.T) {
+		sqltxt := `$__interval_raw_ms`
+		expect := 60000
+
+		query := models.QueryModel{
+			TimeRange: timeRange,
+			RawQuery:  sqltxt,
+			Interval:  time.Minute,
+		}
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+
+		var numtext int
+		_, e := fmt.Sscan(text, &numtext)
+
+		if e != nil {
+			t.Fatalf(e.Error())
+		}
+
+		if !cmp.Equal(numtext, expect) {
+			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		}
+	})
 }
