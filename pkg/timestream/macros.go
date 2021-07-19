@@ -10,7 +10,10 @@ import (
 )
 
 const timeFilter = `\$__timeFilter`
+const timeFromStr = `$__time_from_raw_ms`
+const timeToStr = `$__time_to_raw_ms`
 const intervalStr = `$__interval_ms`
+const intervalRawStr = `$__interval_raw_ms`
 const nowStr = `$__now_ms`
 
 // WHERE time > from_unixtime(unixtime)
@@ -45,12 +48,31 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 		txt = timeFilterExp.ReplaceAllString(txt, replacement)
 	}
 
+	if strings.Contains(txt, timeFromStr) {
+		timeRange := query.TimeRange
+		from := int64(timeRange.From.UnixNano() / 1e6)
+		replacement := fmt.Sprintf("%d", from)
+		txt = strings.ReplaceAll(txt, timeFromStr, replacement)
+	}
+
+	if strings.Contains(txt, timeToStr) {
+		timeRange := query.TimeRange
+		to := int64(timeRange.To.UnixNano() / 1e6)
+		replacement := fmt.Sprintf("%d", to)
+		txt = strings.ReplaceAll(txt, timeToStr, replacement)
+	}
+
 	if strings.Contains(txt, intervalStr) {
 		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
 		if replacement == "0ms" {
 			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
 		}
 		txt = strings.ReplaceAll(txt, intervalStr, replacement)
+	}
+
+	if strings.Contains(txt, intervalRawStr) {
+		replacement := fmt.Sprintf("%d", query.Interval.Milliseconds())
+		txt = strings.ReplaceAll(txt, intervalRawStr, replacement)
 	}
 
 	if strings.Contains(txt, nowStr) {
