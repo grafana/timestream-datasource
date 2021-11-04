@@ -16,14 +16,3 @@ export const QueryField: FunctionComponent<Partial<Props>> = ({ label, labelWidt
     {children}
   </>
 );
-
-export const QueryInlineField: FunctionComponent<Props> = ({ ...props }) => {
-  return (
-    <div className={'gf-form-inline'}>
-      <QueryField {...props} />
-      <div className="gf-form gf-form--grow">
-        <div className="gf-form-label gf-form-label--grow" />
-      </div>
-    </div>
-  );
-};

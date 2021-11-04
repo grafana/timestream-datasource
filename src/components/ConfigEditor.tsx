@@ -24,7 +24,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
   componentDidMount = async () => {
     const d = await getDataSourceSrv().get(this.props.options.name);
     const { options } = this.props;
-    const ds = d as DataSource;
+    const ds = (d as unknown) as DataSource;
     const query = {
       refId: 'X',
       database: options.jsonData.defaultDatabase,
