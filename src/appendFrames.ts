@@ -1,6 +1,6 @@
 import { ArrayVector, DataFrame, formatLabels, MutableDataFrame } from '@grafana/data';
 
-export function getSchemaKey(frame: DataFrame): string {
+function getSchemaKey(frame: DataFrame): string {
   let key = frame.refId + '/' + frame.fields.length;
   for (const f of frame.fields) {
     key += '|' + f.name + ':' + f.type;

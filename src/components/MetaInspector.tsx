@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
-import { MetadataInspectorProps, DataFrame } from '@grafana/data';
-import { DataSource } from '../DataSource';
+import { MetadataInspectorProps, DataFrame, DataSourceApi } from '@grafana/data';
 import { TimestreamQuery, TimestreamOptions } from '../types';
 
-export type Props = MetadataInspectorProps<DataSource, TimestreamQuery, TimestreamOptions>;
+export type Props = MetadataInspectorProps<
+  DataSourceApi<TimestreamQuery, TimestreamOptions>,
+  TimestreamQuery,
+  TimestreamOptions
+>;
 
 export class MetaInspector extends PureComponent<Props> {
   state = { index: 0 };
