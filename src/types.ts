@@ -53,6 +53,11 @@ export interface TimestreamCustomMeta {
   fetchEndTime?: number; // The frontend clock
   fetchTime?: number; // The frontend clock
 
+  status: {
+    CumulativeBytesMetered?: number;
+    CumulativeBytesScanned?: number;
+  };
+
   // when multiple queries exist we keep track of each request
   subs?: TimestreamCustomMeta[];
 }

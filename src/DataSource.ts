@@ -7,6 +7,7 @@ import {
   ScopedVars,
   QueryResultMetaStat,
   TimeRange,
+  getValueFormat,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { Observable, of, merge } from 'rxjs';
@@ -133,6 +134,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
           if (!meta) {
             return allData.length ? allData : data; // NOOP
           }
+          const valueFormat = getValueFormat('decbytes');
 
           // Single request
           meta.fetchStartTime = t.fetchStartTime;
@@ -225,6 +227,24 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                     unit: 'percent', // 0 - 100
                   });
                 }
+              }
+              if (tracker.status.CumulativeBytesMetered) {
+                const v = valueFormat(tracker.status.CumulativeBytesMetered, 2, 1024);
+                stats.push({
+                  displayName: 'Cumulative bytes metered',
+                  value: Number(v.text),
+                  unit: v.suffix?.trimLeft(),
+                  decimals: 2,
+                });
+              }
+              if (tracker.status.CumulativeBytesScanned) {
+                const v = valueFormat(tracker.status.CumulativeBytesScanned, 2, 1024);
+                stats.push({
+                  displayName: 'Cumulative bytes scanned',
+                  value: Number(v.text),
+                  unit: v.suffix?.trimLeft(),
+                  decimals: 2,
+                });
               }
               allData[0].meta!.stats = stats;
             }
