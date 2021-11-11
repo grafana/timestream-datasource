@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { QueryEditorProps, SelectableValue } from '@grafana/data';
+import { DataSourceApi, QueryEditorProps, SelectableValue } from '@grafana/data';
 import { DataSource } from '../DataSource';
 import { TimestreamQuery, TimestreamOptions, QueryType } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
@@ -10,7 +10,7 @@ import { Segment, SegmentAsync, InlineFormLabel, CodeEditor } from '@grafana/ui'
 import { sampleQueries, queryTypes } from './samples';
 import { SchemaInfo } from 'SchemaInfo';
 
-type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
+type Props = QueryEditorProps<DataSourceApi<TimestreamQuery, TimestreamOptions>, TimestreamQuery, TimestreamOptions>;
 interface State {
   schema?: SchemaInfo;
 
@@ -22,8 +22,8 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   componentDidMount = () => {
     const { datasource, query } = this.props;
-
-    const schema = new SchemaInfo(datasource, query, getTemplateSrv());
+    const ds = (datasource as unknown) as DataSource;
+    const schema = new SchemaInfo(ds, query, getTemplateSrv());
     this.setState({ schema: schema, schemaState: schema.state });
 
     schema.preload().then((v) => {
