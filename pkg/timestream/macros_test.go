@@ -95,67 +95,48 @@ func TestInterpolate(t *testing.T) {
 	})
 
 	t.Run("using timeFrom", func(t *testing.T) {
-		sqltxt := `$__time_from_raw_ms`
+		sqltxt := `WHERE TIME > from_milliseconds($__time_from)`
+		expect := `WHERE TIME > from_milliseconds(1500376552001)`
+
 		query := models.QueryModel{
 			TimeRange: timeRange,
 			RawQuery:  sqltxt,
 		}
+
 		text, _ := Interpolate(query, models.DatasourceSettings{})
-		expect := int64(1500376552001)
-
-		var numtext int64
-		_, e := fmt.Sscan(text, &numtext)
-
-		if e != nil {
-			t.Fatalf(e.Error())
-		}
-
-		if !cmp.Equal(numtext, expect) {
-			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		if diff := cmp.Diff(text, expect); diff != "" {
+			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
 		}
 	})
 
 	t.Run("using timeTo", func(t *testing.T) {
-		sqltxt := `$__time_to_raw_ms`
+		sqltxt := `WHERE TIME < from_milliseconds($__time_to)`
+		expect := `WHERE TIME < from_milliseconds(1500376552002)`
+
 		query := models.QueryModel{
 			TimeRange: timeRange,
 			RawQuery:  sqltxt,
 		}
+
 		text, _ := Interpolate(query, models.DatasourceSettings{})
-		expect := int64(1500376552002)
-
-		var numtext int64
-		_, e := fmt.Sscan(text, &numtext)
-
-		if e != nil {
-			t.Fatalf(e.Error())
-		}
-
-		if !cmp.Equal(numtext, expect) {
-			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		if diff := cmp.Diff(text, expect); diff != "" {
+			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
 		}
 	})
 
 	t.Run("using raw interval", func(t *testing.T) {
-		sqltxt := `$__interval_raw_ms`
-		expect := 60000
+		sqltxt := `rate(input) * $__interval_raw_ms`
+		expect := `rate(input) * 60000`
 
 		query := models.QueryModel{
 			TimeRange: timeRange,
 			RawQuery:  sqltxt,
 			Interval:  time.Minute,
 		}
+
 		text, _ := Interpolate(query, models.DatasourceSettings{})
-
-		var numtext int
-		_, e := fmt.Sscan(text, &numtext)
-
-		if e != nil {
-			t.Fatalf(e.Error())
-		}
-
-		if !cmp.Equal(numtext, expect) {
-			t.Fatalf("Result does not equal expected: %d, %d", numtext, expect)
+		if diff := cmp.Diff(text, expect); diff != "" {
+			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
 		}
 	})
 }

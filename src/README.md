@@ -34,7 +34,10 @@ Macro example | Description
 *$__table* | Will specify the selected database.  This may use the default from the datasource config, or the explicit value from the query editor.
 *$__measure* | Will specify the selected measure.  This may use the default from the datasource config, or the explicit value from the query editor.
 *$__timeFilter* | Will be replaced by an expression that limits the time to the dashboard range
-*$__interval_ms* | Will be replaced by a number that represents the amount of time a single pixel in the graph should cover
+*$__timeFrom* | Will be replaced by the number in milliseconds at the start of the dashboard range.
+*$__timeTo* | Will be replaced by the number in milliseconds at the end of the dashboard range.
+*$__interval_ms* | Will be replaced by a time that represents the amount of time a single pixel in the graph should cover.
+*$__interval_raw_ms* | Will be replaced by the number that represents the amount of time in milliseconds a single pixel in the graph should cover. This can be used in calculations and will not be treated as a time.
 
 
 ## Using Variables in Queries
