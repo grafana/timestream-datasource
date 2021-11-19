@@ -10,8 +10,8 @@ import (
 )
 
 const timeFilter = `\$__timeFilter`
-const timeFromStr = `$__time_from`
-const timeToStr = `$__time_to`
+const timeFromStr = `$__timeFrom`
+const timeToStr = `$__timeTo`
 const intervalStr = `$__interval_ms`
 const intervalRawStr = `$__interval_raw_ms`
 const nowStr = `$__now_ms`

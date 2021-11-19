@@ -95,7 +95,7 @@ func TestInterpolate(t *testing.T) {
 	})
 
 	t.Run("using timeFrom", func(t *testing.T) {
-		sqltxt := `WHERE TIME > from_milliseconds($__time_from)`
+		sqltxt := `WHERE TIME > from_milliseconds($__timeFrom)`
 		expect := `WHERE TIME > from_milliseconds(1500376552001)`
 
 		query := models.QueryModel{
@@ -110,7 +110,7 @@ func TestInterpolate(t *testing.T) {
 	})
 
 	t.Run("using timeTo", func(t *testing.T) {
-		sqltxt := `WHERE TIME < from_milliseconds($__time_to)`
+		sqltxt := `WHERE TIME < from_milliseconds($__timeTo)`
 		expect := `WHERE TIME < from_milliseconds(1500376552002)`
 
 		query := models.QueryModel{
