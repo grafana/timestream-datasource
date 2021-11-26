@@ -292,7 +292,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     } as unknown) as DataQueryRequest).pipe(
       map((res) => {
         if (res.error) {
-          throw new Error(res.error.message);
+          const message = res.error.message ?? res.error.data?.message ?? 'Error getting variable';
+          throw new Error(message);
         }
         const first = res.data[0] as DataFrame;
         if (!first || !first.length) {
