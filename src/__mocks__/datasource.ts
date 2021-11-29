@@ -35,7 +35,7 @@ export const mockDatasourceOptions: DataSourcePluginOptionsEditorProps<Timestrea
   options: {
     id: 1,
     orgId: 1,
-    name: 'Redshift',
+    name: 'Timestream',
     typeLogoUrl: '',
     type: '',
     access: '',
