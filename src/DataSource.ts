@@ -66,8 +66,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return quotedValues.join(',');
   };
 
-  private quoteLiteral(value: any) {
-    return "'" + String(value).replace(/'/g, "''") + "'";
+  private quoteLiteral(value: string) {
+    return "'" + value.replace(/'/g, "''") + "'";
   }
 
   applyTemplateVariables(query: TimestreamQuery, scopedVars: ScopedVars): TimestreamQuery {
