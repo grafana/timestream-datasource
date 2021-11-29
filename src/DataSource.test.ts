@@ -4,14 +4,14 @@ import { mockDatasource, mockQuery } from './__mocks__/datasource';
 
 describe('DataSource', () => {
   describe('applyTemplateVariables', () => {
-    const scopedVars: any = {
+    const scopedVars: Record<string, any> = {
       $simple: 'foo',
       $multiple: ['foo', 'bar'],
     };
     // simplified version of getTemplateSrv().replace
     const replace = jest.fn((target?: string, scopedVars?: ScopedVars, format?: string | Function) => {
-      let res = target;
-      if (typeof format === 'function') {
+      let res = target ?? '';
+      if (scopedVars && typeof format === 'function') {
         Object.keys(scopedVars).forEach((v) => (res = res.replace(v, format(scopedVars[v]))));
       }
       return res;
