@@ -16,7 +16,7 @@ For authentication options and configuration details, see [AWS authentication](h
 
 Grafana needs permissions granted via IAM to be able to read data from the Timestream API. You can attach these permissions to the IAM role or IAM user configured in the previous step.
 
-Here is a minimal policy example:
+Here is a policy example:
 
 ```json
 {
