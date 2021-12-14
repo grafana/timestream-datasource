@@ -53,7 +53,9 @@ To simplify syntax and to allow for dynamic parts, like date range filters, the 
 
 ## Using Variables in Queries
 
-Grafana template variables can be used in query Timestream query. See the grafana documentaiton on [template variables](https://grafana.com/docs/grafana/latest/variables/) for more information on how to setup and use variables.
+Instead of hard-coding server, application and sensor names in your Timestream queries, you can use variables. The variables are listed as dropdown select boxes at the top of the dashboard. These dropdowns make it easy to change the display of data in your dashboard.
+
+For an introduction to templating and template variables, refer to the [Templating](https://grafana.com/docs/grafana/latest/variables/) documentation.
 
 ### Disabling quoting for multi-value variables
 
