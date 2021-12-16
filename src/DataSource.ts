@@ -55,6 +55,21 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return query.rawQuery ?? '';
   }
 
+  private interpolateVariable = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    const quotedValues = value.map((v) => {
+      return this.quoteLiteral(v);
+    });
+    return quotedValues.join(',');
+  };
+
+  private quoteLiteral(value: string) {
+    return "'" + value.replace(/'/g, "''") + "'";
+  }
+
   applyTemplateVariables(query: TimestreamQuery, scopedVars: ScopedVars): TimestreamQuery {
     if (!query.rawQuery) {
       return query;
@@ -72,7 +87,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       database: templateSrv.replace(query.database || '', scopedVars),
       table: templateSrv.replace(query.table || '', scopedVars),
       measure: templateSrv.replace(query.measure || '', scopedVars),
-      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars),
+      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars, this.interpolateVariable),
     };
   }
 
@@ -291,6 +306,10 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       range,
     } as unknown) as DataQueryRequest).pipe(
       map((res) => {
+        if (res.error) {
+          const message = res.error.message ?? res.error.data?.message ?? 'Error getting variable';
+          throw new Error(message);
+        }
         const first = res.data[0] as DataFrame;
         if (!first || !first.length) {
           return [];

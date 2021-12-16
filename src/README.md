@@ -8,13 +8,28 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 1. Click the **Add data source** button.
 1. Select **Timestream** in the **Time series databases** section.
 
-
 ## Authentication
 
-The Timestream plugin authentication system matches the standard Cloudwatch plugin system.  See [the grafana documentation](https://grafana.com/docs/grafana/latest/datasources/cloudwatch/#authentication) for authentication options and setup.
+For authentication options and configuration details, see [AWS authentication](https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/aws-authentication/) topic.
 
+### IAM policies
 
-Once authentication is configured, click "Save and Test" to verify the service is working. Once this is configured, you can specify default values for the configuration.
+Grafana needs permissions granted via IAM to be able to read data from the Timestream API. You can attach these permissions to the IAM role or IAM user configured in the previous step.
+
+Here is a policy example:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["timestream:*"],
+      "Resource": "*"
+    }
+  ]
+}
+```
 
 ## Query editor
 
@@ -28,21 +43,22 @@ Type `ctrl+space` to open open the IntelliSense suggestions
 
 To simplify syntax and to allow for dynamic parts, like date range filters, the query can contain macros.
 
-Macro example | Description
------------- | -------------
-*$__database* | Will specify the selected database.  This may use the default from the datasource config, or the explicit value from the query editor.
-*$__table* | Will specify the selected database.  This may use the default from the datasource config, or the explicit value from the query editor.
-*$__measure* | Will specify the selected measure.  This may use the default from the datasource config, or the explicit value from the query editor.
-*$__timeFilter* | Will be replaced by an expression that limits the time to the dashboard range
-*$__timeFrom* | Will be replaced by the number in milliseconds at the start of the dashboard range.
-*$__timeTo* | Will be replaced by the number in milliseconds at the end of the dashboard range.
-*$__interval_ms* | Will be replaced by a time that represents the amount of time a single pixel in the graph should cover.
-*$__interval_raw_ms* | Will be replaced by the number that represents the amount of time in milliseconds a single pixel in the graph should cover. This can be used in calculations and will not be treated as a time.
-
+| Macro example          | Description                                                                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| _$\_\_database_        | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
+| _$\_\_table_           | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
+| _$\_\_measure_         | Will specify the selected measure. This may use the default from the datasource config, or the explicit value from the query editor.  |
+| _$\_\_timeFilter_      | Will be replaced by an expression that limits the time to the dashboard range.                                                        |
+| _$\_\_timeFrom_        | Will be replaced by the number in milliseconds at the start of the dashboard range.                                                   |
+| _$\_\_timeTo_          | Will be replaced by the number in milliseconds at the end of the dashboard range.                                                     |
+| _$\_\_interval_ms_     | Will be replaced by a number in time format that represents the amount of time a single pixel in the graph should cover.              |
+| _$\_\_interval_raw_ms_ | Will be replaced by the number in milliseconds that represents the amount of time a single pixel in the graph should cover.           |
 
 ## Using Variables in Queries
 
-Grafana template variables can be used in query Timestream query.  See the grafana documentaiton on [template variables](https://grafana.com/docs/grafana/latest/variables/) for more information on how to setup and use variables.
+Instead of hard-coding server, application and sensor names in your Timestream queries, you can use variables. The variables are listed as dropdown select boxes at the top of the dashboard. These dropdowns make it easy to change the display of data in your dashboard.
+
+For an introduction to templating and template variables, refer to the [Templating](https://grafana.com/docs/grafana/latest/variables/) documentation.
 
 ### Disabling quoting for multi-value variables
 
@@ -51,7 +67,6 @@ Grafana automatically creates a quoted, comma-separated string for multi-value v
 `${servers:csv}`
 
 Read more about variable formatting options in the [Variables](https://grafana.com/docs/grafana/latest/variables/advanced-variable-format-options/) documentation.
-
 
 ### Alerting
 
