@@ -43,13 +43,16 @@ Type `ctrl+space` to open open the IntelliSense suggestions
 
 To simplify syntax and to allow for dynamic parts, like date range filters, the query can contain macros.
 
-| Macro example      | Description                                                                                                                           |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| _$\_\_database_    | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
-| _$\_\_table_       | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
-| _$\_\_measure_     | Will specify the selected measure. This may use the default from the datasource config, or the explicit value from the query editor.  |
-| _$\_\_timeFilter_  | Will be replaced by an expression that limits the time to the dashboard range                                                         |
-| _$\_\_interval_ms_ | Will be replaced by a number that represents the amount of time a single pixel in the graph should cover                              |
+| Macro example          | Description                                                                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| _$\_\_database_        | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
+| _$\_\_table_           | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
+| _$\_\_measure_         | Will specify the selected measure. This may use the default from the datasource config, or the explicit value from the query editor.  |
+| _$\_\_timeFilter_      | Will be replaced by an expression that limits the time to the dashboard range.                                                        |
+| _$\_\_timeFrom_        | Will be replaced by the number in milliseconds at the start of the dashboard range.                                                   |
+| _$\_\_timeTo_          | Will be replaced by the number in milliseconds at the end of the dashboard range.                                                     |
+| _$\_\_interval_ms_     | Will be replaced by a number in time format that represents the amount of time a single pixel in the graph should cover.              |
+| _$\_\_interval_raw_ms_ | Will be replaced by the number in milliseconds that represents the amount of time a single pixel in the graph should cover.           |
 
 ## Using Variables in Queries
 
