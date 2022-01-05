@@ -17,6 +17,7 @@ import (
 func runTest(t *testing.T, name string) *backend.DataResponse {
 	mockClient := &MockClient{testFileName: name}
 	dr := ExecuteQuery(context.Background(), models.QueryModel{}, mockClient, models.DatasourceSettings{})
+	fmt.Println("test commit")
 
 	// Remove changable fields
 	for _, frame := range dr.Frames {
