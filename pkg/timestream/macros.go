@@ -12,6 +12,7 @@ import (
 const timeFilter = `\$__timeFilter`
 const timeFromStr = `$__timeFrom`
 const timeToStr = `$__timeTo`
+const intervalStrAlias = `$__interval`
 const intervalStr = `$__interval_ms`
 const intervalRawStr = `$__interval_raw_ms`
 const nowStr = `$__now_ms`
@@ -62,17 +63,18 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 		txt = strings.ReplaceAll(txt, timeToStr, replacement)
 	}
 
-	if strings.Contains(txt, intervalStr) {
+	if strings.Contains(txt, intervalRawStr) {
+		replacement := fmt.Sprintf("%d", query.Interval.Milliseconds())
+		txt = strings.ReplaceAll(txt, intervalRawStr, replacement)
+	}
+
+	if strings.Contains(txt, intervalStr) || strings.Contains(txt, intervalStrAlias) {
 		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
 		if replacement == "0ms" {
 			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
 		}
 		txt = strings.ReplaceAll(txt, intervalStr, replacement)
-	}
-
-	if strings.Contains(txt, intervalRawStr) {
-		replacement := fmt.Sprintf("%d", query.Interval.Milliseconds())
-		txt = strings.ReplaceAll(txt, intervalRawStr, replacement)
+		txt = strings.ReplaceAll(txt, intervalStrAlias, replacement)
 	}
 
 	if strings.Contains(txt, nowStr) {

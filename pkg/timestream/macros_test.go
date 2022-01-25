@@ -48,6 +48,21 @@ func TestInterpolate(t *testing.T) {
 		}
 	})
 
+	t.Run("using interval alias", func(t *testing.T) {
+		sqltxt := `GROUP BY $__interval TIMESERIES`
+		expect := `GROUP BY 60000ms TIMESERIES`
+
+		query := models.QueryModel{
+			TimeRange: timeRange,
+			RawQuery:  sqltxt,
+			Interval:  time.Minute,
+		}
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+		if diff := cmp.Diff(text, expect); diff != "" {
+			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
+		}
+	})
+
 	t.Run("using templates", func(t *testing.T) {
 		sqltxt := `SELECT '$__measure' FROM $__database.$__table LIMIT 10`
 		expect := `SELECT 'measure' FROM ddb.table LIMIT 10`
