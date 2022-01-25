@@ -74,7 +74,6 @@ func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (s
 			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
 		}
 		txt = strings.ReplaceAll(txt, intervalStr, replacement)
-		// replace $__interval too
 		txt = strings.ReplaceAll(txt, intervalStrAlias, replacement)
 	}
 
