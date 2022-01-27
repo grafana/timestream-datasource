@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## TBD
+
+- Modify the User-Agent for requests. Now it will follow this form: `"aws-sdk-go/$aws-sdk-version ($go-version; $OS;) TimeStream/$timestream-version-$git-hash Grafana/$grafana-version"`.
+
 ## v1.4.0
 
 - Add macros for raw values of interval, from, to [#98](https://github.com/grafana/timestream-datasource/pull/98)

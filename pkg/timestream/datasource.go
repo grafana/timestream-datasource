@@ -13,7 +13,6 @@ import (
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 )
 
@@ -87,10 +86,6 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 				}
 				querySvc := timestreamquery.New(sess, tcfg)
 
-				// Add the user agent version
-				querySvc.Handlers.Send.PushFront(func(r *request.Request) {
-					r.HTTPRequest.Header.Set("User-Agent", fmt.Sprintf("GrafanaTimestream/%s", "1.0.0"))
-				})
 				return querySvc, nil
 			},
 		},
