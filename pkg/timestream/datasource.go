@@ -7,6 +7,7 @@ import (
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	sdkhttpclient "github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
 	"github.com/grafana/timestream-datasource/pkg/models"
@@ -60,7 +61,23 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 		Runner: &timestreamRunner{
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
 
-				sess, err := sessions.GetSession(region, settings.AWSDatasourceSettings)
+				httpClientProvider := sdkhttpclient.NewProvider()
+				httpClientOptions, err := settings.Config.HTTPClientOptions()
+				if err != nil {
+					backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
+					return nil, err
+				}
+				httpClient, err := httpClientProvider.New(httpClientOptions)
+				if err != nil {
+					backend.Logger.Error("failed to create HTTP client", "error", err.Error())
+					return nil, err
+				}
+
+				sess, err := sessions.GetSession(awsds.SessionConfig{
+					Settings:      settings.AWSDatasourceSettings,
+					HTTPClient:    httpClient,
+					UserAgentName: aws.String("Timestream"),
+				})
 				if err != nil {
 					return nil, err
 				}

@@ -12,6 +12,8 @@ import (
 type DatasourceSettings struct {
 	awsds.AWSDatasourceSettings
 
+	Config backend.DataSourceInstanceSettings
+
 	// Default query
 	DefaultDatabase string `json:"defaultDatabase,omitempty"`
 	DefaultTable    string `json:"defaultTable,omitempty"`
@@ -20,6 +22,7 @@ type DatasourceSettings struct {
 
 // Load is copied from grafana-aws-sdk -- json.Unmarshal was not loading the nested properties
 func (s *DatasourceSettings) Load(config backend.DataSourceInstanceSettings) error {
+	s.Config = config
 	if config.JSONData != nil && len(config.JSONData) > 1 {
 		if err := json.Unmarshal(config.JSONData, s); err != nil {
 			return fmt.Errorf("could not unmarshal DatasourceSettings json: %w", err)
