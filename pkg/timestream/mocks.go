@@ -11,11 +11,13 @@ import (
 
 // MockClient ...
 type MockClient struct {
-	testFileName string
+	testFileNames []string
+	index         int
 }
 
 func (c *MockClient) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	bs, err := ioutil.ReadFile("./testdata/" + c.testFileName + ".json")
+	bs, err := ioutil.ReadFile("./testdata/" + c.testFileNames[c.index] + ".json")
+	fmt.Printf("returning data from %v \n", c.testFileNames[c.index])
 	if err != nil {
 		return nil, err
 	}
@@ -24,6 +26,7 @@ func (c *MockClient) runQuery(ctx context.Context, input *timestreamquery.QueryI
 	if err != nil {
 		fmt.Println(err)
 	}
+	c.index++
 	return r, nil
 }
 

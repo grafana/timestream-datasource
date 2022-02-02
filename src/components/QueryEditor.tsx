@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
 import { DataSourceApi, QueryEditorProps, SelectableValue } from '@grafana/data';
-import { DataSource } from '../DataSource';
-import { TimestreamQuery, TimestreamOptions, QueryType } from '../types';
 import { getTemplateSrv } from '@grafana/runtime';
-import { QueryField } from './Forms';
-import { selectors } from './selectors';
-
-import { Segment, SegmentAsync, InlineFormLabel, CodeEditor } from '@grafana/ui';
-import { sampleQueries, queryTypes } from './samples';
+import { CodeEditor, InlineFormLabel, Segment, SegmentAsync, Switch } from '@grafana/ui';
+import React, { PureComponent } from 'react';
 import { SchemaInfo } from 'SchemaInfo';
+
+import { DataSource } from '../DataSource';
+import { QueryType, TimestreamOptions, TimestreamQuery } from '../types';
+import { QueryField } from './Forms';
+import { queryTypes, sampleQueries } from './samples';
+import { selectors } from './selectors';
 
 type Props = QueryEditorProps<DataSourceApi<TimestreamQuery, TimestreamOptions>, TimestreamQuery, TimestreamOptions>;
 interface State {
@@ -105,6 +105,14 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.props.onChange({
       ...this.props.query,
       rawQuery: value.value,
+    });
+    this.props.onRunQuery();
+  };
+
+  onWaitForChange = () => {
+    this.props.onChange({
+      ...this.props.query,
+      waitForResult: !this.props.query.waitForResult,
     });
     this.props.onRunQuery();
   };
@@ -221,6 +229,11 @@ export class QueryEditor extends PureComponent<Props, State> {
             />
           </div>
         )}
+        <div className={'gf-form-inline'}>
+          <QueryField label="Render after all queries finish" labelWidth={12}>
+            <Switch css onChange={this.onWaitForChange} value={this.props.query.waitForResult} marginHeight={10} />
+          </QueryField>
+        </div>
       </>
     );
   }

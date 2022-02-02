@@ -6,3 +6,4 @@ cypress/screenshots/actual
 cypress/videos/
 dist/
 provisioning
+pkg/__debug_bin

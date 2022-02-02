@@ -31,12 +31,26 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 
 	start := time.Now().UnixNano() / 1000000
 	output, err := runner.runQuery(ctx, input)
-	finish := time.Now().UnixNano() / 1000000
+	if query.WaitForResult && output.NextToken != nil && err == nil {
+		for output.NextToken != nil {
+			newPageInput := *input
+			newPageInput.NextToken = output.NextToken
+			newPageOutput, newPageErr := runner.runQuery(ctx, &newPageInput)
+			if newPageErr != nil {
+				err = newPageErr
+				output.NextToken = nil
+				continue
+			}
+			output.Rows = append(output.Rows, newPageOutput.Rows...)
+			output.NextToken = newPageOutput.NextToken
+		}
+	}
 	if err == nil {
 		dr = QueryResultToDataFrame(output)
 	} else {
 		dr.Error = err
 	}
+	finish := time.Now().UnixNano() / 1000000
 
 	// Needs a frame for the metadata... even if just error
 	if len(dr.Frames) < 1 {

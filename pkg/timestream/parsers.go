@@ -204,7 +204,7 @@ func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
-	v, err := strconv.ParseFloat(*datum.ScalarValue, 0)
+	v, err := strconv.ParseFloat(*datum.ScalarValue, 64)
 	return &v, err
 }
 
