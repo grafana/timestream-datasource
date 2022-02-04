@@ -12,8 +12,9 @@ import (
 )
 
 // ExecuteQuery -- run a query
-func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings models.DatasourceSettings) (dr backend.DataResponse) {
+func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings models.DatasourceSettings) (dr backend.DataResponse, nextToken string) {
 	dr = backend.DataResponse{}
+	nextToken = ""
 
 	raw, err := Interpolate(query, settings)
 	if err != nil {
@@ -58,6 +59,7 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 
 	// Apply the timing info
 	meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+	nextToken = meta.NextToken
 	if meta.NextToken == "" {
 		meta.FinishTime = finish
 	}
