@@ -72,6 +72,32 @@ Read more about variable formatting options in the [Variables](https://grafana.c
 
 See the [Alerting](https://grafana.com/docs/grafana/latest/alerting/alerts-overview/) documentation for more on Grafana alerts.
 
+[Unified Alerting](https://grafana.com/docs/grafana/latest/alerting/unified-alerting/) queries should contain a time series field. Queries without this field will return an error: "input data must be a wide series but got type long". To return time series, you can use the [`CREATE_TIME_SERIES` function](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html). For example:
+
+```sql
+SELECT
+	silo, microservice_name, instance_name,
+	CREATE_TIME_SERIES(time, measure_value::double) AS gc_pause
+FROM $__database.$__table
+WHERE $__timeFilter
+	AND measure_name = '$__measure'
+	AND region = 'ap-northeast-1'
+	AND cell = 'ap-northeast-1-cell-5'
+	AND silo = 'ap-northeast-1-cell-5-silo-2'
+	AND availability_zone = 'ap-northeast-1-3'
+	AND microservice_name = 'zeus'
+GROUP BY region,
+	cell,
+	silo,
+	availability_zone,
+	microservice_name,
+	instance_name,
+	process_name,
+	jdk_version
+ORDER BY AVG(measure_value::double) DESC
+LIMIT 3
+```
+
 ## Configure the data source with provisioning
 
 You can configure data sources using config files with Grafana's provisioning system. You can read more about how it works and all the settings you can set for data sources on the [provisioning docs page](https://grafana.com/docs/grafana/latest/administration/provisioning/).
