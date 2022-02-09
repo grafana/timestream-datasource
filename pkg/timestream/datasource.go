@@ -157,6 +157,16 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 	return res, nil
 }
 
+func sliceFromRows(rows []*timestreamquery.Row) []string {
+	res := []string{}
+	for _, row := range rows {
+		if len(row.Data) > 0 && row.Data[0].ScalarValue != nil {
+			res = append(res, *row.Data[0].ScalarValue)
+		}
+	}
+	return res
+}
+
 // CallResource HTTP style resource
 func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	if req.Path == "hello" {
@@ -183,6 +193,51 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			msg = err.Error()
 		}
 		return resource.SendPlainText(sender, msg)
+	}
+	if req.Path == "databases" {
+		// TODO: Use API endpoint to list databases
+		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+			QueryString: aws.String("SHOW DATABASES"),
+		})
+		if err != nil {
+			return err
+		}
+		return resource.SendJSON(sender, sliceFromRows(v.Rows))
+	}
+	if req.Path == "tables" {
+		if req.Method != "POST" {
+			return fmt.Errorf("Tables requires a post command")
+		}
+		opts := models.TablesRequest{}
+		err := json.Unmarshal(req.Body, &opts)
+		if err != nil {
+			return err
+		}
+		// TODO: Use API endpoint to list tables
+		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", opts.Database)),
+		})
+		if err != nil {
+			return err
+		}
+		return resource.SendJSON(sender, sliceFromRows(v.Rows))
+	}
+	if req.Path == "measures" {
+		if req.Method != "POST" {
+			return fmt.Errorf("Measures requires a post command")
+		}
+		opts := models.MesauresRequest{}
+		err := json.Unmarshal(req.Body, &opts)
+		if err != nil {
+			return err
+		}
+		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", opts.Database, opts.Table)),
+		})
+		if err != nil {
+			return err
+		}
+		return resource.SendJSON(sender, sliceFromRows(v.Rows))
 	}
 	return fmt.Errorf("unknown resource")
 }

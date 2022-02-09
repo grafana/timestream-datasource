@@ -60,3 +60,14 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 type CancelRequest struct {
 	QueryID string `json:"queryId,omitempty"`
 }
+
+// TablesRequest will return tables for a database
+type TablesRequest struct {
+	Database string `json:"database"`
+}
+
+// CancelRequest will return measures for a table
+type MesauresRequest struct {
+	Database string `json:"database"`
+	Table    string `json:"table"`
+}
