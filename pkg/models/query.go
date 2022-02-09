@@ -23,6 +23,9 @@ type QueryModel struct {
 	Interval      time.Duration     `json:"-"`
 	TimeRange     backend.TimeRange `json:"-"`
 	MaxDataPoints int64             `json:"-"`
+
+	// Return several pages (if exist) in one response
+	WaitForResult bool `json:"waitForResult"`
 }
 
 // GetQueryModel returns a parsed query

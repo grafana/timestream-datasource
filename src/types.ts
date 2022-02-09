@@ -1,5 +1,5 @@
-import { DataQuery } from '@grafana/data';
 import { AwsAuthDataSourceJsonData, AwsAuthDataSourceSecureJsonData } from '@grafana/aws-sdk';
+import { DataQuery } from '@grafana/data';
 
 export interface ColumnInfo {
   column: string;
@@ -70,6 +70,9 @@ export interface TimestreamQuery extends DataQuery {
 
   // The rendered query
   rawQuery?: string;
+
+  // Avoid pagination
+  waitForResult?: boolean;
 
   // Not a real parameter...
   // nextToken?: string;

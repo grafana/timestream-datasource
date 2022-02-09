@@ -1,21 +1,21 @@
 import {
-  DataSourceInstanceSettings,
-  DataQueryResponse,
   DataFrame,
   DataQueryRequest,
-  MetricFindValue,
-  ScopedVars,
-  QueryResultMetaStat,
-  TimeRange,
+  DataQueryResponse,
+  DataSourceInstanceSettings,
   getValueFormat,
+  MetricFindValue,
+  QueryResultMetaStat,
+  ScopedVars,
+  TimeRange,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { Observable, of, merge } from 'rxjs';
+import { appendMatchingFrames } from 'appendFrames';
+import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
+import { merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { TimestreamQuery, TimestreamOptions, TimestreamCustomMeta, MeasureInfo, DataType } from './types';
-import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
-import { appendMatchingFrames } from 'appendFrames';
+import { DataType, MeasureInfo, TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
 
 let requestCounter = 100;
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -95,6 +95,11 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     const targets = request.targets;
     if (!targets.length) {
       return of({ data: [] });
+    }
+    if (targets.some((t) => t.waitForResult)) {
+      // Defaults to the common behavior of waiting for all the queries to be finished
+      // before rendering
+      return super.query(request);
     }
     const all: Array<Observable<DataQueryResponse>> = [];
     for (let target of targets) {

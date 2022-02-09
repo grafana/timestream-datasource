@@ -98,6 +98,8 @@ ORDER BY AVG(measure_value::double) DESC
 LIMIT 3
 ```
 
+> **Note**: Results for Timestream queries are returned in different pages (if necessary) by default. To ensure that all pages are processed before evaluating an alert, mark the checkbox "Render after all queries finish" in all alert queries.
+
 ## Configure the data source with provisioning
 
 You can configure data sources using config files with Grafana's provisioning system. You can read more about how it works and all the settings you can set for data sources on the [provisioning docs page](https://grafana.com/docs/grafana/latest/administration/provisioning/).
