@@ -1,5 +1,5 @@
 import { AwsAuthDataSourceJsonData, AwsAuthDataSourceSecureJsonData } from '@grafana/aws-sdk';
-import { DataQuery } from '@grafana/data';
+import { DataQuery, DataSourceSettings } from '@grafana/data';
 
 export interface ColumnInfo {
   column: string;
@@ -87,3 +87,5 @@ export interface TimestreamOptions extends AwsAuthDataSourceJsonData {
 export interface TimestreamSecureJsonData extends AwsAuthDataSourceSecureJsonData {
   // nothing for now
 }
+
+export type TimestreamDataSourceSettings = DataSourceSettings<TimestreamOptions, TimestreamSecureJsonData>;
