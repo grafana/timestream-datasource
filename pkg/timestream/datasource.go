@@ -157,11 +157,15 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 	return res, nil
 }
 
-func sliceFromRows(rows []*timestreamquery.Row) []string {
+func sliceFromRows(rows []*timestreamquery.Row, doubleQuotes bool) []string {
 	res := []string{}
 	for _, row := range rows {
 		if len(row.Data) > 0 && row.Data[0].ScalarValue != nil {
-			res = append(res, *row.Data[0].ScalarValue)
+			val := *row.Data[0].ScalarValue
+			if doubleQuotes {
+				val = fmt.Sprintf(`"%s"`, val)
+			}
+			res = append(res, val)
 		}
 	}
 	return res
@@ -202,7 +206,8 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		if err != nil {
 			return err
 		}
-		return resource.SendJSON(sender, sliceFromRows(v.Rows))
+		// Databases are returned wrapped in double quotes
+		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
 	}
 	if req.Path == "tables" {
 		if req.Method != "POST" {
@@ -220,7 +225,8 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		if err != nil {
 			return err
 		}
-		return resource.SendJSON(sender, sliceFromRows(v.Rows))
+		// Tables are returned wrapped in double quotes
+		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
 	}
 	if req.Path == "measures" {
 		if req.Method != "POST" {
@@ -237,7 +243,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		if err != nil {
 			return err
 		}
-		return resource.SendJSON(sender, sliceFromRows(v.Rows))
+		return resource.SendJSON(sender, sliceFromRows(v.Rows, false))
 	}
 	return fmt.Errorf("unknown resource")
 }

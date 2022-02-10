@@ -36,40 +36,48 @@ func (f *fakeRunner) runQuery(ctx context.Context, input *timestreamquery.QueryI
 func TestCallResource(t *testing.T) {
 	tests := []struct {
 		description string
+		resources   []string
 		req         *backend.CallResourceRequest
+		result      string
 	}{
 		{
 			"databases request",
+			[]string{"foo", "bar"},
 			&backend.CallResourceRequest{
 				Path: "databases",
 			},
+			`["\"foo\"","\"bar\""]`,
 		},
 		{
 			"tables request",
+			[]string{"foo", "bar"},
 			&backend.CallResourceRequest{
 				Method: "POST",
 				Path:   "tables",
 				Body:   []byte(`{"database":"db"}`),
 			},
+			`["\"foo\"","\"bar\""]`,
 		},
 		{
-			"databases request",
+			"measures request",
+			[]string{"foo", "bar"},
 			&backend.CallResourceRequest{
 				Method: "POST",
-				Path:   "tables",
+				Path:   "measures",
 				Body:   []byte(`{"database":"db","table":"t"}`),
 			},
+			`["foo","bar"]`,
 		},
 	}
 	for _, test := range tests {
 		t.Run(test.description, func(t *testing.T) {
-			ts := &timestreamDS{Runner: &fakeRunner{resources: []string{"foo", "bar"}}}
+			ts := &timestreamDS{Runner: &fakeRunner{resources: test.resources}}
 			sender := &fakeSender{}
 			err := ts.CallResource(context.Background(), test.req, sender)
 			if err != nil {
 				t.Error(err)
 			}
-			if string(sender.res.Body) != `["foo","bar"]` {
+			if string(sender.res.Body) != test.result {
 				t.Errorf("unexpected result %s", string(sender.res.Body))
 			}
 		})
