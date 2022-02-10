@@ -8,6 +8,18 @@ export const Components = {
     AccessKey: {
       input: 'Config editor access key input',
     },
+    defaultDatabase: {
+      input: 'Database',
+      wrapper: 'data-testid onloaddatabase',
+    },
+    defaultTable: {
+      input: 'Table',
+      wrapper: 'data-testid onloadtable',
+    },
+    defaultMeasure: {
+      input: 'Measure',
+      wrapper: 'data-testid onloadmeasure',
+    },
   },
   QueryEditor: {
     CodeEditor: {
