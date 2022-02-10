@@ -16,14 +16,17 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/aws-sdk": "0.0.31",
+    "@grafana/aws-sdk": "0.0.32",
     "@grafana/data": "7.4.0",
     "@grafana/runtime": "7.4.0",
     "@grafana/toolkit": "7.4.3",
-    "@grafana/ui": "7.2.0",
+    "@grafana/ui": "7.5.12",
     "@grafana/e2e": "7.5.1",
     "@grafana/e2e-selectors": "7.5.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
     "@types/lodash": "latest",
+    "react-select-event": "^5.3.0",
     "tslib": "2.3.1",
     "cypress": "6.4.0"
   }
