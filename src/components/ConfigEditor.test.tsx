@@ -31,7 +31,7 @@ const props = mockDatasourceOptions;
 type resourceType = 'defaultDatabase' | 'defaultTable' | 'defaultMeasure';
 
 describe('ConfigEditor', () => {
-  const types: Array<resourceType> = ['defaultDatabase', 'defaultTable', 'defaultMeasure'];
+  const types: resourceType[] = ['defaultDatabase', 'defaultTable', 'defaultMeasure'];
   types.forEach((resource) => {
     it(`should save and request ${resource}s`, async () => {
       const onChange = jest.fn();
