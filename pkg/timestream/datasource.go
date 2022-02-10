@@ -50,7 +50,6 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 	if err != nil {
 		return nil, fmt.Errorf("error reading settings: %s", err.Error())
 	}
-	backend.Logger.Info("new instance", "settings", settings)
 	sessions := awsds.NewSessionCache()
 	endpoint := settings.Endpoint
 	settings.Endpoint = "" // do not use this in the initial session configuration
