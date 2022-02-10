@@ -1,4 +1,5 @@
 import { e2e } from '@grafana/e2e';
+
 import { selectors as timestreamSelectors } from '../../src/components/selectors';
 
 const e2eSelectors = e2e.getSelectors(timestreamSelectors.components);
@@ -6,34 +7,45 @@ const e2eSelectors = e2e.getSelectors(timestreamSelectors.components);
 const query = 'SHOW DATABASES';
 const queryVariable = 'query';
 
-export const addDataSourceWithKey = (
-  datasourceType: string,
-  accessKey: string,
-  secretKey: string,
-  region: string
-): any => {
+export const addDataSourceWithKey = (datasourceType: string, datasource: any): any => {
   return e2e.flows.addDataSource({
     checkHealth: false,
     expectedAlertMessage: 'Connection success',
     form: () => {
-      setSelectValue('.aws-config-authType', 'Access & secret key');
-      e2eSelectors.ConfigEditor.AccessKey.input().type(accessKey);
-      e2eSelectors.ConfigEditor.SecretKey.input().type(secretKey);
-      setSelectValue('.aws-config-defaultRegion', region);
+      e2eSelectors.ConfigEditor.AuthenticationProvider.input().type('Access & secret key').type('{enter}');
+      e2eSelectors.ConfigEditor.AccessKey.input().type(datasource.secureJsonData.accessKey);
+      e2eSelectors.ConfigEditor.SecretKey.input().type(datasource.secureJsonData.secretKey);
+      e2eSelectors.ConfigEditor.DefaultRegion.input()
+        .click({ force: true })
+        .type(datasource.jsonData.defaultRegion)
+        .type('{enter}');
+      // Databases
+      e2eSelectors.ConfigEditor.defaultDatabase.input().click({ force: true });
+      // wait for it to load
+      e2e()
+        .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultDatabase.wrapper}"]`)
+        .contains(datasource.jsonData.defaultDatabase);
+      e2e()
+        .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultDatabase.wrapper}"]`)
+        .contains(datasource.jsonData.defaultDatabase);
+      e2eSelectors.ConfigEditor.defaultDatabase.input().type(datasource.jsonData.defaultDatabase).type('{enter}');
+      // Tables
+      e2eSelectors.ConfigEditor.defaultTable.input().click({ force: true });
+      // wait for it to load
+      e2e()
+        .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultTable.wrapper}"]`)
+        .contains(datasource.jsonData.defaultTable);
+      e2eSelectors.ConfigEditor.defaultTable.input().type(datasource.jsonData.defaultTable).type('{enter}');
+      // Measures
+      e2eSelectors.ConfigEditor.defaultMeasure.input().click({ force: true });
+      // wait for it to load
+      e2e()
+        .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultMeasure.wrapper}"]`)
+        .contains(datasource.jsonData.defaultMeasure);
+      e2eSelectors.ConfigEditor.defaultMeasure.input().type(datasource.jsonData.defaultMeasure).type('{enter}');
     },
     type: datasourceType,
   });
-};
-
-const setSelectValue = (container: string, text: string) => {
-  // return e2e.flows.selectOption({
-  //   clickToOpen: true,
-  //   optionText: text,
-  //   container: e2e().get(container),
-  // });
-
-  // couldn't get above code to work for some reason. need to investigate that
-  return e2e().get(container).parent().find(`input`).click({ force: true }).type(text).type('{enter}');
 };
 
 const addTablePanel = (q: string) => {
@@ -63,12 +75,7 @@ e2e.scenario({
       .readProvisions(['datasources/aws-timestream.yaml'])
       .then(([provision]) => {
         const datasource = provision.datasources[0];
-        return addDataSourceWithKey(
-          'Amazon Timestream',
-          datasource.secureJsonData.accessKey,
-          datasource.secureJsonData.secretKey,
-          datasource.jsonData.defaultRegion
-        );
+        return addDataSourceWithKey('Amazon Timestream', datasource);
       })
       .then(() => {
         e2e.flows.addDashboard({
