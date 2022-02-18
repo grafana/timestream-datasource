@@ -25,11 +25,22 @@ type fakeRunner struct {
 
 func (f *fakeRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
 	res := &timestreamquery.QueryOutput{}
+	dimensions := []*timestreamquery.Datum{}
 	for _, r := range f.resources {
 		res.Rows = append(res.Rows, &timestreamquery.Row{Data: []*timestreamquery.Datum{
 			{ScalarValue: aws.String(r)},
+			{},
+			{}, // Dimension data
 		}})
+		// Populate dimensions using same resources
+		dimensions = append(dimensions, &timestreamquery.Datum{
+			RowValue: &timestreamquery.Row{
+				Data: []*timestreamquery.Datum{{ScalarValue: aws.String(r)}},
+			},
+		})
 	}
+	// Only populate dimensions data in the first row because it's the only one we are reading
+	res.Rows[0].Data[2].ArrayValue = dimensions
 	return res, nil
 }
 
@@ -64,6 +75,16 @@ func TestCallResource(t *testing.T) {
 			&backend.CallResourceRequest{
 				Method: "POST",
 				Path:   "measures",
+				Body:   []byte(`{"database":"db","table":"t"}`),
+			},
+			`["foo","bar"]`,
+		},
+		{
+			"dimensions request",
+			[]string{"foo", "bar"},
+			&backend.CallResourceRequest{
+				Method: "POST",
+				Path:   "dimensions",
 				Body:   []byte(`{"database":"db","table":"t"}`),
 			},
 			`["foo","bar"]`,
