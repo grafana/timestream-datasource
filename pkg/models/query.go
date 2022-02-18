@@ -67,7 +67,7 @@ type TablesRequest struct {
 }
 
 // CancelRequest will return measures for a table
-type MesauresRequest struct {
+type MeasuresRequest struct {
 	Database string `json:"database"`
 	Table    string `json:"table"`
 }

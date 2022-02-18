@@ -20,40 +20,28 @@ func (f *fakeSender) Send(res *backend.CallResourceResponse) error {
 
 type fakeRunner struct {
 	queryRunner
-	resources []string
+	output *timestreamquery.QueryOutput
 }
 
 func (f *fakeRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	res := &timestreamquery.QueryOutput{}
-	dimensions := []*timestreamquery.Datum{}
-	for _, r := range f.resources {
-		res.Rows = append(res.Rows, &timestreamquery.Row{Data: []*timestreamquery.Datum{
-			{ScalarValue: aws.String(r)},
-			{},
-			{}, // Dimension data
-		}})
-		// Populate dimensions using same resources
-		dimensions = append(dimensions, &timestreamquery.Datum{
-			RowValue: &timestreamquery.Row{
-				Data: []*timestreamquery.Datum{{ScalarValue: aws.String(r)}},
-			},
-		})
-	}
-	// Only populate dimensions data in the first row because it's the only one we are reading
-	res.Rows[0].Data[2].ArrayValue = dimensions
-	return res, nil
+	return f.output, nil
 }
 
 func TestCallResource(t *testing.T) {
 	tests := []struct {
 		description string
-		resources   []string
+		output      *timestreamquery.QueryOutput
 		req         *backend.CallResourceRequest
 		result      string
 	}{
 		{
 			"databases request",
-			[]string{"foo", "bar"},
+			&timestreamquery.QueryOutput{
+				Rows: []*timestreamquery.Row{
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				},
+			},
 			&backend.CallResourceRequest{
 				Path: "databases",
 			},
@@ -61,7 +49,12 @@ func TestCallResource(t *testing.T) {
 		},
 		{
 			"tables request",
-			[]string{"foo", "bar"},
+			&timestreamquery.QueryOutput{
+				Rows: []*timestreamquery.Row{
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				},
+			},
 			&backend.CallResourceRequest{
 				Method: "POST",
 				Path:   "tables",
@@ -71,7 +64,12 @@ func TestCallResource(t *testing.T) {
 		},
 		{
 			"measures request",
-			[]string{"foo", "bar"},
+			&timestreamquery.QueryOutput{
+				Rows: []*timestreamquery.Row{
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				},
+			},
 			&backend.CallResourceRequest{
 				Method: "POST",
 				Path:   "measures",
@@ -81,7 +79,22 @@ func TestCallResource(t *testing.T) {
 		},
 		{
 			"dimensions request",
-			[]string{"foo", "bar"},
+			&timestreamquery.QueryOutput{
+				Rows: []*timestreamquery.Row{
+					{Data: []*timestreamquery.Datum{
+						{}, // measure
+						{}, // measure type
+						{ArrayValue: []*timestreamquery.Datum{ // dimensions
+							{RowValue: &timestreamquery.Row{Data: []*timestreamquery.Datum{
+								{ScalarValue: aws.String("foo")},
+							}}},
+							{RowValue: &timestreamquery.Row{Data: []*timestreamquery.Datum{
+								{ScalarValue: aws.String("bar")},
+							}}},
+						}},
+					}},
+				},
+			},
 			&backend.CallResourceRequest{
 				Method: "POST",
 				Path:   "dimensions",
@@ -92,7 +105,7 @@ func TestCallResource(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.description, func(t *testing.T) {
-			ts := &timestreamDS{Runner: &fakeRunner{resources: test.resources}}
+			ts := &timestreamDS{Runner: &fakeRunner{output: test.output}}
 			sender := &fakeSender{}
 			err := ts.CallResource(context.Background(), test.req, sender)
 			if err != nil {
