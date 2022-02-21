@@ -1,6 +1,7 @@
 import { DataSourcePluginOptionsEditorProps, PluginType } from '@grafana/data';
-import { TimestreamOptions, TimestreamQuery } from '../types';
+
 import { DataSource } from '../DataSource';
+import { TimestreamOptions, TimestreamQuery } from '../types';
 
 export const mockDatasource = new DataSource({
   id: 1,
@@ -53,6 +54,7 @@ export const mockDatasourceOptions: DataSourcePluginOptionsEditorProps<Timestrea
     secureJsonFields: {},
     readOnly: false,
     withCredentials: false,
+    typeName: '',
   },
   onOptionsChange: jest.fn(),
 };
