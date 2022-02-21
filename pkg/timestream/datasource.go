@@ -170,6 +170,21 @@ func sliceFromRows(rows []*timestreamquery.Row, doubleQuotes bool) []string {
 	return res
 }
 
+// The dimensions of a row are the different columns (apart from the measure)
+// It's encoded in every row, as an array of values.
+func dimensionsFromRows(rows []*timestreamquery.Row) []string {
+	res := []string{}
+	if len(rows) > 0 && len(rows[0].Data) == 3 && len(rows[0].Data[2].ArrayValue) > 0 {
+		dimensionArray := rows[0].Data[2].ArrayValue
+		for _, dim := range dimensionArray {
+			if len(dim.RowValue.Data) > 0 && dim.RowValue.Data[0].ScalarValue != nil {
+				res = append(res, *dim.RowValue.Data[0].ScalarValue)
+			}
+		}
+	}
+	return res
+}
+
 // CallResource HTTP style resource
 func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	if req.Path == "hello" {
@@ -227,11 +242,11 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		// Tables are returned wrapped in double quotes
 		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
 	}
-	if req.Path == "measures" {
+	if req.Path == "measures" || req.Path == "dimensions" {
 		if req.Method != "POST" {
 			return fmt.Errorf("Measures requires a post command")
 		}
-		opts := models.MesauresRequest{}
+		opts := models.MeasuresRequest{}
 		err := json.Unmarshal(req.Body, &opts)
 		if err != nil {
 			return err
@@ -242,7 +257,12 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		if err != nil {
 			return err
 		}
-		return resource.SendJSON(sender, sliceFromRows(v.Rows, false))
+		if req.Path == "measures" {
+			return resource.SendJSON(sender, sliceFromRows(v.Rows, false))
+		}
+		if req.Path == "dimensions" {
+			return resource.SendJSON(sender, dimensionsFromRows(v.Rows))
+		}
 	}
 	return fmt.Errorf("unknown resource")
 }
