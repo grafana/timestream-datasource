@@ -14,47 +14,49 @@ type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 type QueryProperties = 'database' | 'table' | 'measure';
 
 export function QueryEditor(props: Props) {
-  const { query, datasource } = props;
+  const { query, datasource, onChange, onRunQuery } = props;
   const { database, table, measure } = query;
   const { defaultDatabase, defaultTable, defaultMeasure } = datasource.options;
 
   // pre-populate query with default data
   useEffect(() => {
     if (!database || !table || !table) {
-      props.onChange({
+      onChange({
         ...query,
         database: database || defaultDatabase,
         table: table || defaultTable,
         measure: measure || defaultMeasure,
       });
     }
+    // Run only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onWaitForChange = () => {
-    props.onChange({ ...query, waitForResult: !query.waitForResult });
+    onChange({ ...query, waitForResult: !query.waitForResult });
   };
 
   const onChangeSelector = (prop: QueryProperties) => (e: SelectableValue<string> | null) => {
-    props.onChange({ ...query, [prop]: e?.value });
+    onChange({ ...query, [prop]: e?.value });
   };
 
   const onQueryChange = (rawQuery: string) => {
-    props.onChange({ ...query, rawQuery });
-    props.onRunQuery();
+    onChange({ ...query, rawQuery });
+    onRunQuery();
   };
 
   // Trigger query if all the resources are set
   useEffect(() => {
     if (database && table && measure) {
-      props.onRunQuery();
+      onRunQuery();
     }
-  }, [database, table, measure]);
+  }, [database, table, measure, onRunQuery]);
 
   // Databases used both for the selector and editor suggestions
   const [dbs, setDBs] = useState<string[]>([]);
   useEffect(() => {
     datasource.getResource('databases').then((res) => setDBs(res));
-  }, []);
+  }, [datasource]);
 
   // Tables used both for the selector and editor suggestions
   const [tables, setTables] = useState<string[]>([]);
@@ -68,11 +70,13 @@ export function QueryEditor(props: Props) {
           if (res.length > 0 && !res.some((t) => table === t)) {
             // The current list of tables do not include the current one
             // so change it to the first of the list
-            props.onChange({ ...query, table: res[0] });
+            onChange({ ...query, table: res[0] });
           }
           setTables(res);
         });
     }
+    // Run only on database change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [database]);
 
   // Measures used both for the selector and editor suggestions
@@ -90,7 +94,7 @@ export function QueryEditor(props: Props) {
           if (res.length > 0 && !res.some((t) => measure === t)) {
             // The current list of measures do not include the current one
             // so change it to the first of the list
-            props.onChange({ ...query, measure: res[0] });
+            onChange({ ...query, measure: res[0] });
           }
           setMeasures(res);
         });
@@ -103,6 +107,8 @@ export function QueryEditor(props: Props) {
           setDimensions(res);
         });
     }
+    // Run only on database or table change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [database, table]);
 
   return (
