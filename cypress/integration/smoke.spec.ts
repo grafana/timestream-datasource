@@ -49,7 +49,13 @@ export const addDataSourceWithKey = (datasourceType: string, datasource: any): a
 };
 
 const addTablePanel = (q: string) => {
-  const fillQuery = (query: string) => e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+  const fillQuery = (query: string) => {
+    // Wait for the selectors to load
+    e2e()
+      .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultMeasure.wrapper}"]`)
+      .contains('cpu_hi');
+    e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+  };
 
   e2e.flows.addPanel({
     matchScreenshot: true,
