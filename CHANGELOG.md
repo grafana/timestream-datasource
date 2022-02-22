@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## TBD
 
 - Modify the User-Agent for requests. Now it will follow this form: `"aws-sdk-go/$aws-sdk-version ($go-version; $OS;) TimeStream/$timestream-version-$git-hash Grafana/$grafana-version"`.
+- Fixes bugs for Endpoint and Assume Role settings.
 
 ## v1.4.0
 
