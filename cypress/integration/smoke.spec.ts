@@ -54,7 +54,13 @@ const addTablePanel = (q: string) => {
   e2e.flows.addPanel({
     matchScreenshot: true,
     visualizationName: e2e.flows.VISUALIZATION_TABLE,
-    queriesForm: () => fillQuery(q),
+    queriesForm: () => {
+      fillQuery(q);
+      // Blur and wait
+      cy.get('.panel-content').last().click();
+      cy.get('.panel-loading');
+      cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');
+    },
   });
 
   e2e.flows.explore({

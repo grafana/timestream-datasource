@@ -170,7 +170,10 @@ export function QueryEditor(props: Props) {
           </InlineField>
         </Label>
       </div>
-      <div style={{ minWidth: '400px', marginLeft: '10px', flex: 1 }}>
+      <div
+        style={{ minWidth: '400px', marginLeft: '10px', flex: 1 }}
+        aria-label={selectors.components.QueryEditor.CodeEditor.container}
+      >
         <CodeEditor
           language={'sql'}
           value={query.rawQuery || ''}
