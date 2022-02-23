@@ -1,240 +1,189 @@
-import { DataSourceApi, QueryEditorProps, SelectableValue } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
-import { CodeEditor, InlineFormLabel, Segment, SegmentAsync, Switch } from '@grafana/ui';
-import React, { PureComponent } from 'react';
-import { SchemaInfo } from 'SchemaInfo';
+import { ResourceSelector } from '@grafana/aws-sdk';
+import { QueryEditorProps, SelectableValue } from '@grafana/data';
+import { CodeEditor, InlineField, InlineSegmentGroup, Label, Select, Switch } from '@grafana/ui';
+import React, { useEffect, useState } from 'react';
 
 import { DataSource } from '../DataSource';
-import { QueryType, TimestreamOptions, TimestreamQuery } from '../types';
-import { QueryField } from './Forms';
-import { queryTypes, sampleQueries } from './samples';
+import { TimestreamOptions, TimestreamQuery } from '../types';
+import { sampleQueries } from './samples';
 import { selectors } from './selectors';
+import { getSuggestions } from './Suggestions';
 
-type Props = QueryEditorProps<DataSourceApi<TimestreamQuery, TimestreamOptions>, TimestreamQuery, TimestreamOptions>;
-interface State {
-  schema?: SchemaInfo;
+type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 
-  schemaState?: Partial<TimestreamQuery>;
-}
+type QueryProperties = 'database' | 'table' | 'measure';
 
-export class QueryEditor extends PureComponent<Props, State> {
-  state: State = {};
+export function QueryEditor(props: Props) {
+  const { query, datasource, onChange, onRunQuery } = props;
+  const { database, table, measure } = query;
+  const { defaultDatabase, defaultTable, defaultMeasure } = datasource.options;
 
-  componentDidMount = () => {
-    const { datasource, query } = this.props;
-    const ds = (datasource as unknown) as DataSource;
-    const schema = new SchemaInfo(ds, query, getTemplateSrv());
-    this.setState({ schema: schema, schemaState: schema.state });
-
-    schema.preload().then((v) => {
-      console.log('Loaded schema');
-    });
-  };
-
-  //-----------------------------------------------------
-  //-----------------------------------------------------
-
-  onQueryChange = (rawQuery: string) => {
-    this.props.onChange({
-      ...this.props.query,
-      rawQuery,
-      queryType: QueryType.Raw,
-    });
-    this.props.onRunQuery();
-  };
-
-  onDbChanged = (value: SelectableValue<string>) => {
-    const query = {
-      ...this.props.query,
-      database: value.value,
-    };
-    if (!query.database) {
-      delete query.database;
+  // pre-populate query with default data
+  useEffect(() => {
+    if (!database || !table || !table) {
+      onChange({
+        ...query,
+        database: database || defaultDatabase,
+        table: table || defaultTable,
+        measure: measure || defaultMeasure,
+      });
     }
+    // Run only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    const { schema } = this.state;
-    const schemaState = schema!.updateState(query);
-    this.setState({ schemaState });
-    this.props.onChange(query);
+  const onWaitForChange = () => {
+    onChange({ ...query, waitForResult: !query.waitForResult });
+  };
 
-    if (schemaState.table) {
-      this.props.onRunQuery();
+  const onChangeSelector = (prop: QueryProperties) => (e: SelectableValue<string> | null) => {
+    onChange({ ...query, [prop]: e?.value });
+  };
+
+  const onQueryChange = (rawQuery: string) => {
+    onChange({ ...query, rawQuery });
+    onRunQuery();
+  };
+
+  // Trigger query if all the resources are set
+  useEffect(() => {
+    if (database && table && measure) {
+      onRunQuery();
     }
-  };
+  }, [database, table, measure, onRunQuery]);
 
-  onTableChanged = (value: SelectableValue<string>) => {
-    const query = {
-      ...this.props.query,
-      table: value.value,
-    };
-    if (!query.table) {
-      delete query.table;
+  // Databases used both for the selector and editor suggestions
+  const [databases, setDatabases] = useState<string[]>([]);
+  useEffect(() => {
+    datasource.getResource('databases').then((res) => setDatabases(res));
+  }, [datasource]);
+
+  // Tables used both for the selector and editor suggestions
+  const [tables, setTables] = useState<string[]>([]);
+  useEffect(() => {
+    if (database) {
+      datasource
+        .postResource('tables', {
+          database: database || '',
+        })
+        .then((res: string[]) => {
+          if (res.length > 0 && !res.some((t) => table === t)) {
+            // The current list of tables do not include the current one
+            // so change it to the first of the list
+            onChange({ ...query, table: res[0] });
+          }
+          setTables(res);
+        });
     }
-    const { schema } = this.state;
-    const schemaState = schema!.updateState(query);
-    this.setState({ schemaState });
+    // Run only on database change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [database]);
 
-    this.props.onChange(query);
-    this.props.onRunQuery();
-  };
-
-  onMeasureChanged = (value: SelectableValue<string>) => {
-    const query = {
-      ...this.props.query,
-      measure: value.value,
-    };
-    if (!query.measure) {
-      delete query.measure;
+  // Measures used both for the selector and editor suggestions
+  const [measures, setMeasures] = useState<string[]>([]);
+  // Dimensions used for editor suggestions
+  const [dimensions, setDimensions] = useState<string[]>([]);
+  useEffect(() => {
+    if (database && table) {
+      datasource
+        .postResource('measures', {
+          database: database,
+          table: table,
+        })
+        .then((res: string[]) => {
+          if (res.length > 0 && !res.some((t) => measure === t)) {
+            // The current list of measures do not include the current one
+            // so change it to the first of the list
+            onChange({ ...query, measure: res[0] });
+          }
+          setMeasures(res);
+        });
+      datasource
+        .postResource('dimensions', {
+          database: database,
+          table: table,
+        })
+        .then((res) => {
+          setDimensions(res);
+        });
     }
+    // Run only on database or table change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [database, table]);
 
-    this.props.onChange(query);
-
-    const { schema } = this.state;
-    const schemaState = schema!.updateState(query);
-    this.setState({ schemaState });
-  };
-
-  onQueryTypeChange = (value: SelectableValue<QueryType>) => {
-    this.props.onChange({
-      ...this.props.query,
-      queryType: value.value || QueryType.Samples,
-    });
-  };
-
-  onSampleChange = (value: SelectableValue<string>) => {
-    this.props.onChange({
-      ...this.props.query,
-      rawQuery: value.value,
-    });
-    this.props.onRunQuery();
-  };
-
-  onWaitForChange = () => {
-    this.props.onChange({
-      ...this.props.query,
-      waitForResult: !this.props.query.waitForResult,
-    });
-    this.props.onRunQuery();
-  };
-
-  renderDatabaseMacro = (schema: SchemaInfo, query?: string, value?: string) => {
-    let placehoder = '';
-    let current = '$__database = ';
-    if (query) {
-      current += query;
-    } else {
-      placehoder = current + (value ?? '?');
-      current = '';
-    }
-
-    return (
-      <SegmentAsync
-        value={current}
-        loadOptions={schema.getDatabases}
-        placeholder={placehoder}
-        onChange={this.onDbChanged}
-        allowCustomValue
-      />
-    );
-  };
-
-  renderTableMacro = (schema: SchemaInfo, query?: string, value?: string) => {
-    let placehoder = '';
-    let current = '$__table = ';
-    if (query) {
-      current += query;
-    } else {
-      placehoder = current + (value ?? '?');
-      current = '';
-    }
-
-    return (
-      <SegmentAsync
-        value={current}
-        loadOptions={schema.getTables}
-        placeholder={placehoder}
-        onChange={this.onTableChanged}
-        allowCustomValue
-      />
-    );
-  };
-
-  renderMeasureMacro = (schema: SchemaInfo, query?: string, value?: string) => {
-    let placehoder = '';
-    let current = '$__measure = ';
-    if (query) {
-      current += query;
-    } else {
-      placehoder = current + (value ?? '?');
-      current = '';
-    }
-
-    return (
-      <SegmentAsync
-        value={current}
-        loadOptions={schema.getMeasures}
-        placeholder={placehoder}
-        onChange={this.onMeasureChanged}
-        allowCustomValue
-      />
-    );
-  };
-
-  render() {
-    const { query } = this.props;
-    const { schema, schemaState } = this.state;
-
-    const queryType = queryTypes.find((v) => v.value === query.queryType) || queryTypes[1]; // Samples
-
-    return (
-      <>
-        <div className={'gf-form-inline'}>
-          <QueryField label="Query">
-            <Segment value={queryType} options={queryTypes} onChange={this.onQueryTypeChange} />
-          </QueryField>
-          {queryType.value === QueryType.Samples && (
-            <Segment value={''} placeholder="Select Example" options={sampleQueries} onChange={this.onSampleChange} />
-          )}
-          <div className="gf-form gf-form--grow">
-            <div className="gf-form-label gf-form-label--grow" />
-          </div>
-        </div>
-        <div className={'gf-form-inline'}>
-          <InlineFormLabel width={8} className="query-keyword">
-            Macros
-          </InlineFormLabel>
-          {schema && schemaState && (
-            <>
-              {this.renderDatabaseMacro(schema, query.database, schemaState.database)}
-              {this.renderTableMacro(schema, query.table, schemaState.table)}
-              {this.renderMeasureMacro(schema, query.measure, schemaState.measure)}
-            </>
-          )}
-
-          <div className="gf-form gf-form--grow">
-            <div className="gf-form-label gf-form-label--grow" />
-          </div>
-        </div>
-        {queryType.value !== QueryType.Builder && schema && (
-          <div aria-label={selectors.components.QueryEditor.CodeEditor.container}>
-            <CodeEditor
-              height={'250px'}
-              language="sql"
-              value={query.rawQuery || ''}
-              onBlur={this.onQueryChange}
-              onSave={this.onQueryChange}
-              showMiniMap={false}
-              showLineNumbers={true}
-              getSuggestions={schema.getSuggestions}
+  return (
+    <InlineSegmentGroup>
+      <div className="gf-form-group">
+        <h6>Macros</h6>
+        <ResourceSelector
+          onChange={onChangeSelector('database')}
+          resources={databases}
+          value={database || null}
+          tooltip="Use the selected schema with the $__database macro"
+          label={selectors.components.ConfigEditor.defaultDatabase.input}
+          data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+          labelWidth={11}
+          className="width-12"
+        />
+        <ResourceSelector
+          onChange={onChangeSelector('table')}
+          resources={tables}
+          value={table || null}
+          tooltip="Use the selected table with the $__table macro"
+          label={selectors.components.ConfigEditor.defaultTable.input}
+          data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+          labelWidth={11}
+          className="width-12"
+        />
+        <ResourceSelector
+          onChange={onChangeSelector('measure')}
+          resources={measures}
+          value={measure || null}
+          tooltip="Use the selected column with the $__measure macro"
+          label={selectors.components.ConfigEditor.defaultMeasure.input}
+          data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+          labelWidth={11}
+          className="width-12"
+        />
+        <h6>Render</h6>
+        <InlineField
+          id={`${props.query.refId}-wait`}
+          label={'Wait for all queries'}
+          labelWidth={15}
+          style={{ alignItems: 'center' }}
+        >
+          <Switch
+            aria-labelledby={`${props.query.refId}-wait`}
+            onChange={onWaitForChange}
+            checked={query.waitForResult}
+          />
+        </InlineField>
+        <h6>Sample queries</h6>
+        <Label description={'Selecting a sample will modify the current query'}>
+          <InlineField label="Query" labelWidth={11}>
+            <Select
+              aria-label={'Query'}
+              options={sampleQueries}
+              onChange={(e: SelectableValue<string>) => onQueryChange(e.value || '')}
+              className="width-12"
             />
-          </div>
-        )}
-        <div className={'gf-form-inline'}>
-          <QueryField label="Render after all queries finish" labelWidth={12}>
-            <Switch css onChange={this.onWaitForChange} value={this.props.query.waitForResult} marginHeight={10} />
-          </QueryField>
-        </div>
-      </>
-    );
-  }
+          </InlineField>
+        </Label>
+      </div>
+      <div
+        style={{ minWidth: '400px', marginLeft: '10px', flex: 1 }}
+        aria-label={selectors.components.QueryEditor.CodeEditor.container}
+      >
+        <CodeEditor
+          language={'sql'}
+          value={query.rawQuery || ''}
+          onBlur={onQueryChange}
+          showMiniMap={false}
+          showLineNumbers={true}
+          getSuggestions={() => getSuggestions({ databases, tables, measures, dimensions, database, table, measure })}
+          height="240px"
+        />
+      </div>
+    </InlineSegmentGroup>
+  );
 }

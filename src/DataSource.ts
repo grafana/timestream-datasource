@@ -15,7 +15,7 @@ import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
 import { merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataType, MeasureInfo, TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
+import { TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
 
 let requestCounter = 100;
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -327,67 +327,6 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       })
     );
   }
-
-  async getDatabases(like?: string): Promise<string[]> {
-    return this.getStrings('SHOW DATABASES').toPromise();
-  }
-
-  async getTables(db: string): Promise<string[]> {
-    if (!db) {
-      return [];
-    }
-    return this.getStrings(`SHOW TABLES FROM ${quoted(db)}`).toPromise();
-  }
-
-  async getMeasureInfo(db: string, table: string): Promise<MeasureInfo[]> {
-    if (!db || !table) {
-      return [];
-    }
-    return this.query(({
-      targets: [
-        {
-          refId: 'X',
-          rawQuery: `SHOW MEASURES FROM ${quoted(db)}.${quoted(table)}`,
-        },
-      ],
-    } as unknown) as DataQueryRequest)
-      .toPromise()
-      .then((res) => {
-        const rsp: MeasureInfo[] = [];
-        const first = res.data[0] as DataFrame;
-        if (!first || !first.length) {
-          return rsp;
-        }
-        const name = first.fields[0]?.values;
-        const type = first.fields[1]?.values;
-        const dims = first.fields[2]?.values;
-
-        for (let i = 0; i < first.length; i++) {
-          const dimensions = (JSON.parse(dims.get(i)) as any[]).map((row) => {
-            return row.dimension_name;
-          });
-          rsp.push({
-            name: name.get(i) as string,
-            type: type.get(i) as DataType,
-            dimensions,
-          });
-        }
-        return rsp;
-      });
-  }
-}
-
-function quoted(v: string) {
-  if (!v) {
-    return ''; // ??
-  }
-  if (!v.startsWith('"')) {
-    v = '"' + v;
-  }
-  if (!v.endsWith('"')) {
-    v = v + '"';
-  }
-  return v;
 }
 
 export function getNextTokenMeta(rsp: DataQueryResponse): TimestreamCustomMeta | undefined {

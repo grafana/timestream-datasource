@@ -49,12 +49,24 @@ export const addDataSourceWithKey = (datasourceType: string, datasource: any): a
 };
 
 const addTablePanel = (q: string) => {
-  const fillQuery = (query: string) => e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+  const fillQuery = (query: string) => {
+    // Wait for the selectors to load
+    e2e()
+      .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultMeasure.wrapper}"]`)
+      .contains('cpu_hi');
+    e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+  };
 
   e2e.flows.addPanel({
     matchScreenshot: true,
     visualizationName: e2e.flows.VISUALIZATION_TABLE,
-    queriesForm: () => fillQuery(q),
+    queriesForm: () => {
+      fillQuery(q);
+      // Blur the editor to execute the query and wait
+      cy.get('.panel-content').last().click();
+      cy.get('.panel-loading');
+      cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');
+    },
   });
 
   e2e.flows.explore({

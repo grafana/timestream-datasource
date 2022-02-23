@@ -17,12 +17,6 @@ export enum StandardFunction {
   P99 = 'p99',
 }
 
-export enum QueryType {
-  Builder = 'builder',
-  Samples = 'samples',
-  Raw = 'raw',
-}
-
 export enum DataType {
   varchar = 'varchar',
   double = 'double',

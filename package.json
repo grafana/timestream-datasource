@@ -3,10 +3,9 @@
   "version": "1.4.0",
   "description": "Load data timestream in grafana",
   "scripts": {
-    "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
-    "ci-build": "rm -rf node_modules/@grafana/data/node_modules; npx grafana-toolkit plugin:ci-build",
+    "build": "grafana-toolkit plugin:build",
     "test": "jest --notify --watch",
-    "dev": "rm -rf node_modules/@grafana/data/node_modules; npx grafana-toolkit plugin:dev",
+    "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "e2e": "grafana-e2e run",
     "e2e:open": "grafana-e2e open",
@@ -16,18 +15,21 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/aws-sdk": "0.0.32",
-    "@grafana/data": "7.4.0",
-    "@grafana/runtime": "7.4.0",
-    "@grafana/toolkit": "7.4.3",
+    "@grafana/aws-sdk": "0.0.34",
+    "@grafana/data": "7.5.12",
+    "@grafana/runtime": "7.5.12",
+    "@grafana/toolkit": "8.0.5",
     "@grafana/ui": "7.5.12",
-    "@grafana/e2e": "7.5.1",
-    "@grafana/e2e-selectors": "7.5.1",
+    "@grafana/e2e": "7.5.12",
+    "@grafana/e2e-selectors": "7.5.12",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/lodash": "latest",
     "react-select-event": "^5.3.0",
     "tslib": "2.3.1",
     "cypress": "6.4.0"
+  },
+  "resolutions": {
+    "rxjs": "6.6.3"
   }
 }

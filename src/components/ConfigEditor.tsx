@@ -1,5 +1,5 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
-import { DataSourcePluginOptionsEditorProps, DataSourceSettings, SelectableValue } from '@grafana/data';
+import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { getBackendSrv } from '@grafana/runtime';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
@@ -51,7 +51,7 @@ export function ConfigEditor(props: Props) {
     return loadedWorkgroups;
   };
 
-  const onOptionsChange = (options: DataSourceSettings<TimestreamOptions, TimestreamSecureJsonData>) => {
+  const onOptionsChange = (options: TimestreamDataSourceSettings) => {
     setSaved(false);
     props.onOptionsChange(options);
   };
