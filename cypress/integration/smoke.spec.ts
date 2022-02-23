@@ -62,7 +62,7 @@ const addTablePanel = (q: string) => {
     visualizationName: e2e.flows.VISUALIZATION_TABLE,
     queriesForm: () => {
       fillQuery(q);
-      // Blur and wait
+      // Blur the editor to execute the query and wait
       cy.get('.panel-content').last().click();
       cy.get('.panel-loading');
       cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');

@@ -53,9 +53,9 @@ export function QueryEditor(props: Props) {
   }, [database, table, measure, onRunQuery]);
 
   // Databases used both for the selector and editor suggestions
-  const [dbs, setDBs] = useState<string[]>([]);
+  const [databases, setDatabases] = useState<string[]>([]);
   useEffect(() => {
-    datasource.getResource('databases').then((res) => setDBs(res));
+    datasource.getResource('databases').then((res) => setDatabases(res));
   }, [datasource]);
 
   // Tables used both for the selector and editor suggestions
@@ -117,7 +117,7 @@ export function QueryEditor(props: Props) {
         <h6>Macros</h6>
         <ResourceSelector
           onChange={onChangeSelector('database')}
-          resources={dbs}
+          resources={databases}
           value={database || null}
           tooltip="Use the selected schema with the $__database macro"
           label={selectors.components.ConfigEditor.defaultDatabase.input}
@@ -180,7 +180,7 @@ export function QueryEditor(props: Props) {
           onBlur={onQueryChange}
           showMiniMap={false}
           showLineNumbers={true}
-          getSuggestions={() => getSuggestions(dbs, tables, measures, dimensions, database, table, measure)}
+          getSuggestions={() => getSuggestions({ databases, tables, measures, dimensions, database, table, measure })}
           height="240px"
         />
       </div>

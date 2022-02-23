@@ -14,9 +14,16 @@ jest.mock('@grafana/runtime', () => {
   };
 });
 
+const props = {
+  databases: [],
+  tables: [],
+  measures: [],
+  dimensions: [],
+};
+
 describe('getSuggestions', () => {
-  it('should include macros', () => {
-    expect(getSuggestions([], [], [], [], '', '', '')).toEqual(
+  it('should return default macros', () => {
+    expect(getSuggestions(props)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Macro)',
@@ -27,8 +34,8 @@ describe('getSuggestions', () => {
     );
   });
 
-  it('should include template variables', () => {
-    expect(getSuggestions([], [], [], [], '', '', '')).toEqual(
+  it('should return template variables', () => {
+    expect(getSuggestions(props)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Template Variable) undefined',
@@ -40,7 +47,7 @@ describe('getSuggestions', () => {
   });
 
   it('should include the $__database', () => {
-    expect(getSuggestions([], [], [], [], 'db', '', '')).toEqual(
+    expect(getSuggestions({ ...props, database: 'db' })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Macro) db',
@@ -52,7 +59,7 @@ describe('getSuggestions', () => {
   });
 
   it('should include the $__table', () => {
-    expect(getSuggestions([], [], [], [], '', 'tab', '')).toEqual(
+    expect(getSuggestions({ ...props, table: 'tab' })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Macro) tab',
@@ -64,7 +71,7 @@ describe('getSuggestions', () => {
   });
 
   it('should include the $__measure', () => {
-    expect(getSuggestions([], [], [], [], '', '', 'cpu')).toEqual(
+    expect(getSuggestions({ ...props, measure: 'cpu' })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Macro) cpu',
@@ -76,7 +83,7 @@ describe('getSuggestions', () => {
   });
 
   it('should return the list of databases', () => {
-    expect(getSuggestions(['foo', 'bar'], [], [], [], '', '', '')).toEqual(
+    expect(getSuggestions({ ...props, databases: ['foo', 'bar'] })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Database)',
@@ -93,7 +100,7 @@ describe('getSuggestions', () => {
   });
 
   it('should return the list of tables', () => {
-    expect(getSuggestions([], ['foo', 'bar'], [], [], '', '', '')).toEqual(
+    expect(getSuggestions({ ...props, tables: ['foo', 'bar'] })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Table)',
@@ -110,7 +117,7 @@ describe('getSuggestions', () => {
   });
 
   it('should return the list of measures', () => {
-    expect(getSuggestions([], [], ['foo', 'bar'], [], '', '', '')).toEqual(
+    expect(getSuggestions({ ...props, measures: ['foo', 'bar'] })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Measure)',
@@ -127,7 +134,7 @@ describe('getSuggestions', () => {
   });
 
   it('should return the list of dimensions', () => {
-    expect(getSuggestions([], [], [], ['foo', 'bar'], '', '', '')).toEqual(
+    expect(getSuggestions({ ...props, dimensions: ['foo', 'bar'] })).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           detail: '(Dimension)',

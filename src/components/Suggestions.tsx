@@ -2,15 +2,17 @@ import { appendTemplateVariablesAsSuggestions } from '@grafana/aws-sdk';
 import { getTemplateSrv } from '@grafana/runtime';
 import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
 
-export const getSuggestions = (
-  databases: string[],
-  tables: string[],
-  measures: string[],
-  dimensions: string[],
-  database?: string,
-  table?: string,
-  measure?: string
-) => {
+type Props = {
+  databases: string[];
+  tables: string[];
+  measures: string[];
+  dimensions: string[];
+  database?: string;
+  table?: string;
+  measure?: string;
+};
+
+export const getSuggestions = ({ databases, tables, measures, dimensions, database, table, measure }: Props) => {
   const sugs: CodeEditorSuggestionItem[] = [
     {
       label: '$__timeFilter',
