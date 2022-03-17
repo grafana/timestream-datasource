@@ -58,6 +58,8 @@ export function appendMatchingFrames(prev: DataFrame[], b: DataFrame[]): DataFra
       for (let i = 0; i < f.length; i++) {
         for (let idx = 0; idx < old.fields.length; idx++) {
           old.fields[idx].values.add(f.fields[idx].values.get(i));
+          // FIXME: I assume this is meant to modify `out` but it's
+          // not doing anything atm
         }
       }
     } else {
