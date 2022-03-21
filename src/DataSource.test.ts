@@ -1,5 +1,6 @@
 import { ScopedVars } from '@grafana/data';
 import * as runtime from '@grafana/runtime';
+
 import { mockDatasource, mockQuery } from './__mocks__/datasource';
 
 describe('DataSource', () => {

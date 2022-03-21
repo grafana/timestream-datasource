@@ -1,15 +1,15 @@
 import { DataFrame, MetadataInspectorProps } from '@grafana/data';
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import { DataSource } from '../DataSource';
 import { TimestreamOptions, TimestreamQuery } from '../types';
 
 export type Props = MetadataInspectorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 
-export class MetaInspector extends PureComponent<Props> {
-  state = { index: 0 };
+export function MetaInspector(props: Props) {
+  const { data } = props;
 
-  renderInfo = (frame: DataFrame, idx: number) => {
+  const renderInfo = (frame: DataFrame, idx: number) => {
     const custom = frame.meta?.custom;
     if (!custom) {
       return null;
@@ -32,17 +32,14 @@ export class MetaInspector extends PureComponent<Props> {
     );
   };
 
-  render() {
-    const { data } = this.props;
-    if (!data || !data.length) {
-      return <div>No Data</div>;
-    }
-    return (
-      <div>
-        {data.map((frame, idx) => {
-          return this.renderInfo(frame, idx);
-        })}
-      </div>
-    );
+  if (!data || !data.length) {
+    return <div>No Data</div>;
   }
+  return (
+    <div>
+      {data.map((frame, idx) => {
+        return renderInfo(frame, idx);
+      })}
+    </div>
+  );
 }
