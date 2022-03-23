@@ -6,34 +6,39 @@ jobs:
   comment-coverage-difference:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
       - uses: actions/setup-node@v2
         with:
           node-version: 12.x
           cache: yarn
-      - name: yarn install dependencies
-        run: yarn install --frozen-lockfile
-      - id: coverage-on-this-pr
+
+      - uses: actions/checkout@v3
+      - name: yarn install for this PR
+        run: yarn install # TODO: do we need --frozen-lockfile? we are yarn install-ing again below
+
+      - name: Get coverage for this PR
         run: |
+          go test -v -coverpkg=./... -coverprofile=profile.cov ./...
           echo "go-pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
           echo "ts-pr-cov=$(yarn test:coverage | grep 'All files' | awk '{print $10}')" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
         with:
           ref: main
-      - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
-      - name: yarn install dependencies
-        run: yarn install --frozen-lockfile
-      - id: coverage-on-main # TODO: can consider if we should save this coverage as an artifact?
+      - name: yarn install for main
+        run: yarn install
+
+      - name: Get coverage on main # TODO: can consider if we should save this coverage as an artifact?
         run: |
+          go test -v -coverpkg=./... -coverprofile=profile.cov ./...
           echo "go-main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
           echo "ts-main-cov=$(yarn test:coverage | grep 'All files' | awk '{print $10}')" >> $GITHUB_ENV
-      #          not going to work when no tests can be run (e.g. no go.mod), just puts nothing instead of 0
+
       - name: Calculate coverage difference
         run: |
           echo "go-cov-difference=$(bc <<< '${{ env.go-pr-cov }} - ${{ env.go-main-cov }}')" >> $GITHUB_ENV
           echo "ts-cov-difference=$(bc <<< '${{ env.ts-pr-cov }} - ${{ env.ts-main-cov }}')" >> $GITHUB_ENV
-      - name: Find comment
+
+      - name: Find previous comment, if any
         uses: peter-evans/find-comment@v2
         id: find-comment
         with:
@@ -42,6 +47,7 @@ jobs:
           body-includes: |
             Code coverage report for PR #${{ github.event.pull_request.number }}
           # TODO: need unique string here -- any ideas or is this good enough?
+
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -56,4 +62,3 @@ jobs:
             | PR   | ${{ env.go-pr-cov }}%               | ${{ env.ts-pr-cov }}%   |
             | difference | ${{ env.go-cov-difference }}% | ${{ env.ts-cov-difference }}% |
           edit-mode: replace
-# TODO: add frontend stuff - for our external repo plugins with the only changed files at first
