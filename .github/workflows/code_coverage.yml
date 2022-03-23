@@ -49,7 +49,6 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: |
             Code coverage report for PR #${{ github.event.pull_request.number }}
-          # TODO: need unique string here -- any ideas or is this good enough?
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
