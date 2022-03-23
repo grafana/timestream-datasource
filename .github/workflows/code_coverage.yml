@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: yarn
+      - name: yarn install dependencies
+        run: yarn install --frozen-lockfile
       - id: coverage-on-this-pr
         run: |
           echo "go-pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
@@ -19,8 +25,9 @@ jobs:
       - id: coverage-on-main # TODO: can consider if we should save this coverage as an artifact?
         run: |
           echo "go-main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+        # wonder if i need another yarn install before the next line?
           echo "ts-main-cov=$(yarn test:coverage | grep 'All files' | awk '{print $10}')" >> $GITHUB_ENV
-      #          not going to work when no tests can be run (e.g. no go.mod), just puts nothing instead of 0
+        #  not going to work when no tests can be run (e.g. no go.mod), just puts nothing instead of 0
       - name: Calculate coverage difference
         run: |
           echo "go-cov-difference=$(bc <<< '${{ env.go-pr-cov }} - ${{ env.go-main-cov }}')" >> $GITHUB_ENV
