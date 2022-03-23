@@ -10,18 +10,21 @@ jobs:
       - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
       - id: coverage-on-this-pr
         run: |
-          echo "pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+          echo "go-pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+          echo "ts-pr-cov=$(yarn test:coverage | grep 'All files' | awk '{print $10}')" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         with:
           ref: main
       - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
       - id: coverage-on-main # TODO: can consider if we should save this coverage as an artifact?
         run: |
-          echo "main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+          echo "go-main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+          echo "ts-main-cov=$(yarn test:coverage | grep 'All files' | awk '{print $10}')" >> $GITHUB_ENV
       #          not going to work when no tests can be run (e.g. no go.mod), just puts nothing instead of 0
       - name: Calculate coverage difference
         run: |
-          echo "cov-difference=$(bc <<< '${{ env.pr-cov }} - ${{ env.main-cov }}')" >> $GITHUB_ENV
+          echo "go-cov-difference=$(bc <<< '${{ env.go-pr-cov }} - ${{ env.go-main-cov }}')" >> $GITHUB_ENV
+          echo "ts-cov-difference=$(bc <<< '${{ env.ts-pr-cov }} - ${{ env.ts-main-cov }}')" >> $GITHUB_ENV
       - name: Find comment
         uses: peter-evans/find-comment@v2
         id: find-comment
@@ -39,10 +42,10 @@ jobs:
           body: |
             Code coverage report for PR #${{ github.event.pull_request.number }}
 
-            |      | Go |
-            |------| ------------------- |
-            | main | ${{ env.main-cov }}% |
-            | PR   | ${{ env.pr-cov }}%   |
-            | difference | ${{ env.cov-difference }}%|
+            |      |          Go                         | Typescript |
+            |------| ----------------------------------- | ---------------- |
+            | main | ${{ env.go-main-cov }}%             | ${{ env.ts-main-cov }}% |
+            | PR   | ${{ env.go-pr-cov }}%               | ${{ env.ts-pr-cov }}%   |
+            | difference | ${{ env.go-cov-difference }}% | ${{ env.ts-cov-difference }}% |
           edit-mode: replace
 # TODO: add frontend stuff - for our external repo plugins with the only changed files at first
