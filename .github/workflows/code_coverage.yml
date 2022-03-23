@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 12.x
           cache: yarn
-      - name: Install dependencies
+      - name: yarn install dependencies
         run: yarn install --frozen-lockfile
       - id: coverage-on-this-pr
         run: |
@@ -22,6 +22,8 @@ jobs:
         with:
           ref: main
       - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
+      - name: yarn install dependencies
+        run: yarn install --frozen-lockfile
       - id: coverage-on-main # TODO: can consider if we should save this coverage as an artifact?
         run: |
           echo "go-main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
