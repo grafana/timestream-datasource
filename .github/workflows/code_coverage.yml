@@ -1,0 +1,48 @@
+name: Code Coverage
+on:
+  pull_request:
+    branches-ignore: "dependabot/**"
+jobs:
+  comment-coverage-difference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
+      - id: coverage-on-this-pr
+        run: |
+          echo "pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
+      - id: coverage-on-main # TODO: can consider if we should save this coverage as an artifact?
+        run: |
+          echo "main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
+      #          not going to work when no tests can be run (e.g. no go.mod), just puts nothing instead of 0
+      - name: Calculate coverage difference
+        run: |
+          echo "cov-difference=$(bc <<< '${{ env.pr-cov }} - ${{ env.main-cov }}')" >> $GITHUB_ENV
+      - name: Find comment
+        uses: peter-evans/find-comment@v2
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: |
+            Code coverage report for PR #${{ github.event.pull_request.number }}
+          # TODO: need unique string here -- any ideas or is this good enough?
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Code coverage report for PR #${{ github.event.pull_request.number }}
+
+            |      | Go |
+            |------| ------------------- |
+            | main | ${{ env.main-cov }}% |
+            | PR   | ${{ env.pr-cov }}%   |
+            | difference | ${{ env.cov-difference }}%|
+          edit-mode: replace
+# TODO: add frontend stuff - for our external repo plugins with the only changed files at first
