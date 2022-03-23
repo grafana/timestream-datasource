@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: go test -v -coverpkg=./... -coverprofile=profile.cov ./...
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - id: coverage-on-this-pr
         run: |
           echo "go-pr-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
