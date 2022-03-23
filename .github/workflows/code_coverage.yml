@@ -7,12 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2 # TODO: does this node setup need to happen each time we switch branches?
+      - uses: actions/setup-node@v2
         with:
           node-version: 12.x
           cache: yarn
       - name: yarn install for this PR
-        run: yarn install # TODO: do we need --frozen-lockfile? we are yarn install-ing again below
+        run: yarn install
 
       - name: Get coverage for this PR
         run: |
@@ -23,14 +23,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: main
-      - uses: actions/setup-node@v2 # TODO: does this node need to happen each time we switch branches?
-        with:
-          node-version: 12.x
-          cache: yarn
       - name: yarn install for main
         run: yarn install
 
-      - name: Get coverage on main # TODO: can consider if we should save this coverage as an artifact?
+      - name: Get coverage on main
         run: |
           go test -v -coverpkg=./... -coverprofile=profile.cov ./...
           echo "go-main-cov=$(go tool cover -func profile.cov | grep total: | awk '{print substr($NF,1,length($NF)-1)}')" >> $GITHUB_ENV
