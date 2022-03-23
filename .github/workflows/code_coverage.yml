@@ -42,10 +42,10 @@ jobs:
           body: |
             Code coverage report for PR #${{ github.event.pull_request.number }}
 
-            |      |          Go                         | Typescript |
-            |------| ----------------------------------- | ---------------- |
-            | main | ${{ env.go-main-cov }}%             | ${{ env.ts-main-cov }}% |
-            | PR   | ${{ env.go-pr-cov }}%               | ${{ env.ts-pr-cov }}%   |
-            | difference | ${{ env.go-cov-difference }}% | ${{ env.ts-cov-difference }}% |
+            |      |   Typescript |
+            |------|  ---------------- |
+            | main |  ${{ env.ts-main-cov }}% |
+            | PR   |   ${{ env.ts-pr-cov }}%   |
+            | difference | ${{ env.ts-cov-difference }}% |
           edit-mode: replace
 # TODO: add frontend stuff - for our external repo plugins with the only changed files at first
