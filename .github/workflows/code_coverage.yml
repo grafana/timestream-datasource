@@ -1,5 +1,10 @@
 name: Code Coverage
-on: pull_request
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+    branches-ignore: [dependabot/**]
 jobs:
   comment-coverage-difference:
     runs-on: ubuntu-latest
