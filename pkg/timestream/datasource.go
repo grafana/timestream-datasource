@@ -233,8 +233,12 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			return err
 		}
 		// TODO: Use API endpoint to list tables
+		dbName := opts.Database
+		if dbName[0] != '"' && dbName[len(opts.Database)-1] != '"' {
+			dbName = fmt.Sprintf(`"%s"`, dbName)
+		}
 		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
-			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", opts.Database)),
+			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", dbName)),
 		})
 		if err != nil {
 			return err

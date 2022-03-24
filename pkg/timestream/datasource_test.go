@@ -128,7 +128,7 @@ func TestCallResource(t *testing.T) {
 	}
 }
 
-func Test_queries_called_with_db_name_quoted(t *testing.T) {
+func Test_runQuery_always_sends_db_name_with_quotes(t *testing.T) {
 	t.Run("db name provided without quotes runs query with quoted db name", func(t *testing.T) {
 		mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
 		ts := &timestreamDS{Runner: mockRunner}
@@ -158,5 +158,4 @@ func Test_queries_called_with_db_name_quoted(t *testing.T) {
 		require.Len(t, mockRunner.calls.runQuery, 1)
 		assert.Equal(t, &timestreamquery.QueryInput{QueryString: aws.String(`SHOW TABLES FROM "db"`)}, mockRunner.calls.runQuery[0])
 	})
-
 }
