@@ -2,13 +2,13 @@ package timestream
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 type fakeSender struct {
@@ -129,33 +129,60 @@ func TestCallResource(t *testing.T) {
 }
 
 func Test_runQuery_always_sends_db_name_with_quotes(t *testing.T) {
-	t.Run("db name provided without quotes runs query with quoted db name", func(t *testing.T) {
-		mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
-		ts := &timestreamDS{Runner: mockRunner}
-		sender := &fakeSender{}
+	testCases := []struct {
+		name, resource, requestBody, expectedQuery string
+	}{
+		{
+			name:          "tables: db name without quotes runs query with quoted db name",
+			resource:      "tables",
+			requestBody:   `{"database":"db"}`,
+			expectedQuery: `SHOW TABLES FROM "db"`,
+		},
+		{
+			name:          "tables: db name with quotes runs query with db name as-is",
+			resource:      "tables",
+			requestBody:   `{"database":"\"db\""}`,
+			expectedQuery: `SHOW TABLES FROM "db"`,
+		},
+		{
+			name:          "measures: db name without quotes runs query with quoted db name",
+			resource:      "measures",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+		},
+		{
+			name:          "measures: db name with quotes runs query with db name as-is",
+			resource:      "measures",
+			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+		},
+		{
+			name:          "dimensions: db name without quotes runs query with quoted db name",
+			resource:      "dimensions",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+		},
+		{
+			name:          "dimensions: db name with quotes runs query with db name as-is",
+			resource:      "dimensions",
+			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+		},
+	}
 
-		assert.NoError(t, ts.CallResource(context.Background(), &backend.CallResourceRequest{
-			Method: "POST",
-			Path:   "tables",
-			Body:   []byte(`{"database":"db"}`),
-		}, sender))
+	for _, test := range testCases {
+		t.Run(test.name, func(t *testing.T) {
+			mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
 
-		require.Len(t, mockRunner.calls.runQuery, 1)
-		assert.Equal(t, &timestreamquery.QueryInput{QueryString: aws.String(`SHOW TABLES FROM "db"`)}, mockRunner.calls.runQuery[0])
-	})
+			assert.NoError(t, (&timestreamDS{Runner: mockRunner}).CallResource(context.Background(),
+				&backend.CallResourceRequest{
+					Method: "POST",
+					Path:   test.resource,
+					Body:   []byte(test.requestBody),
+				}, &fakeSender{}))
 
-	t.Run("db name provided with quotes runs query with db name as-is", func(t *testing.T) {
-		mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
-		ts := &timestreamDS{Runner: mockRunner}
-		sender := &fakeSender{}
-
-		assert.NoError(t, ts.CallResource(context.Background(), &backend.CallResourceRequest{
-			Method: "POST",
-			Path:   "tables",
-			Body:   []byte(`{"database":"\"db\""}`),
-		}, sender))
-
-		require.Len(t, mockRunner.calls.runQuery, 1)
-		assert.Equal(t, &timestreamquery.QueryInput{QueryString: aws.String(`SHOW TABLES FROM "db"`)}, mockRunner.calls.runQuery[0])
-	})
+			require.Len(t, mockRunner.calls.runQuery, 1)
+			assert.Equal(t, &timestreamquery.QueryInput{QueryString: &test.expectedQuery}, mockRunner.calls.runQuery[0])
+		})
+	}
 }

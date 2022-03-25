@@ -252,7 +252,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			return err
 		}
 		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
-			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", opts.Database, opts.Table)),
+			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), opts.Table)),
 		})
 		if err != nil {
 			return err
