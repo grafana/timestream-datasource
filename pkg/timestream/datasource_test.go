@@ -145,22 +145,65 @@ func Test_runQuery_always_sends_db_name_with_quotes(t *testing.T) {
 		{
 			resource:      "measures",
 			requestBody:   `{"database":"db","table":"some_table_name"}`,
-			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
 		},
 		{
 			resource:      "measures",
 			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
-			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
 		},
 		{
 			resource:      "dimensions",
 			requestBody:   `{"database":"db","table":"some_table_name"}`,
-			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
 		},
 		{
 			resource:      "dimensions",
 			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
-			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+	}
+
+	for _, test := range testCases {
+		t.Run(test.name, func(t *testing.T) {
+			mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
+
+			assert.NoError(t, (&timestreamDS{Runner: mockRunner}).CallResource(context.Background(),
+				&backend.CallResourceRequest{
+					Method: "POST",
+					Path:   test.resource,
+					Body:   []byte(test.requestBody),
+				}, &fakeSender{}))
+
+			require.Len(t, mockRunner.calls.runQuery, 1)
+			assert.Equal(t, &timestreamquery.QueryInput{QueryString: &test.expectedQuery}, mockRunner.calls.runQuery[0])
+		})
+	}
+}
+
+func Test_runQuery_always_sends_table_name_with_quotes(t *testing.T) {
+	testCases := []struct {
+		name, resource, requestBody, expectedQuery string
+	}{
+		{
+			resource:      "measures",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "measures",
+			requestBody:   `{"database":"db","table":"\"some_table_name\""}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "dimensions",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "dimensions",
+			requestBody:   `{"database":"db","table":"\"some_table_name\""}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
 		},
 	}
 

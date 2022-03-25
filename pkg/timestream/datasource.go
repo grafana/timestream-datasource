@@ -252,7 +252,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			return err
 		}
 		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
-			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), opts.Table)),
+			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), applyQuotesIfNeeded(opts.Table))),
 		})
 		if err != nil {
 			return err
@@ -267,9 +267,9 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	return fmt.Errorf("unknown resource")
 }
 
-func applyQuotesIfNeeded(dbName string) string {
-	if dbName[0] != '"' && dbName[len(dbName)-1] != '"' {
-		dbName = fmt.Sprintf(`"%s"`, dbName)
+func applyQuotesIfNeeded(input string) string {
+	if input[0] != '"' && input[len(input)-1] != '"' {
+		input = fmt.Sprintf(`"%s"`, input)
 	}
-	return dbName
+	return input
 }
