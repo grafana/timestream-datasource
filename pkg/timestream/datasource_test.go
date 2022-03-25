@@ -133,37 +133,31 @@ func Test_runQuery_always_sends_db_name_with_quotes(t *testing.T) {
 		name, resource, requestBody, expectedQuery string
 	}{
 		{
-			name:          "tables: db name without quotes runs query with quoted db name",
 			resource:      "tables",
 			requestBody:   `{"database":"db"}`,
 			expectedQuery: `SHOW TABLES FROM "db"`,
 		},
 		{
-			name:          "tables: db name with quotes runs query with db name as-is",
 			resource:      "tables",
 			requestBody:   `{"database":"\"db\""}`,
 			expectedQuery: `SHOW TABLES FROM "db"`,
 		},
 		{
-			name:          "measures: db name without quotes runs query with quoted db name",
 			resource:      "measures",
 			requestBody:   `{"database":"db","table":"some_table_name"}`,
 			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
 		},
 		{
-			name:          "measures: db name with quotes runs query with db name as-is",
 			resource:      "measures",
 			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
 			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
 		},
 		{
-			name:          "dimensions: db name without quotes runs query with quoted db name",
 			resource:      "dimensions",
 			requestBody:   `{"database":"db","table":"some_table_name"}`,
 			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
 		},
 		{
-			name:          "dimensions: db name with quotes runs query with db name as-is",
 			resource:      "dimensions",
 			requestBody:   `{"database":"\"db\"","table":"some_table_name"}`,
 			expectedQuery: `SHOW MEASURES FROM "db".some_table_name`,
