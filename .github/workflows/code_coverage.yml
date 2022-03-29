@@ -4,4 +4,4 @@ on:
     branches-ignore: [dependabot/**]
 jobs:
   comment-coverage-difference:
-    uses: grafana/code-coverage/.github/workflows/code-coverage.yml@main
+    uses: grafana/code-coverage/.github/workflows/code-coverage.yml@v0.1.0
