@@ -3,5 +3,5 @@ on:
   pull_request:
     branches-ignore: [dependabot/**]
 jobs:
-  comment-coverage-difference:
+  workflow-call:
     uses: grafana/code-coverage/.github/workflows/code-coverage.yml@v0.1.1
