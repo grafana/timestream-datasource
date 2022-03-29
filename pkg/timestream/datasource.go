@@ -234,7 +234,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		}
 		// TODO: Use API endpoint to list tables
 		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
-			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", opts.Database)),
+			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", applyQuotesIfNeeded(opts.Database))),
 		})
 		if err != nil {
 			return err
@@ -252,7 +252,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			return err
 		}
 		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
-			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", opts.Database, opts.Table)),
+			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), applyQuotesIfNeeded(opts.Table))),
 		})
 		if err != nil {
 			return err
@@ -265,4 +265,11 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		}
 	}
 	return fmt.Errorf("unknown resource")
+}
+
+func applyQuotesIfNeeded(input string) string {
+	if input[0] != '"' && input[len(input)-1] != '"' {
+		input = fmt.Sprintf(`"%s"`, input)
+	}
+	return input
 }

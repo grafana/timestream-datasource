@@ -7,6 +7,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 type fakeSender struct {
@@ -21,9 +23,17 @@ func (f *fakeSender) Send(res *backend.CallResourceResponse) error {
 type fakeRunner struct {
 	queryRunner
 	output *timestreamquery.QueryOutput
+
+	calls runnerCalls
+}
+
+type runnerCalls struct {
+	runQuery []*timestreamquery.QueryInput
 }
 
 func (f *fakeRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
+	f.calls.runQuery = append(f.calls.runQuery, input)
+
 	return f.output, nil
 }
 
@@ -114,6 +124,59 @@ func TestCallResource(t *testing.T) {
 			if string(sender.res.Body) != test.result {
 				t.Errorf("unexpected result %s", string(sender.res.Body))
 			}
+		})
+	}
+}
+
+func Test_runQuery_always_wraps_db_and_table_name_in_quotes(t *testing.T) {
+	testCases := []struct {
+		name, resource, requestBody, expectedQuery string
+	}{
+		{
+			resource:      "tables",
+			requestBody:   `{"database":"db"}`,
+			expectedQuery: `SHOW TABLES FROM "db"`,
+		},
+		{
+			resource:      "tables",
+			requestBody:   `{"database":"\"db\""}`,
+			expectedQuery: `SHOW TABLES FROM "db"`,
+		},
+		{
+			resource:      "measures",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "measures",
+			requestBody:   `{"database":"\"db\"","table":"\"some_table_name\""}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "dimensions",
+			requestBody:   `{"database":"db","table":"some_table_name"}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+		{
+			resource:      "dimensions",
+			requestBody:   `{"database":"\"db\"","table":"\"some_table_name\""}`,
+			expectedQuery: `SHOW MEASURES FROM "db"."some_table_name"`,
+		},
+	}
+
+	for _, test := range testCases {
+		t.Run(test.name, func(t *testing.T) {
+			mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
+
+			assert.NoError(t, (&timestreamDS{Runner: mockRunner}).CallResource(context.Background(),
+				&backend.CallResourceRequest{
+					Method: "POST",
+					Path:   test.resource,
+					Body:   []byte(test.requestBody),
+				}, &fakeSender{}))
+
+			require.Len(t, mockRunner.calls.runQuery, 1)
+			assert.Equal(t, &timestreamquery.QueryInput{QueryString: &test.expectedQuery}, mockRunner.calls.runQuery[0])
 		})
 	}
 }
