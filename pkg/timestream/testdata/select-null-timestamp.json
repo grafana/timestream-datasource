@@ -1,1396 +1,211 @@
 {
-  "ColumnInfo": [
-    {
-      "Name": "availability_zone",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "microservice_name",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "hostname",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "instance_name",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "process_name",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "os_version",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "az",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "jdk_version",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "region",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "cell",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "silo",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "instance_type",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "measure_value::double",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "DOUBLE",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "measure_value::bigint",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "BIGINT",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "measure_value::varchar",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "measure_name",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "VARCHAR",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    },
-    {
-      "Name": "time",
-      "Type": {
-        "ArrayColumnInfo": null,
-        "RowColumnInfo": null,
-        "ScalarType": "TIMESTAMP",
-        "TimeSeriesMeasureValueColumnInfo": null
-      }
-    }
-  ],
-  "NextToken": null,
-  "QueryId": "#QueryId#",
-  "QueryStatus": {
-    "CumulativeBytesMetered": 10000000,
-    "CumulativeBytesScanned": 1652750,
-    "ProgressPercentage": 54.45075757575758
-  },
-  "Rows": [
-    {
-      "Data": [
+    "ColumnInfo": [
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
+            "Name": "measure_name",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "VARCHAR",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "46.4784526253052",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "make_me_null",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 08:55:23.000000000",
-          "TimeSeriesValue": null
+            "Name": "_col1",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": "TIMESTAMP",
+                "TimeSeriesMeasureValueColumnInfo": null
+            }
         }
-      ]
+    ],
+    "NextToken": null,
+    "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 10000000,
+        "CumulativeBytesScanned": 689699,
+        "ProgressPercentage": 27.12738525012893
     },
-    {
-      "Data": [
+    "Rows": [
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_end_state",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-04-12 15:08:56.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "network_bytes_out",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:16:49.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "network_bytes_out",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:23:40.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_end_state",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:10:08.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_end_state",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:16:49.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_end_state",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:23:40.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_completed",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": true,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_completed",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": true,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "task_completed",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": true,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
         },
         {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "30.36663793236193",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "disk_io_reads",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:01:56.000000000",
-          "TimeSeriesValue": null
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "network_bytes_out",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "2021-03-21 21:10:08.000000000",
+                    "TimeSeriesValue": null
+                }
+            ]
         }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "66.29063404588598",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "disk_io_reads",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:08:36.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "85.28803440062195",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "make_me_null",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 08:55:23.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "83.03006146540277",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "disk_used",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:01:56.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "26.548424865505048",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "disk_used",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:08:36.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "0.3500847156008845",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "cpu_steal",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 08:55:23.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "0.9395548548662855",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "cpu_steal",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:01:56.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "0.22677213007047003",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "cpu_steal",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 09:08:36.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    },
-    {
-      "Data": [
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "apollo",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "i-AUa00Zt2-apollo-0000.amazonaws.com",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "AL2",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "us-east-1-cell-1-silo-1",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "r5.4xlarge",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "19.199793120546673",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": true,
-          "RowValue": null,
-          "ScalarValue": null,
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "latency_per_write",
-          "TimeSeriesValue": null
-        },
-        {
-          "ArrayValue": null,
-          "NullValue": null,
-          "RowValue": null,
-          "ScalarValue": "2021-03-25 08:55:23.000000000",
-          "TimeSeriesValue": null
-        }
-      ]
-    }
-  ]
+    ]
 }
