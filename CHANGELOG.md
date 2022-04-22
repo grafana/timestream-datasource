@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.5.2
+
+- Fix Panic while parsing null timestamps (#165)
+
 ## v1.5.1
 
 - Always apply double quotes to database and table name (#155)
