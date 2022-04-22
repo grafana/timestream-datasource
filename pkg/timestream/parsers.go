@@ -209,8 +209,9 @@ func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
 }
 
 func datumParserTimestamp(datum *timestreamquery.Datum) (interface{}, error) {
-	// 2020-03-18 17:26:30.00000000
-	// 2006-01-02 15:04:05.99999999
+	if datum.ScalarValue == nil {
+		return nil, nil
+	}
 	return time.Parse("2006-01-02 15:04:05.99999999", *datum.ScalarValue)
 }
 

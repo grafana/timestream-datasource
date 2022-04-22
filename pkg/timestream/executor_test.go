@@ -49,6 +49,7 @@ func TestSavedConversions(t *testing.T) {
 	runTest(t, []string{"select-consts"})
 	runTest(t, []string{"describe-table"})
 	runTest(t, []string{"select-star"})
+	runTest(t, []string{"select-null-timestamp"})
 	runTest(t, []string{"complex-timeseries"})
 	runTest(t, []string{"some-timeseries"})
 	runTest(t, []string{"show-measures"})
@@ -95,6 +96,13 @@ func TestGenerateTestData(t *testing.T) {
 
 	m["select-star.json"] = models.QueryModel{
 		RawQuery: `SELECT * FROM ` + table + ` LIMIT 10`,
+	}
+
+	m["select-null-timetamp.json"] = models.QueryModel{
+		RawQuery: `SELECT measure_name ,
+		CASE WHEN measure_name = 'make_me_null' THEN (SELECT NULL) ELSE time END
+		FROM ` + table + 
+		` LIMIT 10`,
 	}
 
 	m["complex-timeseries.json"] = models.QueryModel{
