@@ -156,6 +156,7 @@ export function QueryEditor(props: Props) {
             aria-labelledby={`${props.query.refId}-wait`}
             onChange={onWaitForChange}
             checked={query.waitForResult}
+            css=""
           />
         </InlineField>
         <h6>Sample queries</h6>
