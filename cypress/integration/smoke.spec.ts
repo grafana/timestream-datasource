@@ -59,7 +59,6 @@ const addTablePanel = (q: string) => {
 
   e2e.flows.addPanel({
     matchScreenshot: true,
-    visualizationName: e2e.flows.VISUALIZATION_TABLE,
     queriesForm: () => {
       fillQuery(q);
       // Blur the editor to execute the query and wait
