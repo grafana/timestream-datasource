@@ -68,14 +68,14 @@ const addTablePanel = (q: string) => {
     },
   });
 
-  e2e.flows.explore({
-    matchScreenshot: false,
-    timeRange: {
-      from: '2001-01-31 19:00:00',
-      to: '2016-01-31 19:00:00',
-    },
-    queriesForm: () => fillQuery(query),
-  });
+  // e2e.flows.explore({
+  //   matchScreenshot: false,
+  //   timeRange: {
+  //     from: '2001-01-31 19:00:00',
+  //     to: '2016-01-31 19:00:00',
+  //   },
+  //   queriesForm: () => fillQuery(query),
+  // });
 };
 
 e2e.scenario({
