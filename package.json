@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/aws-sdk": "0.0.34",
-    "@grafana/data": "8.0.5",
+    "@grafana/data": "8.2.3",
     "@grafana/runtime": "8.0.5",
     "@grafana/toolkit": "8.0.5",
     "@grafana/ui": "8.5.2",
