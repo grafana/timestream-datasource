@@ -35,6 +35,7 @@ export const mockDatasource = new DataSource({
 export const mockDatasourceOptions: DataSourcePluginOptionsEditorProps<TimestreamOptions> = {
   options: {
     id: 1,
+    uid: '1',
     orgId: 1,
     name: 'Timestream',
     typeLogoUrl: '',

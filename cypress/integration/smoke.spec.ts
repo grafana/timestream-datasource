@@ -58,24 +58,15 @@ const addTablePanel = (q: string) => {
   };
 
   e2e.flows.addPanel({
-    matchScreenshot: true,
-    visualizationName: e2e.flows.VISUALIZATION_TABLE,
+    matchScreenshot: false,
     queriesForm: () => {
       fillQuery(q);
       // Blur the editor to execute the query and wait
       cy.get('.panel-content').last().click();
       cy.get('.panel-loading');
       cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');
+      cy.contains('Data does not have a time field').should('exist');
     },
-  });
-
-  e2e.flows.explore({
-    matchScreenshot: false,
-    timeRange: {
-      from: '2001-01-31 19:00:00',
-      to: '2016-01-31 19:00:00',
-    },
-    queriesForm: () => fillQuery(query),
   });
 };
 
