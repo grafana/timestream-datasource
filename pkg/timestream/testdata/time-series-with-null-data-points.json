@@ -1,0 +1,41 @@
+{
+    "ColumnInfo": [
+        {
+            "Name": "interpolatedValue",
+            "Type": {
+                "ArrayColumnInfo": null,
+                "RowColumnInfo": null,
+                "ScalarType": null,
+                "TimeSeriesMeasureValueColumnInfo": {
+                    "Name": null,
+                    "Type": {
+                        "ArrayColumnInfo": null,
+                        "RowColumnInfo": null,
+                        "ScalarType": "DOUBLE",
+                        "TimeSeriesMeasureValueColumnInfo": null
+                    }
+                }
+            }
+        }
+    ],
+    "NextToken": null,
+    "QueryId": "#QueryId#",
+    "QueryStatus": {
+        "CumulativeBytesMetered": 10000000,
+        "CumulativeBytesScanned": 0,
+        "ProgressPercentage": 100
+    },
+    "Rows": [
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": true,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": null
+                }
+            ]
+        }
+    ]
+}
