@@ -177,7 +177,7 @@ func TestGenerateTestData(t *testing.T) {
 					) AS interpolatedValue
 				FROM binnedTimeseries
 			)
-    SELECT * FROM interpolatedTimeseries`,
+			SELECT * FROM interpolatedTimeseries`,
 	}
 
 	nextToken := map[string]*string{}
