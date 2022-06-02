@@ -3,9 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ## v2.0.0
+
 _Not released yet_
 
 - Breaking Change: Timestream data source now requires Grafana 8.0+ to run.
+
+## v1.5.3
+
+- Fix: Allow null data points for time series [#170](https://github.com/grafana/timestream-datasource/pull/170)
 
 ## v1.5.2
 
