@@ -56,6 +56,7 @@ func TestSavedConversions(t *testing.T) {
 	runTest(t, []string{"show-databases"})
 	runTest(t, []string{"show-tables"})
 	runTest(t, []string{"pagination-off_1", "pagination-off_2"})
+	runTest(t, []string{"time-series-with-null-data-points"})
 }
 
 func TestGenerateTestData(t *testing.T) {
@@ -101,8 +102,8 @@ func TestGenerateTestData(t *testing.T) {
 	m["select-null-timetamp.json"] = models.QueryModel{
 		RawQuery: `SELECT measure_name ,
 		CASE WHEN measure_name = 'make_me_null' THEN (SELECT NULL) ELSE time END
-		FROM ` + table + 
-		` LIMIT 10`,
+		FROM ` + table +
+			` LIMIT 10`,
 	}
 
 	m["complex-timeseries.json"] = models.QueryModel{
@@ -156,6 +157,27 @@ func TestGenerateTestData(t *testing.T) {
 	}
 	m["pagination-off_2.json"] = models.QueryModel{
 		RawQuery: `SELECT * FROM ` + table + " LIMIT 3",
+	}
+
+	m["time-series-with-null-data-points.json"] = models.QueryModel{
+		RawQuery: `WITH
+			binnedTimeseries AS (
+				SELECT BIN(time, 10000ms) AS binnedTime, SUM(measure_value::double) as value
+				FROM ` + table + ` WHERE time BETWEEN from_milliseconds(1654008860795) AND from_milliseconds(1654030460795) 
+					AND measure_name = 'any_metric_name'
+				GROUP BY BIN(time, 10000ms)
+				ORDER BY binnedTime
+			),
+			interpolatedTimeseries AS (
+				SELECT 
+					INTERPOLATE_FILL(
+						CREATE_TIME_SERIES(binnedTime, value),
+						SEQUENCE(min(binnedTime), max(binnedTime), 10000ms),
+						sqrt(-1)
+					) AS interpolatedValue
+				FROM binnedTimeseries
+			)
+			SELECT * FROM interpolatedTimeseries`,
 	}
 
 	nextToken := map[string]*string{}

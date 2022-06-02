@@ -47,8 +47,10 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		for _, timeseriesColumn := range timeseriesColumns {
 			for _, series := range res.Rows {
 				tv := series.Data[timeseriesColumn.columnIdx].TimeSeriesValue
-				if tv == nil {
-					dr.Error = fmt.Errorf("Expecting timeseries colum at: %d", timeseriesColumn.columnIdx)
+				nv := series.Data[timeseriesColumn.columnIdx].NullValue
+				isNullDataPoint := nv != nil && *nv
+				if tv == nil && !isNullDataPoint {
+					dr.Error = fmt.Errorf("expecting timeseries column at: %d", timeseriesColumn.columnIdx)
 					return
 				}
 
