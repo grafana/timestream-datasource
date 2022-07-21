@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.1
+
+- Bug fix for issue logging in with incorrect keys: https://github.com/grafana/timestream-datasource/pull/176
+- Code Coverage Check updates
+
 ## v2.0.0
 
 - Breaking Change: Timestream data source now requires Grafana 8.0+ to run.
