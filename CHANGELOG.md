@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.1.0
+
+- Add 'ap-southeast-2' and 'ap-northeast-1' regions [#178](https://github.com/grafana/timestream-datasource/pull/178)
+
 ## v2.0.1
 
 - Bug fix for issue logging in with incorrect keys: https://github.com/grafana/timestream-datasource/pull/176
