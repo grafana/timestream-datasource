@@ -18,12 +18,12 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/aws-sdk": "0.0.37",
-    "@grafana/data": "8.0.5",
-    "@grafana/runtime": "8.0.5",
-    "@grafana/toolkit": "8.0.5",
-    "@grafana/ui": "8.5.2",
-    "@grafana/e2e": "8.0.5",
-    "@grafana/e2e-selectors": "8.0.5",
+    "@grafana/data": "9.0.6",
+    "@grafana/runtime": "9.0.6",
+    "@grafana/toolkit": "9.0.6",
+    "@grafana/ui": "9.0.6",
+    "@grafana/e2e": "9.0.6",
+    "@grafana/e2e-selectors": "9.0.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/lodash": "latest",
@@ -32,6 +32,6 @@
     "cypress": "6.4.0"
   },
   "resolutions": {
-    "rxjs": "6.6.3"
+    "rxjs": "7.5.5"
   }
 }
