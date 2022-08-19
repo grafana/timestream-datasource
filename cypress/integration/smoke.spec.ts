@@ -67,7 +67,7 @@ const addTablePanel = (q: string) => {
       e2eSelectors.QueryEditor.CodeEditor.container()
         .click({ force: true })
         .type(`s{enter}{enter}{enter}g{enter}d{enter}{enter}c{enter}`, { delay: 5000 });
-      e2eSelectors.QueryEditor.CodeEditor.container().contains('SELECT * FROM "grafanaDB"."DevOps" GROUP BY cpu_hi');
+      e2eSelectors.QueryEditor.CodeEditor.container().contains('SELECT * FROM "grafanaDB"."DevOps" GROUP BY cell');
 
       fillQuery(q);
       // Blur the editor to execute the query and wait
