@@ -60,6 +60,15 @@ const addTablePanel = (q: string) => {
   e2e.flows.addPanel({
     matchScreenshot: false,
     queriesForm: () => {
+      // The follwing section will verify that autocompletion in behaving as expected.
+      // Throughout the composition of the SQL query, the autocompletion engine will provide appropriate suggestions.
+      // In this test the first few suggestions are accepted by hitting enter which will create a basic query.
+      // Increasing delay to allow tables names and columns names to be resolved async by the plugin
+      e2eSelectors.QueryEditor.CodeEditor.container()
+        .click({ force: true })
+        .type(`s{enter}{enter}{enter}g{enter}d{enter}{enter}c{enter}`, { delay: 5000 });
+      e2eSelectors.QueryEditor.CodeEditor.container().contains('SELECT * FROM "grafanaDB"."DevOps" GROUP BY cpu_hi');
+
       fillQuery(q);
       // Blur the editor to execute the query and wait
       cy.get('.panel-content').last().click();
