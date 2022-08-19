@@ -16,6 +16,9 @@
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
+  "dependencies": {
+    "@grafana/experimental": "^0.0.2-canary.38"
+  },
   "devDependencies": {
     "@grafana/aws-sdk": "0.0.37",
     "@grafana/data": "8.0.5",
