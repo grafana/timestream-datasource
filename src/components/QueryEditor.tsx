@@ -1,13 +1,13 @@
 import { ResourceSelector } from '@grafana/aws-sdk';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { CodeEditor, InlineField, InlineSegmentGroup, Label, Select, Switch } from '@grafana/ui';
+import { InlineField, InlineSegmentGroup, Label, Select, Switch } from '@grafana/ui';
 import React, { useEffect, useState } from 'react';
 
 import { DataSource } from '../DataSource';
 import { TimestreamOptions, TimestreamQuery } from '../types';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
-import { getSuggestions } from './Suggestions';
+import SQLEditor from './SQLEditor';
 
 type Props = QueryEditorProps<DataSource, TimestreamQuery, TimestreamOptions>;
 
@@ -82,7 +82,6 @@ export function QueryEditor(props: Props) {
   // Measures used both for the selector and editor suggestions
   const [measures, setMeasures] = useState<string[]>([]);
   // Dimensions used for editor suggestions
-  const [dimensions, setDimensions] = useState<string[]>([]);
   useEffect(() => {
     if (database && table) {
       datasource
@@ -97,14 +96,6 @@ export function QueryEditor(props: Props) {
             onChange({ ...query, measure: res[0] });
           }
           setMeasures(res);
-        });
-      datasource
-        .postResource('dimensions', {
-          database: database,
-          table: table,
-        })
-        .then((res) => {
-          setDimensions(res);
         });
     }
     // Run only on database or table change
@@ -170,18 +161,12 @@ export function QueryEditor(props: Props) {
           </InlineField>
         </Label>
       </div>
-      <div
-        style={{ minWidth: '400px', marginLeft: '10px', flex: 1 }}
-        aria-label={selectors.components.QueryEditor.CodeEditor.container}
-      >
-        <CodeEditor
-          language={'sql'}
-          value={query.rawQuery || ''}
-          onBlur={onQueryChange}
-          showMiniMap={false}
-          showLineNumbers={true}
-          getSuggestions={() => getSuggestions({ databases, tables, measures, dimensions, database, table, measure })}
-          height="240px"
+      <div style={{ minWidth: '400px', marginLeft: '10px', flex: 1 }}>
+        <SQLEditor
+          query={query}
+          onRunQuery={props.onRunQuery}
+          onChange={(rawQuery) => props.onChange({ ...props.query, rawQuery })}
+          datasource={props.datasource}
         />
       </div>
     </InlineSegmentGroup>

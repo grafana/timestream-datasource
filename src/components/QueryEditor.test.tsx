@@ -4,6 +4,7 @@ import * as runtime from '@grafana/runtime';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { select } from 'react-select-event';
+import * as experimental from '@grafana/experimental';
 
 import { mockDatasource, mockQuery } from '../__mocks__/datasource';
 import { QueryEditor } from './QueryEditor';
@@ -14,14 +15,12 @@ jest
   .spyOn(runtime, 'getTemplateSrv')
   .mockImplementation(() => ({ getVariables: jest.fn().mockReturnValue([]), replace: jest.fn() }));
 
-jest.mock('@grafana/ui', () => {
-  return {
-    ...(jest.requireActual('@grafana/ui') as any),
-    CodeEditor: function CodeEditor() {
-      return <></>;
-    },
-  };
-});
+jest.mock('@grafana/experimental', () => ({
+  ...jest.requireActual<typeof experimental>('@grafana/experimental'),
+  SQLEditor: function SQLEditor() {
+    return <></>;
+  },
+}));
 
 const ds = mockDatasource;
 const q = mockQuery;
@@ -121,7 +120,7 @@ describe('QueryEditor', () => {
       />
     );
 
-    await waitFor(() => expect(ds.postResource).toHaveBeenCalledTimes(3));
+    await waitFor(() => expect(ds.postResource).toHaveBeenCalledTimes(2));
     // Measure field is set
     expect(screen.getByText(measures[0])).toBeInTheDocument();
 
