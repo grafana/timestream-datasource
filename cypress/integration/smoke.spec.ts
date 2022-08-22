@@ -60,7 +60,7 @@ const addTablePanel = (q: string) => {
   e2e.flows.addPanel({
     matchScreenshot: false,
     queriesForm: () => {
-      // The follwing section will verify that autocompletion in behaving as expected.
+      // The following section will verify that autocompletion is behaving as expected.
       // Throughout the composition of the SQL query, the autocompletion engine will provide appropriate suggestions.
       // In this test the first few suggestions are accepted by hitting enter which will create a basic query.
       // Increasing delay to allow tables names and columns names to be resolved async by the plugin
