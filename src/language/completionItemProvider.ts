@@ -35,9 +35,9 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
 
         const parts = tablePath.split('.');
         if (parts.length === 1) {
-          return { schema: parts[0] };
+          return { schema: parts[0] || undefined };
         } else if (parts.length === 2) {
-          return { schema: parts[0], table: parts[1] };
+          return { schema: parts[0] || undefined, table: parts[1] || undefined };
         }
 
         return null;

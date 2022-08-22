@@ -29,7 +29,7 @@ describe('completionItemProvider', () => {
       } as LinkedToken);
 
       expect(schema).toEqual(SCHEMA);
-      expect(table).toBeUndefined;
+      expect(table).toBeUndefined();
     });
 
     it('should resolve schema when missing table', () => {
@@ -38,7 +38,7 @@ describe('completionItemProvider', () => {
       } as LinkedToken);
 
       expect(schema).toEqual(SCHEMA);
-      expect(table).toBeUndefined;
+      expect(table).toBeUndefined();
     });
   });
 });
