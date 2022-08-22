@@ -20,7 +20,7 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   }, [query]);
 
   const getDatabases = useCallback(async () => {
-    const databases: string[] = await datasource.postResource('databases');
+    const databases: string[] = await datasource.postResource('databases').catch(() => []);
     return databases.map((database) => ({ name: database, completion: database }));
   }, [queryRef.current]);
 

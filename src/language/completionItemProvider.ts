@@ -14,38 +14,33 @@ interface CompletionProviderGetterArgs {
   getColumns: React.MutableRefObject<(database?: string, table?: string) => Promise<ColumnDefinition[]>>;
 }
 
-export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArgs) => LanguageCompletionProvider = ({
-  getDatabases,
-  getTables,
-  getColumns,
-}) => (monaco, language) => {
-  return {
-    // get standard SQL completion provider which will resolve functions and macros
-    ...(language && getStandardSQLCompletionProvider(monaco, language)),
-    triggerCharacters: ['.', ' ', '$', ',', '(', "'"],
-    schemas: {
-      resolve: async () => getDatabases.current(),
-    },
-    tables: {
-      resolve: async (t: TableIdentifier) => {
-        return await getTables.current(t?.schema);
+export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArgs) => LanguageCompletionProvider =
+  ({ getDatabases, getTables, getColumns }) =>
+  (monaco, language) => {
+    return {
+      // get standard SQL completion provider which will resolve functions and macros
+      ...(language && getStandardSQLCompletionProvider(monaco, language)),
+      triggerCharacters: ['.', ' ', '$', ',', '(', "'"],
+      schemas: {
+        resolve: () => getDatabases.current(),
       },
-      parseName: (token: LinkedToken) => {
-        let tablePath = token?.value ?? '';
+      tables: {
+        resolve: (t: TableIdentifier) => {
+          return getTables.current(t?.schema);
+        },
+        parseName: (token: LinkedToken) => {
+          const tablePath = token?.value ?? '';
+          const parts = tablePath.split('.');
 
-        const parts = tablePath.split('.');
-        if (parts.length === 1) {
-          return { schema: parts[0] || undefined };
-        } else if (parts.length === 2) {
-          return { schema: parts[0] || undefined, table: parts[1] || undefined };
-        }
-
-        return null;
+          return {
+            schema: parts.length >= 1 && parts[0] ? parts[0] : undefined,
+            table: parts.length >= 2 && parts[1] ? parts[1] : undefined,
+          };
+        },
       },
-    },
-    columns: {
-      resolve: async (t: TableIdentifier) => getColumns.current(t.schema, t.table),
-    },
-    supportedMacros: () => MACROS,
+      columns: {
+        resolve: (t: TableIdentifier) => getColumns.current(t.schema, t.table),
+      },
+      supportedMacros: () => MACROS,
+    };
   };
-};
