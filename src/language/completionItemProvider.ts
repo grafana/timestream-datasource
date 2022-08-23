@@ -22,7 +22,7 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
       ...(language && getStandardSQLCompletionProvider(monaco, language)),
       triggerCharacters: ['.', ' ', '$', ',', '(', "'"],
       schemas: {
-        resolve: () => getDatabases(),
+        resolve: getDatabases,
       },
       tables: {
         resolve: (t: TableIdentifier) => {
