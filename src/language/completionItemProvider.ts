@@ -9,9 +9,9 @@ import {
 import { MACROS } from './macros';
 
 interface CompletionProviderGetterArgs {
-  getDatabases: React.MutableRefObject<() => Promise<TableDefinition[]>>;
-  getTables: React.MutableRefObject<(d?: string) => Promise<TableDefinition[]>>;
-  getColumns: React.MutableRefObject<(database?: string, table?: string) => Promise<ColumnDefinition[]>>;
+  getDatabases: () => Promise<TableDefinition[]>;
+  getTables: (d?: string) => Promise<TableDefinition[]>;
+  getColumns: (database?: string, table?: string) => Promise<ColumnDefinition[]>;
 }
 
 export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArgs) => LanguageCompletionProvider =
@@ -22,11 +22,11 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
       ...(language && getStandardSQLCompletionProvider(monaco, language)),
       triggerCharacters: ['.', ' ', '$', ',', '(', "'"],
       schemas: {
-        resolve: () => getDatabases.current(),
+        resolve: () => getDatabases(),
       },
       tables: {
         resolve: (t: TableIdentifier) => {
-          return getTables.current(t?.schema);
+          return getTables(t?.schema);
         },
         parseName: (token: LinkedToken) => {
           const tablePath = token?.value ?? '';
@@ -39,7 +39,7 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
         },
       },
       columns: {
-        resolve: (t: TableIdentifier) => getColumns.current(t.schema, t.table),
+        resolve: (t: TableIdentifier) => getColumns(t.schema, t.table),
       },
       supportedMacros: () => MACROS,
     };

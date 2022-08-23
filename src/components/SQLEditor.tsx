@@ -48,15 +48,12 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
     return [...measures, ...dimensions].map((column) => ({ name: column, completion: column }));
   }, []);
 
-  const getDatabasesRef = useRef(getDatabases);
-  const getTablesRef = useRef(getTables);
-  const getColumnsRef = useRef(getColumns);
   const completionProvider = useMemo(
     () =>
       getTimestreamCompletionProvider({
-        getDatabases: getDatabasesRef,
-        getTables: getTablesRef,
-        getColumns: getColumnsRef,
+        getDatabases,
+        getTables,
+        getColumns,
       }),
     []
   );
