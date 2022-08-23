@@ -106,9 +106,19 @@ You can configure data sources using config files with Grafana's provisioning sy
 
 Here are some provisioning examples for this data source.
 
-### Using a credentials file
+### Using AWS SDK (default)
 
-If you are using Credentials file authentication type, then you should use a credentials file with a config like this.
+```yaml
+apiVersion: 1
+datasources:
+  - name: Timestream
+    type: grafana-timestream-datasource
+    jsonData:
+      authType: default
+      defaultRegion: eu-west-2
+```
+
+### Using credentials' profile name (non-default)
 
 ```yaml
 apiVersion: 1
@@ -135,6 +145,19 @@ datasources:
     secureJsonData:
       accessKey: '<your access key>'
       secretKey: '<your secret key>'
+```
+
+### Using AWS SDK Default and ARN of IAM Role to Assume
+
+```yaml
+apiVersion: 1
+datasources:
+  - name: Timestream
+    type: grafana-timestream-datasource
+    jsonData:
+      authType: default
+      assumeRoleArn: arn:aws:iam::123456789012:root
+      defaultRegion: eu-west-2
 ```
 
 ### Sample Dashboard
