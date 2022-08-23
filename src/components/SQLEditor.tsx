@@ -22,7 +22,7 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   const getDatabases = useCallback(async () => {
     const databases: string[] = await datasource.postResource('databases').catch(() => []);
     return databases.map((database) => ({ name: database, completion: database }));
-  }, [queryRef.current]);
+  }, [datasource]);
 
   const getTables = useCallback(
     async (database?: string) => {
@@ -36,17 +36,22 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
     [datasource]
   );
 
-  const getColumns = useCallback(async (database?: string, tableName?: string) => {
-    const interpolatedArgs = {
-      database: database ? database.replace(TABLE_MACRO, queryRef.current.table ?? '') : queryRef.current.table,
-      table: tableName ? tableName.replace(DATABASE_MACRO, queryRef.current.database ?? '') : queryRef.current.database,
-    };
-    const [measures, dimensions] = await Promise.all([
-      datasource.postResource('measures', interpolatedArgs).catch(() => []),
-      datasource.postResource('dimensions', interpolatedArgs).catch(() => []),
-    ]);
-    return [...measures, ...dimensions].map((column) => ({ name: column, completion: column }));
-  }, []);
+  const getColumns = useCallback(
+    async (database?: string, tableName?: string) => {
+      const interpolatedArgs = {
+        database: database ? database.replace(TABLE_MACRO, queryRef.current.table ?? '') : queryRef.current.table,
+        table: tableName
+          ? tableName.replace(DATABASE_MACRO, queryRef.current.database ?? '')
+          : queryRef.current.database,
+      };
+      const [measures, dimensions] = await Promise.all([
+        datasource.postResource('measures', interpolatedArgs).catch(() => []),
+        datasource.postResource('dimensions', interpolatedArgs).catch(() => []),
+      ]);
+      return [...measures, ...dimensions].map((column) => ({ name: column, completion: column }));
+    },
+    [datasource]
+  );
 
   const completionProvider = useMemo(
     () =>
@@ -55,7 +60,7 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
         getTables,
         getColumns,
       }),
-    []
+    [getDatabases, getTables, getColumns]
   );
 
   return (
