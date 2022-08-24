@@ -4,7 +4,6 @@ import { selectors as timestreamSelectors } from '../../src/components/selectors
 
 const e2eSelectors = e2e.getSelectors(timestreamSelectors.components);
 
-const query = 'SHOW DATABASES';
 const queryVariable = 'query';
 
 export const addDataSourceWithKey = (datasourceType: string, datasource: any): any => {
@@ -54,7 +53,7 @@ const addTablePanel = (q: string) => {
     e2e()
       .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultMeasure.wrapper}"]`)
       .contains('cpu_hi');
-    e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+    e2eSelectors.QueryEditor.CodeEditor.container().type('{selectall} SHOW DATABASES');
   };
 
   e2e.flows.addPanel({
