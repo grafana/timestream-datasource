@@ -96,7 +96,7 @@ e2e.scenario({
           },
           variables: [
             {
-              constantValue: query,
+              constantValue: 'SHOW DATABASES',
               label: 'Template Variable',
               name: queryVariable,
               type: e2e.flows.VARIABLE_TYPE_CONSTANT,
