@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 )
@@ -16,7 +16,7 @@ type MockClient struct {
 }
 
 func (c *MockClient) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	bs, err := ioutil.ReadFile("./testdata/" + c.testFileNames[c.index] + ".json")
+	bs, err := os.ReadFile("./testdata/" + c.testFileNames[c.index] + ".json")
 	if err != nil {
 		return nil, err
 	}
