@@ -94,168 +94,10 @@
     "QueryId": "#QueryId#",
     "QueryStatus": {
         "CumulativeBytesMetered": 10000000,
-        "CumulativeBytesScanned": 10845,
+        "CumulativeBytesScanned": 7250,
         "ProgressPercentage": 100
     },
     "Rows": [
-        {
-            "Data": [
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-cell-5",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-cell-5-silo-2",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-3",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "zeus",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "i-AUa00Zt2-zeus-0014.amazonaws.com",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "server",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "JDK_11",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": null,
-                    "TimeSeriesValue": [
-                        {
-                            "Time": "2021-03-25 20:49:56.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "74.93119071500018",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 20:56:18.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "78.20756183488493",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:02:48.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "8.431596684229115",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:09:23.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "6.461216563095684",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:16:01.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "89.0200200672547",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:22:27.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "20.006812723738598",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:27:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "87.98938660093111",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:33:13.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "78.96291596219855",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:38:40.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "72.17566149239791",
-                                "TimeSeriesValue": null
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
         {
             "Data": [
                 {
@@ -321,92 +163,102 @@
                     "ScalarValue": null,
                     "TimeSeriesValue": [
                         {
-                            "Time": "2021-03-25 20:49:56.000000000",
+                            "Time": "2022-09-20 12:37:53.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "34.00785224886954",
+                                "ScalarValue": "34.840635191284385",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 20:56:18.000000000",
+                            "Time": "2022-09-20 12:43:29.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "69.7341009111076",
+                                "ScalarValue": "82.25503246465323",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:02:48.000000000",
+                            "Time": "2022-09-20 12:49:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "12.78399784511114",
+                                "ScalarValue": "82.39651900702837",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:09:23.000000000",
+                            "Time": "2022-09-20 12:54:40.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "25.83771551900066",
+                                "ScalarValue": "69.2694600635743",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:16:01.000000000",
+                            "Time": "2022-09-20 13:00:18.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "27.36921192179407",
+                                "ScalarValue": "35.31082424603785",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:22:27.000000000",
+                            "Time": "2022-09-20 13:06:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "65.63997834529928",
+                                "ScalarValue": "76.69083525084362",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:27:49.000000000",
+                            "Time": "2022-09-20 13:11:33.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "95.23264230427444",
+                                "ScalarValue": "92.67047538997501",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:33:13.000000000",
+                            "Time": "2022-09-20 13:17:09.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "81.76196100013556",
+                                "ScalarValue": "79.12036786567657",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:38:40.000000000",
+                            "Time": "2022-09-20 13:22:48.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "94.37171636066834",
+                                "ScalarValue": "73.94712274403054",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:28:31.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "91.00165326592871",
                                 "TimeSeriesValue": null
                             }
                         }
@@ -455,7 +307,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "i-AUa00Zt2-zeus-0008.amazonaws.com",
+                    "ScalarValue": "i-AUa00Zt2-zeus-0014.amazonaws.com",
                     "TimeSeriesValue": null
                 },
                 {
@@ -479,250 +331,102 @@
                     "ScalarValue": null,
                     "TimeSeriesValue": [
                         {
-                            "Time": "2021-03-25 20:49:56.000000000",
+                            "Time": "2022-09-20 12:37:53.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "9.927906259619611",
+                                "ScalarValue": "64.92270552755501",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 20:56:18.000000000",
+                            "Time": "2022-09-20 12:43:29.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "17.664956712856096",
+                                "ScalarValue": "48.42796733448987",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:02:48.000000000",
+                            "Time": "2022-09-20 12:49:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "58.49606066141083",
+                                "ScalarValue": "59.57236982998175",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:09:23.000000000",
+                            "Time": "2022-09-20 12:54:40.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "37.499666995394776",
+                                "ScalarValue": "46.25264613251597",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:16:01.000000000",
+                            "Time": "2022-09-20 13:00:18.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "52.71424366528549",
+                                "ScalarValue": "47.22139587055133",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:22:27.000000000",
+                            "Time": "2022-09-20 13:06:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "47.59847322153456",
+                                "ScalarValue": "29.236746577756367",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:27:49.000000000",
+                            "Time": "2022-09-20 13:11:33.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "96.76897568126775",
+                                "ScalarValue": "78.3431042705222",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:33:13.000000000",
+                            "Time": "2022-09-20 13:17:09.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "69.52784966737426",
+                                "ScalarValue": "20.805032894840913",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:38:40.000000000",
+                            "Time": "2022-09-20 13:22:48.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "58.21377163821669",
-                                "TimeSeriesValue": null
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "Data": [
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-cell-5",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-cell-5-silo-2",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "ap-northeast-1-3",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "zeus",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "i-AUa00Zt2-zeus-0011.amazonaws.com",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "server",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "JDK_11",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": null,
-                    "TimeSeriesValue": [
-                        {
-                            "Time": "2021-03-25 20:49:56.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "21.495323679396616",
+                                "ScalarValue": "93.07081517567251",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 20:56:18.000000000",
+                            "Time": "2022-09-20 13:28:31.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "52.51418921359251",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:02:48.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "39.61972712413069",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:09:23.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "70.69183047249207",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:16:01.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "68.80853501504802",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:22:27.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "73.95450866124904",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:27:49.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "89.54573448124731",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:33:13.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "4.382561759931969",
-                                "TimeSeriesValue": null
-                            }
-                        },
-                        {
-                            "Time": "2021-03-25 21:38:40.000000000",
-                            "Value": {
-                                "ArrayValue": null,
-                                "NullValue": null,
-                                "RowValue": null,
-                                "ScalarValue": "23.601812201795568",
+                                "ScalarValue": "71.43863457852687",
                                 "TimeSeriesValue": null
                             }
                         }
@@ -795,92 +499,438 @@
                     "ScalarValue": null,
                     "TimeSeriesValue": [
                         {
-                            "Time": "2021-03-25 20:49:56.000000000",
+                            "Time": "2022-09-20 12:37:53.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "38.49900813816662",
+                                "ScalarValue": "86.29417230116428",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 20:56:18.000000000",
+                            "Time": "2022-09-20 12:43:29.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "26.35543467589635",
+                                "ScalarValue": "93.15341540239037",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:02:48.000000000",
+                            "Time": "2022-09-20 12:49:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "81.73477385503165",
+                                "ScalarValue": "88.89473846655571",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:09:23.000000000",
+                            "Time": "2022-09-20 12:54:40.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "56.88010142616861",
+                                "ScalarValue": "77.97777773681803",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:16:01.000000000",
+                            "Time": "2022-09-20 13:00:18.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "37.28665698912429",
+                                "ScalarValue": "30.67455706741111",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:22:27.000000000",
+                            "Time": "2022-09-20 13:06:05.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "43.538485400171076",
+                                "ScalarValue": "16.449437575034842",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:27:49.000000000",
+                            "Time": "2022-09-20 13:11:33.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "3.436722059285202",
+                                "ScalarValue": "49.28453073853994",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:33:13.000000000",
+                            "Time": "2022-09-20 13:17:09.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "13.135080489454387",
+                                "ScalarValue": "49.13583672633695",
                                 "TimeSeriesValue": null
                             }
                         },
                         {
-                            "Time": "2021-03-25 21:38:40.000000000",
+                            "Time": "2022-09-20 13:22:48.000000000",
                             "Value": {
                                 "ArrayValue": null,
                                 "NullValue": null,
                                 "RowValue": null,
-                                "ScalarValue": "37.065447031246",
+                                "ScalarValue": "27.662341566599835",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:28:31.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "9.049473758018301",
+                                "TimeSeriesValue": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-cell-5",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-cell-5-silo-2",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-3",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "zeus",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "i-AUa00Zt2-zeus-0008.amazonaws.com",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "server",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "JDK_11",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": [
+                        {
+                            "Time": "2022-09-20 12:37:53.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "69.7916427999",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:43:29.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "61.041596265532974",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:49:05.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "19.977611363370016",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:54:40.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "35.80816976300972",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:00:18.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "21.458209343712287",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:06:05.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "32.12840876994124",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:11:33.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "47.48623031287168",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:17:09.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "80.87016460909011",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:22:48.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "38.20926388063337",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:28:31.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "89.44170926166811",
+                                "TimeSeriesValue": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-cell-5",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-cell-5-silo-2",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "ap-northeast-1-3",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "zeus",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "i-AUa00Zt2-zeus-0011.amazonaws.com",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "server",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "JDK_11",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": null,
+                    "TimeSeriesValue": [
+                        {
+                            "Time": "2022-09-20 12:37:53.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "14.933511804259092",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:43:29.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "54.922309961519524",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:49:05.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "76.73002975850517",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 12:54:40.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "17.03451959690233",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:00:18.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "66.71820061060468",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:06:05.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "93.00042358481086",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:11:33.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "31.814588129185505",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:17:09.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "3.8540740897359815",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:22:48.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "63.065066525614476",
+                                "TimeSeriesValue": null
+                            }
+                        },
+                        {
+                            "Time": "2022-09-20 13:28:31.000000000",
+                            "Value": {
+                                "ArrayValue": null,
+                                "NullValue": null,
+                                "RowValue": null,
+                                "ScalarValue": "52.66047104511027",
                                 "TimeSeriesValue": null
                             }
                         }

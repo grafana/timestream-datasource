@@ -158,7 +158,7 @@
     "QueryId": "#QueryId#",
     "QueryStatus": {
         "CumulativeBytesMetered": 10000000,
-        "CumulativeBytesScanned": 169161,
+        "CumulativeBytesScanned": 266145,
         "ProgressPercentage": 100
     },
     "Rows": [
@@ -259,7 +259,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2021-03-27 22:26:22.000000000",
+                    "ScalarValue": "2021-03-14 09:45:28.000000000",
                     "TimeSeriesValue": null
                 },
                 {
@@ -382,7 +382,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2021-03-27 22:32:50.000000000",
+                    "ScalarValue": "2021-03-14 09:52:44.000000000",
                     "TimeSeriesValue": null
                 },
                 {
@@ -505,7 +505,7 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
-                    "ScalarValue": "2021-03-27 22:38:58.000000000",
+                    "ScalarValue": "2021-03-14 09:59:58.000000000",
                     "TimeSeriesValue": null
                 },
                 {

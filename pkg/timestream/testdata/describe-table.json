@@ -342,6 +342,56 @@
                     "ArrayValue": null,
                     "NullValue": null,
                     "RowValue": null,
+                    "ScalarValue": "measure_name",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "varchar",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "MEASURE_NAME",
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "time",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "timestamp",
+                    "TimeSeriesValue": null
+                },
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
+                    "ScalarValue": "TIMESTAMP",
+                    "TimeSeriesValue": null
+                }
+            ]
+        },
+        {
+            "Data": [
+                {
+                    "ArrayValue": null,
+                    "NullValue": null,
+                    "RowValue": null,
                     "ScalarValue": "measure_value::double",
                     "TimeSeriesValue": null
                 },
@@ -407,56 +457,6 @@
                     "NullValue": null,
                     "RowValue": null,
                     "ScalarValue": "MEASURE_VALUE",
-                    "TimeSeriesValue": null
-                }
-            ]
-        },
-        {
-            "Data": [
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "measure_name",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "varchar",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "MEASURE_NAME",
-                    "TimeSeriesValue": null
-                }
-            ]
-        },
-        {
-            "Data": [
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "time",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "timestamp",
-                    "TimeSeriesValue": null
-                },
-                {
-                    "ArrayValue": null,
-                    "NullValue": null,
-                    "RowValue": null,
-                    "ScalarValue": "TIMESTAMP",
                     "TimeSeriesValue": null
                 }
             ]
