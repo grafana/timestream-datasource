@@ -301,7 +301,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
   //----------------------------------------------
 
   private getStrings(rawQuery: string, range?: TimeRange): Observable<string[]> {
-    return this.query(({
+    return this.query({
       targets: [
         {
           refId: 'GetStrings',
@@ -309,7 +309,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         },
       ],
       range,
-    } as unknown) as DataQueryRequest).pipe(
+    } as unknown as DataQueryRequest).pipe(
       map((res) => {
         if (res.error) {
           const message = res.error.message ?? res.error.data?.message ?? 'Error getting variable';

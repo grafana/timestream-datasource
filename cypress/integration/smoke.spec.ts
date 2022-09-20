@@ -4,7 +4,6 @@ import { selectors as timestreamSelectors } from '../../src/components/selectors
 
 const e2eSelectors = e2e.getSelectors(timestreamSelectors.components);
 
-const query = 'SHOW DATABASES';
 const queryVariable = 'query';
 
 export const addDataSourceWithKey = (datasourceType: string, datasource: any): any => {
@@ -54,12 +53,21 @@ const addTablePanel = (q: string) => {
     e2e()
       .get(`[data-testid="${timestreamSelectors.components.ConfigEditor.defaultMeasure.wrapper}"]`)
       .contains('cpu_hi');
-    e2eSelectors.QueryEditor.CodeEditor.container().type(query);
+    e2eSelectors.QueryEditor.CodeEditor.container().type('{selectall} SHOW DATABASES');
   };
 
   e2e.flows.addPanel({
     matchScreenshot: false,
     queriesForm: () => {
+      // The following section will verify that autocompletion is behaving as expected.
+      // Throughout the composition of the SQL query, the autocompletion engine will provide appropriate suggestions.
+      // In this test the first few suggestions are accepted by hitting enter which will create a basic query.
+      // Increasing delay to allow tables names and columns names to be resolved async by the plugin
+      e2eSelectors.QueryEditor.CodeEditor.container()
+        .click({ force: true })
+        .type(`s{enter}{enter}{enter}g{enter}d{enter}{enter}c{enter}`, { delay: 5000 });
+      e2eSelectors.QueryEditor.CodeEditor.container().contains('SELECT * FROM "grafanaDB"."DevOps" GROUP BY cell');
+
       fillQuery(q);
       // Blur the editor to execute the query and wait
       cy.get('.panel-content').last().click();
@@ -88,7 +96,7 @@ e2e.scenario({
           },
           variables: [
             {
-              constantValue: query,
+              constantValue: 'SHOW DATABASES',
               label: 'Template Variable',
               name: queryVariable,
               type: e2e.flows.VARIABLE_TYPE_CONSTANT,
