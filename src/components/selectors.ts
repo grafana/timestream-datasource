@@ -29,7 +29,7 @@ export const Components = {
   },
   QueryEditor: {
     CodeEditor: {
-      container: 'Query editor code editor container',
+      container: 'Code editor container',
     },
   },
 };

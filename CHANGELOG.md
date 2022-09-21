@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.2.0
+
+- Add support for context aware autocompletion by @sunker in https://github.com/grafana/timestream-datasource/pull/188
+
 ## v2.1.0
 
 - Add 'ap-southeast-2' and 'ap-northeast-1' regions [#178](https://github.com/grafana/timestream-datasource/pull/178)
