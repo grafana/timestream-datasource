@@ -26,7 +26,7 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 		switch *t.ScalarType {
 		case timestreamquery.ScalarTypeTimestamp:
 			return &fieldBuilder{
-				fieldType: data.FieldTypeTime,
+				fieldType: data.FieldTypeNullableTime,
 				parser:    datumParserTimestamp,
 			}, nil
 		case timestreamquery.ScalarTypeBoolean:
@@ -212,7 +212,8 @@ func datumParserTimestamp(datum *timestreamquery.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
-	return time.Parse("2006-01-02 15:04:05.99999999", *datum.ScalarValue)
+	v, err := time.Parse("2006-01-02 15:04:05.99999999", *datum.ScalarValue)
+	return &v, err
 }
 
 func datumParserDate(datum *timestreamquery.Datum) (interface{}, error) {
