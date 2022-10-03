@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.3.0
+- Change timestamp fieldType to be nullable by @nekketsuuu in https://github.com/grafana/timestream-datasource/pull/184
+- Upgrade to grafana-aws-sdk v0.11.0 by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/195
+
 ## v2.2.0
 
 - Add support for context aware autocompletion by @sunker in https://github.com/grafana/timestream-datasource/pull/188
