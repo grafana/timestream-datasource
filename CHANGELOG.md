@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.3.1
+
+- Security: Upgrade Go in build process to 1.19.2
+
 ## v2.3.0
+
 - Change timestamp fieldType to be nullable by @nekketsuuu in https://github.com/grafana/timestream-datasource/pull/184
 - Upgrade to grafana-aws-sdk v0.11.0 by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/195
 
