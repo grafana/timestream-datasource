@@ -8,7 +8,6 @@ const queryVariable = 'query';
 
 export const addDataSourceWithKey = (datasourceType: string, datasource: any): any => {
   return e2e.flows.addDataSource({
-    checkHealth: false,
     expectedAlertMessage: 'Connection success',
     form: () => {
       e2eSelectors.ConfigEditor.AuthenticationProvider.input().type('Access & secret key').type('{enter}');
