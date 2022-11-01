@@ -11,9 +11,14 @@ import { QueryEditor } from './QueryEditor';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
 
-jest
-  .spyOn(runtime, 'getTemplateSrv')
-  .mockImplementation(() => ({ getVariables: jest.fn().mockReturnValue([]), replace: jest.fn() }));
+const mockGetVariables = jest.fn().mockReturnValue([]);
+
+jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
+  getVariables: mockGetVariables,
+  replace: jest.fn(),
+  containsTemplate: jest.fn(),
+  updateTimeRange: jest.fn(),
+}));
 
 jest.mock('@grafana/experimental', () => ({
   ...jest.requireActual<typeof experimental>('@grafana/experimental'),

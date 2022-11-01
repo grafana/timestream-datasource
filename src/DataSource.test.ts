@@ -18,7 +18,12 @@ describe('DataSource', () => {
       return res;
     });
     beforeEach(() => {
-      jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({ getVariables: jest.fn(), replace }));
+      jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
+        getVariables: jest.fn(),
+        replace: replace,
+        containsTemplate: jest.fn(),
+        updateTimeRange: jest.fn(),
+      }));
     });
 
     it('should replace a simple var', () => {

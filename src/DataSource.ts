@@ -38,6 +38,9 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return this.getStrings(q, options.range)
       .toPromise()
       .then((strings) => {
+        if (strings === undefined) {
+          return [];
+        }
         return strings.map((s) => ({
           text: s,
         }));
