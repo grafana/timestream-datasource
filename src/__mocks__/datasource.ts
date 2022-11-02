@@ -45,8 +45,10 @@ export const mockDatasourceOptions: DataSourcePluginOptionsEditorProps<Timestrea
     access: '',
     url: '',
     user: '',
+    password: '',
     basicAuth: false,
     basicAuthUser: '',
+    basicAuthPassword: '',
     database: '',
     isDefault: false,
     jsonData: {
