@@ -3,15 +3,19 @@
   "version": "2.3.1",
   "description": "Load data timestream in grafana",
   "scripts": {
-    "build": "grafana-toolkit plugin:build",
-    "test": "jest --notify --watch",
+    "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
+    "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
+    "e2e": "yarn cypress install && yarn grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
+    "e2e:update": "yarn cypress install && yarn grafana-e2e run --update-screenshots",
+    "lint": "eslint --cache --ignore-path ./.gitignore --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "yarn lint --fix",
+    "server": "docker-compose up --build",
+    "test": "jest --watch --onlyChanged",
+    "test:ci": "jest --maxWorkers 4",
     "test:coverage": "jest --coverage",
     "test:coverage:changes": "jest --coverage --changedSince=origin/main",
-    "dev": "grafana-toolkit plugin:dev",
-    "watch": "grafana-toolkit plugin:dev --watch",
-    "e2e": "grafana-e2e run",
-    "e2e:open": "grafana-e2e open",
-    "e2e:update": "grafana-e2e run --update-screenshots"
+    "typecheck": "tsc --noEmit"
   },
   "repository": "github:grafana/timestream-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
@@ -20,20 +24,16 @@
     "@grafana/experimental": "^0.0.2-canary.39"
   },
   "devDependencies": {
-    "@types/react": "17.0.42",
     "@grafana/aws-sdk": "0.0.37",
-    "@grafana/data": "8.0.5",
-    "@grafana/runtime": "8.0.5",
-    "@grafana/toolkit": "8.0.5",
-    "@grafana/ui": "8.5.2",
     "@grafana/e2e": "8.0.5",
     "@grafana/e2e-selectors": "8.0.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/lodash": "latest",
+    "@types/react": "17.0.42",
+    "cypress": "6.4.0",
     "react-select-event": "^5.3.0",
-    "tslib": "2.3.1",
-    "cypress": "6.4.0"
+    "tslib": "2.3.1"
   },
   "resolutions": {
     "rxjs": "6.6.3"
