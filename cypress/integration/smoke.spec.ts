@@ -77,7 +77,7 @@ const addTablePanel = (q: string) => {
   });
 };
 
-const addTimestreamVariable = (name: string, constantValue: string, label: string, type: string, isFirst: boolean) => {
+const addTimestreamVariable = (name: string, constantValue: string, label: string, isFirst: boolean) => {
   e2e.components.PageToolbar.item('Dashboard settings').click();
   e2e.components.Tab.title('Variables').click();
   if (isFirst) {
@@ -91,7 +91,7 @@ const addTimestreamVariable = (name: string, constantValue: string, label: strin
     .within(function () {
       e2e.components.Select.singleValue().should('have.text', 'Query').click();
     });
-  e2e.components.Select.option().should('be.visible').contains(type).click();
+  e2e.components.Select.option().should('be.visible').contains(e2e.flows.VARIABLE_TYPE_CONSTANT).click();
   e2e.pages.Dashboard.Settings.Variables.Edit.General.generalLabelInput().type(label);
   e2e.pages.Dashboard.Settings.Variables.Edit.General.generalNameInput().clear().type(name);
   e2e.pages.Dashboard.Settings.Variables.Edit.ConstantVariable.constantOptionsQueryInput().type(constantValue);
@@ -102,7 +102,7 @@ const addTimestreamVariable = (name: string, constantValue: string, label: strin
       expect(previewOfValues.text()).equals(constantValue);
     });
   e2e.pages.Dashboard.Settings.Variables.Edit.General.submitButton().click();
-  return fullConfig;
+  e2e.components.PageToolbar.item('Go Back').click();
 };
 
 e2e.scenario({
@@ -121,15 +121,8 @@ e2e.scenario({
             from: '2001-01-31 19:00:00',
             to: '2016-01-31 19:00:00',
           },
-          variables: [
-            {
-              constantValue: 'SHOW DATABASES',
-              label: 'Template Variable',
-              name: queryVariable,
-              type: e2e.flows.VARIABLE_TYPE_CONSTANT,
-            },
-          ],
         });
+        addTimestreamVariable(queryVariable, 'SHOW DATABASES', 'Template Variable', true);
         addTablePanel('$' + queryVariable);
       });
   },
