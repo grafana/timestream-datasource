@@ -77,34 +77,6 @@ const addTablePanel = (q: string) => {
   });
 };
 
-const addTimestreamVariable = (name: string, constantValue: string, label: string, isFirst: boolean) => {
-  e2e.components.PageToolbar.item('Dashboard settings').click();
-  e2e.components.Tab.title('Variables').click();
-  if (isFirst) {
-    e2e.pages.Dashboard.Settings.Variables.List.addVariableCTAV2().click();
-  } else {
-    e2e.pages.Dashboard.Settings.Variables.List.newButton().click();
-  }
-
-  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalTypeSelect()
-    .should('be.visible')
-    .within(function () {
-      e2e.components.Select.singleValue().should('have.text', 'Query').click();
-    });
-  e2e.components.Select.option().should('be.visible').contains(e2e.flows.VARIABLE_TYPE_CONSTANT).click();
-  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalLabelInput().type(label);
-  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalNameInput().clear().type(name);
-  e2e.pages.Dashboard.Settings.Variables.Edit.ConstantVariable.constantOptionsQueryInput().type(constantValue);
-  e2e().focused().blur();
-  e2e.pages.Dashboard.Settings.Variables.Edit.General.previewOfValuesOption()
-    .should('exist')
-    .within(function (previewOfValues) {
-      expect(previewOfValues.text()).equals(constantValue);
-    });
-  e2e.pages.Dashboard.Settings.Variables.Edit.General.submitButton().click();
-  e2e.components.PageToolbar.item('Go Back').click();
-};
-
 e2e.scenario({
   describeName: 'Smoke tests',
   itName: 'Login, create data source, dashboard with variable and panel',
@@ -121,8 +93,15 @@ e2e.scenario({
             from: '2001-01-31 19:00:00',
             to: '2016-01-31 19:00:00',
           },
+          variables: [
+            {
+              constantValue: 'SHOW DATABASES',
+              label: 'Template Variable',
+              name: queryVariable,
+              type: e2e.flows.VARIABLE_TYPE_CONSTANT,
+            },
+          ],
         });
-        addTimestreamVariable(queryVariable, 'SHOW DATABASES', 'Template Variable', true);
         addTablePanel('$' + queryVariable);
       });
   },
