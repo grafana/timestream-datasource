@@ -77,6 +77,34 @@ const addTablePanel = (q: string) => {
   });
 };
 
+const addTimestreamVariable = (name: string, constantValue: string, label: string, type: string, isFirst: boolean) => {
+  e2e.components.PageToolbar.item('Dashboard settings').click();
+  e2e.components.Tab.title('Variables').click();
+  if (isFirst) {
+    e2e.pages.Dashboard.Settings.Variables.List.addVariableCTAV2().click();
+  } else {
+    e2e.pages.Dashboard.Settings.Variables.List.newButton().click();
+  }
+
+  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalTypeSelect()
+    .should('be.visible')
+    .within(function () {
+      e2e.components.Select.singleValue().should('have.text', 'Query').click();
+    });
+  e2e.components.Select.option().should('be.visible').contains(type).click();
+  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalLabelInput().type(label);
+  e2e.pages.Dashboard.Settings.Variables.Edit.General.generalNameInput().clear().type(name);
+  e2e.pages.Dashboard.Settings.Variables.Edit.ConstantVariable.constantOptionsQueryInput().type(constantValue);
+  e2e().focused().blur();
+  e2e.pages.Dashboard.Settings.Variables.Edit.General.previewOfValuesOption()
+    .should('exist')
+    .within(function (previewOfValues) {
+      expect(previewOfValues.text()).equals(constantValue);
+    });
+  e2e.pages.Dashboard.Settings.Variables.Edit.General.submitButton().click();
+  return fullConfig;
+};
+
 e2e.scenario({
   describeName: 'Smoke tests',
   itName: 'Login, create data source, dashboard with variable and panel',
