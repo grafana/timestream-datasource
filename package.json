@@ -40,6 +40,7 @@
   },
   "resolutions": {
     "rxjs": "6.6.3",
-    "@types/react": "17.0.52"
+    "@types/react": "17.0.52",
+    "**/cypress/**/listr-verbose-renderer/date-fns": "2.29.1"
   }
 }
