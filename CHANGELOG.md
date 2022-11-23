@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.3.3
+
+- Upgrade @grafana/ dependencies to v9.2.4
+
 ## 2.3.2
 
 - Security: Upgrade Go in build process to 1.19.3
