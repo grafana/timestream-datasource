@@ -13,7 +13,12 @@ import { selectors } from './selectors';
 
 jest
   .spyOn(runtime, 'getTemplateSrv')
-  .mockImplementation(() => ({ getVariables: jest.fn().mockReturnValue([]), replace: jest.fn() }));
+  .mockImplementation(() => ({
+    containsTemplate: jest.fn(),
+    getVariables: jest.fn().mockReturnValue([]),
+    replace: jest.fn(),
+    updateTimeRange: jest.fn()})
+  )
 
 jest.mock('@grafana/experimental', () => ({
   ...jest.requireActual<typeof experimental>('@grafana/experimental'),
