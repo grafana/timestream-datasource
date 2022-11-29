@@ -165,7 +165,7 @@ export function QueryEditor(props: Props) {
         <SQLEditor
           query={query}
           onRunQuery={props.onRunQuery}
-          onChange={(rawQuery) => props.onChange({ ...props.query, rawQuery })}
+          onChange={(query) => props.onChange(query)}
           datasource={props.datasource}
         />
       </div>
