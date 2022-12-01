@@ -9,7 +9,7 @@ import timestreamLanguageDefinition from 'language/definition';
 interface RawEditorProps {
   query: TimestreamQuery;
   onRunQuery: () => void;
-  onChange: (q: string) => void;
+  onChange: (query: TimestreamQuery) => void;
   datasource: DataSource;
 }
 
@@ -18,6 +18,10 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   useEffect(() => {
     queryRef.current = query;
   }, [query]);
+
+  const onChangeRawQuery = (rawQuery: string) => {
+    onChange({ ...queryRef.current, rawQuery });
+  };
 
   const getDatabases = useCallback(async () => {
     const databases: string[] = await datasource.postResource('databases').catch(() => []);
@@ -67,7 +71,7 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
     <SQLCodeEditor
       query={query.rawQuery ?? ''}
       onBlur={() => onRunQuery()}
-      onChange={(rawQuery) => onChange(rawQuery)}
+      onChange={onChangeRawQuery}
       language={{
         ...timestreamLanguageDefinition,
         completionProvider,
