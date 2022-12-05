@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.4.0
+
+- Fix: SQLEditor: Use queryRef to call onChange [#209](https://github.com/grafana/timestream-datasource/pull/209)
+- Chore: Update version of code-coverage [#211](https://github.com/grafana/timestream-datasource/pull/211)
+- Feature: Timestream is now available in us-gov-west-1 [#207](https://github.com/grafana/timestream-datasource/pull/207)
+
 ## 2.3.2
 
 - Security: Upgrade Go in build process to 1.19.3
