@@ -11,7 +11,7 @@ function getSchemaKey(frame: DataFrame): string {
   return key;
 }
 
-// TODO: this could likley use the builtin merge transformer, however it was behaving weirdly
+// TODO: this could likely use the builtin merge transformer, however it was behaving weirdly
 // with arrow time fields ;(
 export function appendMatchingFrames(prev: DataFrame[], b: DataFrame[]): DataFrame[] {
   const byKey = new Map<string, MutableDataFrame>();

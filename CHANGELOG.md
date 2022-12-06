@@ -76,7 +76,7 @@ All notable changes to this project will be documented in this file.
 
 - Execute each query in its own request, this will support multiple queries that
   require multiple pages to complete
-- Upgrade shared authenticaiton library
+- Upgrade shared authentication library
 - Bump minimum grafana runtime to 7.5
 
 ## v1.3.0
