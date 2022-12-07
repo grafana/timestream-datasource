@@ -18,7 +18,7 @@ func runTest(t *testing.T, names []string) *backend.DataResponse {
 	mockClient := &MockClient{testFileNames: names}
 	dr := ExecuteQuery(context.Background(), models.QueryModel{WaitForResult: true}, mockClient, models.DatasourceSettings{})
 
-	// Remove changable fields
+	// Remove changeable fields
 	for _, frame := range dr.Frames {
 		if frame.Meta != nil {
 			meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
@@ -99,7 +99,7 @@ func TestGenerateTestData(t *testing.T) {
 		RawQuery: `SELECT * FROM ` + table + ` LIMIT 10`,
 	}
 
-	m["select-null-timetamp.json"] = models.QueryModel{
+	m["select-null-timestamp.json"] = models.QueryModel{
 		RawQuery: `SELECT measure_name ,
 		CASE WHEN measure_name = 'make_me_null' THEN (SELECT NULL) ELSE time END
 		FROM ` + table +

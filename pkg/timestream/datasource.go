@@ -92,7 +92,7 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 }
 
 func (s *timestreamDS) Dispose() {
-	// Called before creatinga a new instance to allow plugin authors
+	// Called before creating a new instance to allow plugin authors
 	// to cleanup.
 }
 
