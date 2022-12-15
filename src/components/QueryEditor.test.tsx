@@ -37,7 +37,7 @@ const dimensions = ['region', 'zone'];
 
 beforeEach(() => {
   ds.getResource = jest.fn().mockResolvedValue(databases);
-  ds.postResource = jest.fn((r: string, body?: any) => {
+  ds.postResource = jest.fn<Promise<any>, [path: string, body?: any]>((r: string, body?: any) => {
     switch (r) {
       case 'tables':
         return Promise.resolve(tables);
