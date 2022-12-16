@@ -11,10 +11,8 @@ import { QueryEditor } from './QueryEditor';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
 
-const mockGetVariables = jest.fn().mockReturnValue([]);
-
 jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
-  getVariables: mockGetVariables,
+  getVariables: jest.fn().mockReturnValue([]),
   replace: jest.fn(),
   containsTemplate: jest.fn(),
   updateTimeRange: jest.fn(),
