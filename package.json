@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.42",
-    "@grafana/aws-sdk": "0.0.37",
+    "@grafana/aws-sdk": "0.0.42",
     "@grafana/data": "8.0.5",
     "@grafana/runtime": "8.0.5",
     "@grafana/toolkit": "8.0.5",
