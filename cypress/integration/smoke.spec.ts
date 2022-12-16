@@ -72,7 +72,7 @@ const addTablePanel = (q: string) => {
       cy.get('.panel-content').last().click();
       cy.get('.panel-loading');
       cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');
-      cy.contains('Data does not have a time field').should('exist');
+      cy.contains('Data is missing a number field').should('exist');
     },
   });
 };
