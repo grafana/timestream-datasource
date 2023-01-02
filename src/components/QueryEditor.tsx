@@ -140,7 +140,7 @@ export function QueryEditor(props: Props) {
         <InlineField
           id={`${props.query.refId}-wait`}
           label={'Wait for all queries'}
-          labelWidth={18}
+          labelWidth={16}
           style={{ alignItems: 'center' }}
         >
           <Switch
