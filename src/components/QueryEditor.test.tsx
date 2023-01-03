@@ -11,9 +11,12 @@ import { QueryEditor } from './QueryEditor';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
 
-jest
-  .spyOn(runtime, 'getTemplateSrv')
-  .mockImplementation(() => ({ getVariables: jest.fn().mockReturnValue([]), replace: jest.fn() }));
+jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
+  getVariables: jest.fn().mockReturnValue([]),
+  replace: jest.fn(),
+  containsTemplate: jest.fn(),
+  updateTimeRange: jest.fn(),
+}));
 
 jest.mock('@grafana/experimental', () => ({
   ...jest.requireActual<typeof experimental>('@grafana/experimental'),
@@ -32,7 +35,7 @@ const dimensions = ['region', 'zone'];
 
 beforeEach(() => {
   ds.getResource = jest.fn().mockResolvedValue(databases);
-  ds.postResource = jest.fn((r: string, body?: any) => {
+  ds.postResource = jest.fn().mockImplementation((r: string, body?: any) => {
     switch (r) {
       case 'tables':
         return Promise.resolve(tables);

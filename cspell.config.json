@@ -84,6 +84,7 @@
     "onloaddatabase",
     "onloadtable",
     "onloadmeasure",
-    "consts"
+    "consts",
+    "typecheck"
   ]
 }
