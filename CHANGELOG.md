@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.0
+
+* Update @grafana/aws-sdk by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/216
+* Increase label width to fix overflow. by @chinu-anand in https://github.com/grafana/timestream-datasource/pull/217
+* migrate to create-plugin by @iwysiu in https://github.com/grafana/timestream-datasource/pull/199
+* Upgrade grafana-aws-sdk by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/223
+
+**Full Changelog**: https://github.com/grafana/timestream-datasource/compare/v2.4.0...v2.5.0
+
 ## 2.4.0
 
 - Fix: SQLEditor: Use queryRef to call onChange [#209](https://github.com/grafana/timestream-datasource/pull/209)
