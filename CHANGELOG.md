@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## 2.7.0
+
+- Update grafana-aws-sdk version
+- Security: Upgrade Go in build process to 1.20.4
+
 ## 2.6.0
 
 * Update backend dependencies

@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "Load data timestream in grafana",
   "scripts": {
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
