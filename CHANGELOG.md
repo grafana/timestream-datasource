@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 
 - Update grafana-aws-sdk version
 - Security: Upgrade Go in build process to 1.20.4
+- Revert grafana-plugin-sdk-go version to 0.149.0 to fix connection issues. Should be same behavior as behavior with no known issues.
 
 ## 2.6.0
 
