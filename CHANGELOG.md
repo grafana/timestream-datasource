@@ -2,15 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.7.0
+
+- Update grafana-aws-sdk to v0.19.1 to add `il-central-1` to opt-in region list
 
 ## 2.6.2
 
 - Update grafana-aws-sdk-react version to use grafana/runtime instead of grafanaBootData [#237](https://github.com/grafana/grafana-aws-sdk/pull/237)
 - Remove code coverage workflow [#234](https://github.com/grafana/grafana-aws-sdk/pull/234)
-
-## 2.7.0
-
-- Update grafana-aws-sdk to v0.19.0 to add `il-central-1` to opt-in region list
 
 ## 2.6.1
 
