@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.7.0
+
+- Update grafana-aws-sdk to v0.19.1 to add `il-central-1` to opt-in region list
 
 ## 2.6.2
 
