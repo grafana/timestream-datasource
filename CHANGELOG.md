@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.7.1
+
+- Update @grafana/aws-sdk to fix a bug in temporary credentials
+
 ## 2.7.0
 
 - Update grafana-aws-sdk to v0.19.1 to add `il-central-1` to opt-in region list
@@ -13,20 +17,20 @@ All notable changes to this project will be documented in this file.
 
 ## 2.6.1
 
-- Update grafana-aws-sdk version to include new region in opt-in region list https://github.com/grafana/grafana-aws-sdk/pull/80 
+- Update grafana-aws-sdk version to include new region in opt-in region list https://github.com/grafana/grafana-aws-sdk/pull/80
 - Security: Upgrade Go in build process to 1.20.4
 - Update grafana-plugin-sdk-go version to 0.161.0 to avoid a potential http header problem. https://github.com/grafana/athena-datasource/issues/233
 
 ## 2.6.0
 
-* Update backend dependencies
+- Update backend dependencies
 
 ## 2.5.0
 
-* Update @grafana/aws-sdk by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/216
-* Increase label width to fix overflow. by @chinu-anand in https://github.com/grafana/timestream-datasource/pull/217
-* migrate to create-plugin by @iwysiu in https://github.com/grafana/timestream-datasource/pull/199
-* Upgrade grafana-aws-sdk by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/223
+- Update @grafana/aws-sdk by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/216
+- Increase label width to fix overflow. by @chinu-anand in https://github.com/grafana/timestream-datasource/pull/217
+- migrate to create-plugin by @iwysiu in https://github.com/grafana/timestream-datasource/pull/199
+- Upgrade grafana-aws-sdk by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/223
 
 **Full Changelog**: https://github.com/grafana/timestream-datasource/compare/v2.4.0...v2.5.0
 
