@@ -44,7 +44,7 @@ func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamque
 	return svc.CancelQueryWithContext(ctx, input)
 }
 
-func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	settings := models.DatasourceSettings{}
 	err := settings.Load(s)
 	if err != nil {
@@ -60,7 +60,7 @@ func NewServerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Insta
 			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
 
 				httpClientProvider := sdkhttpclient.NewProvider()
-				httpClientOptions, err := settings.Config.HTTPClientOptions()
+				httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
 				if err != nil {
 					backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
 					return nil, err
