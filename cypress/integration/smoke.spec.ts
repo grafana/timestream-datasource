@@ -69,9 +69,9 @@ const addTablePanel = (q: string) => {
 
       fillQuery(q);
       // Blur the editor to execute the query and wait
-      cy.get('.panel-content').last().click();
-      cy.get('.panel-loading');
-      cy.get('.panel-loading', { timeout: 10000 }).should('not.exist');
+      e2eSelectors.QueryEditor.CodeEditor.container().click({ force: true });
+      cy.get('[aria-label="Panel loading bar"]');
+      cy.get('[aria-label="Panel loading bar"]', { timeout: 10000 }).should('not.exist');
       cy.contains('Data is missing a number field').should('exist');
     },
   });
@@ -93,14 +93,6 @@ e2e.scenario({
             from: '2001-01-31 19:00:00',
             to: '2016-01-31 19:00:00',
           },
-          variables: [
-            {
-              constantValue: 'SHOW DATABASES',
-              label: 'Template Variable',
-              name: queryVariable,
-              type: e2e.flows.VARIABLE_TYPE_CONSTANT,
-            },
-          ],
         });
         addTablePanel('$' + queryVariable);
       });
