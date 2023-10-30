@@ -1,16 +1,19 @@
 module github.com/grafana/timestream-datasource
 
-go 1.20
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/aws/aws-sdk-go v1.44.323
 	github.com/google/go-cmp v0.5.9
 	github.com/grafana/grafana-aws-sdk v0.19.1
-	github.com/grafana/grafana-plugin-sdk-go v0.185.0
+	github.com/grafana/grafana-plugin-sdk-go v0.188.3
 	github.com/stretchr/testify v1.8.4
 )
 
 require (
+	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/apache/arrow/go/v13 v13.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
