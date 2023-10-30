@@ -182,7 +182,7 @@ func TestGenerateTestData(t *testing.T) {
 
 	nextToken := map[string]*string{}
 	for filename, query := range m {
-		inst, err := NewServerInstance(backend.DataSourceInstanceSettings{
+		inst, err := NewServerInstance(context.Background(), backend.DataSourceInstanceSettings{
 			JSONData: []byte(`{"region": "us-west-2"}`),
 		})
 		if err != nil {
