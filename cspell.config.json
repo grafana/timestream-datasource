@@ -89,6 +89,9 @@
     "onloadtable",
     "onloadmeasure",
     "consts",
-    "typecheck"
+    "typecheck",
+    "opentelemetry",
+    "httptrace",
+    "otelhttptrace"
   ]
 }
