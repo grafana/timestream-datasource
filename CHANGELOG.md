@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.7.2
+## 2.8.0
 
+- Support Node 18 by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/245
 - Bump word-wrap from 1.2.3 to 1.2.5 by @dependabot in https://github.com/grafana/timestream-datasource/pull/246
 - Bump semver from 5.7.1 to 5.7.2 by @dependabot in https://github.com/grafana/timestream-datasource/pull/235
 - Bump golang.org/x/net from 0.9.0 to 0.17.0 by @dependabot in https://github.com/grafana/timestream-datasource/pull/250
 - Bump postcss from 8.4.18 to 8.4.31 by @dependabot in https://github.com/grafana/timestream-datasource/pull/249
 - Bump @babel/traverse from 7.18.13 to 7.23.2 by @dependabot in https://github.com/grafana/timestream-datasource/pull/252
-- Support Node 18 by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/245
 - Bump google.golang.org/grpc from 1.54.0 to 1.56.3 by @dependabot in https://github.com/grafana/timestream-datasource/pull/253
 - Bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.37.0 to 0.44.0 by @dependabot in https://github.com/grafana/timestream-datasource/pull/251
 - Bump @babel/traverse from 7.18.13 to 7.23.2 by @dependabot in https://github.com/grafana/timestream-datasource/pull/255
@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Upgrade underscore, d3-color, debug, cosmiconfig, yaml dependencies by @fridgepoet in https://github.com/grafana/timestream-datasource/pull/263
 - Bump yaml from 2.1.3 to 2.3.4 by @dependabot in https://github.com/grafana/timestream-datasource/pull/264
 
-**Full Changelog**: https://github.com/grafana/timestream-datasource/compare/v2.7.1...v2.7.2
+**Full Changelog**: https://github.com/grafana/timestream-datasource/compare/v2.7.1...v2.8.0
 
 ## 2.7.1
 
