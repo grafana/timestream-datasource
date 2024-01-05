@@ -20,7 +20,7 @@ export function QueryEditor(props: Props) {
 
   // pre-populate query with default data
   useEffect(() => {
-    if (!database || !table || !table) {
+    if (!database || !table || !measure) {
       onChange({
         ...query,
         database: database || defaultDatabase,
@@ -44,13 +44,6 @@ export function QueryEditor(props: Props) {
     onChange({ ...query, rawQuery });
     onRunQuery();
   };
-
-  // Trigger query if all the resources are set
-  useEffect(() => {
-    if (database && table && measure) {
-      onRunQuery();
-    }
-  }, [database, table, measure, onRunQuery]);
 
   // Databases used both for the selector and editor suggestions
   const [databases, setDatabases] = useState<string[]>([]);
