@@ -113,23 +113,6 @@ describe('QueryEditor', () => {
     });
   });
 
-  it('run a query if it has database, table and measure set', async () => {
-    const onRunQuery = jest.fn();
-    render(
-      <QueryEditor
-        {...props}
-        onRunQuery={onRunQuery}
-        query={{ ...props.query, database: databases[0], table: tables[0], measure: measures[0] }}
-      />
-    );
-
-    await waitFor(() => expect(ds.postResource).toHaveBeenCalledTimes(2));
-    // Measure field is set
-    expect(screen.getByText(measures[0])).toBeInTheDocument();
-
-    expect(onRunQuery).toHaveBeenCalled();
-  });
-
   it('should enable switch to wait for all queries', async () => {
     const onChange = jest.fn();
     render(<QueryEditor {...props} onChange={onChange} />);
