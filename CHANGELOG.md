@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.0
+
+- Bump jest-dom in [#270](https://github.com/grafana/timestream-datasource/pull/245)
+- Query Editor: Stop running query automatically when all macros are selected in [#269](https://github.com/grafana/timestream-datasource/pull/269)
+- Bump go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc from 0.45.0 to 0.46.0 in [#267](https://github.com/grafana/timestream-datasource/pull/267)
+
 ## 2.8.0
 
 - Support Node 18 by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/245
