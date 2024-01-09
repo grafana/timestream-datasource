@@ -92,6 +92,7 @@
     "typecheck",
     "opentelemetry",
     "httptrace",
-    "otelhttptrace"
+    "otelhttptrace",
+    "otelgrpc"
   ]
 }
