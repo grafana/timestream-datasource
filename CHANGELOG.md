@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.1
+
+-  Update grafana/aws-sdk to 0.20.0 to add a new supported region
+
 ## 2.9.0
 
 - Bump jest-dom in [#270](https://github.com/grafana/timestream-datasource/pull/245)
