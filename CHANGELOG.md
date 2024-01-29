@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## 2.9.1
 
 -  Update grafana/aws-sdk to 0.20.0 to add a new supported region in [#274](https://github.com/grafana/timestream-datasource/pull/274)
+-   Query Editor: Fix table and database mapping in [#272](https://github.com/grafana/timestream-datasource/pull/272)
 
 ## 2.9.0
 
