@@ -16,7 +16,7 @@
       "name": "Grafana Labs",
       "url": "https://grafana.com"
     },
-    "keywords": ["datasource", "timestream", "aws"],
+    "keywords": ["datasource", "timestream", "aws", "cloud provider", "time series"],
     "logos": {
       "small": "img/timestream.svg",
       "large": "img/timestream.svg"
