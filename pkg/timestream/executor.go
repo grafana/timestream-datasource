@@ -46,7 +46,7 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 		}
 	}
 	if err == nil {
-		dr = QueryResultToDataFrame(output)
+		dr = QueryResultToDataFrame(output, query.Format)
 	} else {
 		dr.Error = err
 	}

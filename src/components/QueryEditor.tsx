@@ -4,7 +4,7 @@ import { InlineField, InlineSegmentGroup, Label, Select, Switch } from '@grafana
 import React, { useEffect, useState } from 'react';
 
 import { DataSource } from '../DataSource';
-import { TimestreamOptions, TimestreamQuery } from '../types';
+import { FormatOptions, SelectableFormatOptions, TimestreamOptions, TimestreamQuery } from '../types';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
 import SQLEditor from './SQLEditor';
@@ -15,7 +15,7 @@ type QueryProperties = 'database' | 'table' | 'measure';
 
 export function QueryEditor(props: Props) {
   const { query, datasource, onChange, onRunQuery } = props;
-  const { database, table, measure } = query;
+  const { database, table, measure, format } = query;
   const { defaultDatabase, defaultTable, defaultMeasure } = datasource.options;
 
   // pre-populate query with default data
@@ -26,6 +26,7 @@ export function QueryEditor(props: Props) {
         database: database || defaultDatabase,
         table: table || defaultTable,
         measure: measure || defaultMeasure,
+        format: format || FormatOptions.Table,
       });
     }
     // Run only once
@@ -38,6 +39,11 @@ export function QueryEditor(props: Props) {
 
   const onChangeSelector = (prop: QueryProperties) => (e: SelectableValue<string> | null) => {
     onChange({ ...query, [prop]: e?.value });
+  };
+
+  const onChangeFormat = (e: SelectableValue<FormatOptions>) => {
+    onChange({ ...query, format: e.value || 0 });
+    onRunQuery();
   };
 
   const onQueryChange = (rawQuery: string) => {
@@ -140,6 +146,35 @@ export function QueryEditor(props: Props) {
             aria-labelledby={`${props.query.refId}-wait`}
             onChange={onWaitForChange}
             checked={query.waitForResult}
+          />
+        </InlineField>
+        <h6>Frames</h6>
+        <InlineField
+          label="Format as"
+          labelWidth={13}
+          tooltip={
+            <>
+              {
+                'Timeseries queries must have times in ascending order, which can be done by adding "ORDER BY <time field> ASC" to the query. '
+              }
+              <a
+                href="https://docs.aws.amazon.com/timestream/latest/developerguide/supported-sql-constructs.SELECT.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                See the AWS Docs for more details.
+              </a>
+            </>
+          }
+          interactive
+        >
+          <Select
+            aria-label="Format as"
+            options={SelectableFormatOptions}
+            value={props.query.format || FormatOptions.Table}
+            onChange={onChangeFormat}
+            className="width-11"
+            menuShouldPortal={true}
           />
         </InlineField>
         <h6>Sample queries</h6>

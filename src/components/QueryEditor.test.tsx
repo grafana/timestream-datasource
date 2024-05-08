@@ -10,6 +10,7 @@ import { mockDatasource, mockQuery } from '../__mocks__/datasource';
 import { QueryEditor } from './QueryEditor';
 import { sampleQueries } from './samples';
 import { selectors } from './selectors';
+import { FormatOptions, SelectableFormatOptions } from 'types';
 
 jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
   getVariables: jest.fn().mockReturnValue([]),
@@ -125,6 +126,21 @@ describe('QueryEditor', () => {
     expect(onChange).toHaveBeenCalledWith({
       ...q,
       waitForResult: true,
+    });
+  });
+
+  it('should set the query format', async () => {
+    const onChange = jest.fn();
+    render(<QueryEditor {...props} onChange={onChange} />);
+
+    const selectEl = screen.getByLabelText('Format as');
+    expect(selectEl).toBeInTheDocument();
+
+    await select(selectEl, SelectableFormatOptions[1].label!, { container: document.body });
+
+    expect(onChange).toHaveBeenCalledWith({
+      ...q,
+      format: FormatOptions.TimeSeries,
     });
   });
 
