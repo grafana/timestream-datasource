@@ -151,6 +151,7 @@ export function QueryEditor(props: Props) {
         <h6>Frames</h6>
         <InlineField
           label="Format as"
+          htmlFor="format-as"
           labelWidth={13}
           tooltip={
             <>
@@ -169,7 +170,7 @@ export function QueryEditor(props: Props) {
           interactive
         >
           <Select
-            aria-label="Format as"
+            inputId="format-as"
             options={SelectableFormatOptions}
             value={props.query.format || FormatOptions.Table}
             onChange={onChangeFormat}
