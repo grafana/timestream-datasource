@@ -1,5 +1,5 @@
 import { AwsAuthDataSourceJsonData, AwsAuthDataSourceSecureJsonData } from '@grafana/aws-sdk';
-import { DataQuery, DataSourceSettings } from '@grafana/data';
+import { DataQuery, DataSourceSettings, SelectableValue } from '@grafana/data';
 
 export interface ColumnInfo {
   column: string;
@@ -22,6 +22,22 @@ export enum DataType {
   double = 'double',
   timestamp = 'timestamp',
 }
+
+export enum FormatOptions {
+  Table,
+  TimeSeries,
+}
+
+export const SelectableFormatOptions: Array<SelectableValue<FormatOptions>> = [
+  {
+    label: 'Table',
+    value: FormatOptions.Table,
+  },
+  {
+    label: 'Time Series',
+    value: FormatOptions.TimeSeries,
+  },
+];
 
 export interface MeasureInfo {
   name: string;
@@ -67,6 +83,8 @@ export interface TimestreamQuery extends DataQuery {
 
   // Avoid pagination
   waitForResult?: boolean;
+
+  format?: FormatOptions;
 
   // Not a real parameter...
   // nextToken?: string;

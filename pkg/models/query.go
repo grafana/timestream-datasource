@@ -9,6 +9,16 @@ import (
 	"github.com/grafana/timestream-datasource/pkg/common"
 )
 
+// FormatQueryOption defines how the user has chosen to represent the data
+type FormatQueryOption uint32
+
+const (
+	// FormatOptionTable formats the query results as a table using "LongToWide"
+	FormatOptionTable FormatQueryOption = iota
+	//FormatOptionTimeSeries formats the query results as a timeseries using "WideToLong"
+	FormatOptionTimeSeries
+)
+
 // QueryModel represents a spreadsheet query.
 type QueryModel struct {
 	RawQuery  string `json:"rawQuery,omitempty"`
@@ -26,6 +36,9 @@ type QueryModel struct {
 
 	// Return several pages (if exist) in one response
 	WaitForResult bool `json:"waitForResult"`
+
+	// Format the results
+	Format FormatQueryOption `json:"format"`
 }
 
 // GetQueryModel returns a parsed query

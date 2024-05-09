@@ -13,7 +13,7 @@ import (
 )
 
 // QueryResultToDataFrame creates a DataFrame from query results
-func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataResponse) {
+func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.FormatQueryOption) (dr backend.DataResponse) {
 	dr = backend.DataResponse{}
 	notices := []data.Notice{}
 	builders := []*fieldBuilder{}
@@ -119,6 +119,17 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput) (dr backend.DataRe
 		frame := data.NewFrame("", // No name
 			fields...,
 		)
+
+		if format == models.FormatOptionTimeSeries {
+			var err error
+			frame, err = data.LongToWide(frame, &data.FillMissing{
+				Mode: data.FillModeNull,
+			})
+			if err != nil {
+				dr.Error = fmt.Errorf("error formatting as timeseries: %s", err)
+				return
+			}
+		}
 		dr.Frames = append(dr.Frames, frame)
 	}
 
