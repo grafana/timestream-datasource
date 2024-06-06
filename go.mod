@@ -7,7 +7,7 @@ toolchain go1.21.4
 require (
 	github.com/aws/aws-sdk-go v1.51.31
 	github.com/google/go-cmp v0.6.0
-	github.com/grafana/grafana-aws-sdk v0.26.0
+	github.com/grafana/grafana-aws-sdk v0.27.0
 	github.com/grafana/grafana-plugin-sdk-go v0.228.0
 	github.com/stretchr/testify v1.9.0
 )
