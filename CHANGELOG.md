@@ -2,14 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.3
+
+- Upgrade grafana-aws-sdk and other packages [#285](https://github.com/grafana/timestream-datasource/pull/285)
+
 ## 2.9.2
+
 - Add keywords by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/278
 - Bring in [security fixes in go 1.21.8](https://groups.google.com/g/golang-announce/c/5pwGVUPoMbg)
 
 ## 2.9.1
 
--  Update grafana/aws-sdk to 0.20.0 to add a new supported region in [#274](https://github.com/grafana/timestream-datasource/pull/274)
--   Query Editor: Fix table and database mapping in [#272](https://github.com/grafana/timestream-datasource/pull/272)
+- Update grafana/aws-sdk to 0.20.0 to add a new supported region in [#274](https://github.com/grafana/timestream-datasource/pull/274)
+- Query Editor: Fix table and database mapping in [#272](https://github.com/grafana/timestream-datasource/pull/272)
 
 ## 2.9.0
 
