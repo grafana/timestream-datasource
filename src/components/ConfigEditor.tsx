@@ -79,6 +79,7 @@ export function ConfigEditor(props: Props) {
       <p>Default values to be used as macros</p>
       <ConfigSelect
         {...props}
+        id="database"
         value={props.options.jsonData.defaultDatabase ?? ''}
         onChange={onChange('defaultDatabase')}
         fetch={fetchDatabases}
@@ -88,6 +89,7 @@ export function ConfigEditor(props: Props) {
       />
       <ConfigSelect
         {...props}
+        id="table"
         value={props.options.jsonData.defaultTable ?? ''}
         onChange={onChange('defaultTable')}
         fetch={fetchTables}
@@ -98,6 +100,7 @@ export function ConfigEditor(props: Props) {
       />
       <ConfigSelect
         {...props}
+        id="measure"
         value={props.options.jsonData.defaultMeasure ?? ''}
         onChange={onChange('defaultMeasure')}
         fetch={fetchMeasures}
