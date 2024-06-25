@@ -253,7 +253,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                 stats.push({
                   displayName: 'Cumulative bytes metered',
                   value: Number(v.text),
-                  unit: v.suffix?.trimLeft(),
+                  unit: v.suffix?.trimStart(),
                   decimals: 2,
                 });
               }
@@ -262,7 +262,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
                 stats.push({
                   displayName: 'Cumulative bytes scanned',
                   value: Number(v.text),
-                  unit: v.suffix?.trimLeft(),
+                  unit: v.suffix?.trimStart(),
                   decimals: 2,
                 });
               }
