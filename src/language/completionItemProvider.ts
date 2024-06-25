@@ -25,10 +25,10 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
         resolve: getDatabases,
       },
       tables: {
-        resolve: (t: TableIdentifier) => {
+        resolve: (t?: TableIdentifier | null) => {
           return getTables(t?.schema);
         },
-        parseName: (token: LinkedToken) => {
+        parseName: (token?: LinkedToken | null) => {
           const tablePath = token?.value ?? '';
           const parts = tablePath.split('.');
 
@@ -39,7 +39,7 @@ export const getTimestreamCompletionProvider: (args: CompletionProviderGetterArg
         },
       },
       columns: {
-        resolve: (t: TableIdentifier) => getColumns(t.schema, t.table),
+        resolve: (t?: TableIdentifier) => getColumns(t?.schema, t?.table),
       },
       supportedMacros: () => MACROS,
     };
