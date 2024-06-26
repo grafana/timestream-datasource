@@ -10,13 +10,18 @@ export const addDataSourceWithKey = (datasourceType: string, datasource: any): a
   return e2e.flows.addDataSource({
     expectedAlertMessage: 'Connection success',
     form: () => {
-      e2eSelectors.ConfigEditor.AuthenticationProvider.input().type('Access & secret key').type('{enter}');
-      e2eSelectors.ConfigEditor.AccessKey.input().type(datasource.secureJsonData.accessKey);
-      e2eSelectors.ConfigEditor.SecretKey.input().type(datasource.secureJsonData.secretKey);
-      e2eSelectors.ConfigEditor.DefaultRegion.input()
+      cy.contains('label', timestreamSelectors.components.ConfigEditor.AuthenticationProvider.input)
         .click({ force: true })
-        .type(datasource.jsonData.defaultRegion)
-        .type('{enter}');
+        .type('Access & secret key{enter}');
+      cy.contains('label', timestreamSelectors.components.ConfigEditor.AccessKey.input).type(
+        datasource.secureJsonData.accessKey
+      );
+      cy.contains('label', timestreamSelectors.components.ConfigEditor.SecretKey.input).type(
+        datasource.secureJsonData.secretKey
+      );
+      cy.contains('label', timestreamSelectors.components.ConfigEditor.DefaultRegion.input)
+        .click({ force: true })
+        .type(`${datasource.jsonData.defaultRegion}{enter}`);
       // Databases
       e2eSelectors.ConfigEditor.defaultDatabase.input().click({ force: true });
       // wait for it to load
