@@ -96,7 +96,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 					if !cellParsingError {
 						notices = append(notices, data.Notice{
 							Severity: data.NoticeSeverityError,
-							Text:     fmt.Sprintf("Error parsing: row:%d, colum:%d", i, builder.columnIdx),
+							Text:     fmt.Sprintf("Error parsing: row:%d, column:%d", i, builder.columnIdx),
 						})
 					}
 					cellParsingError = true
