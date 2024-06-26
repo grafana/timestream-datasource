@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.4
+
+- Fix: use ReadAuthSettings to get authSettings in [#289](https://github.com/grafana/timestream-datasource/pull/289)
+
 ## 2.9.3
 
 - Upgrade grafana-aws-sdk and other packages [#285](https://github.com/grafana/timestream-datasource/pull/285)
