@@ -70,7 +70,7 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 					backend.Logger.Error("failed to create HTTP client", "error", err.Error())
 					return nil, err
 				}
-				authSettings, _ := awsds.ReadAuthSettingsFromContext(ctx)
+				authSettings := awsds.ReadAuthSettings(ctx)
 				sess, err := sessions.GetSessionWithAuthSettings(awsds.GetSessionConfig{
 					Settings:      settings.AWSDatasourceSettings,
 					HTTPClient:    httpClient,
