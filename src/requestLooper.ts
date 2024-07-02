@@ -1,4 +1,5 @@
-import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame } from '@grafana/data';
+import { DataQueryRequest, DataQueryResponse, LoadingState, DataFrame } from '@grafana/data';
+import { type DataQuery } from '@grafana/schema';
 import { Observable, Subscription } from 'rxjs';
 
 export interface MultiRequestTracker {

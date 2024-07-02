@@ -64,7 +64,7 @@ describe('QueryEditor', () => {
     const selectEl = screen.getByLabelText(selectors.components.ConfigEditor.defaultDatabase.input);
     expect(selectEl).toBeInTheDocument();
 
-    await select(selectEl, databases[1], { container: document.body });
+    await waitFor(() => select(selectEl, databases[1], { container: document.body }));
 
     expect(ds.getResource).toHaveBeenCalledWith('databases');
     expect(onChange).toHaveBeenCalledWith({
@@ -80,7 +80,7 @@ describe('QueryEditor', () => {
     const selectEl = screen.getByLabelText(selectors.components.ConfigEditor.defaultTable.input);
     expect(selectEl).toBeInTheDocument();
 
-    await select(selectEl, tables[1], { container: document.body });
+    await waitFor(() => select(selectEl, tables[1], { container: document.body }));
 
     expect(ds.postResource).toHaveBeenCalledWith('tables', { database: databases[0] });
     expect(onChange).toHaveBeenCalledWith({
@@ -103,7 +103,7 @@ describe('QueryEditor', () => {
     const selectEl = screen.getByLabelText(selectors.components.ConfigEditor.defaultMeasure.input);
     expect(selectEl).toBeInTheDocument();
 
-    await select(selectEl, measures[1], { container: document.body });
+    await waitFor(() => select(selectEl, measures[1], { container: document.body }));
 
     expect(ds.postResource).toHaveBeenCalledWith('measures', { database: databases[0], table: tables[0] });
     expect(onChange).toHaveBeenCalledWith({
@@ -136,7 +136,7 @@ describe('QueryEditor', () => {
     const selectEl = screen.getByLabelText('Format as');
     expect(selectEl).toBeInTheDocument();
 
-    await select(selectEl, SelectableFormatOptions[1].label!, { container: document.body });
+    await waitFor(() => select(selectEl, SelectableFormatOptions[1].label!, { container: document.body }));
 
     expect(onChange).toHaveBeenCalledWith({
       ...q,
@@ -151,7 +151,7 @@ describe('QueryEditor', () => {
     const selectEl = screen.getByLabelText('Query');
     expect(selectEl).toBeInTheDocument();
 
-    await select(selectEl, sampleQueries[0].label!, { container: document.body });
+    await waitFor(() => select(selectEl, sampleQueries[0].label!, { container: document.body }));
 
     expect(onChange).toHaveBeenCalledWith({
       ...q,

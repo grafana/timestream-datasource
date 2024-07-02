@@ -106,6 +106,7 @@ export function QueryEditor(props: Props) {
       <div className="gf-form-group">
         <h6>Macros</h6>
         <ResourceSelector
+          id="database"
           onChange={onChangeSelector('database')}
           resources={databases}
           value={database || null}
@@ -116,6 +117,7 @@ export function QueryEditor(props: Props) {
           className="width-12"
         />
         <ResourceSelector
+          id="table"
           onChange={onChangeSelector('table')}
           resources={tables}
           value={table || null}
@@ -126,6 +128,7 @@ export function QueryEditor(props: Props) {
           className="width-12"
         />
         <ResourceSelector
+          id="measure"
           onChange={onChangeSelector('measure')}
           resources={measures}
           value={measure || null}
