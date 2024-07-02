@@ -1,12 +1,8 @@
-import { DataFrame, FieldType, MutableDataFrame, Vector } from '@grafana/data';
+import { DataFrame, FieldType, MutableDataFrame } from '@grafana/data';
 
 import { appendMatchingFrames } from './appendFrames';
 
-const v: Vector<number> = {
-  length: 1,
-  get: () => 1,
-  toArray: () => [1],
-};
+const v = [1]
 
 describe('appendMatchingFrames', () => {
   it('should do nothing with empty input', () => {
@@ -47,19 +43,11 @@ describe('appendMatchingFrames', () => {
 
   it('should merge two frames values', () => {
     const frame1 = new MutableDataFrame({ fields: [{ name: 'foo', values: v }] });
-    const v2: Vector<number> = {
-      length: 1,
-      get: () => 2,
-      toArray: () => [2],
-    };
+    const v2 =  [2]
     const frame2 = new MutableDataFrame({ fields: [{ name: 'foo', values: v2 }] });
     const mergedFrames = appendMatchingFrames([frame1], [frame2]);
     expect(mergedFrames).toHaveLength(1);
-    const mergedValue: Vector<number> = {
-      length: 2,
-      get: () => 1,
-      toArray: () => [1, 2],
-    };
+    const mergedValue = [1, 2]
     expect(mergedFrames[0]).toEqual(new MutableDataFrame({ fields: [{ name: 'foo', values: mergedValue }] }));
   });
 });
