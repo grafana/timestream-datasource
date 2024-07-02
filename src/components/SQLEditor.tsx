@@ -24,14 +24,14 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   };
 
   const getDatabases = useCallback(async () => {
-    const databases: string[] = await datasource.postResource('databases').catch(() => []);
+    const databases: string[] = await datasource.postResource<string[]>('databases').catch(() => []);
     return databases.map((database) => ({ name: database, completion: database }));
   }, [datasource]);
 
   const getTables = useCallback(
     async (database?: string) => {
       const tables: string[] = await datasource
-        .postResource('tables', {
+        .postResource<string[]>('tables', {
           database: database ?? queryRef.current.database ?? '',
         })
         .catch(() => []);
@@ -49,8 +49,8 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
           : queryRef.current.table,
       };
       const [measures, dimensions] = await Promise.all([
-        datasource.postResource('measures', interpolatedArgs).catch(() => []),
-        datasource.postResource('dimensions', interpolatedArgs).catch(() => []),
+        datasource.postResource<string[]>('measures', interpolatedArgs).catch(() => []),
+        datasource.postResource<string[]>('dimensions', interpolatedArgs).catch(() => []),
       ]);
       return [...measures, ...dimensions].map((column) => ({ name: column, completion: column }));
     },
