@@ -16,6 +16,7 @@ import { merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
+import { cloneDeep } from 'lodash';
 
 let requestCounter = 100;
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -75,11 +76,15 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return query;
     }
 
-    // create a copy of scopedVars without $__interval_ms for using with rawQuery
-    // ${__interval*} should be escaped by the server, not the frontend
-    const queryScopedVars = { ...scopedVars };
-    delete queryScopedVars.__interval_ms;
-    delete queryScopedVars.__interval;
+    const variables = cloneDeep(scopedVars);
+    // We want to interpolate these variables on backend.
+    // The pre-calculated values are replaced with the variable strings.
+    variables.__interval = {
+      value: '$__interval',
+    };
+    variables.__interval_ms = {
+      value: '$__interval_ms',
+    };
 
     const templateSrv = getTemplateSrv();
     return {
@@ -87,7 +92,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       database: templateSrv.replace(query.database || '', scopedVars),
       table: templateSrv.replace(query.table || '', scopedVars),
       measure: templateSrv.replace(query.measure || '', scopedVars),
-      rawQuery: templateSrv.replace(query.rawQuery, queryScopedVars, this.interpolateVariable),
+      rawQuery: templateSrv.replace(query.rawQuery, variables, this.interpolateVariable),
     };
   }
 
