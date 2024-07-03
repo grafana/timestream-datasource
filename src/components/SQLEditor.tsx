@@ -43,10 +43,10 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   const getColumns = useCallback(
     async (database?: string, tableName?: string) => {
       const interpolatedArgs = {
-        database: database ? database.replace(DATABASE_MACRO, queryRef.current.database ?? '') : queryRef.current.database,
-        table: tableName
-          ? tableName.replace(TABLE_MACRO, queryRef.current.table ?? '')
-          : queryRef.current.table,
+        database: database
+          ? database.replace(DATABASE_MACRO, queryRef.current.database ?? '')
+          : queryRef.current.database,
+        table: tableName ? tableName.replace(TABLE_MACRO, queryRef.current.table ?? '') : queryRef.current.table,
       };
       const [measures, dimensions] = await Promise.all([
         datasource.postResource('measures', interpolatedArgs).catch(() => []),
