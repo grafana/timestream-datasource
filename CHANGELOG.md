@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.5
+
+- Chore: update dependencies in [#290](https://github.com/grafana/timestream-datasource/pull/290)
+
 ## 2.9.4
 
 - Fix: use ReadAuthSettings to get authSettings in [#289](https://github.com/grafana/timestream-datasource/pull/289)
