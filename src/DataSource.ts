@@ -16,7 +16,6 @@ import { merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
-import { cloneDeep } from 'lodash';
 
 let requestCounter = 100;
 export class DataSource extends DataSourceWithBackend<TimestreamQuery, TimestreamOptions> {
@@ -76,7 +75,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return query;
     }
 
-    const variables = cloneDeep(scopedVars);
+    const variables = { ...scopedVars };
     // We want to interpolate these variables on backend.
     // The pre-calculated values are replaced with the variable strings.
     variables.__interval = {
