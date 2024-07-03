@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.6
+
+- Bugfix: Fix $interval variable interpolation in [#291](https://github.com/grafana/timestream-datasource/pull/291)
+
 ## 2.9.5
 
 - Chore: update dependencies in [#290](https://github.com/grafana/timestream-datasource/pull/290)
