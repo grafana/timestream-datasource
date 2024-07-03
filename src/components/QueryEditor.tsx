@@ -62,7 +62,7 @@ export function QueryEditor(props: Props) {
   useEffect(() => {
     if (database) {
       datasource
-        .postResource<string[]>('tables', {
+        .postResource('tables', {
           database: database || '',
         })
         .then((res: string[]) => {
@@ -84,7 +84,7 @@ export function QueryEditor(props: Props) {
   useEffect(() => {
     if (database && table) {
       datasource
-        .postResource<string[]>('measures', {
+        .postResource('measures', {
           database: database,
           table: table,
         })

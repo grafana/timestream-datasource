@@ -9,3 +9,4 @@ cypress/videos/
 dist/
 provisioning
 pkg/__debug_bin
+yarn-error.log
