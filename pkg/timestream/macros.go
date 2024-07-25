@@ -1,15 +1,17 @@
 package timestream
 
 import (
-	"cmp"
 	"fmt"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
-	"github.com/grafana/timestream-datasource/pkg/models"
-	"golang.org/x/exp/maps"
 	"slices"
 	"strings"
 	"time"
+
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
+	"github.com/grafana/timestream-datasource/pkg/models"
+	"golang.org/x/exp/maps"
 )
+
+// TODO: consider refactoring sqlutil.Interpolate to be more generic and using that instead
 
 type macroFunc func(models.QueryModel, models.DatasourceSettings) (string, error)
 
@@ -31,9 +33,8 @@ var macroKeys []string
 func init() {
 	// sort macro keys longest first, so shorter keys don't clobber longer keys
 	// they're a prefix of
-	// TODO: consider refactoring sqlutil.Interpolate to be more generic and using that
 	macroKeys = maps.Keys(macroFuncs)
-	slices.SortFunc(macroKeys, func(a, b string) int { return cmp.Compare(-len(a), -len(b)) })
+	slices.SortFunc(macroKeys, func(a, b string) int { return len(b) - len(a) })
 }
 
 func macroTimeFilter(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
@@ -67,7 +68,7 @@ func macroIntervalRaw(model models.QueryModel, _ models.DatasourceSettings) (str
 }
 
 func macroNow(_ models.QueryModel, _ models.DatasourceSettings) (string, error) {
-	now := time.Now().UnixNano() / 1000 // ms
+	now := time.Now().UnixMilli()
 	return fmt.Sprintf("%d", now), nil
 }
 
