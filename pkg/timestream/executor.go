@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -17,19 +18,18 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 
 	raw, err := Interpolate(query, settings)
 	if err != nil {
-		dr.Error = err
-		return
+		return errorsource.Response(err)
 	}
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String(raw),
 	}
 
-	if len(query.NextToken) > 0 {
+	if query.NextToken != "" {
 		input.NextToken = aws.String(query.NextToken)
 		backend.Logger.Info("running continue query", "token", query.NextToken)
 	}
 
-	start := time.Now().UnixNano() / 1000000
+	start := time.Now().UnixMilli()
 	output, err := runner.runQuery(ctx, input)
 	if query.WaitForResult && output.NextToken != nil && err == nil {
 		for output.NextToken != nil {
@@ -48,13 +48,14 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	if err == nil {
 		dr = QueryResultToDataFrame(output, query.Format)
 	} else {
-		dr.Error = err
+		// override: false here because runQuery may return a PluginError
+		dr = errorsource.Response(errorsource.DownstreamError(err, false))
 	}
-	finish := time.Now().UnixNano() / 1000000
+	finish := time.Now().UnixMilli()
 
 	// Needs a frame for the metadata... even if just error
-	if len(dr.Frames) < 1 {
-		dr.Frames = append(dr.Frames, data.NewFrame(""))
+	if len(dr.Frames) == 0 {
+		dr.Frames = data.Frames{data.NewFrame("")}
 	}
 	frame := dr.Frames[0]
 	if frame.Meta == nil {
