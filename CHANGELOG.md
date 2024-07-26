@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.7
+- feat: add errorsource [#296](https://github.com/grafana/timestream-datasource/pull/296)
+- chore: refactor macros to avoid macro-length bug in [#295](https://github.com/grafana/timestream-datasource/pull/295)
+
 ## 2.9.6
 
 - Bugfix: Fix $interval variable interpolation in [#291](https://github.com/grafana/timestream-datasource/pull/291)
