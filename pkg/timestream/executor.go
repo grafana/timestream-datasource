@@ -13,8 +13,7 @@ import (
 )
 
 // ExecuteQuery -- run a query
-func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings models.DatasourceSettings) (dr backend.DataResponse) {
-	dr = backend.DataResponse{}
+func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunner, settings models.DatasourceSettings) backend.DataResponse {
 
 	raw, err := Interpolate(query, settings)
 	if err != nil {
@@ -45,6 +44,8 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 			output.NextToken = newPageOutput.NextToken
 		}
 	}
+
+	dr := backend.DataResponse{}
 	if err == nil {
 		dr = QueryResultToDataFrame(output, query.Format)
 	} else {
@@ -79,5 +80,5 @@ func ExecuteQuery(ctx context.Context, query models.QueryModel, runner queryRunn
 	if input.NextToken == nil {
 		meta.StartTime = start
 	}
-	return
+	return dr
 }
