@@ -9,12 +9,13 @@ import (
 	"github.com/aws/aws-sdk-go/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
 // QueryResultToDataFrame creates a DataFrame from query results
-func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.FormatQueryOption) (dr backend.DataResponse) {
-	dr = backend.DataResponse{}
+func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.FormatQueryOption) backend.DataResponse {
+	dr := backend.DataResponse{}
 	notices := []data.Notice{}
 	builders := []*fieldBuilder{}
 	timeseriesColumns := []*fieldBuilder{}
@@ -50,8 +51,8 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 				nv := series.Data[timeseriesColumn.columnIdx].NullValue
 				isNullDataPoint := nv != nil && *nv
 				if tv == nil && !isNullDataPoint {
-					dr.Error = fmt.Errorf("expecting timeseries column at: %d", timeseriesColumn.columnIdx)
-					return
+					return errorsource.Response(errorsource.PluginError(
+						fmt.Errorf("expecting timeseries column at: %d", timeseriesColumn.columnIdx), false))
 				}
 
 				length := len(tv)
@@ -116,9 +117,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 			fields = append(fields, field)
 		}
 
-		frame := data.NewFrame("", // No name
-			fields...,
-		)
+		frame := data.NewFrame("", fields...)
 
 		if format == models.FormatOptionTimeSeries {
 			var err error
@@ -126,8 +125,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 				Mode: data.FillModeNull,
 			})
 			if err != nil {
-				dr.Error = fmt.Errorf("error formatting as timeseries: %s", err)
-				return
+				return errorsource.Response(errorsource.PluginError(fmt.Errorf("error formatting as timeseries: %s", err), false))
 			}
 		}
 		dr.Frames = append(dr.Frames, frame)
@@ -140,8 +138,8 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 	}
 
 	// At least one empty result
-	if len(dr.Frames) < 1 {
-		dr.Frames = append(dr.Frames, data.NewFrame(""))
+	if len(dr.Frames) == 0 {
+		dr.Frames = data.Frames{data.NewFrame("")}
 	}
 
 	// Attach all notices to the first response
@@ -152,5 +150,5 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 		dr.Frames[0].Meta = &data.FrameMeta{}
 	}
 	dr.Frames[0].Meta.Custom = meta
-	return
+	return dr
 }

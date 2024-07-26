@@ -10,6 +10,7 @@ import (
 	sdkhttpclient "github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -48,7 +49,7 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 	settings := models.DatasourceSettings{}
 	err := settings.Load(s)
 	if err != nil {
-		return nil, fmt.Errorf("error reading settings: %s", err.Error())
+		return nil, errorsource.PluginError(fmt.Errorf("error reading settings: %s", err.Error()), false)
 	}
 	sessions := awsds.NewSessionCache()
 	endpoint := settings.Endpoint
@@ -63,12 +64,12 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 				httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
 				if err != nil {
 					backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
-					return nil, err
+					return nil, errorsource.PluginError(err, false)
 				}
 				httpClient, err := httpClientProvider.New(httpClientOptions)
 				if err != nil {
 					backend.Logger.Error("failed to create HTTP client", "error", err.Error())
-					return nil, err
+					return nil, errorsource.PluginError(err, false)
 				}
 				authSettings := awsds.ReadAuthSettings(ctx)
 				sess, err := sessions.GetSessionWithAuthSettings(awsds.GetSessionConfig{
@@ -78,7 +79,7 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 				}, *authSettings)
 
 				if err != nil {
-					return nil, err
+					return nil, errorsource.DownstreamError(err, false)
 				}
 				tcfg := &aws.Config{}
 				if endpoint != "" {
@@ -147,9 +148,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 	for _, q := range req.Queries {
 		query, err := models.GetQueryModel(q)
 		if err != nil {
-			res.Responses[q.RefID] = backend.DataResponse{
-				Error: err,
-			}
+			errorsource.AddErrorToResponse(q.RefID, res, err)
 		} else {
 			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
 		}

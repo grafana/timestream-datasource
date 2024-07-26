@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/common"
 )
 
@@ -47,7 +48,7 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 
 	err := json.Unmarshal(query.JSON, &model)
 	if err != nil {
-		return nil, fmt.Errorf("error reading query: %s", err.Error())
+		return nil, errorsource.PluginError(fmt.Errorf("error reading query: %s", err.Error()), false)
 	}
 
 	// Copy directly from the well typed query
