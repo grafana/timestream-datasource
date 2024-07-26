@@ -89,13 +89,9 @@ func TestInterpolate(t *testing.T) {
 		query := models.QueryModel{
 			RawQuery: sqltxt,
 		}
+		before := int(time.Now().UnixNano() / int64(time.Millisecond))
 		text, _ := Interpolate(query, models.DatasourceSettings{})
-		expect := int(time.Now().UnixNano() / int64(time.Millisecond))
-
-		precision := 10
-		opt := cmp.Comparer(func(x, y int) bool {
-			return x-y <= precision || y-x < precision
-		})
+		after := int(time.Now().UnixNano() / int64(time.Millisecond))
 
 		var numtext int
 		_, e := fmt.Sscan(text, &numtext)
@@ -104,8 +100,8 @@ func TestInterpolate(t *testing.T) {
 			t.Fatalf(e.Error())
 		}
 
-		if !cmp.Equal(numtext, expect, opt) {
-			t.Fatalf("Result above tolerated precision %d : %d, %d", precision, numtext, expect)
+		if numtext < before || numtext > after {
+			t.Fatalf("nowMs time outside of expected bounds [%d, %d]: %d", before, after, numtext)
 		}
 	})
 

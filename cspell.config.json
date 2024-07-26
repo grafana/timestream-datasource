@@ -93,6 +93,8 @@
     "opentelemetry",
     "httptrace",
     "otelhttptrace",
-    "otelgrpc"
+    "otelgrpc",
+    "sqlutil",
+    "errorsource"
   ]
 }

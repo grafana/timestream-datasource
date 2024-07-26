@@ -2,97 +2,106 @@ package timestream
 
 import (
 	"fmt"
-	"regexp"
+	"slices"
 	"strings"
 	"time"
 
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
+	"golang.org/x/exp/maps"
 )
 
-const timeFilter = `\$__timeFilter`
-const timeFromStr = `$__timeFrom`
-const timeToStr = `$__timeTo`
-const intervalStrAlias = `$__interval`
-const intervalStr = `$__interval_ms`
-const intervalRawStr = `$__interval_raw_ms`
-const nowStr = `$__now_ms`
+// TODO: consider refactoring sqlutil.Interpolate to be more generic and using that instead
 
-// WHERE time > from_unixtime(unixtime)
-// WHERE time > from_iso8601_timestamp(iso_8601_string_format)
-// WHERE time > from_milliseconds(epoch_millis)
+type macroFunc func(models.QueryModel, models.DatasourceSettings) (string, error)
 
-// Interpolate processes macros
-func Interpolate(query models.QueryModel, settings models.DatasourceSettings) (string, error) {
-
-	txt := query.RawQuery
-
-	if strings.Contains(txt, "$__intervalStr") {
-		return txt, fmt.Errorf("$__intervalStr removed... use $__interval_ms")
-	}
-
-	// Simple Macros
-	txt = replaceOrDefault(txt, "$__database", query.Database, settings.DefaultDatabase)
-	txt = replaceOrDefault(txt, "$__table", query.Table, settings.DefaultTable)
-	txt = replaceOrDefault(txt, "$__measure", query.Measure, settings.DefaultMeasure)
-
-	timeFilterExp, err := regexp.Compile(timeFilter)
-	if err != nil {
-		return txt, err
-	}
-
-	if timeFilterExp.MatchString(txt) {
-		timeRange := query.TimeRange
-		from := int64(timeRange.From.UnixNano() / 1e6)
-		to := int64(timeRange.To.UnixNano() / 1e6)
-
-		replacement := fmt.Sprintf("time BETWEEN from_milliseconds(%d) AND from_milliseconds(%d)", from, to)
-		txt = timeFilterExp.ReplaceAllString(txt, replacement)
-	}
-
-	if strings.Contains(txt, timeFromStr) {
-		timeRange := query.TimeRange
-		from := int64(timeRange.From.UnixNano() / 1e6)
-		replacement := fmt.Sprintf("%d", from)
-		txt = strings.ReplaceAll(txt, timeFromStr, replacement)
-	}
-
-	if strings.Contains(txt, timeToStr) {
-		timeRange := query.TimeRange
-		to := int64(timeRange.To.UnixNano() / 1e6)
-		replacement := fmt.Sprintf("%d", to)
-		txt = strings.ReplaceAll(txt, timeToStr, replacement)
-	}
-
-	if strings.Contains(txt, intervalRawStr) {
-		replacement := fmt.Sprintf("%d", query.Interval.Milliseconds())
-		txt = strings.ReplaceAll(txt, intervalRawStr, replacement)
-	}
-
-	if strings.Contains(txt, intervalStr) || strings.Contains(txt, intervalStrAlias) {
-		replacement := fmt.Sprintf("%dms", query.Interval.Milliseconds())
-		if replacement == "0ms" {
-			replacement = "{!invalid interval=" + query.Interval.String() + "!}"
-		}
-		txt = strings.ReplaceAll(txt, intervalStr, replacement)
-		txt = strings.ReplaceAll(txt, intervalStrAlias, replacement)
-	}
-
-	if strings.Contains(txt, nowStr) {
-		now := int(time.Now().UnixNano() / int64(time.Millisecond))
-		replacement := fmt.Sprintf("%d", now)
-		txt = strings.ReplaceAll(txt, nowStr, replacement)
-	}
-
-	return txt, err
+var macroFuncs = map[string]macroFunc{
+	"timeFilter":      macroTimeFilter,
+	"timeFrom":        macroTimeFrom,
+	"timeTo":          macroTimeTo,
+	"interval":        macroInterval,
+	"interval_ms":     macroInterval,
+	"interval_raw_ms": macroIntervalRaw,
+	"now_ms":          macroNow,
+	"database":        macroDatabase,
+	"table":           macroTable,
+	"measure":         macroMeasure,
 }
 
-func replaceOrDefault(txt string, key string, v1 string, v2 string) string {
-	val := v1
-	if val == "" || strings.HasPrefix(val, "${") {
-		val = v2
+var macroKeys []string
+
+func init() {
+	// sort macro keys longest first, so shorter keys don't clobber longer keys
+	// they're a prefix of
+	macroKeys = maps.Keys(macroFuncs)
+	slices.SortFunc(macroKeys, func(a, b string) int { return len(b) - len(a) })
+}
+
+func macroTimeFilter(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	from := model.TimeRange.From.UnixNano() / 1e6
+	to := model.TimeRange.To.UnixNano() / 1e6
+
+	replacement := fmt.Sprintf("time BETWEEN from_milliseconds(%d) AND from_milliseconds(%d)", from, to)
+	return replacement, nil
+}
+
+func macroTimeFrom(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	return fmt.Sprintf("%d", model.TimeRange.From.UnixNano()/1e6), nil
+}
+
+func macroTimeTo(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	return fmt.Sprintf("%d", model.TimeRange.To.UnixNano()/1e6), nil
+}
+
+func macroInterval(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	if model.Interval.Milliseconds() == 0 {
+		return "", fmt.Errorf("invalid interval: %dns", model.Interval.Nanoseconds())
 	}
-	if val == "" {
-		return txt // no change
+	return fmt.Sprintf("%dms", model.Interval.Milliseconds()), nil
+}
+
+func macroIntervalRaw(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	if model.Interval.Milliseconds() == 0 {
+		return "", fmt.Errorf("invalid interval: %dns", model.Interval.Nanoseconds())
 	}
-	return strings.ReplaceAll(txt, key, val)
+	return fmt.Sprintf("%d", model.Interval.Milliseconds()), nil
+}
+
+func macroNow(_ models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	now := time.Now().UnixMilli()
+	return fmt.Sprintf("%d", now), nil
+}
+
+func macroDatabase(model models.QueryModel, settings models.DatasourceSettings) (string, error) {
+	return valueOrDefault(model.Database, settings.DefaultDatabase), nil
+}
+func macroTable(model models.QueryModel, settings models.DatasourceSettings) (string, error) {
+	return valueOrDefault(model.Table, settings.DefaultTable), nil
+}
+func macroMeasure(model models.QueryModel, settings models.DatasourceSettings) (string, error) {
+	return valueOrDefault(model.Measure, settings.DefaultMeasure), nil
+}
+
+func valueOrDefault(value string, defaultValue string) string {
+	if value == "" || strings.HasPrefix(value, "${") {
+		return defaultValue
+	}
+	return value
+}
+
+// Interpolate processes macros
+func Interpolate(model models.QueryModel, settings models.DatasourceSettings) (string, error) {
+	query := model.RawQuery
+	for _, key := range macroKeys {
+		macroKey := fmt.Sprintf("$__%s", key)
+		if !strings.Contains(query, macroKey) {
+			continue
+		}
+		replacement, err := macroFuncs[key](model, settings)
+		if err != nil {
+			return query, errorsource.DownstreamError(err, false)
+		}
+		query = strings.ReplaceAll(query, macroKey, replacement)
+	}
+	return query, nil
 }
