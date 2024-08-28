@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.8
+
+- Bump webpack from 5.92.1 to 5.94.0 in [#301](https://github.com/grafana/timestream-datasource/pull/301)
+- Bump micromatch from 4.0.7 to 4.0.8 in [#299](https://github.com/grafana/timestream-datasource/pull/299)
+- Bump fast-loops from 1.1.3 to 1.1.4 in [#298](https://github.com/grafana/timestream-datasource/pull/298)
+
 ## 2.9.7
 - feat: add errorsource [#296](https://github.com/grafana/timestream-datasource/pull/296)
 - chore: refactor macros to avoid macro-length bug in [#295](https://github.com/grafana/timestream-datasource/pull/295)
