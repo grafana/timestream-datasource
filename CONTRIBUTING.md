@@ -64,11 +64,7 @@ Golden files check that data frames are being generated correctly based on the T
 2. Run the test, and then undo the change from step 1.
 3. Re-run the test and they should now pass.
 
-## Build a release for the Timestream data source plugin
-
-### Release
-
-You need to have commit rights to the GitHub repository to publish a release.
+## Releasing
 
 1. Update the version number in the `package.json` file.
 2. Update the `CHANGELOG.md` with the changes contained in the release.
