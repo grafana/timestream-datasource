@@ -35,7 +35,7 @@ Here is a policy example:
 
 The query editor accepts timestream syntax in addition to the macros listed above and any dashboard template variables.
 
-![query-editor](https://storage.googleapis.com/plugins-ci/plugins/timestream/timestream-query.png)
+![query-editor](./img/query_editor.png)
 
 Type `ctrl+space` to open open the IntelliSense suggestions
 
@@ -70,9 +70,7 @@ Read more about variable formatting options in the [Variables](https://grafana.c
 
 ### Alerting
 
-See the [Alerting](https://grafana.com/docs/grafana/latest/alerting/alerts-overview/) documentation for more on Grafana alerts.
-
-[Unified Alerting](https://grafana.com/docs/grafana/latest/alerting/unified-alerting/) queries should contain a time series field. Queries without this field will return an error: "input data must be a wide series but got type long". To return time series, you can use the [`CREATE_TIME_SERIES` function](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html). For example:
+[Alerting](https://grafana.com/docs/grafana/latest/alerting/) queries should contain a time series field. Queries without this field will return an error: "input data must be a wide series but got type long". To return time series, you can use the [`CREATE_TIME_SERIES` function](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html). For example:
 
 ```sql
 SELECT
@@ -98,7 +96,7 @@ ORDER BY AVG(measure_value::double) DESC
 LIMIT 3
 ```
 
-> **Note**: Results for Timestream queries are returned in different pages (if necessary) by default. To ensure that all pages are processed before evaluating an alert, mark the checkbox "Render after all queries finish" in all alert queries.
+> **Note**: Results for Timestream queries are returned in different pages (if necessary) by default. To ensure that all pages are processed before evaluating an alert, mark the "Wait for all queries" checkbox underneath the "Render" query editor section for all alert queries.
 
 ## Configure the data source with provisioning
 

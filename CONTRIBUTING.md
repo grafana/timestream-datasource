@@ -43,7 +43,7 @@ Make sure you have the following dependencies installed first:
 1. Build the backend binaries
 
    ```bash
-   build:backend
+   mage -v
    ```
 
 ### Golden files
@@ -52,7 +52,7 @@ Golden files check that data frames are being generated correctly based on the T
 
 #### Re-generating json API response
 
-> **Note:** Only members of the Grafana team can re-generate these files. If you need help with this, ping the @grafana/aws-plugins team on GitHub and they will help out.
+> **Note:** Only members of the Grafana team can re-generate these files. If you need help with this, ping the `@grafana/aws-datasources` team on GitHub and they will help out.
 
 1. Make sure to comment out the [t.Skip("Integration Test")](https://github.com/grafana/timestream-datasource/blob/5b3f07edb13cb3e3bbeeca284f5b9228a30de451/pkg/timestream/executor_test.go#L64) line in the executor_test.go file.
 2. Run the `TestGenerateTestData`. This should regenerate the json files.
@@ -65,16 +65,6 @@ Golden files check that data frames are being generated correctly based on the T
 3. Re-run the test and they should now pass.
 
 ## Build a release for the Timestream data source plugin
-
-### Pre-requisites
-
-Before doing a release, make sure that the GitHub repository is configured with a `GRAFANA_API_KEY` to be able to sign the plugin and that the Golang and Node versions in the [release.yaml](./.github/workflows/release.yaml) workflow are correct.
-
-Also, make sure that the path to the plugin validator in the [release.yaml](./.github/workflows/release.yaml#L122) is correct (this fixes the error `pushd: ./plugin-validator/cmd/plugincheck: No such file or directory`):
-
-```
-pushd ./plugin-validator/pkg/cmd/plugincheck`
-```
 
 ### Release
 
