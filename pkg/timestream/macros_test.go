@@ -97,7 +97,7 @@ func TestInterpolate(t *testing.T) {
 		_, e := fmt.Sscan(text, &numtext)
 
 		if e != nil {
-			t.Fatalf(e.Error())
+			t.Fatalf("fmt.Sscan error: %s", e.Error())
 		}
 
 		if numtext < before || numtext > after {
