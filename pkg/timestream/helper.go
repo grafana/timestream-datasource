@@ -119,13 +119,15 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 
 		frame := data.NewFrame("", fields...)
 
-		if format == models.FormatOptionTimeSeries {
-			var err error
-			frame, err = data.LongToWide(frame, &data.FillMissing{
-				Mode: data.FillModeNull,
-			})
-			if err != nil {
-				return errorsource.Response(errorsource.PluginError(fmt.Errorf("error formatting as timeseries: %s", err), false))
+		if length > 0 && format == models.FormatOptionTimeSeries {
+			if frame.TimeSeriesSchema().Type == data.TimeSeriesTypeLong {
+				var err error
+				frame, err = data.LongToWide(frame, &data.FillMissing{
+					Mode: data.FillModeNull,
+				})
+				if err != nil {
+					return errorsource.Response(errorsource.PluginError(fmt.Errorf("error formatting as timeseries: %s", err), false))
+				}
 			}
 		}
 		dr.Frames = append(dr.Frames, frame)

@@ -103,4 +103,14 @@ func TestQueryResultToDataFrame(t *testing.T) {
 		assert.Equal(t, "instance-1.amazonaws.com", res.Frames[0].Fields[2].Labels["instance_name"])
 		assert.Equal(t, "zeus", res.Frames[0].Fields[2].Labels["microservice_name"])
 	})
+	t.Run("timeseries format with no rows", func(t *testing.T) {
+		input.Rows = []*timestreamquery.Row{}
+		inputWithNoRows := input
+		inputWithNoRows.Rows = []*timestreamquery.Row{}
+		res := QueryResultToDataFrame(inputWithNoRows, models.FormatOptionTimeSeries)
+		// Assert that it returns one frame with no fields
+		assert.Equal(t, 1, len(res.Frames))
+		assert.Equal(t, 4, len(res.Frames[0].Fields))
+		assert.Equal(t, 0, res.Frames[0].Fields[0].Len())
+	})
 }
