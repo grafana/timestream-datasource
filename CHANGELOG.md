@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.9.9
 
+- Fix errors in LongToWide transformation in [#311](https://github.com/grafana/timestream-datasource/pull/311)
 - Chore: Update plugin.json keywords in [#310](https://github.com/grafana/timestream-datasource/pull/310)
 - Update grafana-plugin-sdk-go and grafana-aws-sdk in [#309](https://github.com/grafana/timestream-datasource/pull/309)
 - fix: linter complaints in [#308](https://github.com/grafana/timestream-datasource/pull/308)
