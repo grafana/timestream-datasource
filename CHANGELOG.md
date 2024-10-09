@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.9
+
+- Fix "Wait for All Queries" toggle in [#313](https://github.com/grafana/timestream-datasource/pull/313)
+- Fix errors in LongToWide transformation in [#311](https://github.com/grafana/timestream-datasource/pull/311)
+- Chore: Update plugin.json keywords in [#310](https://github.com/grafana/timestream-datasource/pull/310)
+- Update grafana-plugin-sdk-go and grafana-aws-sdk in [#309](https://github.com/grafana/timestream-datasource/pull/309)
+- fix: linter complaints in [#308](https://github.com/grafana/timestream-datasource/pull/308)
+- Bump path-to-regexp from 1.8.0 to 1.9.0 in [#303](https://github.com/grafana/timestream-datasource/pull/303)
+- Docs: Updates and improvements in [#302](https://github.com/grafana/timestream-datasource/pull/302)
+- Add dependabot for grafana/plugin-sdk-go in [#307](https://github.com/grafana/timestream-datasource/pull/307)
+
 ## 2.9.8
 
 - Bump webpack from 5.92.1 to 5.94.0 in [#301](https://github.com/grafana/timestream-datasource/pull/301)
