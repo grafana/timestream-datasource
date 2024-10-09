@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 - fix: linter complaints in [#308](https://github.com/grafana/timestream-datasource/pull/308)
 - Bump path-to-regexp from 1.8.0 to 1.9.0 in [#303](https://github.com/grafana/timestream-datasource/pull/303)
 - Docs: Updates and improvements in [#302](https://github.com/grafana/timestream-datasource/pull/302)
-- Add dependabot for grafana/plugin-sdk-go in [#307](https://github.com/grafana/timestream-datasource/pull/301)
+- Add dependabot for grafana/plugin-sdk-go in [#307](https://github.com/grafana/timestream-datasource/pull/307)
 
 ## 2.9.8
 
