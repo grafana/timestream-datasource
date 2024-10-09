@@ -148,7 +148,7 @@ export function QueryEditor(props: Props) {
           <Switch
             aria-labelledby={`${props.query.refId}-wait`}
             onChange={onWaitForChange}
-            checked={query.waitForResult}
+            value={query.waitForResult}
           />
         </InlineField>
         <h6>Frames</h6>
