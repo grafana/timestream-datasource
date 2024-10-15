@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go v1.51.31
 	github.com/google/go-cmp v0.6.0
 	github.com/grafana/grafana-aws-sdk v0.31.2
-	github.com/grafana/grafana-plugin-sdk-go v0.251.0
+	github.com/grafana/grafana-plugin-sdk-go v0.252.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa
 )
