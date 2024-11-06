@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "2.9.9",
+  "version": "2.9.10",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
