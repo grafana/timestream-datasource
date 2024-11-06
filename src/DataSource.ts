@@ -55,8 +55,12 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
     return query.rawQuery ?? '';
   }
 
-  private interpolateVariable = (value: string | string[]) => {
+  private interpolateVariable = (value: string | string[] | number) => {
     if (typeof value === 'string') {
+      return value;
+    }
+
+    if (typeof value === 'number') {
       return value;
     }
 
