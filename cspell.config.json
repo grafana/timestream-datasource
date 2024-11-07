@@ -95,6 +95,7 @@
     "otelhttptrace",
     "otelgrpc",
     "sqlutil",
-    "errorsource"
+    "errorsource",
+    "tibdex"
   ]
 }
