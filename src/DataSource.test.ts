@@ -46,7 +46,7 @@ describe('DataSource', () => {
       expect(res.rawQuery).toEqual(`select * from foo where var in ('foo','bar')`);
     });
 
-    it('should replace __interval interpolated variables with their original string', () => {
+    it('should return number variables', () => {
       mockDatasource.applyTemplateVariables(
         { ...mockQuery, rawQuery: 'select $__interval_ms, $__interval' },
         {
@@ -55,8 +55,8 @@ describe('DataSource', () => {
         }
       );
       // check rawQuery.replace is called with correct interval value
-      expect(replaceMock.mock.calls[3][1].__interval).toEqual({ value: '$__interval' });
-      expect(replaceMock.mock.calls[3][1].__interval_ms).toEqual({ value: '$__interval_ms' });
+      expect(replaceMock.mock.calls[3][1].__interval).toEqual({ value: 50000 });
+      expect(replaceMock.mock.calls[3][1].__interval_ms).toEqual({ value: 5000000 });
     });
   });
 });
