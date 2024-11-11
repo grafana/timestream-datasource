@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.10
+
+- Bugfix: Account for template variable being a number
+- Chore: update dependabot config (#317)
+- Dependency updates: 
+  - Upgrade grafana-plugin-sdk-go (deps): Bump github.com/grafana/grafana-plugin-sdk-go from 0.251.0 to 0.258.0 in [#314](https://github.com/grafana/timestream-datasource/pull/314),[#315](https://github.com/grafana/timestream-datasource/pull/315), [#319](https://github.com/grafana/timestream-datasource/pull/319)
+  - Updates github.com/aws/aws-sdk-go from 1.51.31 to 1.55.5 in [#319](https://github.com/grafana/timestream-datasource/pull/319)
+  - Updates github.com/grafana/grafana-aws-sdk from 0.31.2 to 0.31.3 in [#319](https://github.com/grafana/timestream-datasource/pull/319)
+  - Updates actions/checkout from 2 to 4 in [#318](https://github.com/grafana/timestream-datasource/pull/318)
+  - Updates tibdex/github-app-token from 1.8.0 to 2.1.0 in [#318](https://github.com/grafana/timestream-datasource/pull/318)
+
 ## 2.9.9
 
 - Fix "Wait for All Queries" toggle in [#313](https://github.com/grafana/timestream-datasource/pull/313)
