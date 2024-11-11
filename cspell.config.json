@@ -96,6 +96,7 @@
     "otelgrpc",
     "sqlutil",
     "errorsource",
-    "tibdex"
+    "tibdex",
+    "sqlds"
   ]
 }
