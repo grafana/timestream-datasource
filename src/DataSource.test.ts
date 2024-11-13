@@ -12,15 +12,15 @@ describe('DataSource', () => {
       __interval: { value: 50000 },
     };
     // simplified version of getTemplateSrv().replace
-    const replaceMock = jest.fn().mockImplementation(
-      (target?: string, scopedVars?: ScopedVars, format?: string | Function) => {
+    const replaceMock = jest
+      .fn()
+      .mockImplementation((target?: string, scopedVars?: ScopedVars, format?: string | Function) => {
         let res = target ?? '';
         if (scopedVars && typeof format === 'function') {
           Object.keys(scopedVars).forEach((v) => (res = res.replace(v, format(scopedVars[v]?.value))));
         }
         return res;
-      }
-    );
+      });
     beforeEach(() => {
       jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
         getVariables: jest.fn(),
@@ -46,7 +46,7 @@ describe('DataSource', () => {
       expect(res.rawQuery).toEqual(`select * from foo where var in ('foo','bar')`);
     });
 
-    it('should return number variables', () => {
+    it('should replace __interval interpolated variables with their original string', () => {
       mockDatasource.applyTemplateVariables(
         { ...mockQuery, rawQuery: 'select $__interval_ms, $__interval' },
         {
@@ -55,8 +55,19 @@ describe('DataSource', () => {
         }
       );
       // check rawQuery.replace is called with correct interval value
-      expect(replaceMock.mock.calls[3][1].__interval).toEqual({ value: 50000 });
-      expect(replaceMock.mock.calls[3][1].__interval_ms).toEqual({ value: 5000000 });
+      expect(replaceMock.mock.calls[3][1].__interval).toEqual({ value: '$__interval' });
+      expect(replaceMock.mock.calls[3][1].__interval_ms).toEqual({ value: '$__interval_ms' });
+    });
+
+    it('should return number variables', () => {
+      mockDatasource.applyTemplateVariables(
+        { ...mockQuery, rawQuery: 'select $__from' },
+        {
+          __from: { value: 3000 },
+        }
+      );
+      // check rawQuery.replace is called with correct interval value
+      expect(replaceMock.mock.calls[3][1].__from).toEqual({ value: 3000 });
     });
   });
 });
