@@ -2,11 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.11
+
+- Bugfix: interpolate interval on the backend [#327](https://github.com/grafana/timestream-datasource/pull/327)
+
 ## 2.9.10
 
 - Bugfix: Account for template variable being a number
 - Chore: update dependabot config (#317)
-- Dependency updates: 
+- Dependency updates:
   - github.com/grafana/grafana-plugin-sdk-go from 0.251.0 to 0.258.0 in [#314](https://github.com/grafana/timestream-datasource/pull/314),[#315](https://github.com/grafana/timestream-datasource/pull/315), [#319](https://github.com/grafana/timestream-datasource/pull/319)
   - github.com/aws/aws-sdk-go from 1.51.31 to 1.55.5 in [#319](https://github.com/grafana/timestream-datasource/pull/319)
   - github.com/grafana/grafana-aws-sdk from 0.31.2 to 0.31.4 in [#319](https://github.com/grafana/timestream-datasource/pull/319)
@@ -32,6 +36,7 @@ All notable changes to this project will be documented in this file.
 - Bump fast-loops from 1.1.3 to 1.1.4 in [#298](https://github.com/grafana/timestream-datasource/pull/298)
 
 ## 2.9.7
+
 - feat: add errorsource [#296](https://github.com/grafana/timestream-datasource/pull/296)
 - chore: refactor macros to avoid macro-length bug in [#295](https://github.com/grafana/timestream-datasource/pull/295)
 
