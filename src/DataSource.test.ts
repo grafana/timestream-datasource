@@ -47,6 +47,7 @@ describe('DataSource', () => {
     });
 
     it('should replace __interval interpolated variables with their original string', () => {
+      replaceMock.mockClear();
       mockDatasource.applyTemplateVariables(
         { ...mockQuery, rawQuery: 'select $__interval_ms, $__interval' },
         {
@@ -60,6 +61,7 @@ describe('DataSource', () => {
     });
 
     it('should return number variables', () => {
+      replaceMock.mockClear();
       mockDatasource.applyTemplateVariables(
         { ...mockQuery, rawQuery: 'select $__from' },
         {
