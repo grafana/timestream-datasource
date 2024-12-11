@@ -35,11 +35,11 @@ export function appendMatchingFrames(prev: DataFrame[], b: DataFrame[]): DataFra
       for (const field of f.fields) {
         const buffer: any[] = [];
         for (let i = 0; i < f.length; i++) {
-          buffer.push(field.values.get(i));
+          buffer.push(field.values[i]);
         }
         frame.addField({
           ...field,
-          values: [buffer],
+          values: buffer,
         });
       }
 
@@ -57,7 +57,7 @@ export function appendMatchingFrames(prev: DataFrame[], b: DataFrame[]): DataFra
     if (old) {
       for (let i = 0; i < f.length; i++) {
         for (let idx = 0; idx < old.fields.length; idx++) {
-          old.fields[idx].values.add(f.fields[idx].values.get(i));
+          old.fields[idx].values.push(f.fields[idx].values[i]);
         }
       }
     } else {

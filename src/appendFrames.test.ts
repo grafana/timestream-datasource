@@ -37,9 +37,9 @@ describe('appendMatchingFrames', () => {
   });
 
   it('should merge two frames values', () => {
-    const v = [[1]];
+    const v = [1];
     const frame1 = new MutableDataFrame({ fields: [{ name: 'foo', values: v }] });
-    const v2 = [[2]];
+    const v2 = [2];
     const frame2 = new MutableDataFrame({ fields: [{ name: 'foo', values: v2 }] });
     const mergedFrames = appendMatchingFrames([frame1], [frame2]);
     expect(mergedFrames).toHaveLength(1);
