@@ -37,11 +37,11 @@ export function QueryEditor(props: Props) {
     onChange({ ...query, waitForResult: !query.waitForResult });
   };
 
-  const onChangeSelector = (prop: QueryProperties) => (e: SelectableValue<string> | null) => {
+  const onChangeSelector = (prop: QueryProperties) => (e: SelectableValue | null) => {
     onChange({ ...query, [prop]: e?.value });
   };
 
-  const onChangeFormat = (e: SelectableValue<FormatOptions>) => {
+  const onChangeFormat = (e: SelectableValue) => {
     onChange({ ...query, format: e.value || 0 });
     onRunQuery();
   };
@@ -62,7 +62,7 @@ export function QueryEditor(props: Props) {
   useEffect(() => {
     if (database) {
       datasource
-        .postResource('tables', {
+        .postResource<string[]>('tables', {
           database: database || '',
         })
         .then((res: string[]) => {
@@ -84,7 +84,7 @@ export function QueryEditor(props: Props) {
   useEffect(() => {
     if (database && table) {
       datasource
-        .postResource('measures', {
+        .postResource<string[]>('measures', {
           database: database,
           table: table,
         })
@@ -187,7 +187,7 @@ export function QueryEditor(props: Props) {
             <Select
               aria-label={'Query'}
               options={sampleQueries}
-              onChange={(e: SelectableValue<string>) => onQueryChange(e.value || '')}
+              onChange={(e: SelectableValue) => onQueryChange(e.value || '')}
               className="width-12"
             />
           </InlineField>

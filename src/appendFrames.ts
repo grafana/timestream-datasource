@@ -1,4 +1,4 @@
-import { ArrayVector, DataFrame, formatLabels, MutableDataFrame } from '@grafana/data';
+import { DataFrame, formatLabels, MutableDataFrame } from '@grafana/data';
 
 function getSchemaKey(frame: DataFrame): string {
   let key = frame.refId + '/' + frame.fields.length;
@@ -39,7 +39,7 @@ export function appendMatchingFrames(prev: DataFrame[], b: DataFrame[]): DataFra
         }
         frame.addField({
           ...field,
-          values: new ArrayVector(buffer),
+          values: [buffer],
         });
       }
 
