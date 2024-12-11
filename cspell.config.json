@@ -97,6 +97,7 @@
     "sqlutil",
     "errorsource",
     "tibdex",
-    "sqlds"
+    "sqlds",
+    "subresource"
   ]
 }
