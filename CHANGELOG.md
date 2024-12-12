@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.12
+
+- Bump cross-spawn from 7.0.3 to 7.0.6 in the npm_and_yarn group in [#330](https://github.com/grafana/timestream-datasource/pull/330)
+- Bump the all-go-dependencies group across 1 directory with 2 updates in [#334](https://github.com/grafana/timestream-datasource/pull/334)
+- Add ap-south-1 to regions list in [#331](https://github.com/grafana/timestream-datasource/pull/331)
+- Bump the all-node-dependencies group across 1 directory with 30 updates in [#337](https://github.com/grafana/timestream-datasource/pull/337)
+
 ## 2.9.11
 
 - Bugfix: interpolate interval on the backend [#327](https://github.com/grafana/timestream-datasource/pull/327)
