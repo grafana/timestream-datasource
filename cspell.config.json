@@ -7,6 +7,7 @@
     "provisioning/**",
     "src/dashboards/**",
     "yarn.lock",
+    "go.mod",
     "go.sum",
     "mage_output_file.go",
     "pkg/timestream/testdata/**",
@@ -97,6 +98,7 @@
     "sqlutil",
     "errorsource",
     "tibdex",
-    "sqlds"
+    "sqlds",
+    "subresource"
   ]
 }
