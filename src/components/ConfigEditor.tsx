@@ -1,6 +1,7 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
 import { getBackendSrv } from '@grafana/runtime';
+import { Field } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
 
@@ -77,38 +78,59 @@ export function ConfigEditor(props: Props) {
       />
       <h3>Timestream Details</h3>
       <p>Default values to be used as macros</p>
-      <ConfigSelect
-        {...props}
-        id="database"
-        value={props.options.jsonData.defaultDatabase ?? ''}
-        onChange={onChange('defaultDatabase')}
-        fetch={fetchDatabases}
+      <Field
         label={selectors.components.ConfigEditor.defaultDatabase.input}
+        htmlFor="database"
         data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
-        saveOptions={saveOptions}
-      />
-      <ConfigSelect
-        {...props}
-        id="table"
-        value={props.options.jsonData.defaultTable ?? ''}
-        onChange={onChange('defaultTable')}
-        fetch={fetchTables}
+      >
+        <ConfigSelect
+          {...props}
+          id="database"
+          inputId="database"
+          value={props.options.jsonData.defaultDatabase ?? ''}
+          onChange={onChange('defaultDatabase')}
+          fetch={fetchDatabases}
+          label={selectors.components.ConfigEditor.defaultDatabase.input}
+          data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+          saveOptions={saveOptions}
+        />
+      </Field>
+      <Field
         label={selectors.components.ConfigEditor.defaultTable.input}
+        htmlFor="table"
         data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
-        dependencies={[props.options.jsonData.defaultDatabase || '']}
-        saveOptions={saveOptions}
-      />
-      <ConfigSelect
-        {...props}
-        id="measure"
-        value={props.options.jsonData.defaultMeasure ?? ''}
-        onChange={onChange('defaultMeasure')}
-        fetch={fetchMeasures}
+      >
+        <ConfigSelect
+          {...props}
+          id="table"
+          inputId="table"
+          value={props.options.jsonData.defaultTable ?? ''}
+          onChange={onChange('defaultTable')}
+          fetch={fetchTables}
+          label={selectors.components.ConfigEditor.defaultTable.input}
+          data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+          dependencies={[props.options.jsonData.defaultDatabase || '']}
+          saveOptions={saveOptions}
+        />
+      </Field>
+      <Field
         label={selectors.components.ConfigEditor.defaultMeasure.input}
+        htmlFor="measure"
         data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
-        dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
-        saveOptions={saveOptions}
-      />
+      >
+        <ConfigSelect
+          {...props}
+          id="measure"
+          inputId="measure"
+          value={props.options.jsonData.defaultMeasure ?? ''}
+          onChange={onChange('defaultMeasure')}
+          fetch={fetchMeasures}
+          label={selectors.components.ConfigEditor.defaultMeasure.input}
+          data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+          dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
+          saveOptions={saveOptions}
+        />
+      </Field>
     </div>
   );
 }
