@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.13
+
+- Bump the all-node-dependencies group across 1 directory with 21 updates in [#352](https://github.com/grafana/timestream-datasource/pull/352)
+- Bump the all-go-dependencies group across 1 directory with 3 updates in [#351](https://github.com/grafana/timestream-datasource/pull/351)
+
 ## 2.9.12
 
 - Bump cross-spawn from 7.0.3 to 7.0.6 in the npm_and_yarn group in [#330](https://github.com/grafana/timestream-datasource/pull/330)
