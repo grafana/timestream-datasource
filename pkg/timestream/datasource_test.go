@@ -2,10 +2,11 @@ package timestream
 
 import (
 	"context"
+	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -47,9 +48,9 @@ func TestCallResource(t *testing.T) {
 		{
 			"databases request",
 			&timestreamquery.QueryOutput{
-				Rows: []*timestreamquery.Row{
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				Rows: []timestreamquerytypes.Row{
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("bar")}}},
 				},
 			},
 			&backend.CallResourceRequest{
@@ -60,9 +61,9 @@ func TestCallResource(t *testing.T) {
 		{
 			"tables request",
 			&timestreamquery.QueryOutput{
-				Rows: []*timestreamquery.Row{
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				Rows: []timestreamquerytypes.Row{
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("bar")}}},
 				},
 			},
 			&backend.CallResourceRequest{
@@ -75,9 +76,9 @@ func TestCallResource(t *testing.T) {
 		{
 			"measures request",
 			&timestreamquery.QueryOutput{
-				Rows: []*timestreamquery.Row{
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("foo")}}},
-					{Data: []*timestreamquery.Datum{{ScalarValue: aws.String("bar")}}},
+				Rows: []timestreamquerytypes.Row{
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("foo")}}},
+					{Data: []timestreamquerytypes.Datum{{ScalarValue: aws.String("bar")}}},
 				},
 			},
 			&backend.CallResourceRequest{
@@ -90,15 +91,15 @@ func TestCallResource(t *testing.T) {
 		{
 			"dimensions request",
 			&timestreamquery.QueryOutput{
-				Rows: []*timestreamquery.Row{
-					{Data: []*timestreamquery.Datum{
+				Rows: []timestreamquerytypes.Row{
+					{Data: []timestreamquerytypes.Datum{
 						{}, // measure
 						{}, // measure type
-						{ArrayValue: []*timestreamquery.Datum{ // dimensions
-							{RowValue: &timestreamquery.Row{Data: []*timestreamquery.Datum{
+						{ArrayValue: []timestreamquerytypes.Datum{ // dimensions
+							{RowValue: &timestreamquerytypes.Row{Data: []timestreamquerytypes.Datum{
 								{ScalarValue: aws.String("foo")},
 							}}},
-							{RowValue: &timestreamquery.Row{Data: []*timestreamquery.Datum{
+							{RowValue: &timestreamquerytypes.Row{Data: []timestreamquerytypes.Datum{
 								{ScalarValue: aws.String("bar")},
 							}}},
 						}},
@@ -166,7 +167,7 @@ func Test_runQuery_always_wraps_db_and_table_name_in_quotes(t *testing.T) {
 
 	for _, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
-			mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []*timestreamquery.Row{}}}
+			mockRunner := &fakeRunner{output: &timestreamquery.QueryOutput{Rows: []timestreamquerytypes.Row{}}}
 
 			assert.NoError(t, (&timestreamDS{Runner: mockRunner}).CallResource(context.Background(),
 				&backend.CallResourceRequest{

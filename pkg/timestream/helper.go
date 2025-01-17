@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
@@ -70,7 +69,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 
 				for i := 0; i < length; i++ {
 					t, _ := time.Parse("2006-01-02 15:04:05.99999999", *tv[i].Time)
-					v, _ := timeseriesColumn.parser(tv[i].Value)
+					v, _ := timeseriesColumn.parser(*tv[i].Value)
 					tf.Set(i, t)
 					vf.Set(i, v)
 				}
@@ -89,9 +88,6 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 			}
 			for i := 0; i < length; i++ {
 				row := res.Rows[i]
-				if row == nil {
-					continue
-				}
 				v, err := builder.parser(row.Data[builder.columnIdx])
 				if err != nil {
 					if !cellParsingError {
@@ -134,9 +130,13 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 	}
 
 	meta := &models.TimestreamCustomMeta{
-		QueryID:   aws.StringValue(res.QueryId),
-		NextToken: aws.StringValue(res.NextToken),
 		HasSeries: hasTimeseries,
+	}
+	if res.QueryId != nil {
+		meta.QueryID = *res.QueryId
+	}
+	if res.NextToken != nil {
+		meta.NextToken = *res.NextToken
 	}
 
 	// At least one empty result
