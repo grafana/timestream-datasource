@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-type datumParser func(datum *timestreamquery.Datum) (interface{}, error)
+type datumParser func(datum timestreamquerytypes.Datum) (interface{}, error)
 
 type fieldBuilder struct {
 	name       string
@@ -21,67 +21,67 @@ type fieldBuilder struct {
 	timeseries bool
 }
 
-func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
-	if t.ScalarType != nil {
-		switch *t.ScalarType {
-		case timestreamquery.ScalarTypeTimestamp:
+func getFieldBuilder(t *timestreamquerytypes.Type) (*fieldBuilder, error) {
+	if t.ScalarType != "" {
+		switch t.ScalarType {
+		case timestreamquerytypes.ScalarTypeTimestamp:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableTime,
 				parser:    datumParserTimestamp,
 			}, nil
-		case timestreamquery.ScalarTypeBoolean:
+		case timestreamquerytypes.ScalarTypeBoolean:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableBool,
 				parser:    datumParserBool,
 			}, nil
-		case timestreamquery.ScalarTypeVarchar:
+		case timestreamquerytypes.ScalarTypeVarchar:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableString,
 				parser:    datumParserString,
 			}, nil
-		case timestreamquery.ScalarTypeDouble:
+		case timestreamquerytypes.ScalarTypeDouble:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableFloat64,
 				parser:    datumParserFloat64,
 			}, nil
-		case timestreamquery.ScalarTypeBigint:
+		case timestreamquerytypes.ScalarTypeBigint:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableInt64,
 				parser:    datumParserInt64,
 			}, nil
 
-		case timestreamquery.ScalarTypeInteger:
+		case timestreamquerytypes.ScalarTypeInteger:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableInt32,
 				parser:    datumParserInt32,
 			}, nil
 
-		case timestreamquery.ScalarTypeIntervalDayToSecond:
+		case timestreamquerytypes.ScalarTypeIntervalDayToSecond:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableString,
 				parser:    datumParserInterval,
 			}, nil
 
-		case timestreamquery.ScalarTypeIntervalYearToMonth:
+		case timestreamquerytypes.ScalarTypeIntervalYearToMonth:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableString,
 				parser:    datumParserInterval,
 			}, nil
 
-		case timestreamquery.ScalarTypeDate:
+		case timestreamquerytypes.ScalarTypeDate:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableTime,
 				parser:    datumParserDate,
 			}, nil
 
-		case timestreamquery.ScalarTypeTime:
+		case timestreamquerytypes.ScalarTypeTime:
 			return &fieldBuilder{
 				fieldType: data.FieldTypeNullableTime,
 				parser:    datumParserTime,
 			}, nil
 
 		default:
-			return nil, fmt.Errorf("Unsupported scalar value: %s", *t.ScalarType)
+			return nil, fmt.Errorf("Unsupported scalar value: %s", t.ScalarType)
 		}
 	}
 
@@ -102,16 +102,16 @@ func getFieldBuilder(t *timestreamquery.Type) (*fieldBuilder, error) {
 		return getArrayBuilder(t.ArrayColumnInfo)
 	}
 
-	return nil, fmt.Errorf("Unsupported column: %s", t.GoString())
+	return nil, fmt.Errorf("Unsupported column: %+v", t)
 }
 
-func getArrayBuilder(column *timestreamquery.ColumnInfo) (*fieldBuilder, error) {
+func getArrayBuilder(column *timestreamquerytypes.ColumnInfo) (*fieldBuilder, error) {
 	elem, err := getFieldBuilder(column.Type)
 	if err != nil {
 		return nil, err
 	}
 
-	parser := func(datum *timestreamquery.Datum) (interface{}, error) {
+	parser := func(datum timestreamquerytypes.Datum) (interface{}, error) {
 		count := len(datum.ArrayValue)
 		vals := make([]interface{}, count)
 		for i, d := range datum.ArrayValue {
@@ -136,7 +136,7 @@ func getArrayBuilder(column *timestreamquery.ColumnInfo) (*fieldBuilder, error) 
 	}, nil
 }
 
-func getRowBuilder(columns []*timestreamquery.ColumnInfo) (*fieldBuilder, error) {
+func getRowBuilder(columns []timestreamquerytypes.ColumnInfo) (*fieldBuilder, error) {
 	count := len(columns)
 	cols := make([]*fieldBuilder, count)
 	for i := 0; i < len(columns); i++ {
@@ -147,7 +147,7 @@ func getRowBuilder(columns []*timestreamquery.ColumnInfo) (*fieldBuilder, error)
 		cols[i] = elem
 	}
 
-	parser := func(datum *timestreamquery.Datum) (interface{}, error) {
+	parser := func(datum timestreamquerytypes.Datum) (interface{}, error) {
 		vals := make(map[string]interface{})
 		for i, d := range datum.RowValue.Data {
 			v, err := cols[i].parser(d)
@@ -172,7 +172,7 @@ func getRowBuilder(columns []*timestreamquery.ColumnInfo) (*fieldBuilder, error)
 
 //---------------------------------------------------
 
-func datumParserBool(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserBool(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -180,7 +180,7 @@ func datumParserBool(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserInt32(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserInt32(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -192,7 +192,7 @@ func datumParserInt32(datum *timestreamquery.Datum) (interface{}, error) {
 	return &i32, nil
 }
 
-func datumParserInt64(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserInt64(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -200,7 +200,7 @@ func datumParserInt64(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserFloat64(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -208,7 +208,7 @@ func datumParserFloat64(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserTimestamp(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserTimestamp(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -216,7 +216,7 @@ func datumParserTimestamp(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserDate(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserDate(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -224,7 +224,7 @@ func datumParserDate(datum *timestreamquery.Datum) (interface{}, error) {
 	return &v, err
 }
 
-func datumParserTime(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserTime(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
@@ -237,11 +237,11 @@ func datumParserTime(datum *timestreamquery.Datum) (interface{}, error) {
 	return &properTime, nil
 }
 
-func datumParserString(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserString(datum timestreamquerytypes.Datum) (interface{}, error) {
 	return datum.ScalarValue, nil
 }
 
-func datumParserInterval(datum *timestreamquery.Datum) (interface{}, error) {
+func datumParserInterval(datum timestreamquerytypes.Datum) (interface{}, error) {
 	if datum.ScalarValue == nil {
 		return nil, nil
 	}
