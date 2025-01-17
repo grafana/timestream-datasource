@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 )
 
 // MockClient ...
