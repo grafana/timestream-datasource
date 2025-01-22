@@ -99,6 +99,7 @@
     "errorsource",
     "tibdex",
     "sqlds",
+    "timestreamquerytypes",
     "subresource"
   ]
 }

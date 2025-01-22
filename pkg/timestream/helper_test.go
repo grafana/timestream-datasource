@@ -1,45 +1,46 @@
 package timestream
 
 import (
+	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/timestream-datasource/pkg/models"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestQueryResultToDataFrame(t *testing.T) {
 	input := &timestreamquery.QueryOutput{
-		ColumnInfo: []*timestreamquery.ColumnInfo{
+		ColumnInfo: []timestreamquerytypes.ColumnInfo{
 			{
 				Name: aws.String("time"),
-				Type: &timestreamquery.Type{
-					ScalarType: aws.String("TIMESTAMP"),
+				Type: &timestreamquerytypes.Type{
+					ScalarType: "TIMESTAMP",
 				},
 			},
 			{
 				Name: aws.String("instance_name"),
-				Type: &timestreamquery.Type{
-					ScalarType: aws.String("VARCHAR"),
+				Type: &timestreamquerytypes.Type{
+					ScalarType: "VARCHAR",
 				},
 			},
 			{
 				Name: aws.String("microservice_name"),
-				Type: &timestreamquery.Type{
-					ScalarType: aws.String("VARCHAR"),
+				Type: &timestreamquerytypes.Type{
+					ScalarType: "VARCHAR",
 				},
 			},
 			{
 				Name: aws.String("value"),
-				Type: &timestreamquery.Type{
-					ScalarType: aws.String("DOUBLE"),
+				Type: &timestreamquerytypes.Type{
+					ScalarType: "DOUBLE",
 				},
 			},
 		},
-		Rows: []*timestreamquery.Row{
+		Rows: []timestreamquerytypes.Row{
 			{
-				Data: []*timestreamquery.Datum{
+				Data: []timestreamquerytypes.Datum{
 					{ScalarValue: aws.String("2021-03-14 09:52:44.000000000")},
 					{ScalarValue: aws.String("instance-1.amazonaws.com")},
 					{ScalarValue: aws.String("zeus")},
@@ -47,7 +48,7 @@ func TestQueryResultToDataFrame(t *testing.T) {
 				},
 			},
 			{
-				Data: []*timestreamquery.Datum{
+				Data: []timestreamquerytypes.Datum{
 					{ScalarValue: aws.String("2021-03-14 09:52:44.000000000")},
 					{ScalarValue: aws.String("instance-1.amazonaws.com")},
 					{ScalarValue: aws.String("apollo")},
@@ -55,7 +56,7 @@ func TestQueryResultToDataFrame(t *testing.T) {
 				},
 			},
 			{
-				Data: []*timestreamquery.Datum{
+				Data: []timestreamquerytypes.Datum{
 					{ScalarValue: aws.String("2021-03-14 09:57:44.000000000")},
 					{ScalarValue: aws.String("instance-1.amazonaws.com")},
 					{ScalarValue: aws.String("zeus")},
@@ -63,7 +64,7 @@ func TestQueryResultToDataFrame(t *testing.T) {
 				},
 			},
 			{
-				Data: []*timestreamquery.Datum{
+				Data: []timestreamquerytypes.Datum{
 					{ScalarValue: aws.String("2021-03-14 09:57:44.000000000")},
 					{ScalarValue: aws.String("instance-1.amazonaws.com")},
 					{ScalarValue: aws.String("apollo")},
@@ -104,9 +105,9 @@ func TestQueryResultToDataFrame(t *testing.T) {
 		assert.Equal(t, "zeus", res.Frames[0].Fields[2].Labels["microservice_name"])
 	})
 	t.Run("timeseries format with no rows", func(t *testing.T) {
-		input.Rows = []*timestreamquery.Row{}
+		input.Rows = []timestreamquerytypes.Row{}
 		inputWithNoRows := input
-		inputWithNoRows.Rows = []*timestreamquery.Row{}
+		inputWithNoRows.Rows = []timestreamquerytypes.Row{}
 		res := QueryResultToDataFrame(inputWithNoRows, models.FormatOptionTimeSeries)
 		// Assert that it returns one frame with no fields
 		assert.Equal(t, 1, len(res.Frames))
