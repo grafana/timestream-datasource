@@ -1,0 +1,22 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: AWS Timestream E2E
+    orgId: 1
+
+datasources:
+  - name: AWS Timestream E2E
+    type: grafana-timestream-datasource
+    uid: aws-timestream-e2e
+    editable: true
+    enabled: true
+    jsonData:
+      authType: keys
+      defaultRegion: us-west-2
+      defaultDatabase: 'grafanaDB'
+      defaultTable: 'DevOps'
+      defaultMeasure: cpu_hi
+    secureJsonData:
+      accessKey: $ACCESS_KEY
+      secretKey: $SECRET_KEY
+    version: 1

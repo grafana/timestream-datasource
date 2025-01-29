@@ -3,10 +3,15 @@
 node_modules/
 coverage/
 ci/
-cypress/report.json
-cypress/screenshots/actual
-cypress/videos/
 dist/
-provisioning
 pkg/__debug_bin
 yarn-error.log
+
+# End to End tests
+provisioning/
+!provisioning/datasources/aws-timestream-e2e.yaml
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
