@@ -18,7 +18,7 @@ test('should successfully create an alert rule', async ({
   await page.waitForFunction(() => window.monaco);
   await queryA.getByGrafanaSelector(selectors.components.CodeEditor.container).click();
   await page.keyboard.insertText(
-    `select region, cell, silo, instance_name, avg(measure_value::double) from $__database.$__table where time between from_milliseconds(1615363200000) and from_milliseconds(1615449599000) and measure_value::double > 1 group by region, cell, silo, instance_name limit 10`
+    `select region, cell, silo, instance_name, avg(measure_value::double) from $__database.$__table where time between from_milliseconds(1615395600000) and from_milliseconds(1615399200000) and measure_value::double > 1 group by region, cell, silo, instance_name limit 10`
   );
   await expect(alertRuleEditPage.evaluate()).toBeOK();
 });
