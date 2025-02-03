@@ -46,6 +46,12 @@ Make sure you have the following dependencies installed first:
    mage -v
    ```
 
+## E2E Tests
+
+1. `yarn playwright install --with-deps`
+1. `yarn server`
+1. `yarn e2e`
+
 ### Golden files
 
 Golden files check that data frames are being generated correctly based on the Timestream API response. They have two parts, the json files represent the raw API response and the golden files represent the expected data frame. Both are generated in executor_test.go.

@@ -144,8 +144,10 @@ export function QueryEditor(props: Props) {
           label={'Wait for all queries'}
           labelWidth={16}
           style={{ alignItems: 'center' }}
+          htmlFor={`${props.query.refId}-wait-for-all-queries`}
         >
           <Switch
+            id={`${props.query.refId}-wait-for-all-queries`}
             aria-labelledby={`${props.query.refId}-wait`}
             onChange={onWaitForChange}
             value={query.waitForResult}
@@ -183,9 +185,10 @@ export function QueryEditor(props: Props) {
         </InlineField>
         <h6>Sample queries</h6>
         <Label description={'Selecting a sample will modify the current query'}>
-          <InlineField label="Query" labelWidth={11}>
+          <InlineField label="Query" labelWidth={11} htmlFor={`${props.query.refId}-sample-query`}>
             <Select
               aria-label={'Query'}
+              inputId={`${props.query.refId}-sample-query`}
               options={sampleQueries}
               onChange={(e: SelectableValue) => onQueryChange(e.value || '')}
               className="width-12"

@@ -1,5 +1,3 @@
-import { E2ESelectors } from '@grafana/e2e-selectors';
-
 export const Components = {
   ConfigEditor: {
     AuthenticationProvider: {
@@ -34,6 +32,6 @@ export const Components = {
   },
 };
 
-export const selectors: { components: E2ESelectors<typeof Components> } = {
+export const selectors = {
   components: Components,
 };
