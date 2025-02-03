@@ -70,6 +70,7 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   return (
     <SQLCodeEditor
       query={query.rawQuery ?? ''}
+      onBlur={() => onRunQuery()}
       onChange={onChangeRawQuery}
       language={{
         ...timestreamLanguageDefinition,

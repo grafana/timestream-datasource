@@ -99,6 +99,7 @@
     "errorsource",
     "tibdex",
     "sqlds",
-    "subresource"
+    "subresource",
+    "unroute"
   ]
 }
