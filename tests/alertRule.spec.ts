@@ -21,4 +21,5 @@ test('should successfully create an alert rule', async ({
     `select region, avg(measure_value::double) from $__database.$__table where time between from_milliseconds(1615395600000) and from_milliseconds(1615395900000) and measure_value::double > 1 group by region limit 10`
   );
   await expect(alertRuleEditPage.evaluate()).toBeOK();
+  await page.unrouteAll({ behavior: 'ignoreErrors' });
 });
