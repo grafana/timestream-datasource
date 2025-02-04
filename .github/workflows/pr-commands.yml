@@ -2,6 +2,7 @@ name: PR automation
 on:
   pull_request_target:
     types:
+      - labeled
       - opened
 concurrency:
   group: pr-commands-${{ github.event.number }}
