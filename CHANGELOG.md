@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.9.14
+
+- Bump the all-node-dependencies group across 1 directory with 22 updates in [#370](https://github.com/grafana/timestream-datasource/pull/370)
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.262.0 to 0.265.0 in the all-go-dependencies group across 1 directory in [#368](https://github.com/grafana/timestream-datasource/pull/368)
+- Migrate E2E tests to Playwright in [#358](https://github.com/grafana/timestream-datasource/pull/358)
+
 ## 2.9.13
 
 - Bump the all-node-dependencies group across 1 directory with 21 updates in [#352](https://github.com/grafana/timestream-datasource/pull/352)
