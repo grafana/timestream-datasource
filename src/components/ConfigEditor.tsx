@@ -1,10 +1,11 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
-import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
+import { DataSourcePluginOptionsEditorProps, SelectableValue, type GrafanaTheme2 } from '@grafana/data';
 import { config, getBackendSrv } from '@grafana/runtime';
-import { Field, SecureSocksProxySettings } from '@grafana/ui';
+import { Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
 import { gte } from 'semver';
+import { css } from '@emotion/css';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
@@ -17,6 +18,7 @@ export function ConfigEditor(props: Props) {
   const baseURL = `/api/datasources/${props.options.id}`;
   const resourcesURL = `${baseURL}/resources`;
   const [saved, setSaved] = useState(!!props.options.jsonData.defaultRegion);
+  const styles = useStyles2(getStyles);
   const saveOptions = async () => {
     if (saved) {
       return;
@@ -70,7 +72,7 @@ export function ConfigEditor(props: Props) {
   };
 
   return (
-    <div className="gf-form-group">
+    <div className={styles.formStyles}>
       <ConnectionConfig
         {...props}
         standardRegions={standardRegions}
@@ -138,3 +140,9 @@ export function ConfigEditor(props: Props) {
     </div>
   );
 }
+
+const getStyles = (theme: GrafanaTheme2) => ({
+  formStyles: css({
+    maxWidth: theme.spacing(50),
+  }),
+});
