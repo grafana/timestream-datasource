@@ -1,9 +1,10 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
-import { getBackendSrv } from '@grafana/runtime';
-import { Field } from '@grafana/ui';
+import { config, getBackendSrv } from '@grafana/runtime';
+import { Field, SecureSocksProxySettings } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
+import { gte } from 'semver';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
@@ -76,6 +77,9 @@ export function ConfigEditor(props: Props) {
         defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com"
         onOptionsChange={onOptionsChange}
       />
+      {config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
+        <SecureSocksProxySettings options={props.options} onOptionsChange={onOptionsChange} />
+      )}
       <h3>Timestream Details</h3>
       <p>Default values to be used as macros</p>
       <Field
