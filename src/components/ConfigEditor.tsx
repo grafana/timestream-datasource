@@ -8,7 +8,7 @@ import { standardRegions } from 'regions';
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
 import { css } from '@emotion/css';
-import { ConfigSection, ConfigSubSection } from '@grafana/plugin-ui';
+import { ConfigSection } from '@grafana/plugin-ui';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
@@ -81,8 +81,7 @@ export function ConfigEditor(props: Props) {
         onOptionsChange={onOptionsChange}
       />
       <Divider />
-      <ConfigSection title="Timestream Details">
-        <ConfigSubSection title="Default values to be used as macros">
+      <ConfigSection title="Timestream Details" description= "Default values to be used as macros">
           <Field
             label={selectors.components.ConfigEditor.defaultDatabase.input}
             htmlFor="database"
@@ -136,7 +135,6 @@ export function ConfigEditor(props: Props) {
               saveOptions={saveOptions}
             />
           </Field>
-        </ConfigSubSection>
       </ConfigSection>
     </div>
   );
