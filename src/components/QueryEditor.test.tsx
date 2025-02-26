@@ -119,7 +119,7 @@ describe('QueryEditor', () => {
     render(<QueryEditor {...props} onChange={onChange} />);
     await waitFor(() => expect(ds.getResource).toHaveBeenCalledTimes(1));
 
-    const toggleButton = screen.getByLabelText('Wait for all queries');
+    const toggleButton = screen.getByLabelText(/Wait for all queries/);
     expect(toggleButton).toBeInTheDocument();
 
     fireEvent.click(toggleButton);

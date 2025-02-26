@@ -1,12 +1,14 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
-import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
+import { DataSourcePluginOptionsEditorProps, GrafanaTheme2, SelectableValue } from '@grafana/data';
 import { getBackendSrv } from '@grafana/runtime';
-import { Field } from '@grafana/ui';
+import { Divider, Field, useStyles2 } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
+import { css } from '@emotion/css';
+import { ConfigSection, ConfigSubSection } from '@grafana/plugin-ui';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
@@ -16,6 +18,8 @@ export function ConfigEditor(props: Props) {
   const baseURL = `/api/datasources/${props.options.id}`;
   const resourcesURL = `${baseURL}/resources`;
   const [saved, setSaved] = useState(!!props.options.jsonData.defaultRegion);
+  const styles = useStyles2(getStyles);
+
   const saveOptions = async () => {
     if (saved) {
       return;
@@ -69,68 +73,77 @@ export function ConfigEditor(props: Props) {
   };
 
   return (
-    <div className="gf-form-group">
+    <div className={styles.formStyles}>
       <ConnectionConfig
         {...props}
         standardRegions={standardRegions}
         defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com"
         onOptionsChange={onOptionsChange}
       />
-      <h3>Timestream Details</h3>
-      <p>Default values to be used as macros</p>
-      <Field
-        label={selectors.components.ConfigEditor.defaultDatabase.input}
-        htmlFor="database"
-        data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="database"
-          inputId="database"
-          value={props.options.jsonData.defaultDatabase ?? ''}
-          onChange={onChange('defaultDatabase')}
-          fetch={fetchDatabases}
-          label={selectors.components.ConfigEditor.defaultDatabase.input}
-          data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
-          saveOptions={saveOptions}
-        />
-      </Field>
-      <Field
-        label={selectors.components.ConfigEditor.defaultTable.input}
-        htmlFor="table"
-        data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="table"
-          inputId="table"
-          value={props.options.jsonData.defaultTable ?? ''}
-          onChange={onChange('defaultTable')}
-          fetch={fetchTables}
-          label={selectors.components.ConfigEditor.defaultTable.input}
-          data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
-          dependencies={[props.options.jsonData.defaultDatabase || '']}
-          saveOptions={saveOptions}
-        />
-      </Field>
-      <Field
-        label={selectors.components.ConfigEditor.defaultMeasure.input}
-        htmlFor="measure"
-        data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="measure"
-          inputId="measure"
-          value={props.options.jsonData.defaultMeasure ?? ''}
-          onChange={onChange('defaultMeasure')}
-          fetch={fetchMeasures}
-          label={selectors.components.ConfigEditor.defaultMeasure.input}
-          data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
-          dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
-          saveOptions={saveOptions}
-        />
-      </Field>
+      <Divider />
+      <ConfigSection title="Timestream Details">
+        <ConfigSubSection title="Default values to be used as macros">
+          <Field
+            label={selectors.components.ConfigEditor.defaultDatabase.input}
+            htmlFor="database"
+            data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="database"
+              inputId="database"
+              value={props.options.jsonData.defaultDatabase ?? ''}
+              onChange={onChange('defaultDatabase')}
+              fetch={fetchDatabases}
+              label={selectors.components.ConfigEditor.defaultDatabase.input}
+              data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+              saveOptions={saveOptions}
+            />
+          </Field>
+          <Field
+            label={selectors.components.ConfigEditor.defaultTable.input}
+            htmlFor="table"
+            data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="table"
+              inputId="table"
+              value={props.options.jsonData.defaultTable ?? ''}
+              onChange={onChange('defaultTable')}
+              fetch={fetchTables}
+              label={selectors.components.ConfigEditor.defaultTable.input}
+              data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+              dependencies={[props.options.jsonData.defaultDatabase || '']}
+              saveOptions={saveOptions}
+            />
+          </Field>
+          <Field
+            label={selectors.components.ConfigEditor.defaultMeasure.input}
+            htmlFor="measure"
+            data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="measure"
+              inputId="measure"
+              value={props.options.jsonData.defaultMeasure ?? ''}
+              onChange={onChange('defaultMeasure')}
+              fetch={fetchMeasures}
+              label={selectors.components.ConfigEditor.defaultMeasure.input}
+              data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+              dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
+              saveOptions={saveOptions}
+            />
+          </Field>
+        </ConfigSubSection>
+      </ConfigSection>
     </div>
   );
 }
+
+const getStyles = (theme: GrafanaTheme2) => ({
+  formStyles: css({
+    maxWidth: theme.spacing(50),
+  }),
+});
