@@ -6,8 +6,8 @@
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
     "e2e": "playwright test",
-    "lint": "eslint --cache .",
-    "lint:fix": "yarn run lint --fix",
+    "lint": "eslint --cache --ignore-path ./.gitignore --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "yarn run lint --fix && prettier --write --list-different .",
     "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
@@ -22,11 +22,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@emotion/css": "11.13.5",
-    "@grafana/data": "11.5.1",
+    "@grafana/data": "^11.5.2",
     "@grafana/experimental": "^2.1.6",
-    "@grafana/runtime": "11.5.1",
-    "@grafana/schema": "11.5.1",
-    "@grafana/ui": "11.5.1",
+    "@grafana/runtime": "^11.5.2",
+    "@grafana/schema": "^11.5.2",
+    "@grafana/ui": "^11.5.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^7.1.5",
@@ -86,7 +86,8 @@
     "webpack-cli": "^6.0.1",
     "webpack-livereload-plugin": "^3.0.2",
     "webpack-subresource-integrity": "^5.1.0",
-    "webpack-virtual-modules": "^0.6.2"
+    "webpack-virtual-modules": "^0.6.2",
+    "semver": "^7.6.3"
   },
   "resolutions": {
     "braces": "3.0.3",
