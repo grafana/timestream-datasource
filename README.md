@@ -1,3 +1,7 @@
+## Compatibility
+
+AWS Timestream datasource plugin >=2.9.13 is not compatible with Grafana versions <=10.4.x due to a breaking change in UI components.
+
 # AWS Timestream Datasource Development Guide
 
 The Timestream datasource plugin provides a support for [Amazon Timestream](https://aws.amazon.com/timestream/). Add it as a data source, then you are ready to build dashboards using timestream query results
