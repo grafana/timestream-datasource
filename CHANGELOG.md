@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.10.1
+
+- Update minimum Grafana supported version in plugin.json 
+
 ## 2.10.0
 
 - Migrate form to new styling in [#375](https://github.com/grafana/timestream-datasource/pull/375)
