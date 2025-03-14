@@ -1,15 +1,15 @@
+import { css } from '@emotion/css';
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
 import { DataSourcePluginOptionsEditorProps, SelectableValue, type GrafanaTheme2 } from '@grafana/data';
+import { ConfigSection } from '@grafana/plugin-ui';
 import { config, getBackendSrv } from '@grafana/runtime';
 import { Divider, Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
 import { gte } from 'semver';
-import { css } from '@emotion/css';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
-import { ConfigSection } from '@grafana/plugin-ui';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
