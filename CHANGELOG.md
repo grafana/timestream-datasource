@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.11.0
+
+- Add PDC support in [#374](https://github.com/grafana/timestream-datasource/pull/374)
+
 ## 2.10.1
 
 - Update minimum Grafana supported version in plugin.json 
