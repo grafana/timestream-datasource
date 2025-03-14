@@ -1,14 +1,15 @@
+import { css } from '@emotion/css';
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
-import { DataSourcePluginOptionsEditorProps, GrafanaTheme2, SelectableValue } from '@grafana/data';
-import { getBackendSrv } from '@grafana/runtime';
-import { Divider, Field, useStyles2 } from '@grafana/ui';
+import { DataSourcePluginOptionsEditorProps, SelectableValue, type GrafanaTheme2 } from '@grafana/data';
+import { ConfigSection } from '@grafana/plugin-ui';
+import { config, getBackendSrv } from '@grafana/runtime';
+import { Divider, Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
+import { gte } from 'semver';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
-import { css } from '@emotion/css';
-import { ConfigSection } from '@grafana/plugin-ui';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
@@ -80,6 +81,9 @@ export function ConfigEditor(props: Props) {
         defaultEndpoint="https://query-{cell}.timestream.{region}.amazonaws.com"
         onOptionsChange={onOptionsChange}
       />
+      {config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
+        <SecureSocksProxySettings options={props.options} onOptionsChange={onOptionsChange} />
+      )}
       <Divider />
       <ConfigSection title="Timestream Details" description= "Default values to be used as macros">
           <Field
