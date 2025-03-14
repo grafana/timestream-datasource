@@ -1,7 +1,7 @@
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
 import { DataSourcePluginOptionsEditorProps, SelectableValue, type GrafanaTheme2 } from '@grafana/data';
 import { config, getBackendSrv } from '@grafana/runtime';
-import { Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
+import { Divider, Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
 import React, { useState } from 'react';
 import { standardRegions } from 'regions';
 import { gte } from 'semver';
@@ -9,6 +9,7 @@ import { css } from '@emotion/css';
 
 import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonData } from '../types';
 import { selectors } from './selectors';
+import { ConfigSection } from '@grafana/plugin-ui';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
@@ -19,6 +20,7 @@ export function ConfigEditor(props: Props) {
   const resourcesURL = `${baseURL}/resources`;
   const [saved, setSaved] = useState(!!props.options.jsonData.defaultRegion);
   const styles = useStyles2(getStyles);
+
   const saveOptions = async () => {
     if (saved) {
       return;
@@ -82,61 +84,62 @@ export function ConfigEditor(props: Props) {
       {config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
         <SecureSocksProxySettings options={props.options} onOptionsChange={onOptionsChange} />
       )}
-      <h3>Timestream Details</h3>
-      <p>Default values to be used as macros</p>
-      <Field
-        label={selectors.components.ConfigEditor.defaultDatabase.input}
-        htmlFor="database"
-        data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="database"
-          inputId="database"
-          value={props.options.jsonData.defaultDatabase ?? ''}
-          onChange={onChange('defaultDatabase')}
-          fetch={fetchDatabases}
-          label={selectors.components.ConfigEditor.defaultDatabase.input}
-          data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
-          saveOptions={saveOptions}
-        />
-      </Field>
-      <Field
-        label={selectors.components.ConfigEditor.defaultTable.input}
-        htmlFor="table"
-        data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="table"
-          inputId="table"
-          value={props.options.jsonData.defaultTable ?? ''}
-          onChange={onChange('defaultTable')}
-          fetch={fetchTables}
-          label={selectors.components.ConfigEditor.defaultTable.input}
-          data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
-          dependencies={[props.options.jsonData.defaultDatabase || '']}
-          saveOptions={saveOptions}
-        />
-      </Field>
-      <Field
-        label={selectors.components.ConfigEditor.defaultMeasure.input}
-        htmlFor="measure"
-        data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
-      >
-        <ConfigSelect
-          {...props}
-          id="measure"
-          inputId="measure"
-          value={props.options.jsonData.defaultMeasure ?? ''}
-          onChange={onChange('defaultMeasure')}
-          fetch={fetchMeasures}
-          label={selectors.components.ConfigEditor.defaultMeasure.input}
-          data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
-          dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
-          saveOptions={saveOptions}
-        />
-      </Field>
+      <Divider />
+      <ConfigSection title="Timestream Details" description= "Default values to be used as macros">
+          <Field
+            label={selectors.components.ConfigEditor.defaultDatabase.input}
+            htmlFor="database"
+            data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="database"
+              inputId="database"
+              value={props.options.jsonData.defaultDatabase ?? ''}
+              onChange={onChange('defaultDatabase')}
+              fetch={fetchDatabases}
+              label={selectors.components.ConfigEditor.defaultDatabase.input}
+              data-testid={selectors.components.ConfigEditor.defaultDatabase.wrapper}
+              saveOptions={saveOptions}
+            />
+          </Field>
+          <Field
+            label={selectors.components.ConfigEditor.defaultTable.input}
+            htmlFor="table"
+            data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="table"
+              inputId="table"
+              value={props.options.jsonData.defaultTable ?? ''}
+              onChange={onChange('defaultTable')}
+              fetch={fetchTables}
+              label={selectors.components.ConfigEditor.defaultTable.input}
+              data-testid={selectors.components.ConfigEditor.defaultTable.wrapper}
+              dependencies={[props.options.jsonData.defaultDatabase || '']}
+              saveOptions={saveOptions}
+            />
+          </Field>
+          <Field
+            label={selectors.components.ConfigEditor.defaultMeasure.input}
+            htmlFor="measure"
+            data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+          >
+            <ConfigSelect
+              {...props}
+              id="measure"
+              inputId="measure"
+              value={props.options.jsonData.defaultMeasure ?? ''}
+              onChange={onChange('defaultMeasure')}
+              fetch={fetchMeasures}
+              label={selectors.components.ConfigEditor.defaultMeasure.input}
+              data-testid={selectors.components.ConfigEditor.defaultMeasure.wrapper}
+              dependencies={[props.options.jsonData.defaultDatabase || '', props.options.jsonData.defaultTable || '']}
+              saveOptions={saveOptions}
+            />
+          </Field>
+      </ConfigSection>
     </div>
   );
 }

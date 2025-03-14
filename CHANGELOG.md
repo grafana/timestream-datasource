@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.10.1
+
+- Update minimum Grafana supported version in plugin.json 
+
+## 2.10.0
+
+- Migrate form to new styling in [#375](https://github.com/grafana/timestream-datasource/pull/375)
+- Add external PRs to project board in [#366](https://github.com/grafana/timestream-datasource/pull/366)
+- Chore: add label to external contributions in [#362](https://github.com/grafana/timestream-datasource/pull/362)
+- Migrate E2E tests to Playwright in [#358](https://github.com/grafana/timestream-datasource/pull/358)
+- Dependabot: 
+  - Bump the all-node-dependencies group across 1 directory with 7 updates in [#377](https://github.com/grafana/timestream-datasource/pull/377)
+  - Bump the all-go-dependencies group across 1 directory with 3 updates in [#376](https://github.com/grafana/timestream-datasource/pull/376)
+  - Bump github.com/grafana/grafana-plugin-sdk-go from 0.265.0 to 0.266.0 in the all-go-dependencies group in [#372](https://github.com/grafana/timestream-datasource/pull/372)
+  - Bump the all-node-dependencies group across 1 directory with 22 updates in [#370](https://github.com/grafana/timestream-datasource/pull/370)
+  - Bump github.com/grafana/grafana-plugin-sdk-go from 0.262.0 to 0.265.0 in the all-go-dependencies group across 1 directory in [#368](https://github.com/grafana/timestream-datasource/pull/368)
+
 ## 2.9.13
 
 - Bump the all-node-dependencies group across 1 directory with 21 updates in [#352](https://github.com/grafana/timestream-datasource/pull/352)
