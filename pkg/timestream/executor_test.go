@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
@@ -197,7 +197,7 @@ func TestGenerateTestData(t *testing.T) {
 		// Custom input to test pagination
 		if filename == "pagination-off_1.json" {
 			// force pagination
-			input.MaxRows = aws.Int64(1)
+			input.MaxRows = aws.Int32(1)
 		}
 		if filename == "pagination-off_2.json" {
 			// continue previous page

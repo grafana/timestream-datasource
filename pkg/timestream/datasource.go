@@ -13,11 +13,12 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
+	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 )
 
-type clientGetterFunc func(region string) (client *timestreamquery.TimestreamQuery, err error)
+type clientGetterFunc func(region string) (client *timestreamquery.Client, err error)
 
 // This is an interface to help testing
 type queryRunner interface {
@@ -34,7 +35,7 @@ func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.
 	if err != nil {
 		return nil, err
 	}
-	return svc.QueryWithContext(ctx, input)
+	return svc.Query(ctx, input)
 }
 
 func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
@@ -42,7 +43,7 @@ func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamque
 	if err != nil {
 		return nil, err
 	}
-	return svc.CancelQueryWithContext(ctx, input)
+	return svc.CancelQuery(ctx, input)
 }
 
 func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
@@ -58,7 +59,7 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 	return &timestreamDS{
 		Settings: settings,
 		Runner: &timestreamRunner{
-			querySvc: func(region string) (client *timestreamquery.TimestreamQuery, err error) {
+			querySvc: func(region string) (client *timestreamquery.Client, err error) {
 
 				httpClientProvider := sdkhttpclient.NewProvider()
 				httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
@@ -71,21 +72,20 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 					backend.Logger.Error("failed to create HTTP client", "error", err.Error())
 					return nil, errorsource.PluginError(err, false)
 				}
-				authSettings := awsds.ReadAuthSettings(ctx)
-				sess, err := sessions.GetSessionWithAuthSettings(awsds.GetSessionConfig{
+				provider, err := sessions.CredentialsProviderV2(ctx, awsds.GetSessionConfig{
 					Settings:      settings.AWSDatasourceSettings,
 					HTTPClient:    httpClient,
 					UserAgentName: aws.String("Timestream"),
-				}, *authSettings)
+				})
 
 				if err != nil {
 					return nil, errorsource.DownstreamError(err, false)
 				}
-				tcfg := &aws.Config{}
+				awsCfg := aws.Config{Credentials: provider}
 				if endpoint != "" {
-					tcfg.Endpoint = aws.String(endpoint)
+					awsCfg.BaseEndpoint = aws.String(endpoint)
 				}
-				querySvc := timestreamquery.New(sess, tcfg)
+				querySvc := timestreamquery.NewFromConfig(awsCfg)
 
 				return querySvc, nil
 			},
@@ -156,7 +156,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 	return res, nil
 }
 
-func sliceFromRows(rows []*timestreamquery.Row, doubleQuotes bool) []string {
+func sliceFromRows(rows []timestreamquerytypes.Row, doubleQuotes bool) []string {
 	res := []string{}
 	for _, row := range rows {
 		if len(row.Data) > 0 && row.Data[0].ScalarValue != nil {
@@ -172,7 +172,7 @@ func sliceFromRows(rows []*timestreamquery.Row, doubleQuotes bool) []string {
 
 // The dimensions of a row are the different columns (apart from the measure)
 // It's encoded in every row, as an array of values.
-func dimensionsFromRows(rows []*timestreamquery.Row) []string {
+func dimensionsFromRows(rows []timestreamquerytypes.Row) []string {
 	res := []string{}
 	if len(rows) > 0 && len(rows[0].Data) == 3 && len(rows[0].Data[2].ArrayValue) > 0 {
 		dimensionArray := rows[0].Data[2].ArrayValue
