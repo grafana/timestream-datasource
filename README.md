@@ -1,3 +1,5 @@
+## Test PR Automation
+
 ## Compatibility
 
 AWS Timestream datasource plugin >=2.9.13 is not compatible with Grafana versions <=10.4.x due to a breaking change in UI components.
