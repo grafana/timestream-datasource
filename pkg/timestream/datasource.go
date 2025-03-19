@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"time"
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -18,32 +20,9 @@ import (
 	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 )
 
-type clientGetterFunc func(region string) (client *timestreamquery.Client, err error)
-
-// This is an interface to help testing
-type queryRunner interface {
-	runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error)
-	cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error)
-}
-
-type timestreamRunner struct {
-	querySvc clientGetterFunc
-}
-
-func (r *timestreamRunner) runQuery(ctx context.Context, input *timestreamquery.QueryInput) (*timestreamquery.QueryOutput, error) {
-	svc, err := r.querySvc("")
-	if err != nil {
-		return nil, err
-	}
-	return svc.Query(ctx, input)
-}
-
-func (r *timestreamRunner) cancelQuery(ctx context.Context, input *timestreamquery.CancelQueryInput) (*timestreamquery.CancelQueryOutput, error) {
-	svc, err := r.querySvc("")
-	if err != nil {
-		return nil, err
-	}
-	return svc.CancelQuery(ctx, input)
+type QueryClient interface {
+	timestreamquery.QueryAPIClient
+	CancelQuery(context.Context, *timestreamquery.CancelQueryInput, ...func(*timestreamquery.Options)) (*timestreamquery.CancelQueryOutput, error)
 }
 
 func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
@@ -56,40 +35,35 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 	endpoint := settings.Endpoint
 	settings.Endpoint = "" // do not use this in the initial session configuration
 
+	httpClientProvider := sdkhttpclient.NewProvider()
+	httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
+	if err != nil {
+		backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
+		return nil, errorsource.PluginError(err, false)
+	}
+	httpClient, err := httpClientProvider.New(httpClientOptions)
+	if err != nil {
+		backend.Logger.Error("failed to create HTTP client", "error", err.Error())
+		return nil, errorsource.PluginError(err, false)
+	}
+	provider, err := sessions.CredentialsProviderV2(ctx, awsds.GetSessionConfig{
+		Settings:      settings.AWSDatasourceSettings,
+		HTTPClient:    httpClient,
+		UserAgentName: aws.String("Timestream"),
+	})
+
+	if err != nil {
+		return nil, errorsource.DownstreamError(err, false)
+	}
+	awsCfg := aws.Config{Credentials: provider}
+	if endpoint != "" {
+		awsCfg.BaseEndpoint = aws.String(endpoint)
+	}
+	client := timestreamquery.NewFromConfig(awsCfg)
+
 	return &timestreamDS{
 		Settings: settings,
-		Runner: &timestreamRunner{
-			querySvc: func(region string) (client *timestreamquery.Client, err error) {
-
-				httpClientProvider := sdkhttpclient.NewProvider()
-				httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
-				if err != nil {
-					backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
-					return nil, errorsource.PluginError(err, false)
-				}
-				httpClient, err := httpClientProvider.New(httpClientOptions)
-				if err != nil {
-					backend.Logger.Error("failed to create HTTP client", "error", err.Error())
-					return nil, errorsource.PluginError(err, false)
-				}
-				provider, err := sessions.CredentialsProviderV2(ctx, awsds.GetSessionConfig{
-					Settings:      settings.AWSDatasourceSettings,
-					HTTPClient:    httpClient,
-					UserAgentName: aws.String("Timestream"),
-				})
-
-				if err != nil {
-					return nil, errorsource.DownstreamError(err, false)
-				}
-				awsCfg := aws.Config{Credentials: provider}
-				if endpoint != "" {
-					awsCfg.BaseEndpoint = aws.String(endpoint)
-				}
-				querySvc := timestreamquery.NewFromConfig(awsCfg)
-
-				return querySvc, nil
-			},
-		},
+		Client:   client,
 	}, nil
 }
 
@@ -99,7 +73,7 @@ func (s *timestreamDS) Dispose() {
 }
 
 type timestreamDS struct {
-	Runner   queryRunner
+	Client   QueryClient
 	Settings models.DatasourceSettings
 }
 
@@ -115,7 +89,7 @@ func (ds *timestreamDS) CheckHealth(ctx context.Context, req *backend.CheckHealt
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String("SELECT 1"),
 	}
-	output, err := ds.Runner.runQuery(ctx, input)
+	output, err := ds.Client.Query(ctx, input)
 	if err != nil {
 		return &backend.CheckHealthResult{
 			Status:  backend.HealthStatusError,
@@ -150,7 +124,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 		if err != nil {
 			errorsource.AddErrorToResponse(q.RefID, res, err)
 		} else {
-			res.Responses[q.RefID] = ExecuteQuery(ctx, *query, ds.Runner, ds.Settings)
+			res.Responses[q.RefID] = ds.ExecuteQuery(ctx, *query)
 		}
 	}
 	return res, nil
@@ -204,7 +178,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			QueryId: aws.String(cancel.QueryID),
 		}
 		msg := "cancel: " + cancel.QueryID
-		v, err := ds.Runner.cancelQuery(ctx, cancelQueryInput)
+		v, err := ds.Client.CancelQuery(ctx, cancelQueryInput)
 		if v != nil && v.CancellationMessage != nil {
 			msg = *v.CancellationMessage
 		} else if err != nil {
@@ -214,7 +188,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	}
 	if req.Path == "databases" {
 		// TODO: Use API endpoint to list databases
-		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String("SHOW DATABASES"),
 		})
 		if err != nil {
@@ -233,7 +207,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			return err
 		}
 		// TODO: Use API endpoint to list tables
-		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", applyQuotesIfNeeded(opts.Database))),
 		})
 		if err != nil {
@@ -251,7 +225,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		if err != nil {
 			return err
 		}
-		v, err := ds.Runner.runQuery(ctx, &timestreamquery.QueryInput{
+		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), applyQuotesIfNeeded(opts.Table))),
 		})
 		if err != nil {
@@ -272,4 +246,74 @@ func applyQuotesIfNeeded(input string) string {
 		input = fmt.Sprintf(`"%s"`, input)
 	}
 	return input
+}
+
+// ExecuteQuery -- run a query
+func (ds *timestreamDS) ExecuteQuery(ctx context.Context, query models.QueryModel) backend.DataResponse {
+	raw, err := Interpolate(query, ds.Settings)
+	if err != nil {
+		return errorsource.Response(err)
+	}
+	input := &timestreamquery.QueryInput{
+		QueryString: aws.String(raw),
+	}
+
+	if query.NextToken != "" {
+		input.NextToken = aws.String(query.NextToken)
+		backend.Logger.Info("running continue query", "token", query.NextToken)
+	}
+
+	start := time.Now().UnixMilli()
+	output, err := ds.Client.Query(ctx, input)
+	if err == nil && query.WaitForResult && output.NextToken != nil {
+		for output.NextToken != nil {
+			newPageInput := *input
+			newPageInput.NextToken = output.NextToken
+			newPageOutput, newPageErr := ds.Client.Query(ctx, &newPageInput)
+			if newPageErr != nil {
+				err = newPageErr
+				output.NextToken = nil
+				continue
+			}
+			output.Rows = append(output.Rows, newPageOutput.Rows...)
+			output.NextToken = newPageOutput.NextToken
+		}
+	}
+
+	dr := backend.DataResponse{}
+	if err == nil {
+		dr = QueryResultToDataFrame(output, query.Format)
+	} else {
+		// override: false here because runQuery may return a PluginError
+		dr = errorsource.Response(errorsource.DownstreamError(err, false))
+	}
+	finish := time.Now().UnixMilli()
+
+	// Needs a frame for the metadata... even if just error
+	if len(dr.Frames) == 0 {
+		dr.Frames = data.Frames{data.NewFrame("")}
+	}
+	frame := dr.Frames[0]
+	if frame.Meta == nil {
+		frame.SetMeta(&data.FrameMeta{})
+	}
+	frame.Meta.ExecutedQueryString = raw
+
+	if frame.Meta.Custom == nil {
+		frame.Meta.Custom = &models.TimestreamCustomMeta{}
+	}
+	if output != nil && output.QueryStatus != nil {
+		c := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+		c.Status = output.QueryStatus
+	}
+
+	// Apply the timing info
+	meta := frame.Meta.Custom.(*models.TimestreamCustomMeta)
+	if meta.NextToken == "" {
+		meta.FinishTime = finish
+	}
+	if input.NextToken == nil {
+		meta.StartTime = start
+	}
+	return dr
 }
