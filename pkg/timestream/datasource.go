@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"time"
 
-	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	sdkhttpclient "github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
@@ -25,15 +25,12 @@ type QueryClient interface {
 	CancelQuery(context.Context, *timestreamquery.CancelQueryInput, ...func(*timestreamquery.Options)) (*timestreamquery.CancelQueryOutput, error)
 }
 
-func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	settings := models.DatasourceSettings{}
 	err := settings.Load(s)
 	if err != nil {
 		return nil, errorsource.PluginError(fmt.Errorf("error reading settings: %s", err.Error()), false)
 	}
-	sessions := awsds.NewSessionCache()
-	endpoint := settings.Endpoint
-	settings.Endpoint = "" // do not use this in the initial session configuration
 
 	httpClientProvider := sdkhttpclient.NewProvider()
 	httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
@@ -46,30 +43,30 @@ func NewServerInstance(ctx context.Context, s backend.DataSourceInstanceSettings
 		backend.Logger.Error("failed to create HTTP client", "error", err.Error())
 		return nil, errorsource.PluginError(err, false)
 	}
-	provider, err := sessions.CredentialsProviderV2(ctx, awsds.GetSessionConfig{
-		Settings:      settings.AWSDatasourceSettings,
-		HTTPClient:    httpClient,
-		UserAgentName: aws.String("Timestream"),
+	region := settings.Region
+	if region == "" || region == "default" {
+		region = settings.DefaultRegion
+	}
+	cfg, err := awsauth.NewConfigProvider().GetConfig(ctx, awsauth.Settings{
+		LegacyAuthType:     settings.AuthType,
+		AccessKey:          settings.AccessKey,
+		SecretKey:          settings.SecretKey,
+		Region:             region,
+		CredentialsProfile: settings.Profile,
+		AssumeRoleARN:      settings.AssumeRoleARN,
+		Endpoint:           settings.Endpoint,
+		ExternalID:         settings.ExternalID,
+		UserAgent:          "Timestream",
+		HTTPClient:         httpClient,
 	})
-
 	if err != nil {
-		return nil, errorsource.DownstreamError(err, false)
+		return nil, backend.DownstreamError(err)
 	}
-	awsCfg := aws.Config{Credentials: provider}
-	if endpoint != "" {
-		awsCfg.BaseEndpoint = aws.String(endpoint)
-	}
-	client := timestreamquery.NewFromConfig(awsCfg)
 
 	return &timestreamDS{
 		Settings: settings,
-		Client:   client,
+		Client:   timestreamquery.NewFromConfig(cfg),
 	}, nil
-}
-
-func (s *timestreamDS) Dispose() {
-	// Called before creating a new instance to allow plugin authors
-	// to cleanup.
 }
 
 type timestreamDS struct {
@@ -78,9 +75,8 @@ type timestreamDS struct {
 }
 
 var (
-	_ backend.QueryDataHandler      = (*timestreamDS)(nil)
-	_ backend.CheckHealthHandler    = (*timestreamDS)(nil)
-	_ instancemgmt.InstanceDisposer = (*timestreamDS)(nil)
+	_ backend.QueryDataHandler   = (*timestreamDS)(nil)
+	_ backend.CheckHealthHandler = (*timestreamDS)(nil)
 )
 
 // CheckHealth will check the currently configured settings
