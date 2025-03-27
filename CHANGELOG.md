@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.11.0
+
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.268.1 to 0.269.1 in the all-go-dependencies group across 1 directory in [#384](https://github.com/grafana/timestream-datasource/pull/384)
+- Bump golang.org/x/net from 0.35.0 to 0.36.0 in the go_modules group in [#385](https://github.com/grafana/timestream-datasource/pull/385)
+- Bump the all-node-dependencies group across 1 directory with 18 updates in [#387](https://github.com/grafana/timestream-datasource/pull/387)
+- Bump @babel/runtime from 7.26.9 to 7.26.10 in the npm_and_yarn group in [#386](https://github.com/grafana/timestream-datasource/pull/386)
+- Add PDC support in [#374](https://github.com/grafana/timestream-datasource/pull/374)
+
 ## 2.10.1
 
 - Update minimum Grafana supported version in plugin.json 
