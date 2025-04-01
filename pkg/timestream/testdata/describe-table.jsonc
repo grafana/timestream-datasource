@@ -1,0 +1,131 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 3 Fields by 17 Rows
+//  +-------------------+-----------------+---------------------------------+
+//  | Name: Column      | Name: Type      | Name: Timestream attribute type |
+//  | Labels:           | Labels:         | Labels:                         |
+//  | Type: []*string   | Type: []*string | Type: []*string                 |
+//  +-------------------+-----------------+---------------------------------+
+//  | availability_zone | varchar         | DIMENSION                       |
+//  | microservice_name | varchar         | DIMENSION                       |
+//  | hostname          | varchar         | DIMENSION                       |
+//  | instance_name     | varchar         | DIMENSION                       |
+//  | process_name      | varchar         | DIMENSION                       |
+//  | os_version        | varchar         | DIMENSION                       |
+//  | az                | varchar         | DIMENSION                       |
+//  | jdk_version       | varchar         | DIMENSION                       |
+//  | region            | varchar         | DIMENSION                       |
+//  | ...               | ...             | ...                             |
+//  +-------------------+-----------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "Column",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Timestream attribute type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "availability_zone",
+            "microservice_name",
+            "hostname",
+            "instance_name",
+            "process_name",
+            "os_version",
+            "az",
+            "jdk_version",
+            "region",
+            "cell",
+            "silo",
+            "instance_type",
+            "measure_name",
+            "time",
+            "measure_value::double",
+            "measure_value::bigint",
+            "measure_value::varchar"
+          ],
+          [
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "varchar",
+            "timestamp",
+            "double",
+            "bigint",
+            "varchar"
+          ],
+          [
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "DIMENSION",
+            "MEASURE_NAME",
+            "TIMESTAMP",
+            "MEASURE_VALUE",
+            "MEASURE_VALUE",
+            "MEASURE_VALUE"
+          ]
+        ]
+      }
+    }
+  ]
+}

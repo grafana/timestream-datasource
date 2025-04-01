@@ -1,0 +1,58 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 2 Fields by 0 Rows
+//  +-------------------+-------------------------+
+//  | Name: time        | Name: interpolatedValue |
+//  | Labels:           | Labels:                 |
+//  | Type: []time.Time | Type: []*float64        |
+//  +-------------------+-------------------------+
+//  +-------------------+-------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "time",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "interpolatedValue",
+            "type": "number",
+            "typeInfo": {
+              "frame": "float64",
+              "nullable": true
+            },
+            "labels": {}
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [],
+          []
+        ]
+      }
+    }
+  ]
+}

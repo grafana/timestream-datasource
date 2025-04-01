@@ -216,10 +216,7 @@ func runTest(t *testing.T, names []string) *backend.DataResponse {
 	}
 
 	// Set the last parameter of CheckGoldenDataResponse to true to write new golden responses
-	err := experimental.CheckGoldenDataResponse("./testdata/"+names[0]+".golden.txt", &dr, false)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
+	experimental.CheckGoldenJSONResponse(t, "./testdata", names[0], &dr, false)
 
 	return &dr
 }
