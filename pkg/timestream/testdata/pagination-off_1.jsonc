@@ -1,0 +1,264 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 17 Fields by 3 Rows
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  | Name: availability_zone | Name: microservice_name | Name: hostname  | Name: instance_name                | Name: process_name | Name: os_version | Name: az        | Name: jdk_version | Name: region    | Name: cell       | Name: silo              | Name: instance_type | Name: measure_name | Name: time                    | Name: measure_value::double | Name: measure_value::bigint | Name: measure_value::varchar |
+//  | Labels:                 | Labels:                 | Labels:         | Labels:                            | Labels:            | Labels:          | Labels:         | Labels:           | Labels:         | Labels:          | Labels:                 | Labels:             | Labels:            | Labels:                       | Labels:                     | Labels:                     | Labels:                      |
+//  | Type: []*string         | Type: []*string         | Type: []*string | Type: []*string                    | Type: []*string    | Type: []*string  | Type: []*string | Type: []*string   | Type: []*string | Type: []*string  | Type: []*string         | Type: []*string     | Type: []*string    | Type: []*time.Time            | Type: []*float64            | Type: []*int64              | Type: []*string              |
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-03-14 09:45:28 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-03-14 09:52:44 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-03-14 09:59:58 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "availability_zone",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "microservice_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "hostname",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "instance_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "process_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "os_version",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "az",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "jdk_version",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cell",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "silo",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "instance_type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "time",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::double",
+            "type": "number",
+            "typeInfo": {
+              "frame": "float64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::bigint",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::varchar",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3"
+          ],
+          [
+            "zeus",
+            "zeus",
+            "zeus"
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com"
+          ],
+          [
+            "server",
+            "server",
+            "server"
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            "JDK_11",
+            "JDK_11",
+            "JDK_11"
+          ],
+          [
+            "us-west-2",
+            "us-west-2",
+            "us-west-2"
+          ],
+          [
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2"
+          ],
+          [
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2"
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            "task_end_state",
+            "task_end_state",
+            "task_end_state"
+          ],
+          [
+            1615715128000,
+            1615715564000,
+            1615715998000
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            "SUCCESS_WITH_RESULT",
+            "SUCCESS_WITH_RESULT",
+            "SUCCESS_WITH_RESULT"
+          ]
+        ]
+      }
+    }
+  ]
+}
