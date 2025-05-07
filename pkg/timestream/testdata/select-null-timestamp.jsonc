@@ -1,0 +1,90 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 2 Fields by 10 Rows
+//  +--------------------+-------------------------------+
+//  | Name: measure_name | Name: _col1                   |
+//  | Labels:            | Labels:                       |
+//  | Type: []*string    | Type: []*time.Time            |
+//  +--------------------+-------------------------------+
+//  | task_end_state     | 2021-04-12 15:08:56 +0000 UTC |
+//  | network_bytes_out  | 2021-03-21 21:16:49 +0000 UTC |
+//  | network_bytes_out  | 2021-03-21 21:23:40 +0000 UTC |
+//  | task_end_state     | 2021-03-21 21:10:08 +0000 UTC |
+//  | task_end_state     | 2021-03-21 21:16:49 +0000 UTC |
+//  | task_end_state     | 2021-03-21 21:23:40 +0000 UTC |
+//  | task_completed     | null                          |
+//  | task_completed     | null                          |
+//  | task_completed     | null                          |
+//  | network_bytes_out  | 2021-03-21 21:10:08 +0000 UTC |
+//  +--------------------+-------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "measure_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "_col1",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "task_end_state",
+            "network_bytes_out",
+            "network_bytes_out",
+            "task_end_state",
+            "task_end_state",
+            "task_end_state",
+            "task_completed",
+            "task_completed",
+            "task_completed",
+            "network_bytes_out"
+          ],
+          [
+            1618240136000,
+            1616361409000,
+            1616361820000,
+            1616361008000,
+            1616361409000,
+            1616361820000,
+            null,
+            null,
+            null,
+            1616361008000
+          ]
+        ]
+      }
+    }
+  ]
+}

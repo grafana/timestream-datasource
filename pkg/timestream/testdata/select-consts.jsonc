@@ -1,0 +1,118 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 7 Fields by 1 Rows
+//  +----------------+-----------------+-------------------------------+------------------------------+------------------------------+-------------------------------+-------------------------------+
+//  | Name: t_int32  | Name: t_varchar | Name: timestamp               | Name: interval_day_to_second | Name: interval_year_to_month | Name: time                    | Name: date                    |
+//  | Labels:        | Labels:         | Labels:                       | Labels:                      | Labels:                      | Labels:                       | Labels:                       |
+//  | Type: []*int32 | Type: []*string | Type: []*time.Time            | Type: []*string              | Type: []*string              | Type: []*time.Time            | Type: []*time.Time            |
+//  +----------------+-----------------+-------------------------------+------------------------------+------------------------------+-------------------------------+-------------------------------+
+//  | 1              | two             | 2020-08-08 01:00:00 +0000 UTC | 1 21:00:00.000000000         | 2-7                          | 1970-01-01 01:00:00 +0000 UTC | 2020-08-08 00:00:00 +0000 UTC |
+//  +----------------+-----------------+-------------------------------+------------------------------+------------------------------+-------------------------------+-------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "t_int32",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "t_varchar",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "interval_day_to_second",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "interval_year_to_month",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "time",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "date",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1
+          ],
+          [
+            "two"
+          ],
+          [
+            1596848400000
+          ],
+          [
+            "1 21:00:00.000000000"
+          ],
+          [
+            "2-7"
+          ],
+          [
+            3600000
+          ],
+          [
+            1596844800000
+          ]
+        ]
+      }
+    }
+  ]
+}

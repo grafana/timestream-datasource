@@ -1,0 +1,390 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 17 Fields by 10 Rows
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  | Name: availability_zone | Name: microservice_name | Name: hostname  | Name: instance_name                | Name: process_name | Name: os_version | Name: az        | Name: jdk_version | Name: region    | Name: cell       | Name: silo              | Name: instance_type | Name: measure_name | Name: time                    | Name: measure_value::double | Name: measure_value::bigint | Name: measure_value::varchar |
+//  | Labels:                 | Labels:                 | Labels:         | Labels:                            | Labels:            | Labels:          | Labels:         | Labels:           | Labels:         | Labels:          | Labels:                 | Labels:             | Labels:            | Labels:                       | Labels:                     | Labels:                     | Labels:                      |
+//  | Type: []*string         | Type: []*string         | Type: []*string | Type: []*string                    | Type: []*string    | Type: []*string  | Type: []*string | Type: []*string   | Type: []*string | Type: []*string  | Type: []*string         | Type: []*string     | Type: []*string    | Type: []*time.Time            | Type: []*float64            | Type: []*int64              | Type: []*string              |
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-05-06 06:35:38 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-05-06 06:40:34 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_end_state     | 2021-05-06 06:45:39 +0000 UTC | null                        | null                        | SUCCESS_WITH_RESULT          |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_completed     | 2021-05-06 06:35:38 +0000 UTC | null                        | 223                         | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_completed     | 2021-05-06 06:40:34 +0000 UTC | null                        | 441                         | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | server             | null             | null            | JDK_11            | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | null                | task_completed     | 2021-05-06 06:45:39 +0000 UTC | null                        | 107                         | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | null               | AL2              | null            | null              | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | m5.4xlarge          | network_bytes_out  | 2021-05-06 06:35:38 +0000 UTC | 40.232656725296536          | null                        | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | null               | AL2              | null            | null              | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | m5.4xlarge          | network_bytes_out  | 2021-05-06 06:40:34 +0000 UTC | 13.837759955115668          | null                        | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | null               | AL2              | null            | null              | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | m5.4xlarge          | network_bytes_out  | 2021-05-06 06:45:39 +0000 UTC | 72.19912056957318           | null                        | null                         |
+//  | us-west-2-3             | zeus                    | null            | i-AUa00Zt2-zeus-0014.amazonaws.com | null               | AL2              | null            | null              | us-west-2       | us-west-2-cell-2 | us-west-2-cell-2-silo-2 | m5.4xlarge          | network_bytes_in   | 2021-05-06 06:35:38 +0000 UTC | 27.094076152317903          | null                        | null                         |
+//  +-------------------------+-------------------------+-----------------+------------------------------------+--------------------+------------------+-----------------+-------------------+-----------------+------------------+-------------------------+---------------------+--------------------+-------------------------------+-----------------------------+-----------------------------+------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "availability_zone",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "microservice_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "hostname",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "instance_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "process_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "os_version",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "az",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "jdk_version",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "cell",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "silo",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "instance_type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "time",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::double",
+            "type": "number",
+            "typeInfo": {
+              "frame": "float64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::bigint",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "measure_value::varchar",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3",
+            "us-west-2-3"
+          ],
+          [
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus",
+            "zeus"
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com",
+            "i-AUa00Zt2-zeus-0014.amazonaws.com"
+          ],
+          [
+            "server",
+            "server",
+            "server",
+            "server",
+            "server",
+            "server",
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "AL2",
+            "AL2",
+            "AL2",
+            "AL2"
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "JDK_11",
+            "JDK_11",
+            "JDK_11",
+            "JDK_11",
+            "JDK_11",
+            "JDK_11",
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2",
+            "us-west-2"
+          ],
+          [
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2",
+            "us-west-2-cell-2"
+          ],
+          [
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2",
+            "us-west-2-cell-2-silo-2"
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "m5.4xlarge",
+            "m5.4xlarge",
+            "m5.4xlarge",
+            "m5.4xlarge"
+          ],
+          [
+            "task_end_state",
+            "task_end_state",
+            "task_end_state",
+            "task_completed",
+            "task_completed",
+            "task_completed",
+            "network_bytes_out",
+            "network_bytes_out",
+            "network_bytes_out",
+            "network_bytes_in"
+          ],
+          [
+            1620282938000,
+            1620283234000,
+            1620283539000,
+            1620282938000,
+            1620283234000,
+            1620283539000,
+            1620282938000,
+            1620283234000,
+            1620283539000,
+            1620282938000
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            40.232656725296536,
+            13.837759955115668,
+            72.19912056957318,
+            27.094076152317903
+          ],
+          [
+            null,
+            null,
+            null,
+            223,
+            441,
+            107,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "SUCCESS_WITH_RESULT",
+            "SUCCESS_WITH_RESULT",
+            "SUCCESS_WITH_RESULT",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        ]
+      }
+    }
+  ]
+}

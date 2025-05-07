@@ -1,0 +1,162 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ]
+//  }
+//  Name: 
+//  Dimensions: 3 Fields by 26 Rows
+//  +--------------------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//  | Name: measure_name | Name: data_type | Name: dimensions                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+//  | Labels:            | Labels:         | Labels:                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+//  | Type: []*string    | Type: []*string | Type: []string                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+//  +--------------------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//  | cpu_hi             | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_idle           | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_iowait         | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_nice           | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_si             | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_steal          | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_system         | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_user           | double          | [{"data_type":"varchar","dimension_name":"availability_zone"},{"data_type":"varchar","dimension_name":"microservice_name"},{"data_type":"varchar","dimension_name":"instance_name"},{"data_type":"varchar","dimension_name":"os_version"},{"data_type":"varchar","dimension_name":"region"},{"data_type":"varchar","dimension_name":"cell"},{"data_type":"varchar","dimension_name":"silo"},{"data_type":"varchar","dimension_name":"instance_type"}] |
+//  | cpu_utilization    | double          | [{"data_type":"varchar","dimension_name":"hostname"},{"data_type":"varchar","dimension_name":"az"},{"data_type":"varchar","dimension_name":"region"}]                                                                                                                                                                                                                                                                                                 |
+//  | ...                | ...             | ...                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+//  +--------------------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ]
+        },
+        "fields": [
+          {
+            "name": "measure_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "data_type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "dimensions",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            },
+            "config": {
+              "custom": {
+                "displayMode": "json-view"
+              }
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "cpu_hi",
+            "cpu_idle",
+            "cpu_iowait",
+            "cpu_nice",
+            "cpu_si",
+            "cpu_steal",
+            "cpu_system",
+            "cpu_user",
+            "cpu_utilization",
+            "disk_free",
+            "disk_io_reads",
+            "disk_io_writes",
+            "disk_used",
+            "file_descriptors_in_use",
+            "gc_pause",
+            "gc_reclaimed",
+            "latency_per_read",
+            "latency_per_write",
+            "memory_cached",
+            "memory_free",
+            "memory_used",
+            "memory_utilization",
+            "network_bytes_in",
+            "network_bytes_out",
+            "task_completed",
+            "task_end_state"
+          ],
+          [
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "double",
+            "bigint",
+            "varchar"
+          ],
+          [
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"hostname\"},{\"data_type\":\"varchar\",\"dimension_name\":\"az\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"process_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"jdk_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"process_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"jdk_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"process_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"jdk_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"hostname\"},{\"data_type\":\"varchar\",\"dimension_name\":\"az\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"os_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_type\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"process_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"jdk_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"}]",
+            "[{\"data_type\":\"varchar\",\"dimension_name\":\"availability_zone\"},{\"data_type\":\"varchar\",\"dimension_name\":\"microservice_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"instance_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"process_name\"},{\"data_type\":\"varchar\",\"dimension_name\":\"jdk_version\"},{\"data_type\":\"varchar\",\"dimension_name\":\"region\"},{\"data_type\":\"varchar\",\"dimension_name\":\"cell\"},{\"data_type\":\"varchar\",\"dimension_name\":\"silo\"}]"
+          ]
+        ]
+      }
+    }
+  ]
+}
