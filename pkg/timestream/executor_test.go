@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/timestreamquery"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
@@ -39,7 +39,7 @@ func runTest(t *testing.T, names []string) *backend.DataResponse {
 	// Set the last parameter of CheckGoldenDataResponse to true to write new golden responses
 	err := experimental.CheckGoldenDataResponse("./testdata/"+names[0]+".golden.txt", &dr, false)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err.Error())
 	}
 
 	return &dr
@@ -197,7 +197,7 @@ func TestGenerateTestData(t *testing.T) {
 		// Custom input to test pagination
 		if filename == "pagination-off_1.json" {
 			// force pagination
-			input.MaxRows = aws.Int64(1)
+			input.MaxRows = aws.Int32(1)
 		}
 		if filename == "pagination-off_2.json" {
 			// continue previous page
