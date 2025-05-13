@@ -4,11 +4,12 @@ on:
   schedule:
     - cron: '0 11 * * *' #Run e2e tests once a day at 11 UTC
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   resolve-versions:
+    permissions:
+      contents: read
     name: Resolve Grafana images
     runs-on: ubuntu-latest
     timeout-minutes: 3
@@ -21,13 +22,14 @@ jobs:
           persist-credentials: false
       - name: Resolve Grafana E2E versions
         id: resolve-versions
-        uses: grafana/plugin-actions/e2e-version@c233e9f6752186a9b256a2a451ec3067fbf712c2 # main
+        uses: grafana/plugin-actions/e2e-version@main
         with:
           version-resolver-type: version-support-policy
 
   playwright-tests:
     needs: resolve-versions
     permissions:
+      contents: read
       id-token: write
     timeout-minutes: 60
     strategy:
@@ -74,7 +76,7 @@ jobs:
           docker compose pull
           GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} ACCESS_KEY=${{env.ACCESS_KEY}} SECRET_KEY=${{env.SECRET_KEY}} docker compose up -d
       - name: Wait for grafana server
-        uses: grafana/plugin-actions/wait-for-grafana@c233e9f6752186a9b256a2a451ec3067fbf712c2 # main
+        uses: grafana/plugin-actions/wait-for-grafana@main
 
       - name: Run Playwright tests
         id: run-tests
