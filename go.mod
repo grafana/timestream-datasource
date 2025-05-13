@@ -3,11 +3,11 @@ module github.com/grafana/timestream-datasource
 go 1.24.1
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.36.1
-	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.29.4
+	github.com/aws/aws-sdk-go-v2 v1.36.3
+	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.31.0
 	github.com/google/go-cmp v0.7.0
-	github.com/grafana/grafana-aws-sdk v0.38.2
-	github.com/grafana/grafana-plugin-sdk-go v0.277.0
+	github.com/grafana/grafana-aws-sdk v0.38.3
+	github.com/grafana/grafana-plugin-sdk-go v0.277.1
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
 )
@@ -15,21 +15,21 @@ require (
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/apache/arrow-go/v18 v18.2.0 // indirect
-	github.com/aws/aws-sdk-go v1.55.6 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.31 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.31 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.9 // indirect
-	github.com/aws/smithy-go v1.22.2 // indirect
+	github.com/aws/aws-sdk-go v1.55.7 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.15 // indirect
+	github.com/aws/smithy-go v1.22.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cheekybits/genny v1.0.0 // indirect
-	github.com/chromedp/cdproto v0.0.0-20240810084448-b931b754e476 // indirect
+	github.com/chromedp/cdproto v0.0.0-20250429231605-6ed5b53462d4 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/elazarl/goproxy v1.7.2 // indirect
 	github.com/fatih/color v1.17.0 // indirect
-	github.com/getkin/kin-openapi v0.131.0 // indirect
+	github.com/getkin/kin-openapi v0.132.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
@@ -43,9 +43,9 @@ require (
 	github.com/grafana/dataplane/sdata v0.0.9 // indirect
 	github.com/grafana/otel-profiling-go v0.5.1 // indirect
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.8 // indirect
-	github.com/grafana/sqlds/v4 v4.2.0 // indirect
+	github.com/grafana/sqlds/v4 v4.2.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus v1.0.1 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.1 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-plugin v1.6.3 // indirect
@@ -79,7 +79,7 @@ require (
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/prometheus/client_golang v1.21.1 // indirect
+	github.com/prometheus/client_golang v1.22.0 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.63.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
