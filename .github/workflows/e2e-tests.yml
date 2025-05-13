@@ -28,6 +28,7 @@ jobs:
   playwright-tests:
     needs: resolve-versions
     permissions:
+      contents: read
       id-token: write
     timeout-minutes: 60
     strategy:
