@@ -17,3 +17,4 @@ services:
     environment:
       ACCESS_KEY: ${ACCESS_KEY}
       SECRET_KEY: ${SECRET_KEY}
+      AWS_REGION: ${AWS_REGION:-us-west-2}

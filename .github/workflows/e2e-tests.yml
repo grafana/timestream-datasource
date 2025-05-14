@@ -80,6 +80,14 @@ jobs:
         id: run-tests
         run: yarn playwright test
 
+      - name: Display Docker status and Grafana logs on failure
+        if: failure()
+        run: |
+          echo "--- Docker PS ---"
+          docker ps -a
+          echo "--- Grafana Logs ---"
+          docker logs grafana-timestream-datasource | cat
+
       # Uncomment this step to upload the Playwright report to Github artifacts.
       # If your repository is public, the report will be public on the Internet so beware not to expose sensitive information.
       # - name: Upload artifacts
