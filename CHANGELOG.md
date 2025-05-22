@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.0
+
+- Bump the all-node-dependencies group across 1 directory with 31 updates in [#412](https://github.com/grafana/timestream-datasource/pull/412)
+- Bump github.com/grafana/grafana-aws-sdk from 0.38.3 to 0.38.4 in the all-go-dependencies group in [#417](https://github.com/grafana/timestream-datasource/pull/417)
+- Bump the all-go-dependencies group across 1 directory with 4 updates in [#410](https://github.com/grafana/timestream-datasource/pull/410)
+- Update for new v2-style auth in grafana-aws-sdk in [#392](https://github.com/grafana/timestream-datasource/pull/392)
+- Bump golang.org/x/net from 0.36.0 to 0.38.0 in the go_modules group in [#398](https://github.com/grafana/timestream-datasource/pull/398)
+- Update for aws-sdk-go-v2 in [#356](https://github.com/grafana/timestream-datasource/pull/356)
+
 ## 2.11.0
 
 - Bump github.com/grafana/grafana-plugin-sdk-go from 0.268.1 to 0.269.1 in the all-go-dependencies group across 1 directory in [#384](https://github.com/grafana/timestream-datasource/pull/384)
@@ -12,7 +21,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.10.1
 
-- Update minimum Grafana supported version in plugin.json 
+- Update minimum Grafana supported version in plugin.json
 
 ## 2.10.0
 
@@ -20,7 +29,7 @@ All notable changes to this project will be documented in this file.
 - Add external PRs to project board in [#366](https://github.com/grafana/timestream-datasource/pull/366)
 - Chore: add label to external contributions in [#362](https://github.com/grafana/timestream-datasource/pull/362)
 - Migrate E2E tests to Playwright in [#358](https://github.com/grafana/timestream-datasource/pull/358)
-- Dependabot: 
+- Dependabot:
   - Bump the all-node-dependencies group across 1 directory with 7 updates in [#377](https://github.com/grafana/timestream-datasource/pull/377)
   - Bump the all-go-dependencies group across 1 directory with 3 updates in [#376](https://github.com/grafana/timestream-datasource/pull/376)
   - Bump github.com/grafana/grafana-plugin-sdk-go from 0.265.0 to 0.266.0 in the all-go-dependencies group in [#372](https://github.com/grafana/timestream-datasource/pull/372)
