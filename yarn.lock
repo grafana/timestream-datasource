@@ -979,29 +979,29 @@
   dependencies:
     tslib "2"
 
-"@grafana/async-query-data@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@grafana/async-query-data/-/async-query-data-0.4.0.tgz#5324187dc2bebbdf8e8fccfdcb8c5dee9af683b7"
-  integrity sha512-2J0qvntcgjk2FbZQ51zZoNIMUdMJoSFXhJD4FPsg5IpGs5J5F+9dwbWBZ5Cnfaztqnk8SFR/MKSvsoZk0NjCXg==
+"@grafana/async-query-data@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@grafana/async-query-data/-/async-query-data-0.4.1.tgz#d0f70f1a964ae0def14cf5f8106a70450cb59e93"
+  integrity sha512-fXUCX9rAaczeHhpzovr/AxkpjC8x6oMrN0p/lmBbYbdSZ7vFVZUZeTuQqRvj0d1L2vh/1Bryiha1DeoxtwB8Ug==
   dependencies:
     semver "^7.6.3"
     tslib "^2.8.0"
 
-"@grafana/aws-sdk@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@grafana/aws-sdk/-/aws-sdk-0.7.0.tgz#c5fc107e88746c60c5481d96b03333784618a76f"
-  integrity sha512-kQZ8xszqlNy7vXVnM7yhlXLiDdXMeustplJIqFE/iqj7NY5or1W3UuW4etlwqwjlAwvnMy7KsEybdOUEbCXCxg==
+"@grafana/aws-sdk@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@grafana/aws-sdk/-/aws-sdk-0.7.1.tgz#d6a32e282660283e68c76d319996002a7fb85bcc"
+  integrity sha512-Qke6AdzDjVs11D1L44SDHb8BjDd1nridjSfXvc08lx4FzZQED+xD/WYMVXrloQPr81gBh3YVxw3Ig1xe2+veJw==
   dependencies:
-    "@grafana/async-query-data" "0.4.0"
+    "@grafana/async-query-data" "0.4.1"
     "@grafana/plugin-ui" "^0.10.1"
 
-"@grafana/data@12.0.0", "@grafana/data@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@grafana/data/-/data-12.0.0.tgz#f602864b43cbcec7b0c347bd0268248d4e95a969"
-  integrity sha512-hUCq5hZ/PojC5eGQdyOSVnpEkyKutIeYW9E8ABUCaEz/03T5+QiA6+BhNXK405Yd9cJO6W4KcqqtPvtqjgcFkQ==
+"@grafana/data@12.0.1", "@grafana/data@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@grafana/data/-/data-12.0.1.tgz#1b4df372621bca8695ab53584040c43e51cd620c"
+  integrity sha512-XnAzNltJsuTUqlYuExfDNhuQgls7i7l+RtxtywiJCJDX414WnWs7kcH05suHBoIi1s36TrsqJ5ckP3/f7Xpocw==
   dependencies:
     "@braintree/sanitize-url" "7.0.1"
-    "@grafana/schema" "12.0.0"
+    "@grafana/schema" "12.0.1"
     "@types/d3-interpolate" "^3.0.0"
     "@types/string-hash" "1.1.3"
     "@types/systemjs" "6.15.1"
@@ -1026,10 +1026,10 @@
     uplot "1.6.32"
     xss "^1.0.14"
 
-"@grafana/e2e-selectors@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@grafana/e2e-selectors/-/e2e-selectors-12.0.0.tgz#40ef853b8601297cbf8a67f3cbc75dd7e1c5ec18"
-  integrity sha512-NKPx2LTFJ4qJBxaQ4ak0lG0Bj3NfrozoK5R8RLDhFs/wHrea2o5MFktwiq/cFvNf8L9W+LQ4tNbrB79UVXbEyA==
+"@grafana/e2e-selectors@12.0.1":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@grafana/e2e-selectors/-/e2e-selectors-12.0.1.tgz#af8f803f65277382093095d0426b9010d51b7cbd"
+  integrity sha512-SLTTOJ+bGBW64ghCG0H+6F5WOIUGVI6nN95yvxGjJUzZnZyg4oBjggkPp+Zaltlhs1ocSfQka5tMJ8IK+D+YAA==
   dependencies:
     "@grafana/tsconfig" "^2.0.0"
     semver "^7.7.0"
@@ -1110,16 +1110,16 @@
     sql-formatter-plus "^1.3.6"
     uuid "^11.0.0"
 
-"@grafana/runtime@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@grafana/runtime/-/runtime-12.0.0.tgz#6c43f190dd41053cc79bce471cc2e3764e997b10"
-  integrity sha512-GSugxjqQuoOtkYP1KrdQA1XGZe0Br6+QYAt/f6hTCQY0RUroIJKIbCecB+dJjqipbm9sdHKzHg94UHOL5QqpAg==
+"@grafana/runtime@^12.0.1":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@grafana/runtime/-/runtime-12.0.1.tgz#9e5cb285a335f5ad1ed1eabd34a337d1cd33e24b"
+  integrity sha512-gLXDhTEMWWHhKGlpnfoesMul2KKwtDk8MfexW3HmZ2thngCdMTuEyCgGQdDN3BlQLkDd6orbkTQ4vrO9V3yqrg==
   dependencies:
-    "@grafana/data" "12.0.0"
-    "@grafana/e2e-selectors" "12.0.0"
+    "@grafana/data" "12.0.1"
+    "@grafana/e2e-selectors" "12.0.1"
     "@grafana/faro-web-sdk" "^1.13.2"
-    "@grafana/schema" "12.0.0"
-    "@grafana/ui" "12.0.0"
+    "@grafana/schema" "12.0.1"
+    "@grafana/ui" "12.0.1"
     "@types/systemjs" "6.15.1"
     history "4.10.1"
     lodash "4.17.21"
@@ -1128,10 +1128,10 @@
     rxjs "7.8.1"
     tslib "2.8.1"
 
-"@grafana/schema@12.0.0", "@grafana/schema@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@grafana/schema/-/schema-12.0.0.tgz#f493947e405c32f4add36fcad36935017b0852d6"
-  integrity sha512-wUJ+QCR97In5B+7OOR7Ma2If/SkP8IBM/NTWFLMKJ9x7jJLDYeUaJYIh0lCQPE4RvtxbO6MbgXQcfsF7pl4Ogw==
+"@grafana/schema@12.0.1", "@grafana/schema@^12.0.0":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@grafana/schema/-/schema-12.0.1.tgz#3557f9a864215b051d14f430f398a12ff7b97419"
+  integrity sha512-11L8Mkyjnq2ZsXPFte6lwUvJbg5VnAw49au82C18DmIK5vHgZ0OejxlN09M53zaVXJvilHnLPXrPVKZuE9NSGA==
   dependencies:
     tslib "2.8.1"
 
@@ -1140,19 +1140,19 @@
   resolved "https://registry.yarnpkg.com/@grafana/tsconfig/-/tsconfig-2.0.0.tgz#277aba907ddbe0301dc37248923e6bd2b68f5151"
   integrity sha512-cxC3Htv/GidI5FeVGAzj/lYZTMMz/Cfsc8VOQFO3Ichjx3hUjyjeoBUIpVSVMnIjKUdA5ycdxtMYPHIuIrk8+A==
 
-"@grafana/ui@12.0.0", "@grafana/ui@^12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@grafana/ui/-/ui-12.0.0.tgz#0db962a2236705c37499e1153a0e9fdd7c092300"
-  integrity sha512-UEFXFUe9CiatddmbKSX+q8kel7uDY+uEIk/3oiCnKrIq73CJw2ddxVkVX6busAbeIrfOFEUxxwaTk4jmagDqjQ==
+"@grafana/ui@12.0.1", "@grafana/ui@^12.0.0":
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/@grafana/ui/-/ui-12.0.1.tgz#d9f19efa5ebbc7625f15098b82361107227323f6"
+  integrity sha512-qiRh9/P0JRBDb8SyuZV//mzvpsvYLX/gwru/e2P5SXPfrF8D8GeLzZGIPKrO7tb5TvBd97DvtH58YyMzu+La5A==
   dependencies:
     "@emotion/css" "11.13.5"
     "@emotion/react" "11.14.0"
     "@emotion/serialize" "1.3.3"
     "@floating-ui/react" "0.27.7"
-    "@grafana/data" "12.0.0"
-    "@grafana/e2e-selectors" "12.0.0"
+    "@grafana/data" "12.0.1"
+    "@grafana/e2e-selectors" "12.0.1"
     "@grafana/faro-web-sdk" "^1.13.2"
-    "@grafana/schema" "12.0.0"
+    "@grafana/schema" "12.0.1"
     "@hello-pangea/dnd" "17.0.0"
     "@leeoniya/ufuzzy" "1.0.18"
     "@monaco-editor/react" "4.6.0"
@@ -2146,12 +2146,12 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@stylistic/eslint-plugin-ts@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-ts/-/eslint-plugin-ts-4.2.0.tgz#8f5bd6673b735a51deb2a981d8c263830166b769"
-  integrity sha512-j2o2GvOx9v66x8hmp/HJ+0T+nOppiO5ycGsCkifh7JPGgjxEhpkGmIGx3RWsoxpWbad3VCX8e8/T8n3+7ze1Zg==
+"@stylistic/eslint-plugin-ts@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@stylistic/eslint-plugin-ts/-/eslint-plugin-ts-4.4.0.tgz#b532953efb08e6806eb74661abc074a81bd6ed77"
+  integrity sha512-i5fya8tZFbF/qbjhOJ9h7CbJr91KZqYOPwrARrcdhG837q/+CEF1Wua+cYK+F3jyeegzLskJgF2sFGizOxC2gQ==
   dependencies:
-    "@typescript-eslint/utils" "^8.23.0"
+    "@typescript-eslint/utils" "^8.32.1"
     eslint-visitor-keys "^4.2.0"
     espree "^10.3.0"
 
@@ -2692,7 +2692,7 @@
     semver "^7.6.0"
     ts-api-utils "^2.1.0"
 
-"@typescript-eslint/utils@8.32.1", "@typescript-eslint/utils@^8.23.0":
+"@typescript-eslint/utils@8.32.1", "@typescript-eslint/utils@^8.32.1":
   version "8.32.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-8.32.1.tgz#4d6d5d29b9e519e9a85e9a74e9f7bdb58abe9704"
   integrity sha512-DsSFNIgLSrc89gpq1LJB7Hm1YpuhK086DRDJSNrewcGvYloWW1vZLHBTIvarKZDcAORIy/uWNx8Gad+4oMpkSA==
@@ -7546,12 +7546,12 @@ react-router-dom@5.3.4:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router-dom@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.6.0.tgz#eadcede43856dc714fa3572a946fd7502775c017"
-  integrity sha512-DYgm6RDEuKdopSyGOWZGtDfSm7Aofb8CCzgkliTjtu/eDuB0gcsv6qdFhhi8HdtmA+KHkt5MfZ5K2PdzjugYsA==
+react-router-dom@^7.6.1:
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.6.1.tgz#263c9102e96b58d336258a51d68080b40c28f526"
+  integrity sha512-vxU7ei//UfPYQ3iZvHuO1D/5fX3/JOqhNTbRR+WjSBWxf9bIvpWK+ftjmdfJHzPOuMQKe2fiEdG+dZX6E8uUpA==
   dependencies:
-    react-router "7.6.0"
+    react-router "7.6.1"
 
 react-router@5.3.4:
   version "5.3.4"
@@ -7575,10 +7575,10 @@ react-router@6.29.0:
   dependencies:
     "@remix-run/router" "1.22.0"
 
-react-router@7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.6.0.tgz#e2d0872d7bea8df79465a8bba9a20c87c32ce995"
-  integrity sha512-GGufuHIVCJDbnIAXP3P9Sxzq3UUsddG3rrI3ut1q6m0FI6vxVBF3JoPQ38+W/blslLH4a5Yutp8drkEpXoddGQ==
+react-router@7.6.1:
+  version "7.6.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.6.1.tgz#a54f9b980b94594bcb4b7f26611612a9f6e17461"
+  integrity sha512-hPJXXxHJZEsPFNVbtATH7+MMX43UDeOauz+EAU4cgqTn7ojdI9qQORqS8Z0qmDlL1TclO/6jLRYUEtbWidtdHQ==
   dependencies:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
