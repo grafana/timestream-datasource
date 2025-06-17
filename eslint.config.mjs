@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 });
 export default [
   {
-    ignores: ['**/node_modules', '**/build', '**/dist', '**/playwright-report', '**/test-results'],
+    ignores: ['**/node_modules', '**/dist'],
   },
   ...compat.extends('./.config/.eslintrc'),
   {

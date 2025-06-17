@@ -81,7 +81,7 @@ func getFieldBuilder(t *timestreamquerytypes.Type) (*fieldBuilder, error) {
 			}, nil
 
 		default:
-			return nil, fmt.Errorf("Unsupported scalar value: %s", t.ScalarType)
+			return nil, fmt.Errorf("unsupported scalar value: %s", t.ScalarType)
 		}
 	}
 
@@ -102,7 +102,7 @@ func getFieldBuilder(t *timestreamquerytypes.Type) (*fieldBuilder, error) {
 		return getArrayBuilder(t.ArrayColumnInfo)
 	}
 
-	return nil, fmt.Errorf("Unsupported column: %+v", t)
+	return nil, fmt.Errorf("unsupported column: %+v", t)
 }
 
 func getArrayBuilder(column *timestreamquerytypes.ColumnInfo) (*fieldBuilder, error) {

@@ -12,7 +12,7 @@ import {
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { appendMatchingFrames } from 'appendFrames';
 import { getRequestLooper, MultiRequestTracker } from 'requestLooper';
-import { merge, Observable, of } from 'rxjs';
+import { lastValueFrom, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TimestreamCustomMeta, TimestreamOptions, TimestreamQuery } from './types';
@@ -35,8 +35,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       return Promise.resolve([]);
     }
     const q = getTemplateSrv().replace(query as string);
-    return this.getStrings(q, options.range)
-      .toPromise()
+    return lastValueFrom(this.getStrings(q, options.range))
       .then((strings) => {
         return (strings || []).map((s) => ({
           text: s,
@@ -321,8 +320,8 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
       range,
     } as unknown as DataQueryRequest).pipe(
       map((res) => {
-        if (res.error) {
-          const message = res.error.message ?? res.error.data?.message ?? 'Error getting variable';
+        if (res.errors?.length) {
+          const message = res.errors[0].message ?? res.errors[0].message ?? 'Error getting variable';
           throw new Error(message);
         }
         const first = res.data[0] as DataFrame;
@@ -331,7 +330,7 @@ export class DataSource extends DataSourceWithBackend<TimestreamQuery, Timestrea
         }
         const vals = first.fields[0]?.values;
         if (vals) {
-          return vals.toArray(); //
+          return vals;
         }
         return [];
       })
