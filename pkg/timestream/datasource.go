@@ -162,7 +162,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	}
 	if req.Path == "cancel" {
 		if req.Method != "POST" {
-			return fmt.Errorf("Cancel requires a post command")
+			return fmt.Errorf("cancel requires a post command")
 		}
 		cancel := &models.CancelRequest{}
 
@@ -195,7 +195,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	}
 	if req.Path == "tables" {
 		if req.Method != "POST" {
-			return fmt.Errorf("Tables requires a post command")
+			return fmt.Errorf("tables requires a post command")
 		}
 		opts := models.TablesRequest{}
 		err := json.Unmarshal(req.Body, &opts)
@@ -214,7 +214,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	}
 	if req.Path == "measures" || req.Path == "dimensions" {
 		if req.Method != "POST" {
-			return fmt.Errorf("Measures requires a post command")
+			return fmt.Errorf("measures requires a post command")
 		}
 		opts := models.MeasuresRequest{}
 		err := json.Unmarshal(req.Body, &opts)
