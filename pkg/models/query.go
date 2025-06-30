@@ -3,10 +3,10 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/common"
 )
 
@@ -19,6 +19,8 @@ const (
 	//FormatOptionTimeSeries formats the query results as a timeseries using "WideToLong"
 	FormatOptionTimeSeries
 )
+
+var LegacyQueryCheck = regexp.MustCompile(`"format":\s*"table"`)
 
 // QueryModel represents a spreadsheet query.
 type QueryModel struct {
@@ -48,7 +50,10 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 
 	err := json.Unmarshal(query.JSON, &model)
 	if err != nil {
-		return nil, errorsource.PluginError(fmt.Errorf("error reading query: %s", err.Error()), false)
+		if LegacyQueryCheck.Match(query.JSON) {
+			return nil, backend.DownstreamError(fmt.Errorf("query is incompatible with current structure, please rebuild it: %w", err))
+		}
+		return nil, backend.PluginError(fmt.Errorf("error reading query: %s", err.Error()))
 	}
 
 	// Copy directly from the well typed query
