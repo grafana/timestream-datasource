@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.2
+- Dependency updates:
+  - Bump the all-node-dependencies group across 1 directory with 27 updates by @dependabot in [#428](https://github.com/grafana/timestream-datasource/pull/428)
+
 ## 2.12.1
 - Mark legacy query format as downstream error by @njvrzm in [#431](https://github.com/grafana/timestream-datasource/pull/431)
 - Chore: migrate to Github actions by @idastambuk in [#425](https://github.com/grafana/timestream-datasource/pull/425)
