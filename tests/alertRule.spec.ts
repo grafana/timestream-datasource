@@ -13,7 +13,7 @@ test('should successfully create an alert rule', async ({
   selectors,
 }) => {
   const ds = await readProvisionedDataSource({ fileName: 'aws-timestream-e2e.yaml', name: 'AWS Timestream E2E' });
-  const queryA = alertRuleEditPage.getAlertRuleQueryRow('A');
+  const queryA = await alertRuleEditPage.getQueryRow('A');
   await queryA.datasource.set(ds.name);
   await page.waitForFunction(() => window.monaco);
   await queryA.getByGrafanaSelector(selectors.components.CodeEditor.container).click();
