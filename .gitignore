@@ -8,6 +8,7 @@ dist/
 pkg/__debug_bin
 yarn-error.log
 .eslintcache
+.env*
 
 # End to End tests
 provisioning/
