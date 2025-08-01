@@ -1,0 +1,11 @@
+name: Dependabot reviewer
+on: pull_request
+permissions:
+  pull-requests: write
+  contents: write
+jobs:
+  call-workflow-passing-data:
+    uses: grafana/security-github-actions/.github/workflows/dependabot-automerge.yaml@main
+    with:
+      packages-minor-autoupdate: '["@emotion/css","@grafana/data","@grafana/experimental","@grafana/runtime","@grafana/schema","@grafana/ui","tslib","github.com/aws/aws-sdk-go-v2","github.com/aws/aws-sdk-go-v2/service/timestreamquery","github.com/google/go-cmp","github.com/grafana/grafana-aws-sdk","github.com/grafana/grafana-plugin-sdk-go","github.com/stretchr/testify","golang.org/x/exp"]'
+      repository-merge-method: 'squash'
