@@ -47,7 +47,6 @@
     "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.3.0",
-    "@types/glob": "^8.1.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.15.21",
     "@types/semver": "^7.7.0",
