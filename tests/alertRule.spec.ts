@@ -22,5 +22,5 @@ test('should successfully create an alert rule', async ({
   );
   await expect(alertRuleEditPage.evaluate()).toBeOK();
   // TODO: remove page.unrouteAll if onBlur handler is removed from SQLEditor
-  await page.unrouteAll({ behavior: 'wait' });
+  await page.unrouteAll({ behavior: 'ignoreErrors' });
 });
