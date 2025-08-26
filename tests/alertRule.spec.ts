@@ -3,6 +3,7 @@ import { test, expect } from '@grafana/plugin-e2e';
 test.use({
   featureToggles: {
     alertingQueryAndExpressionsStepMode: false,
+    alertingNotificationsStepMode: false
   },
 });
 
@@ -22,5 +23,5 @@ test('should successfully create an alert rule', async ({
   );
   await expect(alertRuleEditPage.evaluate()).toBeOK();
   // TODO: remove page.unrouteAll if onBlur handler is removed from SQLEditor
-  // await page.unrouteAll({ behavior: 'ignoreErrors' });
+  await page.unrouteAll({ behavior: 'ignoreErrors' });
 });
