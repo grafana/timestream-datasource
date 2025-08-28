@@ -25,7 +25,7 @@ test('should successfully create an alert rule', async ({
   // This causes flaky errors like Error: route.fulfill: Route is already handled!
   // In order to fix the flakiness this lets make sure we click outside the sql editor and wait for the first POST to '/api/v1/eval' before we call alertRuleEditPage.evaluate()
   await page.mouse.click(0, 0); // forces a click outside the SqlEditor forcing the onBlur handler
-  await page.waitForRequest(selectors.apis.Alerting.eval); // wait for the onBlur handlers call to '/api/v1/eval'
+  await page.waitForRequest(selectors.apis.Alerting.eval, { timeout: 1000 * 10 }); // wait for the onBlur handlers call to '/api/v1/eval'
 
   await expect(alertRuleEditPage.evaluate()).toBeOK();
 });
