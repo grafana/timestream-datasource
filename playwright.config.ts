@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 // Read from ".env" file.
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
 const pluginE2eAuth = `${dirname(require.resolve('@grafana/plugin-e2e'))}/auth`;
 
