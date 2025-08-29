@@ -3,7 +3,7 @@ module github.com/grafana/timestream-datasource
 go 1.24.4
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.38.0
+	github.com/aws/aws-sdk-go-v2 v1.38.1
 	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.31.3
 	github.com/google/go-cmp v0.7.0
 	github.com/grafana/grafana-aws-sdk v1.1.1
