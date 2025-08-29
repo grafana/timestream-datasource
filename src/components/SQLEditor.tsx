@@ -13,7 +13,7 @@ interface RawEditorProps {
   datasource: DataSource;
 }
 
-export default function SQLEditor({ query, datasource, onRunQuery, onChange }: RawEditorProps) {
+export default function SQLEditor({ query, datasource, onChange }: RawEditorProps) {
   const queryRef = useRef<TimestreamQuery>(query);
   useEffect(() => {
     queryRef.current = query;
@@ -70,7 +70,6 @@ export default function SQLEditor({ query, datasource, onRunQuery, onChange }: R
   return (
     <SQLCodeEditor
       query={query.rawQuery ?? ''}
-      onBlur={() => onRunQuery()}
       onChange={onChangeRawQuery}
       language={{
         ...timestreamLanguageDefinition,
