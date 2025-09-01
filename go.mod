@@ -8,7 +8,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/grafana/grafana-aws-sdk v1.1.1
 	github.com/grafana/grafana-plugin-sdk-go v0.278.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
 )
 
