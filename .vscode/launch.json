@@ -6,10 +6,9 @@
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "${workspaceFolder}/pkg/main.go",
+      "program": "${workspaceFolder}/pkg/",
       "env": {},
-      "args": ["--standalone=true"],
-      "output": "${workspaceFolder}/pkg/__debug_bin"
-    }
+      "args": ["--standalone=true"]
+    },
   ]
 }
