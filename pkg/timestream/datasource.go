@@ -66,7 +66,21 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 	var client QueryClient
 	if settings.Endpoint != "" && settings.Endpoint != "default" {
 		client = timestreamquery.NewFromConfig(cfg, func(o *timestreamquery.Options) {
-			// Disable endpoint discovery if a custom endpoint is provided
+			// Why disable Endpoint Discovery when a custom endpoint (e.g., VPC endpoint) is configured?
+			// - AWS SDK for Go v1: endpoint discovery was OFF by default and only used when endpoint was unset/empty.
+			//   VPC setups worked because DescribeEndpoints was not invoked.
+			// - AWS SDK for Go v2: endpoint discovery defaults to AUTO. Because Timestream requires discovery,
+			//   the SDK will call DescribeEndpoints before Query. With a custom BaseEndpoint (VPC endpoint),
+			//   DescribeEndpoints is routed through that endpoint, which typically does not implement it,
+			//   resulting in a 404 response.
+			// - Even forcing discovery through the SDK’s default public resolver can fail if the VPC blocks
+			//   egress to public AWS endpoints.
+			// To preserve existing customer VPC configurations and avoid breaking changes, we explicitly disable
+			// endpoint discovery whenever a custom endpoint is provided. Regular operations still use the custom endpoint.
+			//
+			// References:
+			// - v1 behavior (see `EnableEndpointDiscovery` default): https://docs.aws.amazon.com/sdk-for-go/api/aws/
+			// - v2 EndpointDiscoveryEnableState (AUTO default): https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/aws#EndpointDiscoveryEnableState
 			o.EndpointDiscovery.EnableEndpointDiscovery = aws.EndpointDiscoveryDisabled
 		})
 	} else {
