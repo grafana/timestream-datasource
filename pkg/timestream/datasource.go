@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"time"
 
+	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	sdkhttpclient "github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
@@ -63,9 +63,21 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 		return nil, backend.DownstreamError(err)
 	}
 
+	var client QueryClient
+	if settings.Endpoint != "" && settings.Endpoint != "default" {
+		client = timestreamquery.NewFromConfig(cfg, func(o *timestreamquery.Options) {
+			// Keep endpoint discovery enabled (required for Timestream as noted in https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoint-discovery.html)
+			o.EndpointDiscovery.EnableEndpointDiscovery = aws.EndpointDiscoveryEnabled
+			// Use the default endpoint resolver for DescribeEndpoints calls while keeping all other operations on the custom endpoint
+			o.EndpointDiscovery.EndpointResolverUsedForDiscovery = timestreamquery.NewDefaultEndpointResolver()
+		})
+	} else {
+		client = timestreamquery.NewFromConfig(cfg)
+	}
+
 	return &timestreamDS{
 		Settings: settings,
-		Client:   timestreamquery.NewFromConfig(cfg),
+		Client:   client,
 	}, nil
 }
 
