@@ -66,10 +66,8 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 	var client QueryClient
 	if settings.Endpoint != "" && settings.Endpoint != "default" {
 		client = timestreamquery.NewFromConfig(cfg, func(o *timestreamquery.Options) {
-			// Keep endpoint discovery enabled (required for Timestream as noted in https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoint-discovery.html)
-			o.EndpointDiscovery.EnableEndpointDiscovery = aws.EndpointDiscoveryEnabled
-			// Use the default endpoint resolver for DescribeEndpoints calls while keeping all other operations on the custom endpoint
-			o.EndpointDiscovery.EndpointResolverUsedForDiscovery = timestreamquery.NewDefaultEndpointResolver()
+			// Disable endpoint discovery if a custom endpoint is provided
+			o.EndpointDiscovery.EnableEndpointDiscovery = aws.EndpointDiscoveryDisabled
 		})
 	} else {
 		client = timestreamquery.NewFromConfig(cfg)
