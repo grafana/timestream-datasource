@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"time"
 
+	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	sdkhttpclient "github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
@@ -63,9 +63,33 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 		return nil, backend.DownstreamError(err)
 	}
 
+	var client QueryClient
+	if settings.Endpoint != "" && settings.Endpoint != "default" {
+		client = timestreamquery.NewFromConfig(cfg, func(o *timestreamquery.Options) {
+			// Why disable Endpoint Discovery when a custom endpoint (e.g., VPC endpoint) is configured?
+			// - AWS SDK for Go v1: endpoint discovery was OFF by default and only used when endpoint was unset/empty.
+			//   VPC setups worked because DescribeEndpoints was not invoked.
+			// - AWS SDK for Go v2: endpoint discovery defaults to AUTO. Because Timestream requires discovery,
+			//   the SDK will call DescribeEndpoints before Query. With a custom BaseEndpoint (VPC endpoint),
+			//   DescribeEndpoints is routed through that endpoint, which typically does not implement it,
+			//   resulting in a 404 response.
+			// - Even forcing discovery through the SDK’s default public resolver can fail if the VPC blocks
+			//   egress to public AWS endpoints.
+			// To preserve existing customer VPC configurations and avoid breaking changes, we explicitly disable
+			// endpoint discovery whenever a custom endpoint is provided. Regular operations still use the custom endpoint.
+			//
+			// References:
+			// - v1 behavior (see `EnableEndpointDiscovery` default): https://docs.aws.amazon.com/sdk-for-go/api/aws/
+			// - v2 EndpointDiscoveryEnableState (AUTO default): https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/aws#EndpointDiscoveryEnableState
+			o.EndpointDiscovery.EnableEndpointDiscovery = aws.EndpointDiscoveryDisabled
+		})
+	} else {
+		client = timestreamquery.NewFromConfig(cfg)
+	}
+
 	return &timestreamDS{
 		Settings: settings,
-		Client:   timestreamquery.NewFromConfig(cfg),
+		Client:   client,
 	}, nil
 }
 
