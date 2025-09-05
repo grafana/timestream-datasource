@@ -2,10 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.3
+
+- Remove pr_commands by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/436
+- Chore: Use ci github action to run e2e tests by @idastambuk in https://github.com/grafana/timestream-datasource/pull/438
+- Add support for auto-merging dependabot updates by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/427
+- Tweak dependabot schedule by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/450
+- Bump github.com/aws/aws-sdk-go-v2 from 1.36.4 to 1.36.6 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/442
+- Bump @swc/jest from 0.2.38 to 0.2.39 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/444
+- Remove @types/glob by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/445
+- Bump dotenv from 17.2.0 to 17.2.1 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/446
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.277.1 to 0.278.0 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/447
+- Bump @eslint/js from 9.30.0 to 9.31.0 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/449
+- Bump github.com/aws/aws-sdk-go-v2/service/timestreamquery from 1.31.1 to 1.31.3 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/443
+- Bump github.com/grafana/grafana-aws-sdk from 0.38.7 to 1.1.0 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/451
+- Stop running queries onblur by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/453
+- Bump the grafana-dependencies group and run grafana/create-plugin update by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/448
+- Bump eslint-plugin-prettier from 5.5.1 to 5.5.4 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/458
+- Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/461
+- Bump github.com/grafana/grafana-aws-sdk from 1.1.0 to 1.1.1 by @dependabot[bot] in https://github.com/grafana/timestream-datasource/pull/464
+- Fix: disable endpoint discovery when a custom endpoint is set by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/475
+
 ## 2.12.2
+
 - Releasing for internal deployment testing, no actual changes
 
 ## 2.12.1
+
 - Mark legacy query format as downstream error by @njvrzm in [#431](https://github.com/grafana/timestream-datasource/pull/431)
 - Chore: migrate to Github actions by @idastambuk in [#425](https://github.com/grafana/timestream-datasource/pull/425)
 - Chore: Update CONTRIBUTING.md with release instructions by @idastambuk in [#426](https://github.com/grafana/timestream-datasource/pull/426)
