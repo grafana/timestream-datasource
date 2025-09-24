@@ -3,30 +3,30 @@ module github.com/grafana/timestream-datasource
 go 1.24.6
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.38.0
+	github.com/aws/aws-sdk-go-v2 v1.38.1
 	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.31.3
 	github.com/google/go-cmp v0.7.0
-	github.com/grafana/grafana-aws-sdk v1.1.1
+	github.com/grafana/grafana-aws-sdk v1.2.0
 	github.com/grafana/grafana-plugin-sdk-go v0.279.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 	golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
 )
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/apache/arrow-go/v18 v18.4.0 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.30.3 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.18.3 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.2 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.2 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.31.2 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.18.6 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.4 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.18 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.2 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.27.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.32.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.36.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.28.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.33.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.38.0 // indirect
 	github.com/aws/smithy-go v1.22.5 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
