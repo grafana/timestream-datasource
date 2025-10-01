@@ -1,6 +1,5 @@
 .DS_Store
 .idea/
-.yarn/
 node_modules/
 coverage/
 ci/
