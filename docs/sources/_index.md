@@ -12,7 +12,7 @@ The Timestream datasource plugin provides a support for [Amazon Timestream](http
 ## Configuring the data source
 
 ### Authentication
-Depending on the environment in which it is run, Grafana supports different authentication providers such as keys, a credentials file, or using the "Default" provider from AWS which supports using service-based IAM roles. These providers can be manually enabled/disabled with the allowed_auth_providers field. To read more about supported authentication providers refer to [the Cloud Watch Data Source's documentation](https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/aws-authentication/#select-an-authentication-method)
+Depending on the environment in which it is run, Grafana supports different authentication providers such as keys, a credentials file, or using the "Default" provider from AWS which supports using service-based IAM roles. These providers can be manually enabled/disabled with the allowed_auth_providers field. To read more about supported authentication providers refer to [the AWS authentication section](https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/aws-authentication/#select-an-authentication-method)
 
 ### IAM policies
 
