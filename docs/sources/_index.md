@@ -164,4 +164,4 @@ This plugin contains one sample dashboard. Please consult the [Sample Applicatio
 
 ### Plugin repository
 
-You can request new features, report issues, or contribute code directly through the [Timestream plugin Github repository](https://github.com/grafana/grafana-timestream-datasource/)
+You can request new features, report issues, or contribute code directly through the [Timestream plugin Github repository](https://github.com/grafana/timestream-datasource/)
