@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.4
+
+- Bump transitive dep brace-expansion to 1.1.12 and 2.0.2 in [#522](https://github.com/grafana/timestream-datasource/pull/522)
+- Update gitignore for yarn files in [#512](https://github.com/grafana/timestream-datasource/pull/512)
+- Upgrade yarn to v4.10.3 in [#507](https://github.com/grafana/timestream-datasource/pull/507)
+- Chore: Move docs to docs/sources to enable publishing to website in [#508](https://github.com/grafana/timestream-datasource/pull/508)
+- CD: Publish Github release directly, skipping draft step in [#506](https://github.com/grafana/timestream-datasource/pull/506)
+- Update workflows and templates in [#494](https://github.com/grafana/timestream-datasource/pull/494)
+- Chore(deps-dev): Bump the npm-patch-dev-dependencies group with 5 updates in [#502](https://github.com/grafana/timestream-datasource/pull/502)
+- Chore(deps): Bump github.com/grafana/grafana-aws-sdk from 1.1.1 to 1.2.0 in [#503](https://github.com/grafana/timestream-datasource/pull/503)
+- Chore(deps): Bump github.com/grafana/grafana-plugin-sdk-go from 0.278.0 to 0.279.0 in [#501](https://github.com/grafana/timestream-datasource/pull/501)
+- Update dependabot groups in [#493](https://github.com/grafana/timestream-datasource/pull/493)
+- Chore(deps-dev): Bump @swc/core from 1.12.7 to 1.13.5 in [#495](https://github.com/grafana/timestream-datasource/pull/495)
+- Chore(deps-dev): Bump sass from 1.89.2 to 1.92.0 in [#492](https://github.com/grafana/timestream-datasource/pull/492)
+- Chore(deps-dev): Bump jest-environment-jsdom from 30.0.2 to 30.1.2 in [#489](https://github.com/grafana/timestream-datasource/pull/489)
+
 ## 2.12.3
 
 - Remove pr_commands by @kevinwcyu in https://github.com/grafana/timestream-datasource/pull/436
