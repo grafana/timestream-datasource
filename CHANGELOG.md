@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.5
+
+- Publish to every environment on Cloud and Add On-Prem promotion in [#525](https://github.com/grafana/timestream-datasource/pull/525)
+- Chore(deps): Bump the aws-sdk-go-v2 group with 2 updates in [#500](https://github.com/grafana/timestream-datasource/pull/500)
+- Chore(deps): Bump actions/stale from 9 to 10 in [#486](https://github.com/grafana/timestream-datasource/pull/486)
+
 ## 2.12.4
 
 - Bump transitive dep brace-expansion to 1.1.12 and 2.0.2 in [#522](https://github.com/grafana/timestream-datasource/pull/522)
