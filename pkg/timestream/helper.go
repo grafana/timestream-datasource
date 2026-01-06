@@ -8,7 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/timestreamquery"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 )
 
@@ -50,8 +49,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 				nv := series.Data[timeseriesColumn.columnIdx].NullValue
 				isNullDataPoint := nv != nil && *nv
 				if tv == nil && !isNullDataPoint {
-					return errorsource.Response(errorsource.PluginError(
-						fmt.Errorf("expecting timeseries column at: %d", timeseriesColumn.columnIdx), false))
+					return backend.ErrorResponseWithErrorSource(backend.PluginErrorf("expecting timeseries column at: %d", timeseriesColumn.columnIdx))
 				}
 
 				length := len(tv)
@@ -122,7 +120,7 @@ func QueryResultToDataFrame(res *timestreamquery.QueryOutput, format models.Form
 					Mode: data.FillModeNull,
 				})
 				if err != nil {
-					return errorsource.Response(errorsource.PluginError(fmt.Errorf("error formatting as timeseries: %s", err), false))
+					return backend.ErrorResponseWithErrorSource(backend.PluginErrorf("error formatting as timeseries: %s", err))
 				}
 			}
 		}

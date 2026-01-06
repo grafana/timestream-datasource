@@ -2,12 +2,14 @@ module github.com/grafana/timestream-datasource
 
 go 1.24.6
 
+toolchain go1.24.10
+
 require (
 	github.com/aws/aws-sdk-go-v2 v1.39.6
 	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.35.5
 	github.com/google/go-cmp v0.7.0
 	github.com/grafana/grafana-aws-sdk v1.4.2
-	github.com/grafana/grafana-plugin-sdk-go v0.283.0
+	github.com/grafana/grafana-plugin-sdk-go v0.284.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/exp v0.0.0-20251002181428-27f1f14c8bb9
 )
@@ -107,7 +109,7 @@ require (
 	golang.org/x/mod v0.28.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/telemetry v0.0.0-20250908211612-aef8a434d053 // indirect
 	golang.org/x/term v0.36.0 // indirect
 	golang.org/x/text v0.30.0 // indirect

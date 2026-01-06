@@ -12,7 +12,6 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/grafana/timestream-datasource/pkg/models"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -29,19 +28,19 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 	settings := models.DatasourceSettings{}
 	err := settings.Load(s)
 	if err != nil {
-		return nil, errorsource.PluginError(fmt.Errorf("error reading settings: %s", err.Error()), false)
+		return nil, backend.PluginError(fmt.Errorf("error reading settings: %s", err.Error()))
 	}
 
 	httpClientProvider := sdkhttpclient.NewProvider()
 	httpClientOptions, err := settings.Config.HTTPClientOptions(ctx)
 	if err != nil {
 		backend.Logger.Error("failed to create HTTP client options", "error", err.Error())
-		return nil, errorsource.PluginError(err, false)
+		return nil, backend.PluginError(err)
 	}
 	httpClient, err := httpClientProvider.New(httpClientOptions)
 	if err != nil {
 		backend.Logger.Error("failed to create HTTP client", "error", err.Error())
-		return nil, errorsource.PluginError(err, false)
+		return nil, backend.PluginError(err)
 	}
 	region := settings.Region
 	if region == "" || region == "default" {
@@ -142,7 +141,7 @@ func (ds *timestreamDS) QueryData(ctx context.Context, req *backend.QueryDataReq
 	for _, q := range req.Queries {
 		query, err := models.GetQueryModel(q)
 		if err != nil {
-			errorsource.AddErrorToResponse(q.RefID, res, err)
+			res.Responses[q.RefID] = backend.ErrorResponseWithErrorSource(err)
 		} else {
 			res.Responses[q.RefID] = ds.ExecuteQuery(ctx, *query)
 		}
@@ -272,7 +271,7 @@ func applyQuotesIfNeeded(input string) string {
 func (ds *timestreamDS) ExecuteQuery(ctx context.Context, query models.QueryModel) backend.DataResponse {
 	raw, err := Interpolate(query, ds.Settings)
 	if err != nil {
-		return errorsource.Response(err)
+		return backend.ErrorResponseWithErrorSource(backend.DownstreamError(err))
 	}
 	input := &timestreamquery.QueryInput{
 		QueryString: aws.String(raw),
@@ -305,7 +304,7 @@ func (ds *timestreamDS) ExecuteQuery(ctx context.Context, query models.QueryMode
 		dr = QueryResultToDataFrame(output, query.Format)
 	} else {
 		// override: false here because runQuery may return a PluginError
-		dr = errorsource.Response(errorsource.DownstreamError(err, false))
+		dr = backend.ErrorResponseWithErrorSource(backend.DownstreamError(err))
 	}
 	finish := time.Now().UnixMilli()
 
