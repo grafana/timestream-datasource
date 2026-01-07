@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/timestream-datasource/pkg/models"
 	"golang.org/x/exp/maps"
 )
@@ -99,7 +99,7 @@ func Interpolate(model models.QueryModel, settings models.DatasourceSettings) (s
 		}
 		replacement, err := macroFuncs[key](model, settings)
 		if err != nil {
-			return query, errorsource.DownstreamError(err, false)
+			return query, backend.DownstreamError(err)
 		}
 		query = strings.ReplaceAll(query, macroKey, replacement)
 	}
