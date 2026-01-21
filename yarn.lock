@@ -1523,14 +1523,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:12.4.0-20331417332":
-  version: 12.4.0-20331417332
-  resolution: "@grafana/e2e-selectors@npm:12.4.0-20331417332"
+"@grafana/e2e-selectors@npm:12.4.0-21205677807":
+  version: 12.4.0-21205677807
+  resolution: "@grafana/e2e-selectors@npm:12.4.0-21205677807"
   dependencies:
     semver: "npm:^7.7.0"
     tslib: "npm:2.8.1"
     typescript: "npm:5.9.2"
-  checksum: 10c0/cb10cf2d08c144638dc6ffa371f1aa587d3c604c47ea540172b5e91d36e6c1c658afd4e78d13afb1255a019cc7c5d07b0900514872c47678b50e1036d2645ff1
+  checksum: 10c0/f1c699fa4bc381f4ea19315c70839dbc32c621db3ab3d771605d2e74afcf27c84e895065c3b25ab73854a70f45c3f835f3794e563c1d2f176a5ee805e0eec05a
   languageName: node
   linkType: hard
 
@@ -1616,17 +1616,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-e2e@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@grafana/plugin-e2e@npm:3.1.1"
+"@grafana/plugin-e2e@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@grafana/plugin-e2e@npm:3.1.4"
   dependencies:
-    "@grafana/e2e-selectors": "npm:12.4.0-20331417332"
+    "@grafana/e2e-selectors": "npm:12.4.0-21205677807"
     semver: "npm:^7.5.4"
     uuid: "npm:^13.0.0"
     yaml: "npm:^2.3.4"
   peerDependencies:
     "@playwright/test": ^1.52.0
-  checksum: 10c0/1ce6c99162fd26f708587733e1346146cf21e1d05b5572decc9d49240afd960086d4fb7c71f11274a56b7fe4a0450ac4ebc749234238d80ea12c4368150eb235
+  checksum: 10c0/835baf4387cb16a9f878903ca922048eeb39d2a508b139f7008b08583f5efb4828dfa11ec72f162545b68cd92ad4d07e15b98ea74aa4e37b5b78a1a36a4b4eee
   languageName: node
   linkType: hard
 
@@ -2755,14 +2755,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.53.1":
-  version: 1.53.1
-  resolution: "@playwright/test@npm:1.53.1"
+"@playwright/test@npm:1.57.0":
+  version: 1.57.0
+  resolution: "@playwright/test@npm:1.57.0"
   dependencies:
-    playwright: "npm:1.53.1"
+    playwright: "npm:1.57.0"
   bin:
     playwright: cli.js
-  checksum: 10c0/f2ef7899ca6bc178c9f2ba6c8633d0bbeb5ba135048e9df01ecb949c6f743811ba5ef76d495f619454074c81dbfa28be12e4c0a1224bb2af0d4cb403182c716f
+  checksum: 10c0/35ba4b28be72bf0a53e33dbb11c6cff848fb9a37f49e893ce63a90675b5291ec29a1ba82c8a3b043abaead129400f0589623e9ace2e6a1c8eaa409721ecc3774
   languageName: node
   linkType: hard
 
@@ -7366,8 +7366,8 @@ __metadata:
   linkType: hard
 
 "glob@npm:^10.2.2, glob@npm:^10.3.10":
-  version: 10.4.5
-  resolution: "glob@npm:10.4.5"
+  version: 10.5.0
+  resolution: "glob@npm:10.5.0"
   dependencies:
     foreground-child: "npm:^3.1.0"
     jackspeak: "npm:^3.1.2"
@@ -7377,23 +7377,23 @@ __metadata:
     path-scurry: "npm:^1.11.1"
   bin:
     glob: dist/esm/bin.mjs
-  checksum: 10c0/19a9759ea77b8e3ca0a43c2f07ecddc2ad46216b786bb8f993c445aee80d345925a21e5280c7b7c6c59e860a0154b84e4b2b60321fea92cd3c56b4a7489f160e
+  checksum: 10c0/100705eddbde6323e7b35e1d1ac28bcb58322095bd8e63a7d0bef1a2cdafe0d0f7922a981b2b48369a4f8c1b077be5c171804534c3509dfe950dde15fbe6d828
   languageName: node
   linkType: hard
 
 "glob@npm:^11.0.3":
-  version: 11.0.3
-  resolution: "glob@npm:11.0.3"
+  version: 11.1.0
+  resolution: "glob@npm:11.1.0"
   dependencies:
     foreground-child: "npm:^3.3.1"
     jackspeak: "npm:^4.1.1"
-    minimatch: "npm:^10.0.3"
+    minimatch: "npm:^10.1.1"
     minipass: "npm:^7.1.2"
     package-json-from-dist: "npm:^1.0.0"
     path-scurry: "npm:^2.0.0"
   bin:
     glob: dist/esm/bin.mjs
-  checksum: 10c0/7d24457549ec2903920dfa3d8e76850e7c02aa709122f0164b240c712f5455c0b457e6f2a1eee39344c6148e39895be8094ae8cfef7ccc3296ed30bce250c661
+  checksum: 10c0/1ceae07f23e316a6fa74581d9a74be6e8c2e590d2f7205034dd5c0435c53f5f7b712c2be00c3b65bf0a49294a1c6f4b98cd84c7637e29453b5aa13b79f1763a2
   languageName: node
   linkType: hard
 
@@ -7477,12 +7477,12 @@ __metadata:
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:^9.0.0"
     "@grafana/experimental": "npm:^2.1.6"
-    "@grafana/plugin-e2e": "npm:^3.1.1"
+    "@grafana/plugin-e2e": "npm:3.1.4"
     "@grafana/runtime": "npm:^12.1.0"
     "@grafana/schema": "npm:^12.1.0"
     "@grafana/tsconfig": "npm:^2.0.0"
     "@grafana/ui": "npm:^12.1.0"
-    "@playwright/test": "npm:1.53.1"
+    "@playwright/test": "npm:1.57.0"
     "@stylistic/eslint-plugin-ts": "npm:^4.4.1"
     "@swc/core": "npm:^1.13.5"
     "@swc/helpers": "npm:^0.5.17"
@@ -9414,12 +9414,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^10.0.3":
-  version: 10.0.3
-  resolution: "minimatch@npm:10.0.3"
+"minimatch@npm:^10.1.1":
+  version: 10.1.1
+  resolution: "minimatch@npm:10.1.1"
   dependencies:
     "@isaacs/brace-expansion": "npm:^5.0.0"
-  checksum: 10c0/e43e4a905c5d70ac4cec8530ceaeccb9c544b1ba8ac45238e2a78121a01c17ff0c373346472d221872563204eabe929ad02669bb575cb1f0cc30facab369f70f
+  checksum: 10c0/c85d44821c71973d636091fddbfbffe62370f5ee3caf0241c5b60c18cd289e916200acb2361b7e987558cd06896d153e25d505db9fc1e43e6b4b6752e2702902
   languageName: node
   linkType: hard
 
@@ -10093,27 +10093,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.53.1":
-  version: 1.53.1
-  resolution: "playwright-core@npm:1.53.1"
+"playwright-core@npm:1.57.0":
+  version: 1.57.0
+  resolution: "playwright-core@npm:1.57.0"
   bin:
     playwright-core: cli.js
-  checksum: 10c0/8780552740741b94c346373ab6f949e9a44d3df54016b12123da9fe2f5fb60c1838197642916789b0a2ffb567e4ba0089f2e57d496bef7e460ddc4526f9b3b0f
+  checksum: 10c0/798e35d83bf48419a8c73de20bb94d68be5dde68de23f95d80a0ebe401e3b83e29e3e84aea7894d67fa6c79d2d3d40cc5bcde3e166f657ce50987aaa2421b6a9
   languageName: node
   linkType: hard
 
-"playwright@npm:1.53.1":
-  version: 1.53.1
-  resolution: "playwright@npm:1.53.1"
+"playwright@npm:1.57.0":
+  version: 1.57.0
+  resolution: "playwright@npm:1.57.0"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.53.1"
+    playwright-core: "npm:1.57.0"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 10c0/3dcbcd3791a7f0d1007db4d3126c8136258a2002c2fbfc8b840086b64cbc1fb628b2e25dd3b345d685fb27ba39790ab0f4ce81a8faade7dc748af3a63bdf3550
+  checksum: 10c0/ab03c99a67b835bdea9059f516ad3b6e42c21025f9adaa161a4ef6bc7ca716dcba476d287140bb240d06126eb23f889a8933b8f5f1f1a56b80659d92d1358899
   languageName: node
   linkType: hard
 
