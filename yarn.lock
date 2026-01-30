@@ -1471,13 +1471,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/aws-sdk@npm:0.8.3":
-  version: 0.8.3
-  resolution: "@grafana/aws-sdk@npm:0.8.3"
+"@grafana/aws-sdk@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@grafana/aws-sdk@npm:0.9.0"
   dependencies:
     "@grafana/async-query-data": "npm:0.4.2"
-    "@grafana/plugin-ui": "npm:^0.11.0"
-  checksum: 10c0/6791ca41c849d944601a3dd857ab05bc1da48aed3de80dc987589ffbbf662e8e595d6e118dba0da3fb16f49aab15d2691aebd1eece3e4f03957e818033e29093
+    "@grafana/plugin-ui": "npm:^0.12.0"
+  checksum: 10c0/4f8e39070a017527357b49f64e587c4ee416b0fb7a2c2dbae9750d23cabff753cdd4aa8dcf651e3563230b8fdc6436f3f911c4c1399f1d0f5712d18e1386d0d9
   languageName: node
   linkType: hard
 
@@ -1637,9 +1637,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-ui@npm:^0.11.0":
-  version: 0.11.1
-  resolution: "@grafana/plugin-ui@npm:0.11.1"
+"@grafana/plugin-ui@npm:^0.12.0":
+  version: 0.12.1
+  resolution: "@grafana/plugin-ui@npm:0.12.1"
   dependencies:
     "@emotion/css": "npm:^11.11.2"
     "@hello-pangea/dnd": "npm:^17.0.0"
@@ -1661,7 +1661,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     rxjs: ^7.8.1
-  checksum: 10c0/59ced7b9f20e2c0af5e9a307bbc79759d8e17c30ea9c2ecc72ba23da2c4891b5049f258fd25b158811233293863dab446a21f14d7cfee03f6d31ee09a02b4cf7
+  checksum: 10c0/4d88c6cb7c883521d1bd7eba815674038951e77643ea3050f1355a16ce507ce593e2c267073e842f1d6974a486151420054adf1a813e44fa75284972aa94e243
   languageName: node
   linkType: hard
 
@@ -7502,7 +7502,7 @@ __metadata:
     "@emotion/css": "npm:11.13.5"
     "@eslint/eslintrc": "npm:^3.3.1"
     "@eslint/js": "npm:^9.31.0"
-    "@grafana/aws-sdk": "npm:0.8.3"
+    "@grafana/aws-sdk": "npm:0.9.0"
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:^9.0.0"
     "@grafana/experimental": "npm:^2.1.6"
