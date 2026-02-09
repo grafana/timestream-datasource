@@ -4,7 +4,7 @@ import * as runtime from '@grafana/runtime';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { select } from 'react-select-event';
-import * as experimental from '@grafana/experimental';
+import * as pluginUI from '@grafana/plugin-ui';
 
 import { mockDatasource, mockQuery } from '../__mocks__/datasource';
 import { QueryEditor } from './QueryEditor';
@@ -19,8 +19,8 @@ jest.spyOn(runtime, 'getTemplateSrv').mockImplementation(() => ({
   updateTimeRange: jest.fn(),
 }));
 
-jest.mock('@grafana/experimental', () => ({
-  ...jest.requireActual<typeof experimental>('@grafana/experimental'),
+jest.mock('@grafana/plugin-ui', () => ({
+  ...jest.requireActual<typeof pluginUI>('@grafana/plugin-ui'),
   SQLEditor: function SQLEditor() {
     return <></>;
   },

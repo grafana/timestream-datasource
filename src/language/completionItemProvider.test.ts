@@ -1,4 +1,4 @@
-import { LinkedToken, SQLMonarchLanguage } from '@grafana/experimental';
+import { LinkedToken, SQLMonarchLanguage } from '@grafana/plugin-ui';
 import { getTimestreamCompletionProvider } from './completionItemProvider';
 
 describe('completionItemProvider', () => {

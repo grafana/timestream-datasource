@@ -1,4 +1,4 @@
-import { LanguageDefinition } from '@grafana/experimental';
+import { LanguageDefinition } from '@grafana/plugin-ui';
 import { conf, language } from './language';
 
 const timestreamLanguageDefinition: LanguageDefinition & { id: string } = {

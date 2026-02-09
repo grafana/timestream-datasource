@@ -1,4 +1,4 @@
-import { MacroType } from '@grafana/experimental';
+import { MacroType } from '@grafana/plugin-ui';
 
 export const TABLE_MACRO = '$__table';
 export const DATABASE_MACRO = '$__database';

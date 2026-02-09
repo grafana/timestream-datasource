@@ -1,4 +1,4 @@
-import { SQLEditor as SQLCodeEditor } from '@grafana/experimental';
+import { SQLEditor as SQLCodeEditor } from '@grafana/plugin-ui';
 import { DataSource } from '../DataSource';
 import { getTimestreamCompletionProvider } from 'language/completionItemProvider';
 import { DATABASE_MACRO, TABLE_MACRO } from 'language/macros';
