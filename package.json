@@ -36,7 +36,7 @@
     "@babel/core": "^7.29.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.31.0",
-    "@grafana/aws-sdk": "0.10.0",
+    "@grafana/aws-sdk": "0.10.1",
     "@grafana/eslint-config": "^9.0.0",
     "@grafana/plugin-e2e": "3.2.2",
     "@grafana/tsconfig": "^2.0.0",
