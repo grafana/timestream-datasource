@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/timestreamquery v1.36.10
 	github.com/google/go-cmp v0.7.0
 	github.com/grafana/grafana-aws-sdk v1.4.3
-	github.com/grafana/grafana-plugin-sdk-go v0.287.0
+	github.com/grafana/grafana-plugin-sdk-go v0.288.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96
 )
