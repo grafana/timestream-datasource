@@ -1,4 +1,4 @@
-import { SQLMonarchLanguage, grafanaStandardSQLLanguage, grafanaStandardSQLLanguageConf } from '@grafana/experimental';
+import { SQLMonarchLanguage, grafanaStandardSQLLanguage, grafanaStandardSQLLanguageConf } from '@grafana/plugin-ui';
 
 export const language: SQLMonarchLanguage = {
   ...grafanaStandardSQLLanguage,
