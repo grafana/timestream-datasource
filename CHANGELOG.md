@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.12.6
 
+- fix(deps): update module github.com/grafana/grafana-plugin-sdk-go to v0.288.0 in [#599](https://github.com/grafana/timestream-datasource/pull/599)
 - chore(deps): update dependency @grafana/plugin-ui to v0.13.1 in [#598](https://github.com/grafana/timestream-datasource/pull/598)
 - chore: support React 19 readiness in [#594](https://github.com/grafana/timestream-datasource/pull/594)
 - chore(deps): update dependency webpack to ^5.105.0 in [#588](https://github.com/grafana/timestream-datasource/pull/588)
