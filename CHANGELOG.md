@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.12.7
+
+- update go to 1.25.7 in [#615](https://github.com/grafana/timestream-datasource/pull/615)
+- fix(deps): update module github.com/grafana/grafana-plugin-sdk-go to v0.289.0 in [#609](https://github.com/grafana/timestream-datasource/pull/609)
+- chore(deps): update dependency dotenv to ^17.3.1 in [#603](https://github.com/grafana/timestream-datasource/pull/603)
+- chore(deps): update module go.opentelemetry.io/otel/sdk to v1.40.0 [security] in [#608](https://github.com/grafana/timestream-datasource/pull/608)
+- chore: add pull-requests: read permission to publish workflow in [#607](https://github.com/grafana/timestream-datasource/pull/607)
+
 ## 2.12.6
 
 - fix(deps): update module github.com/grafana/grafana-plugin-sdk-go to v0.288.0 in [#599](https://github.com/grafana/timestream-datasource/pull/599)
