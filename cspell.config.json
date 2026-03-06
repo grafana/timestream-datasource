@@ -91,6 +91,7 @@
     "onloadmeasure",
     "consts",
     "typecheck",
+    "openfeature",
     "opentelemetry",
     "httptrace",
     "otelhttptrace",
