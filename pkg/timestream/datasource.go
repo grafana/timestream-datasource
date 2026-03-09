@@ -50,6 +50,7 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 		LegacyAuthType:     settings.AuthType,
 		AccessKey:          settings.AccessKey,
 		SecretKey:          settings.SecretKey,
+		SessionToken:       settings.SessionToken,
 		Region:             region,
 		CredentialsProfile: settings.Profile,
 		AssumeRoleARN:      settings.AssumeRoleARN,

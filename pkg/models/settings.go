@@ -39,6 +39,7 @@ func (s *DatasourceSettings) Load(config backend.DataSourceInstanceSettings) err
 
 	s.AccessKey = config.DecryptedSecureJSONData["accessKey"]
 	s.SecretKey = config.DecryptedSecureJSONData["secretKey"]
+	s.SessionToken = config.DecryptedSecureJSONData["sessionToken"]
 
 	return nil
 }
