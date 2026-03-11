@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.13.0
+
+- Add sessionToken handling to support Grafana Assume Role in [#628](https://github.com/grafana/timestream-datasource/pull/628)
+- chore(deps): update dependency @grafana/plugin-e2e to v3.4.3 in [#627](https://github.com/grafana/timestream-datasource/pull/627)
+- chore(deps): update module golang.org/x/net to v0.51.0 [security] in [#626](https://github.com/grafana/timestream-datasource/pull/626)
+- chore(deps): pin dependencies in [#622](https://github.com/grafana/timestream-datasource/pull/622)
+- fix(deps): update backend dependencies in [#623](https://github.com/grafana/timestream-datasource/pull/623)
+- chore(deps): pin grafana/grafana-enterprise docker tag to 582fc54 in [#621](https://github.com/grafana/timestream-datasource/pull/621)
+- chore(deps): lock file maintenance in [#604](https://github.com/grafana/timestream-datasource/pull/604)
+- chore(deps): update dependency @grafana/plugin-e2e to v3.4.2 in [#620](https://github.com/grafana/timestream-datasource/pull/620)
+- chore(deps): pin dependencies in [#516](https://github.com/grafana/timestream-datasource/pull/516)
+- Update renovate config to use data-sources base preset in [#619](https://github.com/grafana/timestream-datasource/pull/619)
+
 ## 2.12.7
 
 - chore(deps): update grafana/plugin-ci-workflows/ci-cd-workflows action to v6.1.1 in [#617](https://github.com/grafana/timestream-datasource/pull/617)
