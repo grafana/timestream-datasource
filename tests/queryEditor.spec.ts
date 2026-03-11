@@ -16,7 +16,7 @@ test('should return data when a valid query is successfully run', async ({ page,
   await expect(panelEditPage.refreshPanel()).toBeOK();
   await expect(panelEditPage.panel.fieldNames).toHaveText(['time', 'measure_value::double']);
   await expect(panelEditPage.panel.data).toContainText([
-    /\d{4}(-\d{2}){2} \d{2}(:\d{2}){2}(\.\d+)?/ /* matches timestamps with or without fractional seconds */,
+    /\d{4}(-\d{2}){2} \d{2}(:\d{2}){2}\.\d{3}/ /* matches this pattern '2021-03-10 09:03:36.654' */,
     /^\d*(\.\d+)?$/ /* matches integers and decimals */,
   ]);
 });
