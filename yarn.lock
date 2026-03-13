@@ -1531,14 +1531,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:13.0.0-22732949497":
-  version: 13.0.0-22732949497
-  resolution: "@grafana/e2e-selectors@npm:13.0.0-22732949497"
+"@grafana/e2e-selectors@npm:13.0.0-22967232448":
+  version: 13.0.0-22967232448
+  resolution: "@grafana/e2e-selectors@npm:13.0.0-22967232448"
   dependencies:
     semver: "npm:^7.7.0"
     tslib: "npm:2.8.1"
     typescript: "npm:5.9.2"
-  checksum: 10c0/71fa6fd5f8b206c6694ded96698d729907c93bc9ef4fd71ae3e1724863f7ae024f02e86694eaf2744d845e51a456aca5528396e65c2c5fe1a77db566ea81ea52
+  checksum: 10c0/61b59086e93ef9e9f2f618a80da9122fc73b3692b9d8ba00748c4e4d1a1fe2d67a799fab2878c8b0255e462e7857c35cf509b2e2abc7d276321ebdb2772b45fa
   languageName: node
   linkType: hard
 
@@ -1598,11 +1598,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-e2e@npm:3.4.4":
-  version: 3.4.4
-  resolution: "@grafana/plugin-e2e@npm:3.4.4"
+"@grafana/plugin-e2e@npm:3.4.7":
+  version: 3.4.7
+  resolution: "@grafana/plugin-e2e@npm:3.4.7"
   dependencies:
-    "@grafana/e2e-selectors": "npm:13.0.0-22732949497"
+    "@grafana/e2e-selectors": "npm:13.0.0-22967232448"
     semver: "npm:^7.5.4"
     uuid: "npm:^13.0.0"
     yaml: "npm:^2.3.4"
@@ -1612,7 +1612,7 @@ __metadata:
   peerDependenciesMeta:
     "@axe-core/playwright":
       optional: true
-  checksum: 10c0/495286bc0a2d743b6793e000c72672217724f46e1a502efc9020563517b5c316731d156d7601559562ba240e9abdd37397e2d27ffcc27ae5ab44dc36df6395b4
+  checksum: 10c0/084c510002fe20b11101bfcf4cb0ac3da430ee34d060ce4297a0763ceba95cbcb918d645754a8defaf971fe7a0c71ef3aba0a2aa5f0e568197dff1ba560446cb
   languageName: node
   linkType: hard
 
@@ -7564,7 +7564,7 @@ __metadata:
     "@grafana/aws-sdk": "npm:0.10.1"
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:9.0.0"
-    "@grafana/plugin-e2e": "npm:3.4.4"
+    "@grafana/plugin-e2e": "npm:3.4.7"
     "@grafana/plugin-ui": "npm:^0.13.0"
     "@grafana/runtime": "npm:^12.1.0"
     "@grafana/schema": "npm:^12.1.0"
