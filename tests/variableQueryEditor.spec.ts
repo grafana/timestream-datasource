@@ -7,9 +7,9 @@ test('should successfully create a variable', async ({ variableEditPage, page, s
   );
   await expect(editor).toBeVisible();
   await editor.click();
-  await page.keyboard.insertText('SHOW TABLES FROM grafanaDB');
+  await page.keyboard.insertText('SHOW TABLES FROM "datasources-timestream"');
   const queryDataRequest = variableEditPage.waitForQueryDataRequest();
   await variableEditPage.runQuery();
   await queryDataRequest;
-  await expect(variableEditPage).toDisplayPreviews(['DevOps', 'IoT']);
+  await expect(variableEditPage).toDisplayPreviews(['grafana_example_table']);
 });
