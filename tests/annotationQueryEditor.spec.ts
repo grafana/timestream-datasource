@@ -11,6 +11,7 @@ test('should successfully create an annotation', async ({ annotationEditPage, gr
   await page.keyboard.press('Enter');
   await expect(annotationEditPage.runQuery()).toBeOK();
   if (gte(grafanaVersion, '11.0.0')) {
-    await expect(annotationEditPage).toHaveAlert('success', { hasText: '10 events (from 17 fields)' });
+    // grafana_example_table has 6 columns: time, measure_name, measure_value::bigint, host, datacenter, app
+    await expect(annotationEditPage).toHaveAlert('success', { hasText: '10 events (from 6 fields)' });
   }
 });

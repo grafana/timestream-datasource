@@ -12,10 +12,10 @@ datasources:
     enabled: true
     jsonData:
       authType: keys
-      defaultRegion: us-west-2
-      defaultDatabase: 'grafanaDB'
-      defaultTable: 'DevOps'
-      defaultMeasure: cpu_hi
+      defaultRegion: us-east-2
+      defaultDatabase: '"datasources-timestream"'
+      defaultTable: '"grafana_example_table"'
+      defaultMeasure: utilisation
     secureJsonData:
       accessKey: $ACCESS_KEY
       secretKey: $SECRET_KEY
