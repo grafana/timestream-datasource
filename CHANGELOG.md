@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## v2.13.0
 
+- chore(deps): lock file maintenance in [#647](https://github.com/grafana/timestream-datasource/pull/647)
+- chore(deps): update yarn to v4.13.0 in [#646](https://github.com/grafana/timestream-datasource/pull/646)
+- chore(deps): lock file maintenance in [#625](https://github.com/grafana/timestream-datasource/pull/625)
+- chore(deps): update dependency webpack-cli to v7 in [#645](https://github.com/grafana/timestream-datasource/pull/645)
+- chore(deps): update dependency copy-webpack-plugin to v14 in [#644](https://github.com/grafana/timestream-datasource/pull/644)
+- fix(deps): update backend dependencies in [#639](https://github.com/grafana/timestream-datasource/pull/639)
+- chore(deps): update frontend dependencies in [#638](https://github.com/grafana/timestream-datasource/pull/638)
+- chore(deps): update grafana/grafana-enterprise:latest docker digest to 8e8fc4c in [#637](https://github.com/grafana/timestream-datasource/pull/637)
+- chore(deps): update dependency @grafana/plugin-e2e to v3.4.8 in [#633](https://github.com/grafana/timestream-datasource/pull/633)
+- chore(deps): update actions/create-github-app-token digest to fee1f7d in [#636](https://github.com/grafana/timestream-datasource/pull/636)
+- chore(deps): update module google.golang.org/grpc to v1.79.3 [security] in [#642](https://github.com/grafana/timestream-datasource/pull/642)
+- chore(deps): update dependency @grafana/plugin-e2e to v3.4.4 in [#630](https://github.com/grafana/timestream-datasource/pull/630)
 - Add sessionToken handling to support Grafana Assume Role in [#628](https://github.com/grafana/timestream-datasource/pull/628)
 - chore(deps): update dependency @grafana/plugin-e2e to v3.4.3 in [#627](https://github.com/grafana/timestream-datasource/pull/627)
 - chore(deps): update module golang.org/x/net to v0.51.0 [security] in [#626](https://github.com/grafana/timestream-datasource/pull/626)
