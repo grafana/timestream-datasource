@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
@@ -73,7 +74,7 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 			//   the SDK will call DescribeEndpoints before Query. With a custom BaseEndpoint (VPC endpoint),
 			//   DescribeEndpoints is routed through that endpoint, which typically does not implement it,
 			//   resulting in a 404 response.
-			// - Even forcing discovery through the SDK’s default public resolver can fail if the VPC blocks
+			// - Even forcing discovery through the SDK's default public resolver can fail if the VPC blocks
 			//   egress to public AWS endpoints.
 			// To preserve existing customer VPC configurations and avoid breaking changes, we explicitly disable
 			// endpoint discovery whenever a custom endpoint is provided. Regular operations still use the custom endpoint.
@@ -179,6 +180,13 @@ func dimensionsFromRows(rows []timestreamquerytypes.Row) []string {
 	return res
 }
 
+func sendError(sender backend.CallResourceResponseSender, err error) error {
+	return sender.Send(&backend.CallResourceResponse{
+		Status: http.StatusInternalServerError,
+		Body:   []byte(err.Error()),
+	})
+}
+
 // CallResource HTTP style resource
 func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	if req.Path == "hello" {
@@ -212,7 +220,7 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			QueryString: aws.String("SHOW DATABASES"),
 		})
 		if err != nil {
-			return err
+			return sendError(sender, err)
 		}
 		// Databases are returned wrapped in double quotes
 		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
@@ -224,14 +232,14 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		opts := models.TablesRequest{}
 		err := json.Unmarshal(req.Body, &opts)
 		if err != nil {
-			return err
+			return sendError(sender, err)
 		}
 		// TODO: Use API endpoint to list tables
 		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", applyQuotesIfNeeded(opts.Database))),
 		})
 		if err != nil {
-			return err
+			return sendError(sender, err)
 		}
 		// Tables are returned wrapped in double quotes
 		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
@@ -243,13 +251,13 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 		opts := models.MeasuresRequest{}
 		err := json.Unmarshal(req.Body, &opts)
 		if err != nil {
-			return err
+			return sendError(sender, err)
 		}
 		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), applyQuotesIfNeeded(opts.Table))),
 		})
 		if err != nil {
-			return err
+			return sendError(sender, err)
 		}
 		if req.Path == "measures" {
 			return resource.SendJSON(sender, sliceFromRows(v.Rows, false))
