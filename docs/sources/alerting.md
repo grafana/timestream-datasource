@@ -52,9 +52,27 @@ To enable this setting:
 If **Wait for all queries** is not enabled, alert evaluations may use incomplete data from only the first page of results, leading to missed or false alerts.
 {{< /admonition >}}
 
-## Alert query example
+## Alert query examples
 
-The following query returns time-series data suitable for alerting. It uses `CREATE_TIME_SERIES` to convert GC pause measurements into wide-format time series:
+Alert queries support the same macros and template variables as regular queries. Test your alert query in a dashboard panel first to verify it returns data in the expected format before creating an alert rule.
+
+### Simple threshold alert
+
+The following query monitors CPU utilization per instance. Each `instance_name` becomes a separate time series that you can set a threshold condition on:
+
+```sql
+SELECT
+  instance_name,
+  CREATE_TIME_SERIES(time, measure_value::double) AS cpu_utilization
+FROM $__database.$__table
+WHERE $__timeFilter
+  AND measure_name = 'cpu_utilization'
+GROUP BY instance_name
+```
+
+### Multi-dimensional alert
+
+The following query creates time series grouped by multiple dimensions. Use `LIMIT` and `ORDER BY` to alert only on the top offenders:
 
 ```sql
 SELECT
@@ -80,18 +98,4 @@ GROUP BY region,
   jdk_version
 ORDER BY AVG(measure_value::double) DESC
 LIMIT 3
-```
-
-## Simplified alert query
-
-For a straightforward threshold alert, the following query monitors average CPU utilization:
-
-```sql
-SELECT
-  instance_name,
-  CREATE_TIME_SERIES(time, measure_value::double) AS cpu_utilization
-FROM $__database.$__table
-WHERE $__timeFilter
-  AND measure_name = 'cpu_utilization'
-GROUP BY instance_name
 ```
