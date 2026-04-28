@@ -85,12 +85,14 @@ These errors occur when Grafana can't reach the Timestream API endpoints.
 **Symptoms:**
 
 - Queries fail after configuring a custom endpoint.
+- 404 errors related to `DescribeEndpoints`.
 - Errors related to endpoint discovery.
 
 **Solutions:**
 
 1. Verify the custom endpoint URL is correct and reachable from the Grafana server.
-1. When a custom endpoint is configured (for example, a VPC endpoint), the plugin automatically disables AWS endpoint discovery. Verify that the endpoint URL points directly to the Timestream query endpoint.
+1. When a custom endpoint is configured (for example, a VPC endpoint), the plugin automatically disables AWS endpoint discovery. This prevents 404 errors from VPC endpoints that don't implement the `DescribeEndpoints` API. Verify that the endpoint URL points directly to the Timestream query endpoint.
+1. If the VPC endpoint blocks egress to public AWS endpoints, ensure endpoint discovery is not being forced by another configuration.
 1. To revert to the default endpoint, clear the **Default Endpoint** field in the data source configuration.
 
 ## Query errors
@@ -157,6 +159,11 @@ These errors occur when using template variables with the data source.
 
 ### Variables return no values
 
+**Symptoms:**
+
+- Variable drop-downs are empty.
+- The variable preview shows no results when you click **Run query**.
+
 **Solutions:**
 
 1. Verify the data source connection is working by running **Save & test** in the data source settings.
@@ -205,6 +212,10 @@ To capture detailed error information for troubleshooting:
 1. Review logs in `/var/log/grafana/grafana.log` or your configured log location.
 1. Look for entries containing `timestream` for request and response details.
 1. Reset the log level to `info` after troubleshooting to avoid excessive log volume.
+
+## Minimum Grafana version
+
+The Amazon Timestream data source requires Grafana 10.4 or later. If you encounter unexpected errors, verify that your Grafana version meets this requirement.
 
 ## Get additional help
 
