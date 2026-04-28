@@ -57,23 +57,20 @@ The query editor provides the following fields and controls.
 
 ## Write a query
 
-Use the SQL editor to write Timestream queries. The editor supports IntelliSense for column names, table names, and macros. Press `Ctrl+Space` to trigger auto-complete suggestions.
+Use the SQL editor to write [Timestream SQL](https://docs.aws.amazon.com/timestream/latest/developerguide/reference.html) queries. The editor supports IntelliSense for column names, table names, and macros. Press `Ctrl+Space` to trigger auto-complete suggestions.
 
 To run a query, press `Ctrl+Enter` or click **Run query**.
 
-### Query example
+### Basic query example
 
-The following query retrieves the average CPU utilization over the selected time range, grouped into intervals:
+The following query selects all records from the configured database and table within the dashboard time range:
 
 ```sql
-SELECT
-  bin(time, $__interval_ms) AS binned_time,
-  avg(measure_value::double) AS avg_cpu
+SELECT *
 FROM $__database.$__table
 WHERE $__timeFilter
-  AND measure_name = '$__measure'
-GROUP BY bin(time, $__interval_ms)
-ORDER BY binned_time ASC
+ORDER BY time ASC
+LIMIT 100
 ```
 
 ## Macros
@@ -95,7 +92,7 @@ Use macros in your queries to insert dynamic values like time ranges, intervals,
 
 ### Macro example
 
-The following query uses macros to filter by the dashboard time range and group results into calculated intervals:
+The following query combines several macros to aggregate data into dashboard-appropriate intervals:
 
 ```sql
 SELECT
@@ -104,9 +101,12 @@ SELECT
   avg(measure_value::double) AS avg_value
 FROM $__database.$__table
 WHERE $__timeFilter
+  AND measure_name = '$__measure'
 GROUP BY bin(time, $__interval_ms), measure_name
 ORDER BY binned_time ASC
 ```
+
+This query uses `$__database`, `$__table`, and `$__measure` to reference the selections in the query editor, `$__timeFilter` to scope results to the dashboard time range, and `$__interval_ms` to group data into intervals that match the panel width.
 
 ## Sample queries
 
@@ -124,7 +124,9 @@ The query editor includes built-in sample queries you can select from the **Samp
 
 The following examples demonstrate common query patterns for Timestream data.
 
-### Monitor infrastructure metrics
+### Aggregate metrics over time
+
+Use `bin()` with `$__interval_ms` to group data into intervals that match the panel resolution. This is the most common pattern for time-series visualizations.
 
 ```sql
 SELECT
@@ -138,13 +140,16 @@ GROUP BY bin(time, $__interval_ms), instance_name
 ORDER BY binned_time ASC
 ```
 
-### Compare metrics across hosts
+### Compare metrics across dimensions
+
+Group by a dimension column to compare values across hosts, regions, or other attributes in a single panel.
 
 ```sql
 SELECT
   bin(time, $__interval_ms) AS binned_time,
   hostname,
-  max(measure_value::double) AS max_memory
+  max(measure_value::double) AS peak_memory,
+  avg(measure_value::double) AS avg_memory
 FROM $__database.$__table
 WHERE $__timeFilter
   AND measure_name = 'memory_utilization'
@@ -152,17 +157,47 @@ GROUP BY bin(time, $__interval_ms), hostname
 ORDER BY binned_time ASC
 ```
 
-### IoT sensor data
+### Explore table schema
+
+Use Timestream's metadata queries to discover available data before building visualizations.
+
+```sql
+SHOW MEASURES FROM $__database.$__table
+```
+
+```sql
+DESCRIBE $__database.$__table
+```
+
+### Query the latest values
+
+Use `$__now_ms` and `$__timeFrom` to build custom time-range logic, for example, to find the most recent reading per sensor.
+
+```sql
+SELECT
+  sensor_id,
+  measure_name,
+  time,
+  measure_value::double AS value
+FROM $__database.$__table
+WHERE time BETWEEN from_milliseconds($__timeFrom) AND from_milliseconds($__now_ms)
+  AND measure_name = 'temperature'
+ORDER BY time DESC
+LIMIT 10
+```
+
+### IoT multi-measure queries
+
+Query multiple measure values from multi-measure records in a single query.
 
 ```sql
 SELECT
   bin(time, $__interval_ms) AS binned_time,
-  sensor_id,
-  avg(measure_value::double) AS avg_temperature
+  device_id,
+  avg(temperature) AS avg_temp,
+  avg(humidity) AS avg_humidity
 FROM $__database.$__table
 WHERE $__timeFilter
-  AND measure_name = 'temperature'
-  AND region = 'us-east-1'
-GROUP BY bin(time, $__interval_ms), sensor_id
+GROUP BY bin(time, $__interval_ms), device_id
 ORDER BY binned_time ASC
 ```
