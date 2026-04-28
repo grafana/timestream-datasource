@@ -92,7 +92,11 @@ To access Timestream using a different IAM role, configure the data source to as
 
 ## IAM policies
 
-The IAM identity used by Grafana needs permissions to access the Timestream API. Attach a policy to the IAM user or role configured in the authentication step.
+The IAM identity used by Grafana needs Timestream-specific permissions to access the Timestream API. These permissions are separate from CloudWatch or other AWS service permissions. Attach a policy to the IAM user or role configured in the authentication step.
+
+{{< admonition type="note" >}}
+Standard CloudWatch IAM policies don't include Timestream permissions. You must explicitly add Timestream actions or you'll receive `AccessDeniedException` errors.
+{{< /admonition >}}
 
 The following example grants full Timestream access:
 
@@ -109,7 +113,7 @@ The following example grants full Timestream access:
 }
 ```
 
-For more restrictive access, grant only the specific actions needed:
+For more restrictive access, grant only the specific actions the plugin requires. The following policy lists every action the plugin uses:
 
 ```json
 {
@@ -118,8 +122,8 @@ For more restrictive access, grant only the specific actions needed:
     {
       "Effect": "Allow",
       "Action": [
-        "timestream:Select",
         "timestream:DescribeEndpoints",
+        "timestream:Select",
         "timestream:ListDatabases",
         "timestream:ListTables",
         "timestream:ListMeasures",
@@ -131,6 +135,28 @@ For more restrictive access, grant only the specific actions needed:
   ]
 }
 ```
+
+The following table explains why each action is required.
+
+| Action | Purpose |
+| ------ | ------- |
+| `timestream:DescribeEndpoints` | Required by the AWS SDK for endpoint discovery. Without it, no queries can run. |
+| `timestream:Select` | Runs SQL queries against Timestream tables. |
+| `timestream:ListDatabases` | Populates the **Database** drop-down in the configuration and query editors. |
+| `timestream:ListTables` | Populates the **Table** drop-down in the query editor. |
+| `timestream:ListMeasures` | Populates the **Measure** drop-down in the query editor. |
+| `timestream:DescribeDatabase` | Retrieves metadata about a database. |
+| `timestream:DescribeTable` | Retrieves metadata about a table. |
+
+### EKS IAM Roles for Service Accounts (IRSA)
+
+If you run Grafana on Amazon EKS and use IAM Roles for Service Accounts, the IAM role also needs the `sts:AssumeRoleWithWebIdentity` permission. Verify that:
+
+1. The IAM role's trust policy allows the EKS OIDC provider to assume the role.
+1. The service account annotation matches the role ARN.
+1. The Grafana pod uses the correct service account.
+
+For more information, refer to the [AWS documentation on IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html).
 
 ## Verify the connection
 

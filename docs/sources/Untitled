@@ -1,0 +1,4 @@
+3. Query Performance & Cost Optimization
+Expensive Queries: Users have noted that poorly optimized dashboards can lead to high AWS costs (e.g., $0.20/hr).
+Partitioning: Documentation could provide best practices on how to structure queries (using measure_name filters and time ranges) to minimize data scanned.
+Dashboard Query Re-use: Guidance on using "Dashboard Data Source" or transformations to query data once and reuse it across multiple panels to save costs.

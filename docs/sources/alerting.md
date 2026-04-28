@@ -70,6 +70,28 @@ WHERE $__timeFilter
 GROUP BY instance_name
 ```
 
+### Alert on string values
+
+Grafana alerting requires numeric values. If your Timestream table stores status as strings (for example, `"HEALTHY"` or `"UNHEALTHY"`), use a `CASE` expression to convert them to numeric values that you can set a threshold on:
+
+```sql
+SELECT
+  instance_name,
+  CREATE_TIME_SERIES(time,
+    CASE measure_value::varchar
+      WHEN 'UNHEALTHY' THEN 1.0
+      WHEN 'DEGRADED' THEN 0.5
+      ELSE 0.0
+    END
+  ) AS health_status
+FROM $__database.$__table
+WHERE $__timeFilter
+  AND measure_name = 'status'
+GROUP BY instance_name
+```
+
+In this example, set the alert condition to trigger when `health_status` is greater than `0` to detect any non-healthy state.
+
 ### Multi-dimensional alert
 
 The following query creates time series grouped by multiple dimensions. Use `LIMIT` and `ORDER BY` to alert only on the top offenders:
@@ -99,3 +121,12 @@ GROUP BY region,
 ORDER BY AVG(measure_value::double) DESC
 LIMIT 3
 ```
+
+## Duplicate alerts in high availability setups
+
+In Grafana high availability (HA) deployments, each Grafana instance evaluates alert rules independently. This can result in duplicate notifications for the same alert condition.
+
+To prevent duplicate alerts:
+
+1. Configure a single Grafana instance as the alert evaluator, or use [Grafana Alerting HA](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/alerting/set-up/configure-high-availability/) to coordinate alert evaluation across instances.
+1. Ensure that all instances share the same database for alert state, so only one instance fires each alert.

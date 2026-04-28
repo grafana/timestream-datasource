@@ -30,11 +30,11 @@ This document provides solutions to common issues you may encounter when configu
 
 These errors occur when credentials are invalid, missing, or don't have the required permissions.
 
-### "Access denied" or "Authorization failed"
+### "AccessDeniedException" or "Authorization failed"
 
 **Symptoms:**
 
-- **Save & test** fails with authorization errors.
+- **Save & test** fails with `AccessDeniedException`.
 - Queries return access denied messages.
 - Database, table, or measure drop-downs don't load.
 
@@ -42,11 +42,13 @@ These errors occur when credentials are invalid, missing, or don't have the requ
 
 | Cause | Solution |
 | ----- | -------- |
-| Missing IAM permissions | Attach a policy granting `timestream:*` or the specific actions listed in the [IAM policies](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/#iam-policies) section. |
+| Missing Timestream permissions | Timestream requires its own IAM permissions, separate from CloudWatch. Attach a policy granting `timestream:*` or the specific actions listed in the [IAM policies](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/#iam-policies) section. |
+| Missing `timestream:DescribeEndpoints` | This action is required for AWS endpoint discovery. Without it, all queries fail. Add it to your IAM policy. |
 | Invalid credentials | Verify credentials in the AWS IAM console. Regenerate the access key if necessary. |
 | Expired credentials | Create a new access key and update the data source configuration. |
 | Wrong region | Verify that the **Default Region** matches the region where your Timestream database is located. |
 | Assume role misconfigured | Verify the role ARN, check the trust policy, and confirm the external ID matches if one is required. |
+| IRSA on EKS | If using IAM Roles for Service Accounts, verify the trust policy, service account annotation, and that `sts:AssumeRoleWithWebIdentity` is allowed. Refer to [EKS IRSA configuration](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/#eks-iam-roles-for-service-accounts-irsa). |
 
 ### "ExpiredTokenException" or "Token has expired"
 
@@ -127,6 +129,18 @@ These errors occur when executing queries against Timestream.
 1. Use the [`CREATE_TIME_SERIES`](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html) function to return data in wide time-series format. Refer to [Alerting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/) for examples.
 1. Enable **Wait for all queries** in the query editor to ensure all result pages are processed before the alert evaluates.
 
+### Alert fails on string or non-numeric data
+
+**Symptoms:**
+
+- Alert rule returns an error about unsupported data types.
+- Query returns string values like `"HEALTHY"` or `"RUNNING"` that can't be used as alert conditions.
+
+**Solutions:**
+
+1. Use a `CASE` expression to convert string values to numeric values inside `CREATE_TIME_SERIES`. For example, map `'UNHEALTHY'` to `1.0` and `'HEALTHY'` to `0.0`, then set a threshold on the numeric result.
+1. Refer to [Alert on string values](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/#alert-on-string-values) for a full example.
+
 ### Query timeout
 
 **Symptoms:**
@@ -140,6 +154,22 @@ These errors occur when executing queries against Timestream.
 1. Add filters to the `WHERE` clause to reduce the result set.
 1. Use `bin(time, <interval>)` with a larger interval to reduce the number of returned rows.
 1. Break complex queries into smaller parts using multiple panels.
+
+### Macros not interpolating correctly
+
+**Symptoms:**
+
+- Query contains literal `$__timeFilter` or `$__timeFrom` text instead of expanded values.
+- Time range filters don't work after a Grafana upgrade.
+- `${__from:date:iso}` or other formatted time variables aren't replaced.
+
+**Possible causes and solutions:**
+
+| Cause | Solution |
+| ----- | -------- |
+| Confusing plugin macros with Grafana global variables | Plugin macros (`$__timeFilter`, `$__timeFrom`, `$__timeTo`) are expanded by the backend. Grafana global variables (`$__from`, `$__to`, `${__from:date:iso}`) are expanded by the frontend. They aren't interchangeable. Refer to [Plugin macros vs Grafana global variables](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/#plugin-macros-vs-grafana-global-variables). |
+| Typo in macro name | Verify the exact macro name. For example, `$__timeFrom` (plugin macro) is not the same as `$__from` (Grafana global variable). |
+| Grafana upgrade changed variable behavior | After upgrading Grafana, verify that your queries use the correct macro syntax. Use `$__timeFilter` for time range filtering instead of manually constructing filters with `$__from` and `$__to`. |
 
 ### Pagination and incomplete results
 
@@ -179,9 +209,25 @@ These errors occur when using template variables with the data source.
 1. Simplify variable queries. For example, use `SHOW DATABASES` instead of a full `SELECT DISTINCT` query when listing databases.
 1. Reduce the scope of variable queries by adding filters.
 
-## Performance issues
+## Performance and cost issues
 
-These issues relate to slow queries or AWS API limits.
+These issues relate to slow queries, high AWS costs, or API limits. For detailed optimization guidance, refer to [Optimize query performance and cost](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/#optimize-query-performance-and-cost).
+
+### High query costs
+
+**Symptoms:**
+
+- Unexpectedly high AWS Timestream charges.
+- Queries scan more data than expected.
+
+**Solutions:**
+
+1. Always include a `measure_name` filter in queries. Timestream partitions data by measure name, so omitting this filter scans the entire table.
+1. Narrow the dashboard time range to reduce the volume of data scanned.
+1. Use `bin()` with `$__interval_ms` to aggregate data instead of returning raw rows.
+1. Reduce the dashboard auto-refresh frequency.
+1. Use the **Dashboard** data source to reuse query results across multiple panels instead of running duplicate queries.
+1. Enable [query caching](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/administration/data-source-management/#query-caching) in Grafana Enterprise or Grafana Cloud.
 
 ### API throttling or rate limit errors
 
@@ -195,6 +241,7 @@ These issues relate to slow queries or AWS API limits.
 
 1. Reduce the frequency of dashboard auto-refresh.
 1. Use larger time intervals in `bin()` to reduce the number of data points per query.
+1. Use the **Dashboard** data source to share query results across panels instead of running separate queries.
 1. Enable [query caching](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/administration/data-source-management/#query-caching) in Grafana (available in Grafana Enterprise and Grafana Cloud).
 1. Request a quota increase from AWS through the [Service Quotas console](https://console.aws.amazon.com/servicequotas/).
 
