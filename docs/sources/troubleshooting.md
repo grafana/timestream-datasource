@@ -26,6 +26,10 @@ review_date: 2026-04-28
 
 This document provides solutions to common issues you may encounter when configuring or using the Amazon Timestream data source. For configuration instructions, refer to [Configure the Amazon Timestream data source](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/).
 
+## Minimum Grafana version
+
+The Amazon Timestream data source requires Grafana 10.4 or later. If you encounter unexpected errors, verify that your Grafana version meets this requirement.
+
 ## Authentication errors
 
 These errors occur when credentials are invalid, missing, or don't have the required permissions.
@@ -117,30 +121,6 @@ These errors occur when executing queries against Timestream.
 | Missing read permissions | Verify the IAM identity has `timestream:Select` permission on the target resources. |
 | Filter excludes all results | Review `WHERE` clause conditions. Try removing filters to confirm data exists, then add them back incrementally. |
 
-### "input data must be a wide series but got type long"
-
-**Symptoms:**
-
-- Alert rules fail with this error.
-- The query works in dashboard panels but fails in alerting.
-
-**Solutions:**
-
-1. Use the [`CREATE_TIME_SERIES`](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html) function to return data in wide time-series format. Refer to [Alerting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/) for examples.
-1. Enable **Wait for all queries** in the query editor to ensure all result pages are processed before the alert evaluates.
-
-### Alert fails on string or non-numeric data
-
-**Symptoms:**
-
-- Alert rule returns an error about unsupported data types.
-- Query returns string values like `"HEALTHY"` or `"RUNNING"` that can't be used as alert conditions.
-
-**Solutions:**
-
-1. Use a `CASE` expression to convert string values to numeric values inside `CREATE_TIME_SERIES`. For example, map `'UNHEALTHY'` to `1.0` and `'HEALTHY'` to `0.0`, then set a threshold on the numeric result.
-1. Refer to [Alert on string values](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/#alert-on-string-values) for a full example.
-
 ### Query timeout
 
 **Symptoms:**
@@ -170,6 +150,34 @@ These errors occur when executing queries against Timestream.
 | Confusing plugin macros with Grafana global variables | Plugin macros (`$__timeFilter`, `$__timeFrom`, `$__timeTo`) are expanded by the backend. Grafana global variables (`$__from`, `$__to`, `${__from:date:iso}`) are expanded by the frontend. They aren't interchangeable. Refer to [Plugin macros vs Grafana global variables](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/#plugin-macros-vs-grafana-global-variables). |
 | Typo in macro name | Verify the exact macro name. For example, `$__timeFrom` (plugin macro) is not the same as `$__from` (Grafana global variable). |
 | Grafana upgrade changed variable behavior | After upgrading Grafana, verify that your queries use the correct macro syntax. Use `$__timeFilter` for time range filtering instead of manually constructing filters with `$__from` and `$__to`. |
+
+## Alerting errors
+
+These errors occur when using the Amazon Timestream data source with Grafana Alerting. For setup instructions, refer to [Alerting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/).
+
+### "input data must be a wide series but got type long"
+
+**Symptoms:**
+
+- Alert rules fail with this error.
+- The query works in dashboard panels but fails in alerting.
+
+**Solutions:**
+
+1. Use the [`CREATE_TIME_SERIES`](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html) function to return data in wide time-series format. Refer to [Alerting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/) for examples.
+1. Enable **Wait for all queries** in the query editor to ensure all result pages are processed before the alert evaluates.
+
+### Alert fails on string or non-numeric data
+
+**Symptoms:**
+
+- Alert rule returns an error about unsupported data types.
+- Query returns string values like `"HEALTHY"` or `"RUNNING"` that can't be used as alert conditions.
+
+**Solutions:**
+
+1. Use a `CASE` expression to convert string values to numeric values inside `CREATE_TIME_SERIES`. For example, map `'UNHEALTHY'` to `1.0` and `'HEALTHY'` to `0.0`, then set a threshold on the numeric result.
+1. Refer to [Alert on string values](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/#alert-on-string-values) for a full example.
 
 ### Pagination and incomplete results
 
@@ -259,10 +267,6 @@ To capture detailed error information for troubleshooting:
 1. Review logs in `/var/log/grafana/grafana.log` or your configured log location.
 1. Look for entries containing `timestream` for request and response details.
 1. Reset the log level to `info` after troubleshooting to avoid excessive log volume.
-
-## Minimum Grafana version
-
-The Amazon Timestream data source requires Grafana 10.4 or later. If you encounter unexpected errors, verify that your Grafana version meets this requirement.
 
 ## Get additional help
 

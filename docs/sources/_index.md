@@ -24,6 +24,10 @@ review_date: 2026-04-28
 
 The Amazon Timestream data source lets you query and visualize time-series data stored in [Amazon Timestream](https://aws.amazon.com/timestream/) directly within Grafana dashboards. Amazon Timestream is a fully managed, serverless time-series database designed for IoT and operational workloads that automatically scales to handle trillions of events per day.
 
+## Requirements
+
+The Amazon Timestream data source requires Grafana 10.4 or later.
+
 ## Supported features
 
 The following table lists the features available with the Amazon Timestream data source.

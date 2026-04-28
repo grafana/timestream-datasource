@@ -31,7 +31,7 @@ For general information about Grafana Alerting, refer to [Alerting](https://graf
 
 - [Configure the Amazon Timestream data source](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/).
 - Understand the [Amazon Timestream query editor](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/).
-- Familiarize yourself with [Grafana Alerting](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/alerting/).
+- Review [Grafana Alerting](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/alerting/).
 
 ## Alert query requirements
 

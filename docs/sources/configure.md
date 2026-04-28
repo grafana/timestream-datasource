@@ -75,9 +75,9 @@ The following table describes the available configuration settings.
 
 The Amazon Timestream data source uses the shared AWS authentication provided by the Grafana AWS SDK. It supports the following authentication methods:
 
-- **AWS SDK Default** -- Uses the default credential provider chain, which checks environment variables, the shared credentials file, and the EC2/ECS instance role in order.
-- **Credentials file** -- Uses a named profile from the AWS shared credentials file (`~/.aws/credentials`).
-- **Access and secret key** -- Uses an IAM access key ID and secret access key that you enter directly in the data source settings.
+- **AWS SDK Default:** Uses the default credential provider chain, which checks environment variables, the shared credentials file, and the EC2/ECS instance role in order.
+- **Credentials file:** Uses a named profile from the AWS shared credentials file (`~/.aws/credentials`).
+- **Access and secret key:** Uses an IAM access key ID and secret access key that you enter directly in the data source settings.
 
 You can restrict which authentication methods are available by configuring the `allowed_auth_providers` option in the Grafana configuration file.
 
