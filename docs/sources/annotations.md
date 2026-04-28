@@ -22,9 +22,9 @@ review_date: 2026-04-28
 
 # Amazon Timestream annotations
 
-Annotations let you mark points in time on dashboard panels to highlight events such as deployments, incidents, or configuration changes. The Amazon Timestream data source supports annotation queries that pull event data directly from your Timestream tables.
+Annotations allow you to overlay event information on graphs, providing context for metric changes. The Amazon Timestream data source supports annotation queries that pull event data directly from your Timestream tables.
 
-For general information about annotations, refer to [Annotate visualizations](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/dashboards/build-dashboards/annotate-visualizations/).
+For general information about annotations in Grafana, refer to [Annotate visualizations](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/dashboards/build-dashboards/annotate-visualizations/).
 
 ## Before you begin
 
@@ -44,40 +44,60 @@ To add a Timestream annotation to a dashboard:
 
 ## Required columns
 
-Your annotation query must return at least a time column. The following columns are recognized.
+Your annotation query must return at least a time column. Grafana automatically maps the following column names to annotation properties.
 
 | Column | Required | Description |
 | ------ | -------- | ----------- |
 | `time` | Yes | The timestamp for the annotation. |
+| `timeEnd` | No | The end timestamp for range annotations. When present, the annotation spans from `time` to `timeEnd`. |
 | `text` | No | The annotation body text displayed on hover. |
 | `title` | No | A title for the annotation. |
 | `tags` | No | Comma-separated tags used to filter annotations. |
 
-## Annotation query example
+## Annotation query examples
 
-The following query retrieves deployment events from a Timestream table and displays them as annotations:
+The following examples demonstrate common annotation query patterns. Annotation queries support the same macros and template variables as regular queries.
+
+### Mark point-in-time events
+
+The following query retrieves deployment events and displays them as point annotations:
 
 ```sql
 SELECT
   time,
   measure_value::varchar AS text
-FROM my_database.deployment_events
+FROM $__database.deployment_events
 WHERE $__timeFilter
   AND measure_name = 'deployment'
 ORDER BY time ASC
 ```
 
-### Annotation with tags
+### Categorize annotations with tags
 
-The following query includes tags to categorize annotations:
+Add a `tags` column to categorize annotations and filter them in the dashboard:
 
 ```sql
 SELECT
   time,
   measure_value::varchar AS text,
   environment AS tags
-FROM my_database.deployment_events
+FROM $__database.deployment_events
 WHERE $__timeFilter
   AND measure_name = 'deployment'
+ORDER BY time ASC
+```
+
+### Mark time ranges
+
+Use `timeEnd` to create range annotations that highlight a span of time, such as a maintenance window:
+
+```sql
+SELECT
+  time,
+  timeEnd,
+  measure_value::varchar AS text
+FROM $__database.maintenance_windows
+WHERE $__timeFilter
+  AND measure_name = 'maintenance'
 ORDER BY time ASC
 ```
