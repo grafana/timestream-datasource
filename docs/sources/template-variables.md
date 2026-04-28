@@ -64,25 +64,29 @@ The following queries demonstrate common patterns for populating variables.
 SHOW DATABASES
 ```
 
-**List tables in a specific database:**
+**List tables in a database (using a `database` variable):**
 
 ```sql
-SHOW TABLES FROM my_database
+SHOW TABLES FROM ${database}
 ```
 
 **List distinct values for a dimension:**
 
 ```sql
-SELECT DISTINCT region FROM my_database.my_table
+SELECT DISTINCT region FROM ${database}.${table}
 ```
 
-**List distinct values filtered by another variable:**
+**Cascading variables (filter by a parent variable):**
+
+Create a `region` variable first, then create an `instance` variable that depends on it:
 
 ```sql
 SELECT DISTINCT instance_name
-FROM my_database.my_table
+FROM ${database}.${table}
 WHERE region = '${region}'
 ```
+
+When the `region` selection changes, the `instance` variable automatically refreshes to show only instances in the selected region.
 
 ## Use variables in queries
 
@@ -99,21 +103,11 @@ WHERE $__timeFilter
 ORDER BY binned_time ASC
 ```
 
-## Disable quoting for multi-value variables
+Variables also work in the **Database**, **Table**, and **Measure** selector fields in the query editor. For example, you can set a variable as the database and all queries using `$__database` will reflect the selected value.
 
-By default, Grafana formats multi-value variable selections as a quoted, comma-separated string. For example, if `server01` and `server02` are selected, the value is rendered as `'server01', 'server02'`.
+## Multi-value variables
 
-To disable quoting, use the `csv` formatting option:
-
-```sql
-${servers:csv}
-```
-
-This renders the values as `server01, server02` without quotes.
-
-### Multi-value variable example
-
-The following query filters by multiple server names using the `csv` format:
+When a multi-value variable has multiple selections, the plugin automatically wraps each value in single quotes and joins them with commas. For example, if `server01` and `server02` are selected, `$servers` renders as `'server01','server02'`. This format works directly in SQL `IN` clauses:
 
 ```sql
 SELECT
@@ -123,9 +117,19 @@ SELECT
 FROM $__database.$__table
 WHERE $__timeFilter
   AND measure_name = 'cpu_utilization'
-  AND hostname IN (${servers:csv})
+  AND hostname IN ($servers)
 GROUP BY bin(time, $__interval_ms), hostname
 ORDER BY binned_time ASC
 ```
+
+### Disable quoting for multi-value variables
+
+To disable the automatic quoting, use the `csv` formatting option:
+
+```sql
+${servers:csv}
+```
+
+This renders the values as `server01,server02` without quotes, which is useful in contexts where SQL string quoting isn't needed.
 
 For more information about variable formatting options, refer to [Advanced variable format options](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/dashboards/variables/variable-syntax/).
