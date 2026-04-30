@@ -42,7 +42,7 @@ The following table lists the features available with the Amazon Timestream data
 
 ## Get started
 
-The following guides help you set up and use the Amazon Timestream data source:
+The following documents help you set up and use the Amazon Timestream data source:
 
 - [Configure the Amazon Timestream data source](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/)
 - [Amazon Timestream query editor](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/)
