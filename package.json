@@ -26,7 +26,7 @@
     "@grafana/plugin-ui": "^0.13.0",
     "@grafana/runtime": "^12.1.0",
     "@grafana/schema": "^12.1.0",
-    "@grafana/ui": "^12.1.0",
+    "@grafana/ui": "^13.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^6.22.0",
