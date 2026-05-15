@@ -1,167 +1,85 @@
-# AWS Timestream Datasource
+---
+aliases:
+  - /docs/plugins/grafana-timestream-datasource/
+description: Use the Amazon Timestream data source to query and visualize time-series data from Amazon Timestream in Grafana.
+keywords:
+  - grafana
+  - amazon timestream
+  - timestream
+  - aws
+  - data source
+  - time series
+labels:
+  products:
+    - cloud
+    - enterprise
+    - oss
+menuTitle: Amazon Timestream
+title: Amazon Timestream data source
+weight: 100
+review_date: 2026-04-28
+---
 
-The Timestream datasource plugin provides a support for [Amazon Timestream](https://aws.amazon.com/timestream/). Add it as a data source, then you are ready to build dashboards using timestream query results
+# Amazon Timestream data source
 
-## Getting started
+The Amazon Timestream data source lets you query and visualize time-series data stored in [Amazon Timestream](https://aws.amazon.com/timestream/) directly within Grafana dashboards. Amazon Timestream is a fully managed, serverless time-series database designed for IoT and operational workloads that automatically scales to handle trillions of events per day.
 
-1. [Install the plugin](https://grafana.com/docs/grafana/latest/administration/plugin-management/#install-grafana-plugins)
-1. [Add a new data source with the UI](https://grafana.com/docs/grafana/latest/datasources/#add-a-data-source) or [provision one](https://grafana.com/docs/grafana/latest/administration/provisioning/)
-1. [Configure the data source](#configuring-the-data-source)
-1. [Start making queries](#querying-the-data-source)
+## Requirements
 
-## Configuring the data source
+The Amazon Timestream data source requires Grafana 10.4 or later.
 
-### Authentication
-Depending on the environment in which it is run, Grafana supports different authentication providers such as keys, a credentials file, or using the "Default" provider from AWS which supports using service-based IAM roles. These providers can be manually enabled/disabled with the `allowed_auth_providers` field in Grafana's config file. To read more about supported authentication providers refer to [the AWS authentication section](https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/aws-authentication/#select-an-authentication-method)
+## Supported features
 
-### IAM policies
+The following table lists the features available with the Amazon Timestream data source.
 
-Grafana needs permissions granted via IAM to be able to read data from the Timestream API. You can attach these permissions to the IAM role or IAM user configured in the previous step.
+| Feature | Supported |
+| ----------- | --------- |
+| Metrics | Yes |
+| Logs | No |
+| Traces | No |
+| Annotations | Yes |
+| Alerting | Yes |
 
-Here is a policy example:
+## Get started
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": ["timestream:*"],
-      "Resource": "*"
-    }
-  ]
-}
-```
-### Configure the data source with provisioning
+The following documents help you set up and use the Amazon Timestream data source:
 
-You can configure data sources using config files with Grafana's provisioning system. You can read more about how it works and all the settings you can set for data sources on the [provisioning docs page](https://grafana.com/docs/grafana/latest/administration/provisioning/).
+- [Configure the Amazon Timestream data source](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/configure/)
+- [Amazon Timestream query editor](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/query-editor/)
+- [Template variables](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/template-variables/)
+- [Annotations](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/annotations/)
+- [Alerting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/alerting/)
+- [Troubleshooting](https://grafana.com/docs/plugins/grafana-timestream-datasource/latest/troubleshooting/)
 
-Here are some provisioning examples for this data source.
+## Additional features
 
-### Using AWS SDK (default)
+After you configure the data source, you can:
 
-```yaml
-apiVersion: 1
-datasources:
-  - name: Timestream
-    type: grafana-timestream-datasource
-    jsonData:
-      authType: default
-      defaultRegion: eu-west-2
-```
+- Use [Explore](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/explore/) to run ad-hoc queries without building a dashboard.
+- Add [transformations](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/panels-visualizations/query-transform-data/transform-data/) to manipulate query results.
+- Set up [alerting](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/alerting/) rules to get notified when data meets specific conditions.
 
-### Using credentials' profile name (non-default)
+## Pre-built dashboards
 
-```yaml
-apiVersion: 1
+The Amazon Timestream data source includes a **Sample (DevOps)** dashboard. To import it:
 
-datasources:
-  - name: Timestream
-    type: grafana-timestream-datasource
-    jsonData:
-      authType: credentials
-      defaultRegion: us-east-1
-```
+1. Navigate to the Amazon Timestream data source configuration page.
+1. Click the **Dashboards** tab.
+1. Click **Import** next to **Sample (DevOps)**.
 
-### Using `accessKey` and `secretKey`
+Refer to the [Sample Application section](https://docs.aws.amazon.com/timestream/latest/developerguide/Grafana.html#Grafana.sample-app) in the official Timestream documentation to set up the sample data this dashboard uses.
 
-```yaml
-apiVersion: 1
+## Plugin updates
 
-datasources:
-  - name: Timestream
-    type: grafana-timestream-datasource
-    jsonData:
-      authType: keys
-      defaultRegion: us-east-1
-    secureJsonData:
-      accessKey: '<your access key>'
-      secretKey: '<your secret key>'
-```
+Always ensure that your plugin version is up to date so you have access to all current features and improvements. Navigate to **Plugins and data** > **Plugins** to check for updates. Grafana recommends upgrading to the latest Grafana version, and this applies to plugins as well.
 
-### Using AWS SDK Default and ARN of IAM Role to Assume
+{{< admonition type="note" >}}
+Plugins are automatically updated in Grafana Cloud.
+{{< /admonition >}}
 
-```yaml
-apiVersion: 1
-datasources:
-  - name: Timestream
-    type: grafana-timestream-datasource
-    jsonData:
-      authType: default
-      assumeRoleArn: arn:aws:iam::123456789012:root
-      defaultRegion: eu-west-2
-```
+## Related resources
 
-## Querying the data source
-
-The query editor accepts timestream syntax in addition to the macros listed above and any dashboard template variables.
-
-Type `ctrl+space` to open open the IntelliSense suggestions
-
-## Macros
-
-To simplify syntax and to allow for dynamic parts, like date range filters, the query can contain macros.
-
-| Macro example          | Description                                                                                                                           |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| _$\_\_database_        | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
-| _$\_\_table_           | Will specify the selected database. This may use the default from the datasource config, or the explicit value from the query editor. |
-| _$\_\_measure_         | Will specify the selected measure. This may use the default from the datasource config, or the explicit value from the query editor.  |
-| _$\_\_timeFilter_      | Will be replaced by an expression that limits the time to the dashboard range.                                                        |
-| _$\_\_timeFrom_        | Will be replaced by the number in milliseconds at the start of the dashboard range.                                                   |
-| _$\_\_timeTo_          | Will be replaced by the number in milliseconds at the end of the dashboard range.                                                     |
-| _$\_\_interval_ms_     | Will be replaced by a number in time format that represents the amount of time a single pixel in the graph should cover.              |
-| _$\_\_interval_raw_ms_ | Will be replaced by the number in milliseconds that represents the amount of time a single pixel in the graph should cover.           |
-
-## Using Variables in Queries
-
-Instead of hard-coding server, application and sensor names in your Timestream queries, you can use variables. The variables are listed as dropdown select boxes at the top of the dashboard. These dropdowns make it easy to change the display of data in your dashboard.
-
-For an introduction to templating and template variables, refer to the [Templating](https://grafana.com/docs/grafana/latest/variables/) documentation.
-
-### Disabling quoting for multi-value variables
-
-Grafana automatically creates a quoted, comma-separated string for multi-value variables. For example: if `server01` and `server02` are selected then it will be formatted as: `'server01', 'server02'`. To disable quoting, use the csv formatting option for variables:
-
-`${servers:csv}`
-
-Read more about variable formatting options in the [Variables](https://grafana.com/docs/grafana/latest/variables/advanced-variable-format-options/) documentation.
-
-### Alerting
-
-[Alerting](https://grafana.com/docs/grafana/latest/alerting/) queries should contain a time series field. Queries without this field will return an error: "input data must be a wide series but got type long". To return time series, you can use the [`CREATE_TIME_SERIES` function](https://docs.aws.amazon.com/timestream/latest/developerguide/timeseries-specific-constructs.views.html). For example:
-
-```sql
-SELECT
-    silo, microservice_name, instance_name,
-    CREATE_TIME_SERIES(time, measure_value::double) AS gc_pause
-FROM $__database.$__table
-WHERE $__timeFilter
-    AND measure_name = '$__measure'
-    AND region = 'ap-northeast-1'
-    AND cell = 'ap-northeast-1-cell-5'
-    AND silo = 'ap-northeast-1-cell-5-silo-2'
-    AND availability_zone = 'ap-northeast-1-3'
-    AND microservice_name = 'zeus'
-GROUP BY region,
-    cell,
-    silo,
-    availability_zone,
-    microservice_name,
-    instance_name,
-    process_name,
-    jdk_version
-ORDER BY AVG(measure_value::double) DESC
-LIMIT 3
-```
-
-> **Note**: Results for Timestream queries are returned in different pages (if necessary) by default. To ensure that all pages are processed before evaluating an alert, mark the "Wait for all queries" checkbox underneath the "Render" query editor section for all alert queries.
-
-### Sample Dashboard
-
-This plugin contains one sample dashboard. Please consult the [Sample Application section](https://docs.aws.amazon.com/timestream/latest/developerguide/Grafana.html#Grafana.sample-app) in the official Timestream doc to set it up.
-
-
-### Plugin repository
-
-You can request new features, report issues, or contribute code directly through the [Timestream plugin Github repository](https://github.com/grafana/timestream-datasource/)
+- [Amazon Timestream documentation](https://docs.aws.amazon.com/timestream/)
+- [Amazon Timestream query language reference](https://docs.aws.amazon.com/timestream/latest/developerguide/reference.html)
+- [Timestream plugin GitHub repository](https://github.com/grafana/timestream-datasource/)
+- [Grafana community forum](https://community.grafana.com/)
