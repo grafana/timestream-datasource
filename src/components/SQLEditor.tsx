@@ -2,7 +2,7 @@ import { SQLEditor as SQLCodeEditor } from '@grafana/plugin-ui';
 import { DataSource } from '../DataSource';
 import { getTimestreamCompletionProvider } from 'language/completionItemProvider';
 import { DATABASE_MACRO, TABLE_MACRO } from 'language/macros';
-import React, { useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { TimestreamQuery } from 'types';
 import timestreamLanguageDefinition from 'language/definition';
 
@@ -14,13 +14,8 @@ interface RawEditorProps {
 }
 
 export default function SQLEditor({ query, datasource, onChange }: RawEditorProps) {
-  const queryRef = useRef<TimestreamQuery>(query);
-  useEffect(() => {
-    queryRef.current = query;
-  }, [query]);
-
   const onChangeRawQuery = (rawQuery: string) => {
-    onChange({ ...queryRef.current, rawQuery });
+    onChange({ ...query, rawQuery });
   };
 
   const getDatabases = useCallback(async () => {
@@ -32,21 +27,21 @@ export default function SQLEditor({ query, datasource, onChange }: RawEditorProp
     async (database?: string) => {
       const tables: string[] = await datasource
         .postResource<string[]>('tables', {
-          database: database ?? queryRef.current.database ?? '',
+          database: database ?? query.database ?? '',
         })
         .catch(() => []);
       return tables.map((table) => ({ name: table, completion: table }));
     },
-    [datasource]
+    [datasource, query.database]
   );
 
   const getColumns = useCallback(
     async (database?: string, tableName?: string) => {
       const interpolatedArgs = {
         database: database
-          ? database.replace(DATABASE_MACRO, queryRef.current.database ?? '')
-          : queryRef.current.database,
-        table: tableName ? tableName.replace(TABLE_MACRO, queryRef.current.table ?? '') : queryRef.current.table,
+          ? database.replace(DATABASE_MACRO, query.database ?? '')
+          : query.database,
+        table: tableName ? tableName.replace(TABLE_MACRO, query.table ?? '') : query.table,
       };
       const [measures, dimensions] = await Promise.all([
         datasource.postResource<string[]>('measures', interpolatedArgs).catch(() => []),
@@ -54,7 +49,7 @@ export default function SQLEditor({ query, datasource, onChange }: RawEditorProp
       ]);
       return [...measures, ...dimensions].map((column) => ({ name: column, completion: column }));
     },
-    [datasource]
+    [datasource, query.database, query.table]
   );
 
   const completionProvider = useMemo(
