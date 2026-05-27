@@ -108,6 +108,7 @@
     "njvrzm",
     "datacenter",
     "zizmor",
-    "jsonencode"
+    "jsonencode",
+    "trufflehogignore"
   ]
 }
