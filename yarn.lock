@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 10
   cacheKey: 10c0
 
 "@adobe/css-tools@npm:^4.4.0":
@@ -1487,7 +1487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:12.4.1, @grafana/data@npm:^12.1.0":
+"@grafana/data@npm:12.4.1":
   version: 12.4.1
   resolution: "@grafana/data@npm:12.4.1"
   dependencies:
@@ -1623,7 +1623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-ui@npm:^0.13.0":
+"@grafana/plugin-ui@npm:0.13.1, @grafana/plugin-ui@npm:^0.13.0":
   version: 0.13.1
   resolution: "@grafana/plugin-ui@npm:0.13.1"
   dependencies:
@@ -1655,7 +1655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/runtime@npm:^12.1.0":
+"@grafana/runtime@npm:12.4.1":
   version: 12.4.1
   resolution: "@grafana/runtime@npm:12.4.1"
   dependencies:
@@ -1681,7 +1681,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/schema@npm:12.4.1, @grafana/schema@npm:^12.1.0":
+"@grafana/schema@npm:12.4.1":
   version: 12.4.1
   resolution: "@grafana/schema@npm:12.4.1"
   dependencies:
@@ -1697,7 +1697,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/ui@npm:12.4.1, @grafana/ui@npm:^12.1.0":
+"@grafana/ui@npm:12.4.1":
   version: 12.4.1
   resolution: "@grafana/ui@npm:12.4.1"
   dependencies:
@@ -7511,14 +7511,14 @@ __metadata:
     "@eslint/eslintrc": "npm:3.3.5"
     "@eslint/js": "npm:9.39.4"
     "@grafana/aws-sdk": "npm:0.10.2"
-    "@grafana/data": "npm:^12.1.0"
+    "@grafana/data": "npm:12.4.1"
     "@grafana/eslint-config": "npm:9.0.0"
     "@grafana/plugin-e2e": "npm:3.5.1"
-    "@grafana/plugin-ui": "npm:^0.13.0"
-    "@grafana/runtime": "npm:^12.1.0"
-    "@grafana/schema": "npm:^12.1.0"
+    "@grafana/plugin-ui": "npm:0.13.1"
+    "@grafana/runtime": "npm:12.4.1"
+    "@grafana/schema": "npm:12.4.1"
     "@grafana/tsconfig": "npm:2.0.1"
-    "@grafana/ui": "npm:^12.1.0"
+    "@grafana/ui": "npm:12.4.1"
     "@openfeature/web-sdk": "npm:1.7.3"
     "@playwright/test": "npm:1.58.2"
     "@stylistic/eslint-plugin-ts": "npm:4.4.1"
@@ -7554,7 +7554,7 @@ __metadata:
     prettier: "npm:3.8.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
-    react-router-dom: "npm:^6.22.0"
+    react-router-dom: "npm:6.30.3"
     react-select-event: "npm:5.5.1"
     replace-in-file-webpack-plugin: "npm:1.0.6"
     sass: "npm:1.98.0"
@@ -9712,7 +9712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:latest":
+"node-gyp@npm:12.2.0":
   version: 12.2.0
   resolution: "node-gyp@npm:12.2.0"
   dependencies:
@@ -10826,7 +10826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.22.0":
+"react-router-dom@npm:6.30.3":
   version: 6.30.3
   resolution: "react-router-dom@npm:6.30.3"
   dependencies:

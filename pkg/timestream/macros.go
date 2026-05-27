@@ -2,13 +2,13 @@ package timestream
 
 import (
 	"fmt"
+	"maps"
 	"slices"
 	"strings"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/timestream-datasource/pkg/models"
-	"golang.org/x/exp/maps"
 )
 
 // TODO: consider refactoring sqlutil.Interpolate to be more generic and using that instead
@@ -33,7 +33,7 @@ var macroKeys []string
 func init() {
 	// sort macro keys longest first, so shorter keys don't clobber longer keys
 	// they're a prefix of
-	macroKeys = maps.Keys(macroFuncs)
+	macroKeys = slices.Collect(maps.Keys(macroFuncs))
 	slices.SortFunc(macroKeys, func(a, b string) int { return len(b) - len(a) })
 }
 
