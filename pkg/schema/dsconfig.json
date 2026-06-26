@@ -23,8 +23,16 @@
       "target": "jsonData"
     },
     {
-      "id": "jsonData.assumeRoleArn",
-      "key": "assumeRoleArn",
+      "id": "jsonData.region",
+      "key": "region",
+      "label": "Region",
+      "description": "AWS region.",
+      "valueType": "string",
+      "target": "jsonData"
+    },
+    {
+      "id": "jsonData.assumeRoleARN",
+      "key": "assumeRoleARN",
       "label": "Assume Role ARN",
       "description": "ARN of the IAM role to assume.",
       "valueType": "string",
@@ -35,6 +43,30 @@
       "key": "externalId",
       "label": "External ID",
       "description": "External ID for cross-account role assumption.",
+      "valueType": "string",
+      "target": "jsonData"
+    },
+    {
+      "id": "jsonData.proxyType",
+      "key": "proxyType",
+      "label": "Proxy Type",
+      "description": "Proxy type used to connect to AWS.",
+      "valueType": "string",
+      "target": "jsonData"
+    },
+    {
+      "id": "jsonData.proxyUrl",
+      "key": "proxyUrl",
+      "label": "Proxy URL",
+      "description": "URL of the proxy used to connect to AWS.",
+      "valueType": "string",
+      "target": "jsonData"
+    },
+    {
+      "id": "jsonData.proxyUsername",
+      "key": "proxyUsername",
+      "label": "Proxy Username",
+      "description": "Username for the proxy used to connect to AWS.",
       "valueType": "string",
       "target": "jsonData"
     },
@@ -113,10 +145,14 @@
       "fieldRefs": [
         "jsonData.authType",
         "jsonData.defaultRegion",
+        "jsonData.region",
         "jsonData.profile",
-        "jsonData.assumeRoleArn",
+        "jsonData.assumeRoleARN",
         "jsonData.externalId",
         "jsonData.endpoint",
+        "jsonData.proxyType",
+        "jsonData.proxyUrl",
+        "jsonData.proxyUsername",
         "secureJsonData.accessKey",
         "secureJsonData.secretKey",
         "secureJsonData.sessionToken"
