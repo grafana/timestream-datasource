@@ -18,5 +18,5 @@ jobs:
     with:
       plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
       playwright-secrets: |
-        ACCESS_KEY=e2e:accessKey
-        SECRET_KEY=e2e:secretKey
+        ACCESS_KEY=timestream:secure_accessKey
+        SECRET_KEY=timestream:secure_secretKey
