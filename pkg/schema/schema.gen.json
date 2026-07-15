@@ -1,0 +1,82 @@
+{
+  "targetApiVersion": "v0alpha1",
+  "settings": {
+    "spec": {
+      "type": "object",
+      "properties": {
+        "jsonData": {
+          "type": "object",
+          "properties": {
+            "assumeRoleARN": {
+              "description": "ARN of the IAM role to assume.",
+              "type": "string"
+            },
+            "authType": {
+              "description": "AWS authentication method.",
+              "type": "string",
+              "default": "default"
+            },
+            "defaultDatabase": {
+              "description": "Default Timestream database.",
+              "type": "string"
+            },
+            "defaultMeasure": {
+              "description": "Default Timestream measure.",
+              "type": "string"
+            },
+            "defaultRegion": {
+              "description": "AWS region for Timestream queries.",
+              "type": "string"
+            },
+            "defaultTable": {
+              "description": "Default Timestream table.",
+              "type": "string"
+            },
+            "endpoint": {
+              "description": "Optional custom Timestream endpoint.",
+              "type": "string"
+            },
+            "externalId": {
+              "description": "External ID for cross-account role assumption.",
+              "type": "string"
+            },
+            "profile": {
+              "description": "AWS credentials profile name.",
+              "type": "string"
+            },
+            "proxyType": {
+              "description": "Proxy type used to connect to AWS.",
+              "type": "string"
+            },
+            "proxyUrl": {
+              "description": "URL of the proxy used to connect to AWS.",
+              "type": "string"
+            },
+            "proxyUsername": {
+              "description": "Username for the proxy used to connect to AWS.",
+              "type": "string"
+            },
+            "region": {
+              "description": "AWS region.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "secureValues": [
+      {
+        "key": "accessKey",
+        "description": "AWS access key ID."
+      },
+      {
+        "key": "secretKey",
+        "description": "AWS secret access key."
+      },
+      {
+        "key": "sessionToken",
+        "description": "AWS temporary session token."
+      }
+    ]
+  }
+}
