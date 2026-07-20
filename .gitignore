@@ -5,7 +5,6 @@ coverage/
 ci/
 dist/
 pkg/__debug_bin
-yarn-error.log
 .eslintcache
 .env*
 
@@ -17,12 +16,3 @@ provisioning/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
-
-# yarn
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions

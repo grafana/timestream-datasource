@@ -7,7 +7,7 @@
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
     "e2e": "playwright test",
     "lint": "eslint --cache .",
-    "lint:fix": "yarn run lint --fix && prettier --write --list-different .",
+    "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",
     "server": "docker compose up --build",
     "sign": "npx --yes --ignore-scripts --package @grafana/sign-plugin@3.2.2 sign-plugin",
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
@@ -90,10 +90,11 @@
     "webpack-virtual-modules": "0.6.2"
   },
   "engines": {
-    "node": ">=24"
+    "node": ">=24",
+    "npm": ">=11.12.1"
   },
-  "packageManager": "yarn@4.17.1",
-  "resolutions": {
+  "packageManager": "npm@11.18.0",
+  "overrides": {
     "node-gyp": "13.0.1"
   }
 }
