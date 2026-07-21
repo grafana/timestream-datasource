@@ -9,8 +9,11 @@ on:
 permissions: {}
 
 jobs:
+  # Full CI (including the e2e suite that needs Vault secrets / AWS credentials).
+  # Runs for pushes to main and for PRs opened from branches in this repo.
   ci:
     name: CI
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false
     uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v10.1.0
     permissions:
       contents: read
@@ -20,3 +23,17 @@ jobs:
       playwright-secrets: |
         ACCESS_KEY=timestream:secure_accessKey
         SECRET_KEY=timestream:secure_secretKey
+
+  # Fork PRs don't have access to Vault secrets, so they can't run the full e2e
+  # suite. Instead they run the secret-free smoke tests, which validate that the
+  # config, query and variable editors load correctly.
+  ci-fork:
+    name: CI (fork)
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
+    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v10.1.0
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      plugin-version-suffix: ${{ github.event.pull_request.head.sha }}
+      playwright-config: playwright.smoke.config.ts
