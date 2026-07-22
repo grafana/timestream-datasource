@@ -17,6 +17,10 @@ jobs:
       id-token: write
     with:
       plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
+      # Fork and Dependabot PRs don't have access to Vault secrets, so they can't
+      # run the full e2e suite. They run the secret-free smoke tests instead,
+      # which validate that the config, query and variable editors load correctly.
+      playwright-config: ${{ (github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork || github.actor == 'dependabot[bot]')) && 'playwright.smoke.config.ts' || 'playwright.config.ts' }}
       playwright-secrets: |
         ACCESS_KEY=timestream:secure_accessKey
         SECRET_KEY=timestream:secure_secretKey
