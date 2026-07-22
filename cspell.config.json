@@ -5,7 +5,7 @@
     "dist/**",
     "provisioning/**",
     "src/dashboards/**",
-    "yarn.lock",
+    "package-lock.json",
     "go.mod",
     "go.sum",
     "mage_output_file.go",
