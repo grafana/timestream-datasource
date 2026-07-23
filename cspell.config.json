@@ -11,7 +11,8 @@
     "mage_output_file.go",
     "pkg/timestream/testdata/**",
     "language.ts",
-    "playwright*/**"
+    "playwright*/**",
+    "jest.config.js"
   ],
   "words": [
     "awsds",
