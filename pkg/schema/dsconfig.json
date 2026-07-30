@@ -1,173 +1,302 @@
 {
-  "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/heads/main/dsconfig/schema.json",
+  "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.12/dsconfig/schema.json",
   "schemaVersion": "v1",
   "pluginType": "grafana-timestream-datasource",
   "pluginName": "Amazon Timestream",
   "docURL": "https://grafana.com/grafana/plugins/grafana-timestream-datasource/",
-  "instructions": [
-    {
-      "msg": "Uses AWS authentication only. Set the Authentication Provider (authType) to one of: AWS SDK Default (default), Access & secret key (keys), Credentials file (credentials), Grafana Assume Role (grafana_assume_role), or EC2 IAM Role (ec2_iam_role) — ask which. But never ask for credentials themselves (access key, secret key, session token). Those should be entered in the UI.",
-      "tags": ["llm"]
-    }
-  ],
   "fields": [
     {
-      "id": "jsonData.authType",
+      "id": "jsonData_authType",
       "key": "authType",
       "label": "Authentication Provider",
-      "description": "AWS authentication method.",
+      "description": "Specify which AWS credentials chain to use.",
       "valueType": "string",
       "target": "jsonData",
-      "defaultValue": "default"
+      "role": "auth.discriminator",
+      "defaultValue": "default",
+      "validations": [
+        {
+          "type": "allowedValues",
+          "values": ["default", "keys", "credentials", "ec2_iam_role", "grafana_assume_role", "arn"]
+        }
+      ],
+      "ui": {
+        "component": "select",
+        "options": [
+          {
+            "label": "Workspace IAM Role",
+            "value": "ec2_iam_role"
+          },
+          {
+            "label": "Grafana Assume Role",
+            "value": "grafana_assume_role"
+          },
+          {
+            "label": "AWS SDK Default",
+            "value": "default"
+          },
+          {
+            "label": "Access & secret key",
+            "value": "keys"
+          },
+          {
+            "label": "Credentials file",
+            "value": "credentials"
+          }
+        ]
+      }
     },
     {
-      "id": "jsonData.defaultRegion",
-      "key": "defaultRegion",
-      "label": "Default Region",
-      "description": "AWS region for Timestream queries.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.region",
-      "key": "region",
-      "label": "Region",
-      "description": "AWS region.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.assumeRoleARN",
-      "key": "assumeRoleARN",
-      "label": "Assume Role ARN",
-      "description": "ARN of the IAM role to assume.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.externalId",
-      "key": "externalId",
-      "label": "External ID",
-      "description": "External ID for cross-account role assumption.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.proxyType",
-      "key": "proxyType",
-      "label": "Proxy Type",
-      "description": "Proxy type used to connect to AWS.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.proxyUrl",
-      "key": "proxyUrl",
-      "label": "Proxy URL",
-      "description": "URL of the proxy used to connect to AWS.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.proxyUsername",
-      "key": "proxyUsername",
-      "label": "Proxy Username",
-      "description": "Username for the proxy used to connect to AWS.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.profile",
+      "id": "jsonData_profile",
       "key": "profile",
       "label": "Credentials Profile Name",
-      "description": "AWS credentials profile name.",
+      "description": "Credentials profile name, as specified in ~/.aws/credentials, leave blank for default.",
       "valueType": "string",
-      "target": "jsonData"
+      "target": "jsonData",
+      "dependsOn": "jsonData_authType == 'credentials'",
+      "ui": {
+        "component": "input",
+        "placeholder": "default"
+      }
     },
     {
-      "id": "jsonData.endpoint",
-      "key": "endpoint",
-      "label": "Endpoint",
-      "description": "Optional custom Timestream endpoint.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.defaultDatabase",
-      "key": "defaultDatabase",
-      "label": "Default Database",
-      "description": "Default Timestream database.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.defaultTable",
-      "key": "defaultTable",
-      "label": "Default Table",
-      "description": "Default Timestream table.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "jsonData.defaultMeasure",
-      "key": "defaultMeasure",
-      "label": "Default Measure",
-      "description": "Default Timestream measure.",
-      "valueType": "string",
-      "target": "jsonData"
-    },
-    {
-      "id": "secureJsonData.accessKey",
+      "id": "secureJsonData_accessKey",
       "key": "accessKey",
       "label": "Access Key ID",
-      "description": "AWS access key ID.",
       "valueType": "string",
+      "target": "secureJsonData",
       "role": "auth.aws.accessKeyId",
-      "target": "secureJsonData"
+      "dependsOn": "jsonData_authType == 'keys'",
+      "requiredWhen": "jsonData_authType == 'keys'",
+      "ui": {
+        "component": "input"
+      }
     },
     {
-      "id": "secureJsonData.secretKey",
+      "id": "secureJsonData_secretKey",
       "key": "secretKey",
       "label": "Secret Access Key",
-      "description": "AWS secret access key.",
       "valueType": "string",
+      "target": "secureJsonData",
       "role": "auth.aws.secretAccessKey",
-      "target": "secureJsonData"
+      "dependsOn": "jsonData_authType == 'keys'",
+      "requiredWhen": "jsonData_authType == 'keys'",
+      "ui": {
+        "component": "input"
+      }
     },
     {
-      "id": "secureJsonData.sessionToken",
+      "id": "secureJsonData_sessionToken",
       "key": "sessionToken",
-      "label": "Session Token",
-      "description": "AWS temporary session token.",
       "valueType": "string",
+      "target": "secureJsonData",
       "role": "auth.aws.sessionToken",
-      "target": "secureJsonData"
+      "tags": ["backend-only"]
+    },
+    {
+      "id": "jsonData_assumeRoleArn",
+      "key": "assumeRoleArn",
+      "label": "Assume Role ARN",
+      "description": "Optional. Specifying the ARN of a role will ensure that the\n                     selected authentication provider is used to assume the role rather than the\n                     credentials directly.",
+      "valueType": "string",
+      "target": "jsonData",
+      "validations": [
+        {
+          "type": "pattern",
+          "pattern": "^(arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+)?$",
+          "message": "When set, must be a valid IAM role ARN, e.g. arn:aws:iam::123456789012:role/MyRole"
+        }
+      ],
+      "ui": {
+        "component": "input",
+        "placeholder": "arn:aws:iam:*"
+      }
+    },
+    {
+      "id": "jsonData_externalId",
+      "key": "externalId",
+      "label": "External ID",
+      "description": "If you are assuming a role in another account, that has been created with an external ID, specify the external ID here.",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_authType != 'grafana_assume_role'",
+      "ui": {
+        "component": "input",
+        "placeholder": "External ID"
+      }
+    },
+    {
+      "id": "jsonData_endpoint",
+      "key": "endpoint",
+      "label": "Endpoint",
+      "description": "Optionally, specify a custom endpoint for the service",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_authType != 'grafana_assume_role'",
+      "ui": {
+        "component": "input",
+        "placeholder": "https://query-{cell}.timestream.{region}.amazonaws.com"
+      }
+    },
+    {
+      "id": "jsonData_defaultRegion",
+      "key": "defaultRegion",
+      "label": "Default Region",
+      "description": "Specify the region, such as for US West (Oregon) use ` us-west-2 ` as the region.",
+      "valueType": "string",
+      "target": "jsonData",
+      "ui": {
+        "component": "select",
+        "allowCustom": true,
+        "options": [
+          {
+            "label": "us-east-1",
+            "value": "us-east-1"
+          },
+          {
+            "label": "us-east-2",
+            "value": "us-east-2"
+          },
+          {
+            "label": "us-west-2",
+            "value": "us-west-2"
+          },
+          {
+            "label": "eu-west-1",
+            "value": "eu-west-1"
+          },
+          {
+            "label": "eu-central-1",
+            "value": "eu-central-1"
+          },
+          {
+            "label": "ap-south-1",
+            "value": "ap-south-1"
+          },
+          {
+            "label": "ap-southeast-2",
+            "value": "ap-southeast-2"
+          },
+          {
+            "label": "ap-northeast-1",
+            "value": "ap-northeast-1"
+          },
+          {
+            "label": "us-gov-west-1",
+            "value": "us-gov-west-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "jsonData_defaultDatabase",
+      "key": "defaultDatabase",
+      "label": "Database",
+      "description": "Default database to use as the {{database}} macro in queries.",
+      "valueType": "string",
+      "target": "jsonData",
+      "ui": {
+        "component": "select"
+      }
+    },
+    {
+      "id": "jsonData_defaultTable",
+      "key": "defaultTable",
+      "label": "Table",
+      "description": "Default table to use as the {{table}} macro in queries. Depends on the selected database.",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_defaultDatabase != ''",
+      "ui": {
+        "component": "select"
+      }
+    },
+    {
+      "id": "jsonData_defaultMeasure",
+      "key": "defaultMeasure",
+      "label": "Measure",
+      "description": "Default measure to use as the {{measure}} macro in queries. Depends on the selected database and table.",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_defaultDatabase != '' && jsonData_defaultTable != ''",
+      "ui": {
+        "component": "select"
+      }
     }
   ],
   "groups": [
     {
-      "id": "auth",
+      "id": "authentication",
       "title": "Authentication",
+      "order": 1,
       "fieldRefs": [
-        "jsonData.authType",
-        "jsonData.defaultRegion",
-        "jsonData.region",
-        "jsonData.profile",
-        "jsonData.assumeRoleARN",
-        "jsonData.externalId",
-        "jsonData.endpoint",
-        "jsonData.proxyType",
-        "jsonData.proxyUrl",
-        "jsonData.proxyUsername",
-        "secureJsonData.accessKey",
-        "secureJsonData.secretKey",
-        "secureJsonData.sessionToken"
+        "jsonData_authType",
+        "jsonData_profile",
+        "secureJsonData_accessKey",
+        "secureJsonData_secretKey",
+        "secureJsonData_sessionToken"
       ]
     },
     {
+      "id": "assume-role",
+      "title": "Assume Role",
+      "order": 2,
+      "fieldRefs": ["jsonData_assumeRoleArn", "jsonData_externalId"]
+    },
+    {
+      "id": "additional-settings",
+      "title": "Additional Settings",
+      "order": 3,
+      "fieldRefs": ["jsonData_endpoint", "jsonData_defaultRegion"]
+    },
+    {
       "id": "timestream-details",
-      "title": "Timestream details",
-      "fieldRefs": ["jsonData.defaultDatabase", "jsonData.defaultTable", "jsonData.defaultMeasure"]
+      "title": "Timestream Details",
+      "order": 4,
+      "fieldRefs": ["jsonData_defaultDatabase", "jsonData_defaultTable", "jsonData_defaultMeasure"]
+    }
+  ],
+  "relationships": [
+    {
+      "type": "pair",
+      "fields": ["secureJsonData_accessKey", "secureJsonData_secretKey"],
+      "description": "AWS access key pair — supplied together when authType is 'keys'"
+    },
+    {
+      "type": "group",
+      "fields": ["jsonData_assumeRoleArn", "jsonData_externalId"],
+      "description": "STS assume-role parameters — external ID is only meaningful when assumeRoleArn is set"
+    },
+    {
+      "type": "group",
+      "fields": ["jsonData_defaultDatabase", "jsonData_defaultTable", "jsonData_defaultMeasure"],
+      "description": "Timestream macro defaults — populate the {{database}}, {{table}}, and {{measure}} query macros. Table depends on database; measure depends on both."
+    }
+  ],
+  "instructions": [
+    {
+      "msg": "Six authentication values are stored in jsonData.authType. The five editor-selectable ones are: 'default' (AWS SDK Default — the default credential chain), 'keys' (Access & secret key — puts accessKey/secretKey in secureJsonData), 'credentials' (Credentials file — optionally provide jsonData.profile), 'ec2_iam_role' (Workspace IAM Role — no extra credentials needed), and 'grafana_assume_role' (Grafana Assume Role — Grafana Cloud only; visible only when the awsDatasourcesTempCredentials feature toggle is on and grafana-timestream-datasource is in the ConnectionConfig allow-list, which it is). The sixth is 'arn' (deprecated legacy value; the backend maps it to 'default').",
+      "tags": ["llm", "auth"]
+    },
+    {
+      "msg": "Minimal payload per auth method (jsonData.defaultRegion is required in practice — the backend copies it into Region when Region is empty; queries need a region to build the AWS Timestream client). Access & secret key: {\"jsonData\":{\"authType\":\"keys\",\"defaultRegion\":\"us-east-1\"},\"secureJsonData\":{\"accessKey\":\"<AKID>\",\"secretKey\":\"<SECRET>\"}}. Credentials file: {\"jsonData\":{\"authType\":\"credentials\",\"profile\":\"my-profile\",\"defaultRegion\":\"us-east-1\"}}. Workspace IAM Role: {\"jsonData\":{\"authType\":\"ec2_iam_role\",\"defaultRegion\":\"us-east-1\"}}. AWS SDK Default: {\"jsonData\":{\"authType\":\"default\",\"defaultRegion\":\"us-east-1\"}}. Grafana Assume Role: {\"jsonData\":{\"authType\":\"grafana_assume_role\",\"defaultRegion\":\"us-east-1\"}}. Add jsonData.defaultDatabase/defaultTable/defaultMeasure to seed the {{database}}/{{table}}/{{measure}} query macros; all three are optional and can be overridden per query.",
+      "tags": ["llm", "auth", "connection"]
+    },
+    {
+      "msg": "Legacy auth interpretation: a provisioned config with jsonData.authType == 'arn' is treated as 'default' by the backend (awsds.AuthType.UnmarshalJSON). A provisioned config with authType == 'sharedCreds' is normalized to 'credentials' the same way but is NOT in this schema's allowedValues — the schema will reject it even though the backend still loads it. Additionally: if jsonData.profile is empty, the plugin's Load (pkg/models/settings.go:36-38) falls back to the root-level datasource `database` field as a legacy profile (commented 'legacy support (only for cloudwatch?)'). Preserve that root-level `database` value on round-trip when it is set.",
+      "tags": ["llm", "auth", "legacy"]
+    },
+    {
+      "msg": "Session token: secureJsonData.sessionToken is written by provisioning only (the ConnectionConfig editor never renders an input for it). The backend (pkg/models/settings.go:42) reads it into DatasourceSettings.SessionToken, so pair it with authType == 'keys' for temporary AWS STS credentials — {\"jsonData\":{\"authType\":\"keys\",\"defaultRegion\":\"us-east-1\"},\"secureJsonData\":{\"accessKey\":\"<AKID>\",\"secretKey\":\"<SECRET>\",\"sessionToken\":\"<STS-TOKEN>\"}}.",
+      "tags": ["llm", "auth", "secure"]
+    },
+    {
+      "msg": "secureJsonData values (accessKey, secretKey, sessionToken) are write-only: they can be set or reset but never read back. To check whether a secret is already configured on an existing datasource, read the secureJsonFields object (e.g. secureJsonFields.accessKey == true) instead of secureJsonData. Backend-only secrets like sessionToken never surface in secureJsonFields until they are set.",
+      "tags": ["llm", "auth", "secure"]
+    },
+    {
+      "msg": "Timestream Details are macro defaults, not required connection fields. jsonData.defaultDatabase, jsonData.defaultTable, and jsonData.defaultMeasure feed the {{database}}, {{table}}, and {{measure}} query macros but the backend never requires them at save-time (src/components/ConfigEditor.tsx has no validation gate). They are ConfigSelect widgets populated at runtime from `/resources/databases`, `/resources/tables`, and `/resources/measures`; table depends on database, and measure depends on both. Timestream's Endpoint field defaults its placeholder to `https://query-{cell}.timestream.{region}.amazonaws.com` (ConfigEditor.tsx:81) — the `{cell}` and `{region}` tokens are Timestream cell endpoints, distinct from the generic `{service}.{region}` placeholder used by other AWS plugins.",
+      "tags": ["llm", "settings", "connection"]
     }
   ]
 }
