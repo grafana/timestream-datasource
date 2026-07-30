@@ -70,4 +70,12 @@ export const MACROS = [
     type: MacroType.Column,
     description: 'Will be replaced by the query measure.',
   },
+  {
+    id: '$__refId',
+    name: '$__refId',
+    text: '$__refId',
+    args: [],
+    type: MacroType.Column,
+    description: 'Will be replaced by the query reference ID, for example A.',
+  },
 ];
