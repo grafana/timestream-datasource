@@ -6,56 +6,89 @@
         "type": "object",
         "properties": {
           "assumeRoleARN": {
-            "description": "ARN of the IAM role to assume.",
-            "type": "string"
+            "description": "Optional. Specifying the ARN of a role will ensure that the\n                     selected authentication provider is used to assume the role rather than the\n                     credentials directly.",
+            "type": "string",
+            "pattern": "^(arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+)?$"
           },
           "authType": {
-            "description": "AWS authentication method.",
+            "description": "Specify which AWS credentials chain to use.",
             "type": "string",
-            "default": "default"
+            "default": "default",
+            "enum": [
+              "default",
+              "keys",
+              "credentials",
+              "ec2_iam_role",
+              "grafana_assume_role",
+              "arn"
+            ]
           },
           "defaultDatabase": {
-            "description": "Default Timestream database.",
+            "description": "Default database to use as the {{database}} macro in queries.",
             "type": "string"
           },
           "defaultMeasure": {
-            "description": "Default Timestream measure.",
-            "type": "string"
+            "description": "Default measure to use as the {{measure}} macro in queries. Depends on the selected database and table.",
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData_defaultDatabase != '' \u0026\u0026 jsonData_defaultTable != ''"
           },
           "defaultRegion": {
-            "description": "AWS region for Timestream queries.",
-            "type": "string"
+            "description": "Specify the region, such as for US West (Oregon) use ` us-west-2 ` as the region.",
+            "type": "string",
+            "enum": [
+              "us-east-1",
+              "us-east-2",
+              "us-west-2",
+              "eu-west-1",
+              "eu-central-1",
+              "ap-south-1",
+              "ap-southeast-2",
+              "ap-northeast-1",
+              "us-gov-west-1"
+            ]
           },
           "defaultTable": {
-            "description": "Default Timestream table.",
-            "type": "string"
+            "description": "Default table to use as the {{table}} macro in queries. Depends on the selected database.",
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData_defaultDatabase != ''"
           },
           "endpoint": {
-            "description": "Optional custom Timestream endpoint.",
-            "type": "string"
+            "description": "Optionally, specify a custom endpoint for the service",
+            "type": "string",
+            "x-dsconfig-depends-on": "aws_sdk_settings.authType != 'grafana_assume_role'"
           },
           "externalId": {
-            "description": "External ID for cross-account role assumption.",
-            "type": "string"
+            "description": "If you are assuming a role in another account, that has been created with an external ID, specify the external ID here.",
+            "type": "string",
+            "x-dsconfig-depends-on": "aws_sdk_settings.authType != 'grafana_assume_role'"
           },
           "profile": {
-            "description": "AWS credentials profile name.",
-            "type": "string"
+            "description": "Credentials profile name, as specified in ~/.aws/credentials, leave blank for default.",
+            "type": "string",
+            "x-dsconfig-depends-on": "aws_sdk_settings.authType == 'credentials'"
           },
           "proxyType": {
-            "description": "Proxy type used to connect to AWS.",
-            "type": "string"
+            "description": "Specify the type of proxy to use. This should not be set if Secure Socks Proxy is enabled.",
+            "type": "string",
+            "default": "env",
+            "enum": [
+              "none",
+              "env",
+              "url"
+            ]
           },
           "proxyUrl": {
-            "description": "URL of the proxy used to connect to AWS.",
-            "type": "string"
+            "description": "Proxy URL. Don't set the username or password here",
+            "type": "string",
+            "x-dsconfig-depends-on": "aws_sdk_settings.proxyType == 'url'",
+            "x-dsconfig-required-when": "aws_sdk_settings.proxyType == 'url'"
           },
           "proxyUsername": {
-            "description": "Username for the proxy used to connect to AWS.",
-            "type": "string"
+            "description": "Optional: Proxy Username. This functionality should only be used with legacy web sites. RFC 2396 warns that interpreting Userinfo this way \"is NOT RECOMMENDED, because the passing of authentication information in clear text (such as URI) has proven to be a security risk in almost every case where it has been used.\"",
+            "type": "string",
+            "x-dsconfig-depends-on": "aws_sdk_settings.proxyType == 'url'"
           },
           "region": {
-            "description": "AWS region.",
             "type": "string"
           }
         }
@@ -64,16 +97,13 @@
   },
   "secureValues": [
     {
-      "key": "accessKey",
-      "description": "AWS access key ID."
+      "key": "accessKey"
     },
     {
-      "key": "secretKey",
-      "description": "AWS secret access key."
+      "key": "secretKey"
     },
     {
-      "key": "sessionToken",
-      "description": "AWS temporary session token."
+      "key": "sessionToken"
     }
   ]
 }
