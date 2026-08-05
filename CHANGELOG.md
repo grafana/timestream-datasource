@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Bump dependencies in [#717](https://github.com/grafana/timestream-datasource/pull/717)
 - Bump grafana/* dependencies in [#715](https://github.com/grafana/timestream-datasource/pull/715)
 - ci: use shared reusable add-to-project workflow in [#714](https://github.com/grafana/timestream-datasource/pull/714)
-- Add e2e smoke tests that dont require credentials in [#712](https://github.com/grafana/timestream-datasource/pull/712)
+- Add e2e smoke tests that don't require credentials in [#712](https://github.com/grafana/timestream-datasource/pull/712)
 - ci: use shared reusable stale workflow in [#713](https://github.com/grafana/timestream-datasource/pull/713)
 - chore(deps): update dependency node-gyp to v13 in [#709](https://github.com/grafana/timestream-datasource/pull/709)
 - chore(deps): pin grafana/grafana-enterprise docker tag to 9d4017a in [#687](https://github.com/grafana/timestream-datasource/pull/687)
