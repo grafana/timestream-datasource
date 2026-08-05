@@ -19,6 +19,8 @@ import (
 	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 )
 
+var newAWSConfigProvider = awsauth.NewConfigProvider
+
 type QueryClient interface {
 	timestreamquery.QueryAPIClient
 	CancelQuery(context.Context, *timestreamquery.CancelQueryInput, ...func(*timestreamquery.Options)) (*timestreamquery.CancelQueryOutput, error)
@@ -46,7 +48,7 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 	if region == "" || region == "default" {
 		region = settings.DefaultRegion
 	}
-	cfg, err := awsauth.NewConfigProvider().GetConfig(ctx, awsauth.Settings{
+	cfg, err := newAWSConfigProvider().GetConfig(ctx, awsauth.Settings{
 		LegacyAuthType:     settings.AuthType,
 		AccessKey:          settings.AccessKey,
 		SecretKey:          settings.SecretKey,
@@ -55,9 +57,11 @@ func NewDatasource(ctx context.Context, s backend.DataSourceInstanceSettings) (i
 		CredentialsProfile: settings.Profile,
 		AssumeRoleARN:      settings.AssumeRoleARN,
 		Endpoint:           settings.Endpoint,
-		ExternalID:         settings.ExternalID,
-		UserAgent:          "Timestream",
-		HTTPClient:         httpClient,
+		ExternalID:                 settings.ExternalID,
+		GrafanaExternalID:          settings.GrafanaExternalID,
+		UsePerDatasourceExternalID: settings.UsePerDatasourceExternalID,
+		UserAgent:                  "Timestream",
+		HTTPClient:                 httpClient,
 	})
 	if err != nil {
 		return nil, backend.DownstreamError(err)
