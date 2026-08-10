@@ -115,6 +115,8 @@
     "dsconfig",
     "AKID",
     "Unmarshal",
-    "Creds"
+    "Creds",
+    "struct",
+    "Struct"
   ]
 }
