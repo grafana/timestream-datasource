@@ -111,6 +111,12 @@
     "datacenter",
     "zizmor",
     "jsonencode",
-    "trufflehogignore"
+    "trufflehogignore",
+    "dsconfig",
+    "AKID",
+    "Unmarshal",
+    "Creds",
+    "struct",
+    "Struct"
   ]
 }
