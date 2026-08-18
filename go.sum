@@ -97,8 +97,8 @@ github.com/gopherjs/gopherjs v1.17.2 h1:fQnZVsXk8uxXIStYb0N4bGk7jeyTalG/wsZjQ25d
 github.com/gopherjs/gopherjs v1.17.2/go.mod h1:pRRIvn/QzFLrKfvEz3qUuEhtE/zLCWfreZ6J5gM2i+k=
 github.com/grafana/dataplane/sdata v0.0.9 h1:AGL1LZnCUG4MnQtnWpBPbQ8ZpptaZs14w6kE/MWfg7s=
 github.com/grafana/dataplane/sdata v0.0.9/go.mod h1:Jvs5ddpGmn6vcxT7tCTWAZ1mgi4sbcdFt9utQx5uMAU=
-github.com/grafana/grafana-aws-sdk v1.4.6 h1:+kHyOjhfR51b22Cg5XIXEcRQp7IkoRNkjfv58oQKui4=
-github.com/grafana/grafana-aws-sdk v1.4.6/go.mod h1:e6ZKQTnZvmLf1AlYGcT4ywzbMRke8TvB5qbQPs6zmXA=
+github.com/grafana/grafana-aws-sdk v1.5.1 h1:qvqZwc2tzWCj5UAICmj+dYpa9ZQU9DY+zdWu5xj+vro=
+github.com/grafana/grafana-aws-sdk v1.5.1/go.mod h1:9n7/73i1L6E33ozMk2Nb2s4OoOSWqbmYltIoi/AqgJw=
 github.com/grafana/grafana-plugin-sdk-go v0.292.2 h1:6xrNZpe905vzX1pY33Fyet7Oxw5xULcAHm2b8dvNZNY=
 github.com/grafana/grafana-plugin-sdk-go v0.292.2/go.mod h1:MPviZeixuZDc5T3f62FBCCPSOJ51/JocZH5+ZiQ1DmM=
 github.com/grafana/otel-profiling-go v0.6.0 h1:W7lOZaJj4IJISXMcM1UBk3fJF3tzF2OD6MJBJaQp1H8=

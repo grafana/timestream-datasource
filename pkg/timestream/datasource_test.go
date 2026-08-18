@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
+	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
 	"os"
@@ -415,3 +416,29 @@ func TestGenerateTestData(t *testing.T) {
 		}
 	}
 }
+
+type spyConfigProvider struct {
+	captured awsauth.Settings
+}
+
+func (s *spyConfigProvider) GetConfig(_ context.Context, settings awsauth.Settings) (aws.Config, error) {
+	s.captured = settings
+	return aws.Config{}, nil
+}
+
+func TestNewDatasource_passesGrafanaExternalIDFields(t *testing.T) {
+	spy := &spyConfigProvider{}
+	origProvider := newAWSConfigProvider
+	newAWSConfigProvider = func() awsauth.ConfigProvider { return spy }
+	t.Cleanup(func() { newAWSConfigProvider = origProvider })
+
+	inst, err := NewDatasource(context.Background(), backend.DataSourceInstanceSettings{
+		JSONData: []byte(`{"authType":"grafana_assume_role","defaultRegion":"us-east-1","assumeRoleArn":"arn:aws:iam::123456789012:role/test","grafanaExternalId":"stackABC-dsUid1","usePerDatasourceExternalId":true}`),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, inst)
+	assert.Equal(t, "stackABC-dsUid1", spy.captured.GrafanaExternalID)
+	require.NotNil(t, spy.captured.UsePerDatasourceExternalID)
+	assert.True(t, *spy.captured.UsePerDatasourceExternalID)
+}
+
