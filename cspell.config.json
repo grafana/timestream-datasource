@@ -111,6 +111,7 @@
     "datacenter",
     "zizmor",
     "jsonencode",
-    "trufflehogignore"
+    "trufflehogignore",
+    "undici"
   ]
 }
