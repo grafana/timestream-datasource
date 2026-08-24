@@ -94,7 +94,7 @@
     "node": ">=24",
     "npm": ">=11.16.0"
   },
-  "packageManager": "npm@11.18.0",
+  "packageManager": "npm@12.0.2",
   "overrides": {
     "@grafana/e2e-selectors": "13.1.1",
     "node-gyp": "13.0.1",
