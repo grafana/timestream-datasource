@@ -5,14 +5,14 @@
     "dist/**",
     "provisioning/**",
     "src/dashboards/**",
-    "yarn.lock",
     "go.mod",
     "go.sum",
     "mage_output_file.go",
     "pkg/timestream/testdata/**",
     "language.ts",
     "playwright*/**",
-    "jest.config.js"
+    "jest.config.js",
+    "package-lock.json"
   ],
   "words": [
     "awsds",
@@ -20,6 +20,7 @@
     "datasource",
     "datasources",
     "datetime",
+    "GATB",
     "gotest",
     "grafana",
     "gtime",
@@ -110,6 +111,7 @@
     "datacenter",
     "zizmor",
     "jsonencode",
-    "trufflehogignore"
+    "trufflehogignore",
+    "undici"
   ]
 }

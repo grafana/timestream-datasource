@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.13.2
+- Bump several dependencies for CVE fixes in [#722](https://github.com/grafana/timestream-datasource/pull/722)
+
+## v2.13.1
+
+- Fix out of SLO CVEs in [#720](https://github.com/grafana/timestream-datasource/pull/720)
+- Bump dependencies in [#717](https://github.com/grafana/timestream-datasource/pull/717)
+- Bump grafana/* dependencies in [#715](https://github.com/grafana/timestream-datasource/pull/715)
+- ci: use shared reusable add-to-project workflow in [#714](https://github.com/grafana/timestream-datasource/pull/714)
+- Add e2e smoke tests that don't require credentials in [#712](https://github.com/grafana/timestream-datasource/pull/712)
+- ci: use shared reusable stale workflow in [#713](https://github.com/grafana/timestream-datasource/pull/713)
+- chore(deps): update dependency node-gyp to v13 in [#709](https://github.com/grafana/timestream-datasource/pull/709)
+- chore(deps): pin grafana/grafana-enterprise docker tag to 9d4017a in [#687](https://github.com/grafana/timestream-datasource/pull/687)
+- chore(deps): update dependency sass-loader to v17 in [#680](https://github.com/grafana/timestream-datasource/pull/680)
+- chore(deps): update actions/stale digest to eb5cf3a in [#699](https://github.com/grafana/timestream-datasource/pull/699)
+- chore(deps): update dependency @babel/core to v8 in [#706](https://github.com/grafana/timestream-datasource/pull/706)
+- fix(deps): update backend dependencies in [#688](https://github.com/grafana/timestream-datasource/pull/688)
+- chore(deps): update dependency @babel/core to v7.29.7 in [#705](https://github.com/grafana/timestream-datasource/pull/705)
+- fix(deps): update grafana monorepo to v13 in [#683](https://github.com/grafana/timestream-datasource/pull/683)
+- ci: add stale issue and PR workflow in [#707](https://github.com/grafana/timestream-datasource/pull/707)
+- chore: use shared data-sources Renovate base preset in [#698](https://github.com/grafana/timestream-datasource/pull/698)
+- Updating plugin-ci-workflows in [#695](https://github.com/grafana/timestream-datasource/pull/695)
+- Bumped ci-cd-workflows version to support new way to publish docs in [#702](https://github.com/grafana/timestream-datasource/pull/702)
+- fix(deps): update frontend dependencies in [#689](https://github.com/grafana/timestream-datasource/pull/689)
+- docs: add signed commits requirement to CONTRIBUTING.md in [#696](https://github.com/grafana/timestream-datasource/pull/696)
+- Add add-to-project workflow and remove issue_commands in [#697](https://github.com/grafana/timestream-datasource/pull/697)
+- update e2e secrets path in [#701](https://github.com/grafana/timestream-datasource/pull/701)
+- security hardening in [#684](https://github.com/grafana/timestream-datasource/pull/684)
+- Use GATB in GitHub workflows in [#672](https://github.com/grafana/timestream-datasource/pull/672)
+- set enable scripts to false in .yarnrc.yml in [#670](https://github.com/grafana/timestream-datasource/pull/670)
+- chore(deps): update grafana/plugin-ci-workflows/ci-cd-workflows action to v7.3.1 in [#640](https://github.com/grafana/timestream-datasource/pull/640)
+- fix(deps): update backend dependencies in [#669](https://github.com/grafana/timestream-datasource/pull/669)
+- fix(deps): update backend dependencies in [#666](https://github.com/grafana/timestream-datasource/pull/666)
+- Docs: Overhaul of Amazon Timestream data source docs in [#667](https://github.com/grafana/timestream-datasource/pull/667)
+- chore(deps): update grafana/grafana-enterprise:latest docker digest to f7e79dc in [#664](https://github.com/grafana/timestream-datasource/pull/664)
+- chore(deps): update grafana/shared-workflows/ action to in [#661](https://github.com/grafana/timestream-datasource/pull/661)
+- chore(deps): update dependency cspell to v10 in [#659](https://github.com/grafana/timestream-datasource/pull/659)
+- chore(deps): update grafana/grafana-enterprise:latest docker digest to c7516cc in [#651](https://github.com/grafana/timestream-datasource/pull/651)
+- chore(deps): update grafana/shared-workflows/ action to in [#650](https://github.com/grafana/timestream-datasource/pull/650)
+- fix(deps): update backend dependencies in [#653](https://github.com/grafana/timestream-datasource/pull/653)
+
 ## v2.13.0
 
 - chore(deps): lock file maintenance in [#647](https://github.com/grafana/timestream-datasource/pull/647)
