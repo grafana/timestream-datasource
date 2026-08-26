@@ -26,6 +26,7 @@ var macroFuncs = map[string]macroFunc{
 	"database":        macroDatabase,
 	"table":           macroTable,
 	"measure":         macroMeasure,
+	"refId":           macroRefID,
 }
 
 var macroKeys []string
@@ -80,6 +81,10 @@ func macroTable(model models.QueryModel, settings models.DatasourceSettings) (st
 }
 func macroMeasure(model models.QueryModel, settings models.DatasourceSettings) (string, error) {
 	return valueOrDefault(model.Measure, settings.DefaultMeasure), nil
+}
+
+func macroRefID(model models.QueryModel, _ models.DatasourceSettings) (string, error) {
+	return model.RefID, nil
 }
 
 func valueOrDefault(value string, defaultValue string) string {
