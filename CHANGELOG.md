@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## v2.13.3
+## v2.14.0
 - Add `$__refId` macro to reference the query name in [#718](https://github.com/grafana/timestream-datasource/pull/718)
 - Bump fast-uri to resolve high-severity CVEs, and update other frontend dependencies (`@grafana/aws-sdk`, `@grafana/plugin-e2e`, `@grafana/plugin-ui`, `webpack`, `jest`, `playwright`, `typescript-eslint`, `sass`, `cspell`, and others) in [#723](https://github.com/grafana/timestream-datasource/pull/723)
 
