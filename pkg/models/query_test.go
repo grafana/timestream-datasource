@@ -29,6 +29,20 @@ func TestAutomaticInterval(t *testing.T) {
 	}
 }
 
+func TestRefIDIsCopiedFromQuery(t *testing.T) {
+	model, err := GetQueryModel(backend.DataQuery{
+		RefID: "First Sensor",
+		JSON:  []byte(`{"rawQuery": "SELECT measure_value::double AS $__refId"}`),
+	})
+	if err != nil {
+		t.Fatalf("Error reading query: %s", err.Error())
+	}
+
+	if model.RefID != "First Sensor" {
+		t.Fatalf("invalid refId: %s", model.RefID)
+	}
+}
+
 func TestGetQueryModel_Errors(t *testing.T) {
 	tests := []struct {
 		name           string
