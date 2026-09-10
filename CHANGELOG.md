@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.13.3
+- Bump fast-uri to resolve high-severity CVEs in [#723](https://github.com/grafana/timestream-datasource/pull/723)
+
 ## v2.13.2
 - Bump several dependencies for CVE fixes in [#722](https://github.com/grafana/timestream-datasource/pull/722)
 
