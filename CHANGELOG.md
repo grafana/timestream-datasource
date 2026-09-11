@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.13.2
+- Bump several dependencies for CVE fixes in [#722](https://github.com/grafana/timestream-datasource/pull/722)
+
 ## v2.13.1
 
 - Fix out of SLO CVEs in [#720](https://github.com/grafana/timestream-datasource/pull/720)

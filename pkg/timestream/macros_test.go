@@ -135,6 +135,22 @@ func TestInterpolate(t *testing.T) {
 		}
 	})
 
+	t.Run("using refId", func(t *testing.T) {
+		sqltxt := `SELECT measure_value::double AS "$__refId" FROM t`
+		expect := `SELECT measure_value::double AS "First Sensor" FROM t`
+
+		query := models.QueryModel{
+			TimeRange: timeRange,
+			RawQuery:  sqltxt,
+			RefID:     "First Sensor",
+		}
+
+		text, _ := Interpolate(query, models.DatasourceSettings{})
+		if diff := cmp.Diff(text, expect); diff != "" {
+			t.Fatalf("Result mismatch (-want +got):\n%s", diff)
+		}
+	})
+
 	t.Run("using raw interval", func(t *testing.T) {
 		sqltxt := `rate(input) * $__interval_raw_ms`
 		expect := `rate(input) * 60000`

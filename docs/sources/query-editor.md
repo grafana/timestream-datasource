@@ -89,6 +89,7 @@ Use macros in your queries to insert dynamic values like time ranges, intervals,
 | `$__interval_ms` | Same as `$__interval`. A Timestream duration literal representing the calculated interval in milliseconds. |
 | `$__interval_raw_ms` | The calculated interval as a plain integer in milliseconds, for example `60000`. |
 | `$__now_ms` | The current time in milliseconds. |
+| `$__refId` | The reference ID of the query, for example `A`. This is the query name shown in the query editor. |
 
 ### Macro example
 
@@ -107,6 +108,22 @@ ORDER BY binned_time ASC
 ```
 
 This query uses `$__database`, `$__table`, and `$__measure` to reference the selections in the query editor, `$__timeFilter` to scope results to the dashboard time range, and `$__interval_ms` to group data into intervals that match the panel width.
+
+### Use the query name as a column alias
+
+Use `$__refId` to name a column after the query itself, so that renaming the query in the query editor also renames the series. This is useful for dashboards managed as code, where the query name is the only place the label needs to be defined.
+
+Quote the macro when the query name contains spaces or other characters that aren't valid in an unquoted identifier:
+
+```sql
+SELECT
+  time,
+  measure_value::double AS "$__refId"
+FROM $__database.$__table
+WHERE $__timeFilter
+  AND measure_name = '$__measure'
+ORDER BY time ASC
+```
 
 ### Plugin macros vs Grafana global variables
 

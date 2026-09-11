@@ -33,6 +33,7 @@ type QueryModel struct {
 	Measure  string `json:"measure,omitempty"`
 
 	// Not from JSON
+	RefID         string            `json:"-"`
 	Interval      time.Duration     `json:"-"`
 	TimeRange     backend.TimeRange `json:"-"`
 	MaxDataPoints int64             `json:"-"`
@@ -57,6 +58,7 @@ func GetQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	}
 
 	// Copy directly from the well typed query
+	model.RefID = query.RefID
 	model.TimeRange = query.TimeRange
 	model.Interval = query.Interval
 	model.MaxDataPoints = query.MaxDataPoints
