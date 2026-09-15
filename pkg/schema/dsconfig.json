@@ -1,0 +1,270 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.12/dsconfig/schema.json",
+  "schemaVersion": "v1",
+  "pluginType": "grafana-timestream-datasource",
+  "pluginName": "Amazon Timestream",
+  "docURL": "https://grafana.com/grafana/plugins/grafana-timestream-datasource/",
+  "baseFields": [
+    {
+      "from": "aws_sdk_settings",
+      "exclude": ["aws_sdk_settings.assumeRoleArn", "aws_sdk_settings.proxyPassword"],
+      "patch": {
+        "aws_sdk_settings.endpoint": {
+          "placeholder": "https://query-{cell}.timestream.{region}.amazonaws.com"
+        },
+        "aws_sdk_settings.profile": {
+          "description": "Credentials profile name (~/.aws/credentials), blank for default. If empty, falls back to the datasource's root `database` field (legacy)."
+        }
+      }
+    }
+  ],
+  "fields": [
+    {
+      "id": "aws_sdk_settings.authType",
+      "key": "authType",
+      "label": "Authentication Provider",
+      "description": "Specify which AWS credentials chain to use. Legacy value 'sharedCreds' is also accepted by the backend (mapped to 'credentials') but isn't a valid schema value.",
+      "valueType": "string",
+      "target": "jsonData",
+      "role": "auth.discriminator",
+      "defaultValue": "default",
+      "validations": [
+        {
+          "type": "allowedValues",
+          "values": ["default", "keys", "credentials", "ec2_iam_role", "grafana_assume_role", "arn"]
+        }
+      ],
+      "ui": {
+        "component": "select",
+        "options": [
+          {
+            "label": "Workspace IAM Role",
+            "value": "ec2_iam_role"
+          },
+          {
+            "label": "Grafana Assume Role",
+            "value": "grafana_assume_role"
+          },
+          {
+            "label": "AWS SDK Default",
+            "value": "default"
+          },
+          {
+            "label": "Access & secret key",
+            "value": "keys"
+          },
+          {
+            "label": "Credentials file",
+            "value": "credentials"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aws_sdk_settings.sessionToken",
+      "key": "sessionToken",
+      "valueType": "string",
+      "target": "secureJsonData",
+      "role": "auth.aws.sessionToken",
+      "tags": ["backend-only"]
+    },
+    {
+      "id": "jsonData_assumeRoleArn",
+      "key": "assumeRoleArn",
+      "label": "Assume Role ARN",
+      "description": "Optional role ARN to assume instead of using the selected credentials directly. Backend struct tag is `assumeRoleARN`; declared as `assumeRoleArn` here since only that casing is read back by the config editor (backend accepts both).",
+      "valueType": "string",
+      "target": "jsonData",
+      "validations": [
+        {
+          "type": "pattern",
+          "pattern": "^(arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+)?$",
+          "message": "When set, must be a valid IAM role ARN, e.g. arn:aws:iam::123456789012:role/MyRole"
+        }
+      ],
+      "ui": {
+        "component": "input",
+        "placeholder": "arn:aws:iam:*"
+      }
+    },
+    {
+      "id": "jsonData_assumeRoleARN_legacy",
+      "key": "assumeRoleARN",
+      "label": "Assume Role ARN (legacy casing)",
+      "description": "Backend-only. Mirrors the promoted `assumeRoleARN` struct tag so the schema stays in sync. Use jsonData_assumeRoleArn instead — the editor never reads this spelling.",
+      "valueType": "string",
+      "target": "jsonData",
+      "tags": ["backend-only"]
+    },
+    {
+      "id": "aws_sdk_settings.defaultRegion",
+      "key": "defaultRegion",
+      "label": "Default Region",
+      "description": "Specify the region, such as for US West (Oregon) use ` us-west-2 ` as the region.",
+      "valueType": "string",
+      "target": "jsonData",
+      "ui": {
+        "component": "select",
+        "allowCustom": true,
+        "options": [
+          {
+            "label": "us-east-1",
+            "value": "us-east-1"
+          },
+          {
+            "label": "us-east-2",
+            "value": "us-east-2"
+          },
+          {
+            "label": "us-west-2",
+            "value": "us-west-2"
+          },
+          {
+            "label": "eu-west-1",
+            "value": "eu-west-1"
+          },
+          {
+            "label": "eu-central-1",
+            "value": "eu-central-1"
+          },
+          {
+            "label": "ap-south-1",
+            "value": "ap-south-1"
+          },
+          {
+            "label": "ap-southeast-2",
+            "value": "ap-southeast-2"
+          },
+          {
+            "label": "ap-northeast-1",
+            "value": "ap-northeast-1"
+          },
+          {
+            "label": "us-gov-west-1",
+            "value": "us-gov-west-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "jsonData_region",
+      "key": "region",
+      "description": "Backend-only mirror of defaultRegion — Load copies defaultRegion here when empty or 'default'. Set defaultRegion instead.",
+      "valueType": "string",
+      "target": "jsonData",
+      "tags": ["backend-only"]
+    },
+    {
+      "id": "jsonData_defaultDatabase",
+      "key": "defaultDatabase",
+      "label": "Database",
+      "description": "Default database to use as the {{database}} macro in queries.",
+      "valueType": "string",
+      "target": "jsonData",
+      "ui": {
+        "component": "select"
+      }
+    },
+    {
+      "id": "jsonData_defaultTable",
+      "key": "defaultTable",
+      "label": "Table",
+      "description": "Default table to use as the {{table}} macro in queries. Depends on the selected database.",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_defaultDatabase != ''",
+      "ui": {
+        "component": "select"
+      }
+    },
+    {
+      "id": "jsonData_defaultMeasure",
+      "key": "defaultMeasure",
+      "label": "Measure",
+      "description": "Default measure to use as the {{measure}} macro in queries. Depends on the selected database and table.",
+      "valueType": "string",
+      "target": "jsonData",
+      "dependsOn": "jsonData_defaultDatabase != '' && jsonData_defaultTable != ''",
+      "ui": {
+        "component": "select"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "authentication",
+      "title": "Authentication",
+      "order": 1,
+      "fieldRefs": [
+        "aws_sdk_settings.authType",
+        "aws_sdk_settings.profile",
+        "aws_sdk_settings.accessKey",
+        "aws_sdk_settings.secretKey",
+        "aws_sdk_settings.sessionToken"
+      ]
+    },
+    {
+      "id": "assume-role",
+      "title": "Assume Role",
+      "order": 2,
+      "fieldRefs": [
+        "jsonData_assumeRoleArn",
+        "jsonData_assumeRoleARN_legacy",
+        "aws_sdk_settings.externalId",
+        "aws_sdk_settings.usePerDatasourceExternalId",
+        "aws_sdk_settings.grafanaExternalId"
+      ]
+    },
+    {
+      "id": "additional-settings",
+      "title": "Additional Settings",
+      "order": 3,
+      "fieldRefs": ["aws_sdk_settings.endpoint", "aws_sdk_settings.defaultRegion"]
+    },
+    {
+      "id": "proxy",
+      "title": "Proxy",
+      "order": 4,
+      "fieldRefs": ["aws_sdk_settings.proxyType", "aws_sdk_settings.proxyUrl", "aws_sdk_settings.proxyUsername"]
+    },
+    {
+      "id": "timestream-details",
+      "title": "Timestream Details",
+      "order": 5,
+      "fieldRefs": ["jsonData_defaultDatabase", "jsonData_defaultTable", "jsonData_defaultMeasure"]
+    }
+  ],
+  "relationships": [
+    {
+      "type": "pair",
+      "fields": ["aws_sdk_settings.accessKey", "aws_sdk_settings.secretKey"],
+      "description": "AWS access key pair — supplied together when authType is 'keys'"
+    },
+    {
+      "type": "group",
+      "fields": ["jsonData_assumeRoleArn", "aws_sdk_settings.externalId"],
+      "description": "STS assume-role parameters — external ID is only meaningful when assumeRoleArn is set"
+    },
+    {
+      "type": "group",
+      "fields": ["aws_sdk_settings.usePerDatasourceExternalId", "aws_sdk_settings.grafanaExternalId"],
+      "description": "Grafana Assume Role per-datasource external ID — grafanaExternalId is only meaningful when usePerDatasourceExternalId is true"
+    },
+    {
+      "type": "group",
+      "fields": ["aws_sdk_settings.proxyType", "aws_sdk_settings.proxyUrl", "aws_sdk_settings.proxyUsername"],
+      "description": "HTTP proxy parameters — proxyUrl and proxyUsername only apply when proxyType is 'url'"
+    },
+    {
+      "type": "group",
+      "fields": ["jsonData_defaultDatabase", "jsonData_defaultTable", "jsonData_defaultMeasure"],
+      "description": "Timestream macro defaults — populate the {{database}}, {{table}}, and {{measure}} query macros. Table depends on database; measure depends on both."
+    }
+  ],
+  "instructions": [
+    {
+      "msg": "Six authentication values are stored in jsonData.authType. The five editor-selectable ones are: 'default' (AWS SDK Default — the default credential chain), 'keys' (Access & secret key — puts accessKey/secretKey in secureJsonData), 'credentials' (Credentials file — optionally provide jsonData.profile), 'ec2_iam_role' (Workspace IAM Role — no extra credentials needed), and 'grafana_assume_role' (Grafana Assume Role — Grafana Cloud only; visible only when the awsDatasourcesTempCredentials feature toggle is on and grafana-timestream-datasource is in the ConnectionConfig allow-list, which it is). The sixth is 'arn' (deprecated legacy value; the backend maps it to 'default').",
+      "tags": ["llm", "auth"]
+    }
+  ]
+}
