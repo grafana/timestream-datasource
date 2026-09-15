@@ -17,7 +17,21 @@ test.use({ featureToggles: { dashboardNewLayouts: false } });
 test('should return data when a valid query is successfully run', async ({ page, panelEditPage, selectors }) => {
   await panelEditPage.datasource.set('AWS Timestream E2E');
   await panelEditPage.timeRange.set({ from: 'now-1h', to: 'now' });
-  await panelEditPage.setVisualization('Table');
+
+  // @grafana/plugin-e2e@3.12.0's setVisualization() assumes every Grafana
+  // >=12.4.0 build ships the tab-based "All visualizations" picker, and hangs
+  // waiting for that tab on Grafana 12.4.10 (an enterprise patch in CI's e2e
+  // matrix), which still shows the pre-12.4 single-button picker. Fall back
+  // to driving that picker directly when the built-in helper times out.
+  //
+  // Remove this once a @grafana/plugin-e2e release fixes the version
+  // threshold for Grafana 12.4.x builds without the tab-based picker.
+  try {
+    await panelEditPage.setVisualization('Table');
+  } catch {
+    await panelEditPage.getByGrafanaSelector(selectors.components.PanelEditor.toggleVizPicker).click();
+    await panelEditPage.getByGrafanaSelector(selectors.components.PluginVisualization.item('Table')).click();
+  }
 
   await page.waitForFunction(() => window.monaco);
   const editor = panelEditPage.getByGrafanaSelector(selectors.components.CodeEditor.container);
