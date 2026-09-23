@@ -112,6 +112,12 @@
     "zizmor",
     "jsonencode",
     "trufflehogignore",
+    "dsconfig",
+    "AKID",
+    "Unmarshal",
+    "Creds",
+    "struct",
+    "Struct",
     "undici"
   ]
 }
