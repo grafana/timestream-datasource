@@ -1,6 +1,6 @@
 {
   "name": "grafana-timestream-datasource",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "Load data timestream in grafana",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",
@@ -98,9 +98,9 @@
   "overrides": {
     "node-gyp": "13.0.2",
     "undici": "8.10.2",
-    "js-yaml@^3.13.1": "3.15.1",
-    "js-yaml@^4.1.0": "4.3.1",
-    "js-yaml@^4.3.0": "4.3.1",
+    "js-yaml@^3.13.1": "3.15.2",
+    "js-yaml@^4.1.0": "4.3.2",
+    "js-yaml@^4.3.0": "4.3.2",
     "brace-expansion@^1.1.7": "1.1.18",
     "brace-expansion@^2.0.2": "2.1.4",
     "brace-expansion@^5.0.2": "5.0.9"
