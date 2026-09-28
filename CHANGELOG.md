@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Bump `@grafana/aws-sdk` to 0.12.2 and merge saved jsonData so the server-minted external ID appears after save
+
 ## v2.14.1
 - Adds dsconfig schema [#693](https://github.com/grafana/timestream-datasource/pull/693)
 - Fix security vulnerabilities (CVE-2026-84375)

@@ -3,7 +3,7 @@ import React from 'react';
 import { select } from 'react-select-event';
 
 import { mockDatasourceOptions } from '../__mocks__/datasource';
-import { ConfigEditor } from './ConfigEditor';
+import { ConfigEditor, applySavedDatasource } from './ConfigEditor';
 import { selectors } from './selectors';
 
 const resourceName = 'foo';
@@ -31,6 +31,23 @@ const props = mockDatasourceOptions;
 type resourceType = 'defaultDatabase' | 'defaultTable' | 'defaultMeasure';
 
 describe('ConfigEditor', () => {
+  it('merges the server-minted external ID from the save response', () => {
+    const current = mockDatasourceOptions.options;
+    const saved = {
+      ...current,
+      version: (current.version ?? 1) + 1,
+      jsonData: {
+        ...current.jsonData,
+        grafanaExternalId: '5285-tsuid-abcdef0123456789',
+      },
+    };
+
+    const next = applySavedDatasource(current, saved);
+    expect(next.version).toBe(saved.version);
+    expect(next.jsonData.defaultRegion).toBe(current.jsonData.defaultRegion);
+    expect(next.jsonData.grafanaExternalId).toBe('5285-tsuid-abcdef0123456789');
+  });
+
   const types: resourceType[] = ['defaultDatabase', 'defaultTable', 'defaultMeasure'];
   types.forEach((resource) => {
     it(`should save and request ${resource}s`, async () => {
