@@ -38,14 +38,14 @@ describe('ConfigEditor', () => {
       version: (current.version ?? 1) + 1,
       jsonData: {
         ...current.jsonData,
-        grafanaExternalId: '5285-tsuid-abcdef0123456789',
+        grafanaExternalId: '5285-uid-abcdef0123456789',
       },
     };
 
     const next = applySavedDatasource(current, saved);
     expect(next.version).toBe(saved.version);
     expect(next.jsonData.defaultRegion).toBe(current.jsonData.defaultRegion);
-    expect(next.jsonData.grafanaExternalId).toBe('5285-tsuid-abcdef0123456789');
+    expect(next.jsonData.grafanaExternalId).toBe('5285-uid-abcdef0123456789');
   });
 
   const types: resourceType[] = ['defaultDatabase', 'defaultTable', 'defaultMeasure'];

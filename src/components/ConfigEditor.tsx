@@ -1,6 +1,7 @@
 import { css } from '@emotion/css';
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
 import {
+  DataSourceJsonData,
   DataSourcePluginOptionsEditorProps,
   DataSourceSettings,
   SelectableValue,
@@ -18,7 +19,7 @@ import { selectors } from './selectors';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
 
-export function applySavedDatasource<TJson, TSecure>(
+export function applySavedDatasource<TJson extends DataSourceJsonData, TSecure>(
   current: DataSourceSettings<TJson, TSecure>,
   saved?: DataSourceSettings<TJson, TSecure>
 ): DataSourceSettings<TJson, TSecure> {
