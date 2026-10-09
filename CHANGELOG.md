@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.14.2
+- Fix security vulnerabilities in `brace-expansion` (CVE-2026-102276, CVE-2026-102278)
+
 ## v2.14.1
 - Adds dsconfig schema [#693](https://github.com/grafana/timestream-datasource/pull/693)
 - Fix security vulnerabilities (CVE-2026-84375)
