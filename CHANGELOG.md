@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.14.3
+
+- Fix security vulnerabilities in dompurify, moment, source-map-js, postcss-selector-parser, smol-toml, fast-uri, and golang.org/x/net
+
 ## v2.14.2
 - Fix security vulnerabilities in `brace-expansion` (CVE-2026-102276, CVE-2026-102278)
 
