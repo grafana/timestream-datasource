@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.14.4
+
+- Update Go to 1.27.3 [#735](https://github.com/grafana/timestream-datasource/pull/735)
+
 ## v2.14.3
 
 - Fix security vulnerabilities in dompurify, moment, source-map-js, postcss-selector-parser, smol-toml, fast-uri, and golang.org/x/net
