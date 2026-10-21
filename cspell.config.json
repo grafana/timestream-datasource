@@ -118,6 +118,8 @@
     "Creds",
     "struct",
     "Struct",
-    "undici"
+    "undici",
+    "dompurify",
+    "smol"
   ]
 }
