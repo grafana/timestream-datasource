@@ -33,6 +33,9 @@ jobs:
       attestations: write
     with:
       golangci-lint-version: '2.15.0'
+      # Temporarily stop E2E at Grafana 13.2.x: plugin-e2e can't detect dashboardNewLayouts on 13.3.0,
+      # so dashboard fixtures time out. Remove once https://github.com/grafana/plugin-tools/issues/3016 is fixed.
+      run-playwright-with-grafana-dependency: '>=10.4.x <13.3.0'
       branch: ${{ github.event.inputs.branch }}
       environment: 'prod'
       docs-only: ${{ fromJSON(github.event.inputs.docs-only) }}
