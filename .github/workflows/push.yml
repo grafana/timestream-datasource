@@ -17,6 +17,9 @@ jobs:
       id-token: write
     with:
       golangci-lint-version: '2.15.0'
+      # Temporarily stop E2E at Grafana 13.2.x: plugin-e2e can't detect dashboardNewLayouts on 13.3.0,
+      # so dashboard fixtures time out. Remove once https://github.com/grafana/plugin-tools/issues/3016 is fixed.
+      run-playwright-with-grafana-dependency: '>=10.4.x <13.3.0'
       plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
       # Fork and Dependabot PRs don't have access to Vault secrets, so they can't
       # run the full e2e suite. They run the secret-free smoke tests instead,
