@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.14.6
+
+- Update backend dependencies
+- Fix a connection freeze between Grafana and the plugin under heavy query load by updating google.golang.org/grpc to v1.85.0 ([grpc/grpc-go#9330](https://github.com/grpc/grpc-go/issues/9330))
+
+## v2.14.5
+
+- Update backend dependencies [#731](https://github.com/grafana/timestream-datasource/pull/731), [#744](https://github.com/grafana/timestream-datasource/pull/744)
+
 ## v2.14.4
 
 - Update Go to 1.27.3 [#735](https://github.com/grafana/timestream-datasource/pull/735)
