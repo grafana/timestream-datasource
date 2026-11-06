@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.14.6
+
+- Update backend dependencies
+- Fix a connection freeze between Grafana and the plugin under heavy query load by updating google.golang.org/grpc to v1.85.0 ([grpc/grpc-go#9330](https://github.com/grpc/grpc-go/issues/9330))
+
+## v2.14.5
+
+- Update backend dependencies [#731](https://github.com/grafana/timestream-datasource/pull/731), [#744](https://github.com/grafana/timestream-datasource/pull/744)
+
+## v2.14.4
+
+- Update Go to 1.27.3 [#735](https://github.com/grafana/timestream-datasource/pull/735)
+
+## v2.14.3
+
+- Fix security vulnerabilities in dompurify, moment, source-map-js, postcss-selector-parser, smol-toml, fast-uri, and golang.org/x/net
+
+## v2.14.2
+- Fix security vulnerabilities in `brace-expansion` (CVE-2026-102276, CVE-2026-102278)
+
+## v2.14.1
+- Adds dsconfig schema [#693](https://github.com/grafana/timestream-datasource/pull/693)
+- Fix security vulnerabilities (CVE-2026-84375)
+
 ## v2.14.0
 - Add `$__refId` macro to reference the query name in [#718](https://github.com/grafana/timestream-datasource/pull/718)
 - Bump fast-uri to resolve high-severity CVEs, and update other frontend dependencies (`@grafana/aws-sdk`, `@grafana/plugin-e2e`, `@grafana/plugin-ui`, `webpack`, `jest`, `playwright`, `typescript-eslint`, `sass`, `cspell`, and others) in [#723](https://github.com/grafana/timestream-datasource/pull/723)
