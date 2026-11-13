@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Pass the per-datasource Grafana external ID through to Assume Role, bump `@grafana/aws-sdk` to 0.12.2, and keep the server-minted ID in the config form after save.
+
 ## v2.14.6
 
 - Update backend dependencies

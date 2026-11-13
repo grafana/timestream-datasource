@@ -1,6 +1,12 @@
 import { css } from '@emotion/css';
 import { ConfigSelect, ConnectionConfig } from '@grafana/aws-sdk';
-import { DataSourcePluginOptionsEditorProps, SelectableValue, type GrafanaTheme2 } from '@grafana/data';
+import {
+  DataSourceJsonData,
+  DataSourcePluginOptionsEditorProps,
+  DataSourceSettings,
+  SelectableValue,
+  type GrafanaTheme2,
+} from '@grafana/data';
 import { ConfigSection } from '@grafana/plugin-ui';
 import { config, getBackendSrv } from '@grafana/runtime';
 import { Divider, Field, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
@@ -12,6 +18,25 @@ import { TimestreamDataSourceSettings, TimestreamOptions, TimestreamSecureJsonDa
 import { selectors } from './selectors';
 
 export type Props = DataSourcePluginOptionsEditorProps<TimestreamOptions, TimestreamSecureJsonData>;
+
+export function applySavedDatasource<TJson extends DataSourceJsonData, TSecure>(
+  current: DataSourceSettings<TJson, TSecure>,
+  saved?: DataSourceSettings<TJson, TSecure>
+): DataSourceSettings<TJson, TSecure> {
+  if (!saved) {
+    return current;
+  }
+  return {
+    ...current,
+    ...saved,
+    version: saved.version ?? current.version,
+    jsonData: {
+      ...current.jsonData,
+      ...saved.jsonData,
+    },
+    secureJsonFields: saved.secureJsonFields ?? current.secureJsonFields,
+  };
+}
 
 export type ResourceType = 'defaultDatabase' | 'defaultTable' | 'defaultMeasure';
 
@@ -28,10 +53,7 @@ export function ConfigEditor(props: Props) {
     await getBackendSrv()
       .put(baseURL, props.options)
       .then((result: { datasource: TimestreamDataSourceSettings }) => {
-        props.onOptionsChange({
-          ...props.options,
-          version: result.datasource.version,
-        });
+        props.onOptionsChange(applySavedDatasource(props.options, result.datasource));
       });
     setSaved(true);
   };
