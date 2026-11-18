@@ -48,7 +48,8 @@ test('shows the server-minted external ID after save', async ({
   const saved = await (await save).json();
   const minted = String(saved.datasource.jsonData.grafanaExternalId);
 
-  expect(minted).toMatch(new RegExp(`-${uid}-[0-9a-f]{16}$`));
+  // Grafana 13.3+ appends a 16-char hex suffix. The published nightly image predates that and mints {stack}-{uid}.
+  expect(minted).toMatch(new RegExp(`-${uid}(-[0-9a-f]{16})?$`));
   expect(saved.datasource.jsonData.usePerDatasourceExternalId).toBe(true);
   await expect(page.locator('#grafanaExternalId')).toHaveValue(minted);
 });
