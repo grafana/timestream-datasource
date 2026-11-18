@@ -1,4 +1,5 @@
 import { test, expect } from '@grafana/plugin-e2e';
+import { lt } from 'semver';
 
 test('should successfully provision a data source', async ({ gotoDataSourceConfigPage, readProvisionedDataSource }) => {
   const ds = await readProvisionedDataSource({ fileName: 'aws-timestream-e2e.yaml', name: 'AWS Timestream E2E' });
@@ -24,12 +25,12 @@ test('should return an error when invalid credentials are used', async ({
 
 test('shows the server-minted external ID after save', async ({
   createDataSourceConfigPage,
+  grafanaVersion,
   page,
   readProvisionedDataSource,
 }) => {
-  // The plugin CI Playwright job does not set GRAFANA_URL. It starts its own
-  // Grafana, which does not mint a per-datasource external ID.
-  test.skip(!process.env.GRAFANA_URL, 'Requires GRAFANA_URL for a Grafana that mints external IDs');
+  // Minting shipped in Grafana 13.2. Older images in the CI matrix cannot produce this ID.
+  test.skip(lt(grafanaVersion, '13.2.0'), 'Per-datasource external ID minting requires Grafana 13.2 or newer');
 
   const ds = await readProvisionedDataSource({ fileName: 'aws-timestream-e2e.yaml', name: 'AWS Timestream E2E' });
   const configPage = await createDataSourceConfigPage({ type: ds.type });
