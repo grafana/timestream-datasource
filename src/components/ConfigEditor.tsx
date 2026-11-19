@@ -41,7 +41,7 @@ export function applySavedDatasource<TJson extends DataSourceJsonData, TSecure>(
 export type ResourceType = 'defaultDatabase' | 'defaultTable' | 'defaultMeasure';
 
 export function ConfigEditor(props: Props) {
-  const baseURL = `/api/datasources/${props.options.id}`;
+  const baseURL = `/api/datasources/uid/${props.options.uid}`;
   const resourcesURL = `${baseURL}/resources`;
   const [saved, setSaved] = useState(!!props.options.jsonData.defaultRegion);
   const styles = useStyles2(getStyles);
