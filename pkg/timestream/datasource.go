@@ -262,6 +262,10 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 }
 
 func applyQuotesIfNeeded(input string) string {
+	if input == "" {
+		// An empty name (e.g. no database selected yet) must not panic below.
+		return `""`
+	}
 	if input[0] != '"' && input[len(input)-1] != '"' {
 		input = fmt.Sprintf(`"%s"`, input)
 	}
