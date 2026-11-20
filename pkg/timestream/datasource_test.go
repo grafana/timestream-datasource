@@ -3,10 +3,12 @@ package timestream
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	timestreamquerytypes "github.com/aws/aws-sdk-go-v2/service/timestreamquery/types"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/grafana/timestream-datasource/pkg/models"
+	"net/http"
 	"os"
 	"testing"
 
@@ -28,6 +30,7 @@ func (f *fakeSender) Send(res *backend.CallResourceResponse) error {
 
 type fakeClient struct {
 	output *timestreamquery.QueryOutput
+	err    error
 
 	calls runnerCalls
 }
@@ -38,6 +41,9 @@ type runnerCalls struct {
 
 func (f *fakeClient) Query(_ context.Context, input *timestreamquery.QueryInput, _ ...func(*timestreamquery.Options)) (*timestreamquery.QueryOutput, error) {
 	f.calls.runQuery = append(f.calls.runQuery, input)
+	if f.err != nil {
+		return nil, f.err
+	}
 	return f.output, nil
 }
 
@@ -132,6 +138,65 @@ func TestCallResource(t *testing.T) {
 			if string(sender.res.Body) != test.result {
 				t.Errorf("unexpected result %s", string(sender.res.Body))
 			}
+		})
+	}
+}
+
+func TestCallResource_returnsAPIErrorsAsHTTPResponses(t *testing.T) {
+	apiErr := errors.New("AccessDeniedException: not authorized to perform: timestream:ListMeasures")
+	tests := []struct {
+		path   string
+		method string
+		body   string
+	}{
+		{path: "databases"},
+		{path: "tables", method: "POST", body: `{"database":"db"}`},
+		{path: "measures", method: "POST", body: `{"database":"db","table":"t"}`},
+		{path: "dimensions", method: "POST", body: `{"database":"db","table":"t"}`},
+	}
+	for _, test := range tests {
+		t.Run(test.path, func(t *testing.T) {
+			ts := &timestreamDS{Client: &fakeClient{err: apiErr}}
+			sender := &fakeSender{}
+			err := ts.CallResource(context.Background(), &backend.CallResourceRequest{
+				Method: test.method,
+				Path:   test.path,
+				Body:   []byte(test.body),
+			}, sender)
+			require.NoError(t, err)
+			require.NotNil(t, sender.res)
+			assert.Equal(t, http.StatusInternalServerError, sender.res.Status)
+			assert.JSONEq(t, `{"message":"`+apiErr.Error()+`"}`, string(sender.res.Body))
+		})
+	}
+}
+
+func TestCallResource_invalidRequestsReturnBadRequest(t *testing.T) {
+	tests := []struct {
+		name   string
+		path   string
+		method string
+		body   string
+	}{
+		{"tables with GET", "tables", "GET", ""},
+		{"tables with bad body", "tables", "POST", "{"},
+		{"measures with GET", "measures", "GET", ""},
+		{"measures with bad body", "measures", "POST", "{"},
+		{"cancel with GET", "cancel", "GET", ""},
+		{"cancel with bad body", "cancel", "POST", "{"},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ts := &timestreamDS{Client: &fakeClient{}}
+			sender := &fakeSender{}
+			err := ts.CallResource(context.Background(), &backend.CallResourceRequest{
+				Method: test.method,
+				Path:   test.path,
+				Body:   []byte(test.body),
+			}, sender)
+			require.NoError(t, err)
+			require.NotNil(t, sender.res)
+			assert.Equal(t, http.StatusBadRequest, sender.res.Status)
 		})
 	}
 }

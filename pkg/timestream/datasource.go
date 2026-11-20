@@ -3,7 +3,9 @@ package timestream
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
@@ -179,6 +181,25 @@ func dimensionsFromRows(rows []timestreamquerytypes.Row) []string {
 	return res
 }
 
+// sendResourceError sends err to the client as a JSON response. Returning the error from
+// CallResource instead makes Grafana replace it with a generic "plugin.downstreamError",
+// which hides actionable messages such as IAM permission errors.
+func sendResourceError(sender backend.CallResourceResponseSender, status int, err error) error {
+	var httpErr interface{ HTTPStatusCode() int }
+	if errors.As(err, &httpErr) && httpErr.HTTPStatusCode() >= 400 {
+		status = httpErr.HTTPStatusCode()
+	}
+	body, mErr := json.Marshal(map[string]string{"message": err.Error()})
+	if mErr != nil {
+		return mErr
+	}
+	return sender.Send(&backend.CallResourceResponse{
+		Status:  status,
+		Headers: map[string][]string{"Content-Type": {"application/json"}},
+		Body:    body,
+	})
+}
+
 // CallResource HTTP style resource
 func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	if req.Path == "hello" {
@@ -186,13 +207,13 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 	}
 	if req.Path == "cancel" {
 		if req.Method != "POST" {
-			return fmt.Errorf("cancel requires a post command")
+			return sendResourceError(sender, http.StatusBadRequest, fmt.Errorf("cancel requires a post command"))
 		}
 		cancel := &models.CancelRequest{}
 
 		err := json.Unmarshal(req.Body, &cancel)
 		if err != nil {
-			return fmt.Errorf("error reading cancel request: %s", err.Error())
+			return sendResourceError(sender, http.StatusBadRequest, fmt.Errorf("error reading cancel request: %s", err.Error()))
 		}
 		cancelQueryInput := &timestreamquery.CancelQueryInput{
 			QueryId: aws.String(cancel.QueryID),
@@ -212,44 +233,44 @@ func (ds *timestreamDS) CallResource(ctx context.Context, req *backend.CallResou
 			QueryString: aws.String("SHOW DATABASES"),
 		})
 		if err != nil {
-			return err
+			return sendResourceError(sender, http.StatusInternalServerError, err)
 		}
 		// Databases are returned wrapped in double quotes
 		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
 	}
 	if req.Path == "tables" {
 		if req.Method != "POST" {
-			return fmt.Errorf("tables requires a post command")
+			return sendResourceError(sender, http.StatusBadRequest, fmt.Errorf("tables requires a post command"))
 		}
 		opts := models.TablesRequest{}
 		err := json.Unmarshal(req.Body, &opts)
 		if err != nil {
-			return err
+			return sendResourceError(sender, http.StatusBadRequest, err)
 		}
 		// TODO: Use API endpoint to list tables
 		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW TABLES FROM %s", applyQuotesIfNeeded(opts.Database))),
 		})
 		if err != nil {
-			return err
+			return sendResourceError(sender, http.StatusInternalServerError, err)
 		}
 		// Tables are returned wrapped in double quotes
 		return resource.SendJSON(sender, sliceFromRows(v.Rows, true))
 	}
 	if req.Path == "measures" || req.Path == "dimensions" {
 		if req.Method != "POST" {
-			return fmt.Errorf("measures requires a post command")
+			return sendResourceError(sender, http.StatusBadRequest, fmt.Errorf("measures requires a post command"))
 		}
 		opts := models.MeasuresRequest{}
 		err := json.Unmarshal(req.Body, &opts)
 		if err != nil {
-			return err
+			return sendResourceError(sender, http.StatusBadRequest, err)
 		}
 		v, err := ds.Client.Query(ctx, &timestreamquery.QueryInput{
 			QueryString: aws.String(fmt.Sprintf("SHOW MEASURES FROM %s.%s", applyQuotesIfNeeded(opts.Database), applyQuotesIfNeeded(opts.Table))),
 		})
 		if err != nil {
-			return err
+			return sendResourceError(sender, http.StatusInternalServerError, err)
 		}
 		if req.Path == "measures" {
 			return resource.SendJSON(sender, sliceFromRows(v.Rows, false))
