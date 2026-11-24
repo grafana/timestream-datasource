@@ -41,15 +41,46 @@ test('shows the server-minted external ID after save', async ({
   await expect(page.locator('#grafanaExternalId')).toHaveValue('Save the data source to generate an external ID');
 
   const save = page.waitForResponse(
-    (response) =>
-      response.request().method() === 'PUT' && response.url().includes(`/api/datasources/uid/${uid}`) && response.ok()
+    (response) => response.request().method() === 'PUT' && response.url().includes(`/api/datasources/uid/${uid}`)
   );
   await page.getByRole('button', { name: 'Save & test' }).click();
-  const saved = await (await save).json();
+  const response = await save;
+  expect(response.ok()).toBe(true);
+  const saved = await response.json();
   const minted = String(saved.datasource.jsonData.grafanaExternalId);
 
   // Grafana 13.3+ appends a 16-char hex suffix. The published nightly image predates that and mints {stack}-{uid}.
   expect(minted).toMatch(new RegExp(`-${uid}(-[0-9a-f]{16})?$`));
   expect(saved.datasource.jsonData.usePerDatasourceExternalId).toBe(true);
+  await expect(page.locator('#grafanaExternalId')).toHaveValue(minted);
+});
+
+test('saves through the uid route when a resource select opens', async ({
+  createDataSourceConfigPage,
+  grafanaVersion,
+  page,
+  readProvisionedDataSource,
+}) => {
+  test.skip(lt(grafanaVersion, '13.2.0'), 'Per-datasource external ID minting requires Grafana 13.2 or newer');
+
+  const ds = await readProvisionedDataSource({ fileName: 'aws-timestream-e2e.yaml', name: 'AWS Timestream E2E' });
+  const configPage = await createDataSourceConfigPage({ type: ds.type });
+  const uid = configPage.datasource.uid;
+
+  await page.getByLabel(/^Authentication Provider/).fill('Grafana Assume Role');
+  await page.keyboard.press('Enter');
+  await page.getByLabel('Default Region').fill('us-east-2');
+  await page.keyboard.press('Enter');
+
+  const save = page.waitForResponse(
+    (response) => response.request().method() === 'PUT' && response.url().includes(`/api/datasources/uid/${uid}`)
+  );
+  await page.getByRole('combobox', { name: 'Database' }).click();
+  const response = await save;
+  expect(response.ok()).toBe(true);
+
+  const saved = await response.json();
+  const minted = String(saved.datasource.jsonData.grafanaExternalId);
+  expect(minted).toMatch(new RegExp(`-${uid}(-[0-9a-f]{16})?$`));
   await expect(page.locator('#grafanaExternalId')).toHaveValue(minted);
 });
