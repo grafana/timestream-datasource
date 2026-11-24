@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.15.0
+
+- Pass the per-datasource Grafana external ID through to Assume Role and keep the server-minted ID in the config form after save [#766](https://github.com/grafana/timestream-datasource/pull/766)
+- Fix saving and loading the Database, Table, and Measure lists on Grafana 13 and newer by using the data source uid route [#766](https://github.com/grafana/timestream-datasource/pull/766)
+- Update backend dependencies [#752](https://github.com/grafana/timestream-datasource/pull/752), [#760](https://github.com/grafana/timestream-datasource/pull/760), [#761](https://github.com/grafana/timestream-datasource/pull/761), [#764](https://github.com/grafana/timestream-datasource/pull/764), [#767](https://github.com/grafana/timestream-datasource/pull/767)
+- Fix security vulnerability in golang.org/x/crypto by updating to v0.59.0 [#763](https://github.com/grafana/timestream-datasource/pull/763)
+- Fix security vulnerability in glob by updating to v14 [#750](https://github.com/grafana/timestream-datasource/pull/750)
+- Update `@grafana/aws-sdk` to 0.13.1 [#770](https://github.com/grafana/timestream-datasource/pull/770)
+- Update `@grafana/plugin-e2e` to v4 [#758](https://github.com/grafana/timestream-datasource/pull/758), npm to v12 [#759](https://github.com/grafana/timestream-datasource/pull/759), and dotenv to v18 [#755](https://github.com/grafana/timestream-datasource/pull/755)
+- Update the plugin CI workflows [#757](https://github.com/grafana/timestream-datasource/pull/757), [#762](https://github.com/grafana/timestream-datasource/pull/762)
+
 ## v2.14.6
 
 - Update backend dependencies
