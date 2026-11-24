@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- Pass the per-datasource Grafana external ID through to Assume Role, bump `@grafana/aws-sdk` to 0.12.2, and keep the server-minted ID in the config form after save.
+- Pass the per-datasource Grafana external ID through to Assume Role and keep the server-minted ID in the config form after save.
+- Fix saving and loading the Database, Table, and Measure lists on Grafana 13 and newer by using the data source uid route.
 
 ## v2.14.6
 
