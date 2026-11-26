@@ -20,6 +20,25 @@ const (
 	FormatOptionTimeSeries
 )
 
+// UnmarshalJSON accepts the numeric format used by the current query editor.
+// Queries saved by older versions (for example alert rules) can carry a string
+// such as "time_series" or "table". The plugin never acted on those values, so
+// they are ignored and the default table format is used instead of failing the
+// whole query.
+func (f *FormatQueryOption) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err == nil {
+		*f = FormatOptionTable
+		return nil
+	}
+	var n uint32
+	if err := json.Unmarshal(b, &n); err != nil {
+		return err
+	}
+	*f = FormatQueryOption(n)
+	return nil
+}
+
 var LegacyQueryCheck = regexp.MustCompile(`"format":\s*"table"`)
 
 // QueryModel represents a spreadsheet query.

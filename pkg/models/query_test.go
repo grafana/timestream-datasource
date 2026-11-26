@@ -78,3 +78,29 @@ func TestGetQueryModel_Errors(t *testing.T) {
 		})
 	}
 }
+
+func TestGetQueryModel_Format(t *testing.T) {
+	tests := []struct {
+		name string
+		json string
+		want FormatQueryOption
+	}{
+		{"missing", `{"rawQuery": "SELECT 1"}`, FormatOptionTable},
+		{"numeric table", `{"rawQuery": "SELECT 1", "format": 0}`, FormatOptionTable},
+		{"numeric time series", `{"rawQuery": "SELECT 1", "format": 1}`, FormatOptionTimeSeries},
+		{"legacy time_series string", `{"rawQuery": "SELECT 1", "format": "time_series"}`, FormatOptionTable},
+		{"legacy table string", `{"rawQuery": "SELECT 1", "format": "table"}`, FormatOptionTable},
+		{"null", `{"rawQuery": "SELECT 1", "format": null}`, FormatOptionTable},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			model, err := GetQueryModel(backend.DataQuery{JSON: []byte(tt.json)})
+			if err != nil {
+				t.Fatalf("unexpected error: %s", err)
+			}
+			if model.Format != tt.want {
+				t.Fatalf("format = %d, want %d", model.Format, tt.want)
+			}
+		})
+	}
+}
