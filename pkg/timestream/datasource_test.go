@@ -441,3 +441,22 @@ func TestNewDatasource_passesGrafanaExternalIDFields(t *testing.T) {
 	require.NotNil(t, spy.captured.UsePerDatasourceExternalID)
 	assert.True(t, *spy.captured.UsePerDatasourceExternalID)
 }
+
+func Test_applyQuotesIfNeeded(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"db", `"db"`},
+		{`"db"`, `"db"`},
+		{"", `""`},
+		{"x", `"x"`},
+	}
+	for _, test := range tests {
+		t.Run(test.input, func(t *testing.T) {
+			assert.NotPanics(t, func() {
+				assert.Equal(t, test.expected, applyQuotesIfNeeded(test.input))
+			})
+		})
+	}
+}
