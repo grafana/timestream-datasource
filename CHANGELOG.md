@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.15.1
+
+- Fix security vulnerability in fast-uri [#773](https://github.com/grafana/timestream-datasource/pull/773)
+- Accept legacy string format values in alert queries [#769](https://github.com/grafana/timestream-datasource/pull/769)
+
 ## v2.15.0
 
 - Pass the per-datasource Grafana external ID through to Assume Role and keep the server-minted ID in the config form after save [#766](https://github.com/grafana/timestream-datasource/pull/766)
